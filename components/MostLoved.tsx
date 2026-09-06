@@ -183,12 +183,12 @@ export function MostLoved() {
               </div>
 
               {/* Text Area */}
-              <div className="flex justify-between items-end px-2 pt-1 pb-2">
-                <div className="flex flex-col gap-1 w-[60%]">
+              <div className="flex justify-between items-start px-2 pt-2 pb-2">
+                <div className="flex flex-col gap-1 flex-1 pr-3">
                   <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">{product.brand}</span>
-                  <h3 className="font-bold text-[15px] leading-tight text-yoode-onyx truncate">{product.name}</h3>
+                  <h3 className="font-bold text-[15px] leading-tight text-yoode-onyx">{product.name}</h3>
                 </div>
-                <div className="flex flex-col items-end">
+                <div className="flex flex-col items-end shrink-0">
                   <span className="text-[12px] font-medium text-gray-400 line-through decoration-gray-300">{product.originalPrice}</span>
                   <span className="text-[17px] font-bold text-yoode-onyx">{product.price}</span>
                 </div>
