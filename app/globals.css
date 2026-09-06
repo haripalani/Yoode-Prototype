@@ -19,7 +19,3 @@ body {
   color: var(--foreground);
 }
 
-/* Base custom text stroke utility class */
-@utility text-stroke-* {
-  -webkit-text-stroke: --value(--text-stroke-color, rgba(255, 255, 255, 0.25)) --value(--text-stroke-width, 1px);
-}

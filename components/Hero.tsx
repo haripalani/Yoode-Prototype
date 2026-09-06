@@ -99,7 +99,7 @@ export function Hero() {
         </div>
 
         {/* Central Subject */}
-        <div className="absolute z-20 w-full md:w-[85%] lg:w-[75%] 2xl:w-[90%] h-[100%] 2xl:h-[115%] bottom-0 pointer-events-none flex justify-center items-end">
+        <div className="absolute z-20 w-full md:w-[85%] lg:w-[75%] xl:w-[78%] 2xl:w-[82%] h-[100%] xl:h-[105%] 2xl:h-[108%] bottom-0 pointer-events-none flex justify-center items-end">
           <AnimatePresence mode="popLayout">
             <motion.div
               key={slide.id}
@@ -109,7 +109,7 @@ export function Hero() {
               transition={{ duration: 0.8, ease: "easeOut" }}
               className="absolute bottom-0 w-full h-full flex items-end justify-center"
             >
-              <img src={slide.image} alt={slide.title} className="w-full h-full object-contain object-bottom 2xl:scale-105 2xl:origin-bottom" />
+              <img src={slide.image} alt={slide.title} className="w-full h-full object-contain object-bottom" />
             </motion.div>
           </AnimatePresence>
         </div>
