@@ -179,38 +179,34 @@ export function Testimonials() {
   }, [animate, scope]);
 
   return (
-    <section className="w-full bg-[#f9f8f6] py-24 md:py-32 overflow-hidden flex flex-col items-center">
-      
+    <section className="w-full bg-[#e4d7bd] py-20 md:py-32 overflow-hidden flex flex-col items-center">
+
       {/* Header Area */}
-      <div className="max-w-4xl mx-auto px-6 text-center mb-20 flex flex-col items-center z-10">
-        <div className="inline-flex items-center gap-2 bg-[#E6E4F6] px-4 py-2 rounded-full mb-8">
-          <div className="w-2 h-2 rounded-full bg-[#655CA7]"></div>
-          <span className="text-sm font-semibold tracking-wide text-[#655CA7] uppercase">Customer Stories</span>
-        </div>
-        
-        <h2 className="text-4xl md:text-6xl font-bold text-[#1C1C1E] tracking-tight leading-[1.1] mb-6 max-w-2xl">
+      <div className="mx-auto px-6 text-center mb-20 flex flex-col items-center z-10">
+
+        <h2 className="text-3xl md:text-5xl font-display font-black tracking-tight text-yoode-onyx leading-[1.1] mb-6">
           Loved by people who care about quality.
         </h2>
-        
-        <p className="text-lg md:text-xl text-[#1C1C1E]/60 max-w-xl font-medium">
+
+        <p className="text-lg md:text-xl text-yoode-onyx/70 font-medium">
           Real experiences from teams who turned ambitious ideas into products people enjoy using.
         </p>
       </div>
 
       {/* Marquee Area */}
-      <div 
+      <div
         className="w-full relative mt-4"
         onMouseEnter={() => controlsRef.current?.pause()}
         onMouseLeave={() => controlsRef.current?.play()}
       >
-        <div 
+        <div
           ref={scope}
           className="flex w-max gap-6 md:gap-10 px-3 md:px-5 pb-12 pt-6"
         >
           {[...testimonials, ...testimonials].map((t, idx) => {
             const style = themeStyles[t.theme];
             return (
-              <div 
+              <div
                 key={`testimonial-${idx}`}
                 className={`${style.bg} w-[320px] md:w-[380px] shrink-0 rounded-[32px] p-8 md:p-10 shadow-xl shadow-black/5 flex flex-col justify-between ${t.rotation} transition-transform duration-500 hover:scale-105 relative overflow-hidden group`}
               >
@@ -224,7 +220,7 @@ export function Testimonials() {
                         {[1, 2, 3, 4, 5].map((star) => (
                           <div key={star} className="relative w-5 h-5">
                             <Star className={`w-5 h-5 absolute top-0 left-0 ${style.starEmpty}`} />
-                            <div 
+                            <div
                               className="absolute top-0 left-0 h-5 overflow-hidden"
                               style={{ width: `${getFillPercentage(star, t.rating)}%` }}
                             >
@@ -239,12 +235,12 @@ export function Testimonials() {
                       <span>Verified</span>
                     </div>
                   </div>
-                  
+
                   <p className={`${style.text} text-xl md:text-2xl font-medium italic leading-snug mb-10 relative z-10`}>
                     "{t.quote}"
                   </p>
                 </div>
-                
+
                 <div className="flex items-center gap-4 relative z-10 mt-auto pt-4">
                   <div className={`${style.avatar} w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg`}>
                     {t.initials}

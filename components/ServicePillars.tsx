@@ -24,7 +24,7 @@ const pillars = [
 
 export function ServicePillars() {
   return (
-    <section className="py-24 px-6 md:px-12 bg-black text-white">
+    <section className="py-20 px-6 md:px-12 bg-black text-white">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-5xl font-display font-black tracking-tight">What Can We Build For You?</h2>
@@ -35,8 +35,8 @@ export function ServicePillars() {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
           {pillars.map((pillar) => (
-            <div 
-              key={pillar.title} 
+            <div
+              key={pillar.title}
               className={`rounded-[32px] p-10 pb-0 ${pillar.color} flex flex-col shadow-sm group cursor-pointer overflow-hidden relative h-[450px] md:h-[500px] transition-transform duration-300 hover:-translate-y-2`}
             >
               <div className="relative z-10 flex-1">
@@ -48,10 +48,10 @@ export function ServicePillars() {
                   {pillar.description}
                 </p>
               </div>
-              
+
               <div className="relative h-[250px] md:h-[300px] w-full mt-auto pb-6 md:pb-10 flex items-end justify-center group-hover:-translate-y-4 transition-transform duration-700 ease-out z-0">
-                <img 
-                  src={pillar.image} 
+                <img
+                  src={pillar.image}
                   alt={pillar.title}
                   className="w-full h-full object-contain object-bottom mix-blend-multiply drop-shadow-2xl scale-125 md:scale-[1.35] origin-bottom"
                 />
