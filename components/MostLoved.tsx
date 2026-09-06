@@ -131,7 +131,7 @@ export function MostLoved() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
           {products.map((product) => (
             <div key={product.id} className="bg-white rounded-[28px] p-3 shadow-sm hover:shadow-md transition-shadow flex flex-col gap-3 cursor-pointer group">
               
@@ -148,11 +148,11 @@ export function MostLoved() {
                 </div>
                 
                 {/* Top Badges (Unclipped) */}
-                <div className="absolute top-3 left-3 flex gap-2">
-                  <div className="bg-[#2D2B2A] text-white text-[11px] font-semibold px-2.5 py-1 rounded-lg">
+                <div className="absolute top-2 left-2 md:top-3 md:left-3 flex flex-col sm:flex-row gap-1.5 md:gap-2">
+                  <div className="bg-[#2D2B2A] text-white text-[9px] md:text-[11px] font-semibold px-2 md:px-2.5 py-0.5 md:py-1 rounded-md md:rounded-lg w-max">
                     {product.discount}
                   </div>
-                  <div className="bg-white/90 backdrop-blur-sm text-yoode-onyx text-[11px] font-semibold px-2.5 py-1 rounded-lg shadow-sm">
+                  <div className="bg-white/90 backdrop-blur-sm text-yoode-onyx text-[9px] md:text-[11px] font-semibold px-2 md:px-2.5 py-0.5 md:py-1 rounded-md md:rounded-lg shadow-sm w-max hidden sm:block">
                     {product.variant}
                   </div>
                 </div>

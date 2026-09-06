@@ -1,17 +1,20 @@
 const pillars = [
   {
+    category: "Corporate",
     title: "Equip your team. Define your brand.",
     description: "Onboarding kits, company merch, corporate gifting, conference apparel.",
     color: "bg-[#f3f4f6] text-yoode-onyx",
     image: "/Services/Corporate.png",
   },
   {
+    category: "Sports",
     title: "Kit your team. Own the field.",
     description: "Custom jerseys, teamwear, tournament apparel, fanwear for any sport.",
     color: "bg-[#0066ff] text-white",
     image: "/Services/Sports kit.png",
   },
   {
+    category: "Personalised",
     title: "Make it yours. One piece or a thousand.",
     description: "Custom tees, gifts, event merch, identity products any quantity.",
     color: "bg-[#1c1c1c] text-white",
@@ -37,17 +40,20 @@ export function ServicePillars() {
               className={`rounded-[32px] p-10 pb-0 ${pillar.color} flex flex-col shadow-sm group cursor-pointer overflow-hidden relative h-[450px] md:h-[500px] transition-transform duration-300 hover:-translate-y-2`}
             >
               <div className="relative z-10 flex-1">
+                <span className="block text-xs font-bold uppercase tracking-widest mb-3 opacity-60">
+                  {pillar.category}
+                </span>
                 <h3 className="font-display font-medium text-[28px] md:text-[32px] mb-4 leading-tight">{pillar.title}</h3>
                 <p className="text-[15px] opacity-80 leading-relaxed max-w-[90%]">
                   {pillar.description}
                 </p>
               </div>
               
-              <div className="relative h-[250px] md:h-[300px] w-full mt-auto translate-y-6 group-hover:translate-y-2 transition-transform duration-700 ease-out z-0">
+              <div className="relative h-[250px] md:h-[300px] w-full mt-auto pb-6 md:pb-10 flex items-end justify-center group-hover:-translate-y-4 transition-transform duration-700 ease-out z-0">
                 <img 
                   src={pillar.image} 
                   alt={pillar.title}
-                  className="w-full h-full object-cover object-bottom mix-blend-multiply"
+                  className="w-full h-full object-contain object-bottom mix-blend-multiply drop-shadow-2xl scale-125 md:scale-[1.35] origin-bottom"
                 />
               </div>
             </div>

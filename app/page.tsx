@@ -1,5 +1,6 @@
 import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
+import { TrustedBy } from "@/components/TrustedBy";
 import { MostLoved } from "@/components/MostLoved";
 import { ServicePillars } from "@/components/ServicePillars";
 import { ExperienceCenters } from "@/components/ExperienceCenters";
@@ -12,6 +13,7 @@ export default function Home() {
     <div className="relative min-h-screen w-full selection:bg-yoode-onyx selection:text-white flex flex-col font-sans">
       <Header />
       <Hero />
+      <TrustedBy />
       <MostLoved />
       <ServicePillars />
       <ExperienceCenters />

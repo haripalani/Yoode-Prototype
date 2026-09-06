@@ -36,29 +36,29 @@ const slides = [
   {
     id: "studio",
     bgColor: "#2E4A3E",
-    text: "STUDIO",
+    text: "COLLECTIONS",
     image: "/banner-3.png",
-    title: "Experience Studios",
-    subtitle: "Walk-in physical design labs",
-    videoText: "Virtual Studio Tour",
-    metric: "4 HUBS",
-    metricText: "BANGALORE · TRIVANDRUM · MARTHANDAM · CHENNAI",
-    headline: "Walk in. Design it. Wear it. Visit our on-premise physical customization studios to touch fabrics and print live.",
-    cta: "FIND A CENTRE →",
+    title: "Designer Collections",
+    subtitle: "Floral & Graphic Printed Tees",
+    videoText: "Explore Collection",
+    metric: "OVERSIZED",
+    metricText: "PREMIUM PRINTS",
+    headline: "Make a statement with our designer collections featuring oversized fits, floral prints, and unique graphic designs.",
+    cta: "VIEW COLLECTIONS →",
     ctaColor: "bg-white text-yoode-forest",
   },
   {
-    id: "uniforms",
+    id: "shirts",
     bgColor: "#8B5A2B",
-    text: "UNIFORMS",
+    text: "SHIRTS",
     image: "/banner-4.png",
-    title: "Professional Uniforms",
-    subtitle: "Premium workwear & uniforms",
-    videoText: "Explore Collection",
-    metric: "PREMIUM",
-    metricText: "QUALITY FABRICS",
-    headline: "Elevate your brand image with our premium range of professional uniforms tailored for durability and style.",
-    cta: "VIEW COLLECTION →",
+    title: "Premium Shirts",
+    subtitle: "Casual & Formal Shirts",
+    videoText: "Explore Shirts",
+    metric: "TAILORED",
+    metricText: "PERFECT FIT",
+    headline: "Elevate your style with our premium range of casual and formal shirts, tailored for a perfect fit and all-day comfort.",
+    cta: "SHOP SHIRTS →",
     ctaColor: "bg-yoode-onyx text-white",
   }
 ];
@@ -114,8 +114,10 @@ export function Hero() {
           </AnimatePresence>
         </div>
 
-        {/* Left Floating Highlight */}
-        <div className="absolute z-30 left-6 md:left-[8%] top-[38%] flex flex-col gap-6 w-56">
+        {/* Floating Highlights Wrapper - aligns precisely with Header's max-w-[1600px] and px-6 md:px-12 */}
+        <div className="absolute inset-0 w-full max-w-[1600px] mx-auto pointer-events-none z-30">
+          {/* Left Floating Highlight */}
+          <div className="absolute left-6 md:left-12 top-[15%] md:top-[28%] flex flex-col gap-4 md:gap-6 w-56 pointer-events-auto">
           <AnimatePresence mode="wait">
             <motion.div
               key={slide.id + "-left"}
@@ -123,7 +125,7 @@ export function Hero() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -20 }}
               transition={{ duration: 0.5 }}
-              className="flex flex-col gap-6"
+              className="flex flex-col gap-4 md:gap-6"
             >
               <button className="flex items-center gap-3 bg-white/10 backdrop-blur-md border border-white/20 py-2.5 px-4 rounded-full text-xs font-semibold uppercase tracking-wider hover:bg-white/20 transition-colors w-max shadow-lg">
                 <div className="bg-white text-black rounded-full p-1 shadow-sm">
@@ -134,17 +136,17 @@ export function Hero() {
               
               <div className="flex flex-col">
                 <span className="text-4xl lg:text-5xl font-display font-bold tracking-tight">{slide.metric}</span>
-                <span className="text-[10px] uppercase font-bold tracking-widest text-white/80 mt-2 flex items-center gap-2 leading-relaxed">
+                <span className="text-[10px] uppercase font-bold tracking-widest text-white/80 mt-1 md:mt-2 flex items-center gap-2 leading-relaxed">
                   <span className="h-1.5 w-1.5 rounded-full bg-white animate-pulse shrink-0" />
                   {slide.metricText}
                 </span>
               </div>
             </motion.div>
           </AnimatePresence>
-        </div>
+          </div>
 
-        {/* Right Floating Highlight */}
-        <div className="absolute z-30 right-6 md:right-[8%] top-[38%] flex flex-col gap-6 w-64 md:w-80 items-center text-center">
+          {/* Right Floating Highlight */}
+          <div className="absolute left-6 md:left-auto md:right-12 top-[32%] md:top-[28%] flex flex-col gap-4 md:gap-6 w-64 md:w-80 items-start md:items-center text-left md:text-center pointer-events-auto">
           <AnimatePresence mode="wait">
             <motion.div
               key={slide.id + "-right"}
@@ -152,29 +154,30 @@ export function Hero() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 20 }}
               transition={{ duration: 0.5 }}
-              className="flex flex-col gap-6 items-center"
+              className="flex flex-col gap-4 md:gap-6 items-start md:items-center"
             >
-              <p className="text-sm md:text-base leading-relaxed text-white/95 font-medium drop-shadow-md">
+              <p className="hidden md:block text-sm md:text-base leading-relaxed text-white/95 font-medium drop-shadow-md">
                 {slide.headline}
               </p>
               
-              <button className={`group flex items-center gap-2 py-3.5 px-7 rounded-full text-sm font-semibold uppercase tracking-wider hover:scale-105 transition-transform shadow-xl ${slide.ctaColor}`}>
+              <button className={`group flex items-center gap-2 py-3 px-6 md:py-3.5 md:px-7 rounded-full text-xs md:text-sm font-semibold uppercase tracking-wider hover:scale-105 transition-transform shadow-xl ${slide.ctaColor}`}>
                 {slide.cta}
               </button>
             </motion.div>
           </AnimatePresence>
+          </div>
         </div>
 
       </main>
 
       {/* Bottom Category Dock */}
-      <div className="absolute bottom-8 z-40 w-full px-6 md:px-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
+      <div className="absolute bottom-20 md:bottom-32 z-40 w-full px-6 md:px-12 flex justify-center">
+        <div className="flex overflow-x-auto lg:grid lg:grid-cols-4 gap-4 lg:gap-6 w-full max-w-[1600px] pb-4 md:pb-0 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
           {slides.map((s, idx) => (
             <div 
               key={s.id} 
               onClick={() => setActive(idx)}
-              className="group relative bg-white text-yoode-onyx rounded-2xl p-3 flex items-center gap-3 cursor-pointer shadow-xl hover:-translate-y-1 transition-transform overflow-hidden h-[100px] md:h-[120px]"
+              className="group relative bg-white text-yoode-onyx rounded-2xl p-3 flex items-center gap-3 cursor-pointer shadow-xl hover:-translate-y-1 transition-transform overflow-hidden h-[100px] md:h-[120px] shrink-0 w-[85vw] sm:w-[300px] lg:w-auto snap-center"
             >
               {/* Progress Line */}
               {active === idx && (

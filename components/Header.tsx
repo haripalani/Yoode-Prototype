@@ -1,11 +1,20 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Search, User, ShoppingBag, Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const navLinks = [
     { label: "Corporate", href: "#corporate" },
@@ -18,7 +27,10 @@ export function Header() {
 
   return (
     <>
-      <header className="fixed top-0 left-0 w-full z-50 py-5 px-6 md:px-12 flex items-center justify-between bg-transparent">
+      <header className={`fixed top-0 left-0 w-full z-[100] transition-all duration-300 ${
+        isScrolled ? "bg-[#111827]/90 backdrop-blur-md shadow-md py-4" : "bg-transparent py-5"
+      }`}>
+        <div className="w-full max-w-[1600px] mx-auto px-6 md:px-12 flex items-center justify-between">
         {/* Brand Mark */}
         <a href="#" className="font-display font-black text-2xl tracking-tight text-white relative z-50">
           YOODE
@@ -57,6 +69,7 @@ export function Header() {
           >
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
+        </div>
         </div>
       </header>
 

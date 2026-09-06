@@ -4,10 +4,10 @@ export function Footer() {
   return (
     <footer className="bg-yoode-onyx text-white/80 pt-20 pb-8 px-6 md:px-12 border-t border-white/10">
       <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 mb-16">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-12 lg:gap-8 mb-16">
           
           {/* Company Info */}
-          <div className="lg:col-span-1 flex flex-col gap-6">
+          <div className="col-span-2 lg:col-span-1 flex flex-col gap-6">
             <h3 className="font-display font-black text-3xl text-white tracking-tight">YOODE</h3>
             <p className="text-sm leading-relaxed font-medium">
               Yoode Promotions Pvt. Ltd.<br />
@@ -44,7 +44,7 @@ export function Footer() {
           </div>
 
           {/* Case Studies */}
-          <div className="flex flex-col gap-5">
+          <div className="col-span-2 lg:col-span-1 flex flex-col gap-5">
             <h4 className="text-white font-bold uppercase tracking-wider text-sm mb-2">Case Studies</h4>
             <a href="#" className="text-sm hover:text-white transition-colors w-max">Bitsnpixs</a>
             <a href="#" className="text-sm hover:text-white transition-colors w-max">iDynamics</a>
