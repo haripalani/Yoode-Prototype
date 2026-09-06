@@ -12,7 +12,7 @@ export function CtaBanner() {
           Your brand deserves more than ordinary merchandise.
         </h2>
         <p className="text-lg md:text-xl text-white/90 font-medium max-w-2xl">
-          Tell us what you need — we'll get back to you within 2 hours.
+          Tell us what you need we'll get back to you within 2 hours.
         </p>
 
         <div className="flex flex-col sm:flex-row items-center gap-4 mt-4 w-full justify-center">

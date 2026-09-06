@@ -124,10 +124,10 @@ export function MostLoved() {
   return (
     <section className="py-20 px-6 md:px-12 bg-[#E9E4DC] text-yoode-onyx">
       <div className="max-w-7xl mx-auto">
-        <div className="mb-16">
+        <div className="mb-16 text-center">
           <h2 className="text-3xl md:text-5xl font-display font-black tracking-tight">Our Most Loved Products</h2>
-          <p className="text-yoode-onyx/70 mt-4 text-lg max-w-2xl">
-            The products customers come back for — customised exactly the way you need.
+          <p className="text-yoode-onyx/70 mt-4 text-lg max-w-2xl mx-auto">
+            The products customers come back for customised exactly the way you need.
           </p>
         </div>
 

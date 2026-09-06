@@ -27,10 +27,10 @@ export function TrustedBy() {
         
         {/* Title Section */}
         <div className="max-w-7xl mx-auto text-center px-6 mb-10 md:mb-14">
-          <h2 className="text-2xl md:text-4xl font-display font-bold tracking-tight text-yoode-onyx">
+          <h2 className="text-3xl md:text-5xl font-display font-bold tracking-tight text-yoode-onyx">
             Trusted by teams and brands across India
           </h2>
-          <p className="mt-4 text-yoode-onyx/60 text-sm md:text-[15px] font-medium max-w-xl mx-auto">
+          <p className="mt-4 text-yoode-onyx/60 text-lg font-sans font-medium max-w-xl mx-auto">
             From startups to enterprises Yoode delivers.
           </p>
         </div>
