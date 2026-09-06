@@ -99,7 +99,7 @@ export function Hero() {
         </div>
 
         {/* Central Subject */}
-        <div className="absolute z-20 w-full md:w-[85%] lg:w-[75%] xl:w-[78%] 2xl:w-[82%] h-[100%] xl:h-[105%] 2xl:h-[108%] bottom-0 pointer-events-none flex justify-center items-end">
+        <div className="absolute z-20 w-full md:w-[85%] lg:w-[75%] xl:w-[78%] 2xl:w-[82%] h-[78%] md:h-[100%] xl:h-[105%] 2xl:h-[108%] bottom-0 pointer-events-none flex justify-center items-end">
           <AnimatePresence mode="popLayout">
             <motion.div
               key={slide.id}
@@ -109,7 +109,7 @@ export function Hero() {
               transition={{ duration: 0.8, ease: "easeOut" }}
               className="absolute bottom-0 w-full h-full flex items-end justify-center"
             >
-              <img src={slide.image} alt={slide.title} className="w-full h-full object-contain object-bottom" />
+              <img src={slide.image} alt={slide.title} className="w-full h-full object-cover object-top md:object-contain md:object-bottom" />
             </motion.div>
           </AnimatePresence>
         </div>
@@ -146,7 +146,7 @@ export function Hero() {
           </div>
 
           {/* Right Floating Highlight */}
-          <div className="absolute left-6 md:left-auto md:right-12 top-[32%] md:top-[28%] flex flex-col gap-4 md:gap-6 w-64 md:w-80 items-start md:items-center text-left md:text-center pointer-events-auto">
+          <div className="absolute right-6 md:left-auto md:right-12 top-[15%] md:top-[28%] flex flex-col gap-4 md:gap-6 w-auto md:w-80 items-end md:items-center text-right md:text-center pointer-events-auto">
           <AnimatePresence mode="wait">
             <motion.div
               key={slide.id + "-right"}
@@ -160,7 +160,7 @@ export function Hero() {
                 {slide.headline}
               </p>
               
-              <button className={`group flex items-center gap-2 py-3 px-6 md:py-3.5 md:px-7 rounded-full text-xs md:text-sm font-semibold uppercase tracking-wider hover:scale-105 transition-transform shadow-xl ${slide.ctaColor}`}>
+              <button className={`hidden md:flex group items-center gap-2 py-3 px-6 md:py-3.5 md:px-7 rounded-full text-xs md:text-sm font-semibold uppercase tracking-wider hover:scale-105 transition-transform shadow-xl ${slide.ctaColor}`}>
                 {slide.cta}
               </button>
             </motion.div>
@@ -177,7 +177,7 @@ export function Hero() {
             <div 
               key={s.id} 
               onClick={() => setActive(idx)}
-              className="group relative bg-white text-yoode-onyx rounded-2xl p-3 flex items-center gap-3 cursor-pointer shadow-xl hover:-translate-y-1 transition-transform overflow-hidden h-[100px] md:h-[120px] shrink-0 w-[85vw] sm:w-[300px] lg:w-auto snap-center"
+              className="group relative bg-white text-yoode-onyx rounded-2xl p-3 flex items-center gap-3 cursor-pointer shadow-xl hover:-translate-y-1 transition-transform overflow-hidden h-[130px] md:h-[120px] shrink-0 w-[85vw] sm:w-[300px] lg:w-auto snap-center"
             >
               {/* Progress Line */}
               {active === idx && (
