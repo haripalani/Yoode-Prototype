@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yoode Design System | Premium</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://unpkg.com/feather-icons"></script>
+</head>
+<body>
+
+  <!-- Mobile Header -->
+  <div class="ds-mobile-header">
+    <div class="font-display h4" style="font-weight: 800; letter-spacing: -0.05em;">YOODE.DS</div>
+    <button class="btn btn-icon btn-ghost" id="ds-menu-btn" aria-label="Toggle Menu">
+      <i data-feather="menu"></i>
+    </button>
+  </div>
+
+  <!-- Sidebar Navigation -->
+  <nav class="ds-nav" id="ds-sidebar">
+    <a href="#overview" class="ds-nav-logo">YOODE.DS</a>
+    <div class="ds-nav-menu">
+      <style>
+        details > summary { list-style: none; }
+        details > summary::-webkit-details-marker { display: none; }
+        details > summary svg { transition: transform 0.2s ease; transform: rotate(-90deg); }
+        details[open] > summary svg { transform: rotate(0deg); }
+      </style>
+      <details open class="mb-4">
+        <summary class="label text-muted mb-2 mt-4" style="padding-left: 16px; cursor: pointer; display: flex; justify-content: space-between; align-items: center;">
+          Getting Started <i data-feather="chevron-down" style="width: 14px; margin-right: 16px;"></i>
+        </summary>
+        <ul style="padding: 0; margin: 0; list-style: none;">
+          <li><a href="#overview" class="ds-nav-link active"><i data-feather="home" style="width: 16px;"></i> Overview</a></li>
+        </ul>
+      </details>
+      
+      <details open class="mb-4">
+        <summary class="label text-muted mb-2 mt-2" style="padding-left: 16px; cursor: pointer; display: flex; justify-content: space-between; align-items: center;">
+          Design Tokens <i data-feather="chevron-down" style="width: 14px; margin-right: 16px;"></i>
+        </summary>
+        <ul style="padding: 0; margin: 0; list-style: none;">
+          <li><a href="#colour" class="ds-nav-link"><i data-feather="aperture" style="width: 16px;"></i> Colour</a></li>
+          <li><a href="#typography" class="ds-nav-link"><i data-feather="type" style="width: 16px;"></i> Typography</a></li>
+          <li><a href="#spacing" class="ds-nav-link"><i data-feather="maximize" style="width: 16px;"></i> Spacing</a></li>
+          <li><a href="#grid-layout" class="ds-nav-link"><i data-feather="grid" style="width: 16px;"></i> Grid & Layout</a></li>
+        </ul>
+      </details>
+      
+      <details open class="mb-4">
+        <summary class="label text-muted mb-2 mt-2" style="padding-left: 16px; cursor: pointer; display: flex; justify-content: space-between; align-items: center;">
+          Core Components <i data-feather="chevron-down" style="width: 14px; margin-right: 16px;"></i>
+        </summary>
+        <ul style="padding: 0; margin: 0; list-style: none;">
+          <li><a href="#buttons" class="ds-nav-link"><i data-feather="mouse-pointer" style="width: 16px;"></i> Buttons</a></li>
+          <li><a href="#forms" class="ds-nav-link"><i data-feather="edit-2" style="width: 16px;"></i> Forms</a></li>
+          <li><a href="#cards" class="ds-nav-link"><i data-feather="layout" style="width: 16px;"></i> Cards</a></li>
+        </ul>
+      </details>
+      
+      <details open class="mb-4">
+        <summary class="label text-muted mb-2 mt-2" style="padding-left: 16px; cursor: pointer; display: flex; justify-content: space-between; align-items: center;">
+          Complex Patterns <i data-feather="chevron-down" style="width: 14px; margin-right: 16px;"></i>
+        </summary>
+        <ul style="padding: 0; margin: 0; list-style: none;">
+          <li><a href="#product-components" class="ds-nav-link"><i data-feather="shopping-bag" style="width: 16px;"></i> Product Listing</a></li>
+          <li><a href="#solution-components" class="ds-nav-link"><i data-feather="briefcase" style="width: 16px;"></i> Solution Cards</a></li>
+          <li><a href="#cta-components" class="ds-nav-link"><i data-feather="arrow-up-right" style="width: 16px;"></i> CTAs</a></li>
+          <li><a href="#page-templates" class="ds-nav-link"><i data-feather="monitor" style="width: 16px;"></i> Templates</a></li>
+        </ul>
+      </details>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="ds-layout">
+    <main class="ds-main">
+
+      <!-- 01 OVERVIEW -->
+      <section id="overview" class="ds-section" style="min-height: 70vh; display: flex; flex-direction: column; justify-content: center; position: relative;">
+        <!-- Decorative Glow for Hero -->
+        <div style="position: absolute; top: -10%; left: -10%; width: 500px; height: 500px; background: radial-gradient(circle, rgba(147, 197, 253, 0.4) 0%, transparent 70%); filter: blur(40px); z-index: -1;"></div>
+        
+        <p class="label mb-6 text-muted">Yoode Design Language</p>
+        
+        <!-- Outline Display Text -->
+        <div style="margin-bottom: var(--space-8);">
+          <span class="font-display font-black leading-none tracking-tighter" style="-webkit-text-stroke: 2px var(--yoode-bg-dark); -webkit-text-fill-color: transparent; font-size: 8rem; display: block; line-height: 0.9;">DESIGN</span>
+          <span class="font-display font-black leading-none tracking-tighter" style="color: var(--yoode-bg-dark); font-size: 8rem; display: block; line-height: 0.9; margin-left: -4px;">SYSTEM</span>
+        </div>
+        
+        <p class="body-lg text-muted max-w-md" style="font-size: 20px; line-height: 1.6;">
+          A premium, high-fashion aesthetic unified with scalable utility. Yoode's design language drives seamless e-commerce, corporate gifting, and custom apparel journeys.
+        </p>
+      </section>
+
+      <!-- 03 COLOUR -->
+      <section id="colour" class="ds-section">
+        <h2 class="h2 mb-2">Colour</h2>
+        <p class="body-base text-muted mb-8">A sophisticated palette showcasing all brand, neutral, text, and status colors with their respective variants.</p>
+        
+        <h4 class="h4 mb-4">Brand Primary (Onyx)</h4>
+        <div class="grid grid-cols-4 gap-4 mb-8">
+          <div>
+            <div class="ds-color-swatch" style="background-color: var(--yoode-primary);"></div>
+            <p class="label">Primary</p>
+            <p class="caption">#0f172a</p>
+          </div>
+          <div>
+            <div class="ds-color-swatch" style="background-color: var(--yoode-primary-hover);"></div>
+            <p class="label">Hover</p>
+            <p class="caption">#1e293b</p>
+          </div>
+          <div>
+            <div class="ds-color-swatch" style="background-color: var(--yoode-primary-active);"></div>
+            <p class="label">Active</p>
+            <p class="caption">#020617</p>
+          </div>
+          <div>
+            <div class="ds-color-swatch" style="background-color: var(--yoode-primary-glow);"></div>
+            <p class="label">Glow</p>
+            <p class="caption">rgba(15,23,42,0.4)</p>
+          </div>
+        </div>
+
+        <h4 class="h4 mb-4">Brand Secondary (Sports Blue)</h4>
+        <div class="grid grid-cols-4 gap-4 mb-8">
+          <div>
+            <div class="ds-color-swatch" style="background-color: var(--yoode-secondary);"></div>
+            <p class="label">Secondary</p>
+            <p class="caption">#0066ff</p>
+          </div>
+          <div>
+            <div class="ds-color-swatch" style="background-color: var(--yoode-secondary-hover);"></div>
+            <p class="label">Hover</p>
+            <p class="caption">#0052cc</p>
+          </div>
+          <div>
+            <div class="ds-color-swatch" style="background-color: var(--yoode-secondary-active);"></div>
+            <p class="label">Active</p>
+            <p class="caption">#0040a1</p>
+          </div>
+          <div>
+            <div class="ds-color-swatch" style="background-color: var(--yoode-secondary-glow);"></div>
+            <p class="label">Glow</p>
+            <p class="caption">rgba(0,102,255,0.4)</p>
+          </div>
+        </div>
+
+        <h4 class="h4 mb-4">Neutrals & Backgrounds</h4>
+        <div class="grid grid-cols-5 gap-4 mb-8">
+          <div>
+            <div class="ds-color-swatch" style="background-color: var(--yoode-surface); border: 1px solid var(--yoode-border);"></div>
+            <p class="label">Surface</p>
+            <p class="caption">#ffffff</p>
+          </div>
+          <div>
+            <div class="ds-color-swatch" style="background-color: var(--yoode-surface-alt);"></div>
+            <p class="label">Surface Alt</p>
+            <p class="caption">#f1f5f9</p>
+          </div>
+          <div>
+            <div class="ds-color-swatch" style="background-color: var(--yoode-bg);"></div>
+            <p class="label">BG Default</p>
+            <p class="caption">#f8fafc</p>
+          </div>
+          <div>
+            <div class="ds-color-swatch" style="background-color: var(--yoode-surface-dark);"></div>
+            <p class="label">Surface Dark</p>
+            <p class="caption">#1e293b</p>
+          </div>
+          <div>
+            <div class="ds-color-swatch" style="background-color: var(--yoode-bg-dark);"></div>
+            <p class="label">BG Dark</p>
+            <p class="caption">#0f172a</p>
+          </div>
+        </div>
+
+        <h4 class="h4 mb-4">Text & Borders</h4>
+        <div class="grid grid-cols-4 gap-4 mb-8">
+          <div>
+            <div class="ds-color-swatch" style="background-color: var(--yoode-text);"></div>
+            <p class="label">Text Base</p>
+            <p class="caption">#0f172a</p>
+          </div>
+          <div>
+            <div class="ds-color-swatch" style="background-color: var(--yoode-text-muted);"></div>
+            <p class="label">Text Muted</p>
+            <p class="caption">#64748b</p>
+          </div>
+          <div>
+            <div class="ds-color-swatch" style="background-color: var(--yoode-border);"></div>
+            <p class="label">Border Base</p>
+            <p class="caption">#e2e8f0</p>
+          </div>
+          <div>
+            <div class="ds-color-swatch" style="background-color: var(--yoode-border-strong);"></div>
+            <p class="label">Border Strong</p>
+            <p class="caption">#cbd5e1</p>
+          </div>
+        </div>
+
+        <h4 class="h4 mb-4">Status & Semantic</h4>
+        <div class="grid grid-cols-4 gap-4 mb-4">
+          <div>
+            <div class="ds-color-swatch" style="background-color: var(--yoode-success);"></div>
+            <p class="label">Success</p>
+            <p class="caption">#10b981</p>
+          </div>
+          <div>
+            <div class="ds-color-swatch" style="background-color: var(--yoode-warning);"></div>
+            <p class="label">Warning</p>
+            <p class="caption">#f59e0b</p>
+          </div>
+          <div>
+            <div class="ds-color-swatch" style="background-color: var(--yoode-error);"></div>
+            <p class="label">Error</p>
+            <p class="caption">#ef4444</p>
+          </div>
+          <div>
+            <div class="ds-color-swatch" style="background-color: var(--yoode-info);"></div>
+            <p class="label">Info</p>
+            <p class="caption">#3b82f6</p>
+          </div>
+        </div>
+        <div class="grid grid-cols-4 gap-4">
+          <div>
+            <div class="ds-color-swatch" style="background-color: var(--yoode-success-bg); border: 1px solid var(--yoode-border);"></div>
+            <p class="label">Success BG</p>
+            <p class="caption">#d1fae5</p>
+          </div>
+          <div>
+            <div class="ds-color-swatch" style="background-color: var(--yoode-warning-bg); border: 1px solid var(--yoode-border);"></div>
+            <p class="label">Warning BG</p>
+            <p class="caption">#fef3c7</p>
+          </div>
+          <div>
+            <div class="ds-color-swatch" style="background-color: var(--yoode-error-bg); border: 1px solid var(--yoode-border);"></div>
+            <p class="label">Error BG</p>
+            <p class="caption">#fee2e2</p>
+          </div>
+          <div>
+            <div class="ds-color-swatch" style="background-color: var(--yoode-info-bg); border: 1px solid var(--yoode-border);"></div>
+            <p class="label">Info BG</p>
+            <p class="caption">#dbeafe</p>
+          </div>
+        </div>
+
+        <h4 class="h4 mb-4">Gradients & Accents</h4>
+        <div class="grid grid-cols-4 gap-4 mb-4">
+          <div class="col-span-2">
+            <div class="ds-color-swatch" style="background: linear-gradient(135deg, var(--yoode-secondary), #38bdf8); width: 100%; height: 80px; border-radius: 12px;"></div>
+            <p class="label mt-2">Hero Gradient</p>
+            <p class="caption">linear-gradient(135deg, #0066ff, #38bdf8)</p>
+          </div>
+          <div class="col-span-2">
+            <div class="ds-color-swatch" style="background: radial-gradient(circle, var(--yoode-secondary) 0%, transparent 80%); width: 100%; height: 80px; border-radius: 12px; border: 1px solid var(--yoode-border); background-color: var(--yoode-bg-dark);"></div>
+            <p class="label mt-2">Hero Glow (Radial)</p>
+            <p class="caption">radial-gradient(circle, #0066ff, transparent)</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 04 TYPOGRAPHY -->
+      <section id="typography" class="ds-section">
+        <h2 class="h2 mb-2">Typography</h2>
+        <p class="body-base text-muted mb-8">Balancing the editorial weight of <strong>Syne</strong> with the unmatched legibility of <strong>Inter</strong>.</p>
+        
+        <div class="ds-component-preview">
+          <div class="grid grid-cols-2 gap-8">
+            <div>
+              <p class="label text-muted mb-4">Display (Syne)</p>
+              <h1 class="h1 mb-4">Hero Heading</h1>
+              <h2 class="h2 mb-4">Section Title</h2>
+              <h3 class="h3 mb-4">Card Heading</h3>
+              <h4 class="h4 mb-8">Small Title</h4>
+              <p class="label text-muted mb-4">Display Outline Text (Hero Background)</p>
+              <div style="background: var(--yoode-bg-dark); padding: var(--space-4); border-radius: var(--radius-md);">
+                <span class="font-display font-black leading-none tracking-tighter text-transparent" style="-webkit-text-stroke:1px rgba(255, 255, 255, 0.4); font-size: var(--text-5xl);">YOODE</span>
+              </div>
+            </div>
+            <div>
+              <p class="label text-muted mb-4">Body (Inter)</p>
+              <p class="body-lg mb-4"><strong>Body Large (18px)</strong> — Used for introductory text, leading paragraphs, and making statements.</p>
+              <p class="body-base mb-4"><strong>Body Base (16px)</strong> — The standard text size for reading, descriptions, and general UI.</p>
+              <p class="body-sm mb-4"><strong>Body Small (14px)</strong> — Used for secondary information, metadata, and fine print.</p>
+              <p class="caption mb-4">Caption (12px) — Used for timestamps.</p>
+              <p class="label">LABEL (12px, UPPERCASE)</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 05 SPACING -->
+      <section id="spacing" class="ds-section">
+        <h2 class="h2 mb-2">Spacing</h2>
+        <p class="body-base text-muted mb-8">An 8pt linear scale used for margins, padding, and layout gaps.</p>
+        
+        <div class="ds-component-preview">
+          <div class="flex flex-col gap-4">
+            <div class="flex items-center gap-4"><div style="width: 120px;" class="label text-muted">space-2 (8px)</div><div style="height: 24px; background: var(--yoode-secondary); width: var(--space-2); border-radius: 2px;"></div></div>
+            <div class="flex items-center gap-4"><div style="width: 120px;" class="label text-muted">space-4 (16px)</div><div style="height: 24px; background: var(--yoode-secondary); width: var(--space-4); border-radius: 2px;"></div></div>
+            <div class="flex items-center gap-4"><div style="width: 120px;" class="label text-muted">space-6 (24px)</div><div style="height: 24px; background: var(--yoode-secondary); width: var(--space-6); border-radius: 2px;"></div></div>
+            <div class="flex items-center gap-4"><div style="width: 120px;" class="label text-muted">space-8 (32px)</div><div style="height: 24px; background: var(--yoode-secondary); width: var(--space-8); border-radius: 2px;"></div></div>
+            <div class="flex items-center gap-4"><div style="width: 120px;" class="label text-muted">space-12 (48px)</div><div style="height: 24px; background: var(--yoode-secondary); width: var(--space-12); border-radius: 2px;"></div></div>
+            <div class="flex items-center gap-4"><div style="width: 120px;" class="label text-muted">space-16 (64px)</div><div style="height: 24px; background: var(--yoode-secondary); width: var(--space-16); border-radius: 2px;"></div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 06 GRID & LAYOUT -->
+      <section id="grid-layout" class="ds-section">
+        <h2 class="h2 mb-2">Grid & Layout</h2>
+        <p class="body-base text-muted mb-8">A flexible 12-column grid system that automatically collapses for mobile screens.</p>
+        
+        <div class="ds-component-preview pattern-bg">
+          <h4 class="h4 mb-4">4 Columns (grid-cols-4)</h4>
+          <div class="grid grid-cols-4 gap-4 mb-8">
+            <div style="background: var(--yoode-surface); border: 1px solid var(--yoode-border); height: 60px; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-weight: 600;">1</div>
+            <div style="background: var(--yoode-surface); border: 1px solid var(--yoode-border); height: 60px; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-weight: 600;">2</div>
+            <div style="background: var(--yoode-surface); border: 1px solid var(--yoode-border); height: 60px; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-weight: 600;">3</div>
+            <div style="background: var(--yoode-surface); border: 1px solid var(--yoode-border); height: 60px; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-weight: 600;">4</div>
+          </div>
+
+          <h4 class="h4 mb-4">2 Columns (grid-cols-2)</h4>
+          <div class="grid grid-cols-2 gap-4">
+            <div style="background: var(--yoode-surface); border: 1px solid var(--yoode-border); height: 60px; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-weight: 600;">1</div>
+            <div style="background: var(--yoode-surface); border: 1px solid var(--yoode-border); height: 60px; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-weight: 600;">2</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 08 BUTTONS -->
+      <section id="buttons" class="ds-section">
+        <h2 class="h2 mb-2">Buttons</h2>
+        <p class="body-base text-muted mb-8">Interactive elements with rich micro-animations and glowing shadows.</p>
+        
+        <div class="ds-component-preview pattern-bg">
+          <div class="flex items-center gap-6 mb-10" style="flex-wrap: wrap;">
+            <button class="btn btn-primary">Primary Action</button>
+            <button class="btn btn-secondary">Secondary Action</button>
+            <button class="btn btn-outline">Outline Button</button>
+            <button class="btn btn-ghost">Ghost Button</button>
+          </div>
+
+          <h4 class="h4 mb-4">Interactive States</h4>
+          <div class="flex items-center gap-6 mb-8" style="flex-wrap: wrap;">
+            <button class="btn btn-primary focus-ring">Focused State</button>
+            <button class="btn btn-primary" disabled>Disabled State</button>
+            <button class="btn btn-primary">
+              <i data-feather="loader" style="width: 16px; animation: spin 2s linear infinite;"></i> Processing
+            </button>
+            <button class="btn btn-destructive">Destructive Action</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 10 FORMS -->
+      <section id="forms" class="ds-section">
+        <h2 class="h2 mb-2">Forms</h2>
+        <p class="body-base text-muted mb-8">Accessible, clearly delineated input fields for seamless data entry.</p>
+        
+        <div class="ds-component-preview">
+          <div class="grid grid-cols-2 gap-12">
+            <div>
+              <div class="form-group">
+                <label class="form-label">Email Address <span class="text-yoode-error">*</span></label>
+                <input type="email" class="form-input" placeholder="jane@company.com">
+              </div>
+              
+              <div class="form-group">
+                <label class="form-label">Estimated Volume</label>
+                <select class="form-select">
+                  <option>1 - 49 items</option>
+                  <option>50 - 199 items</option>
+                  <option>200+ items</option>
+                </select>
+              </div>
+
+              <div class="form-check mt-6">
+                <input type="checkbox" id="check_promo" class="form-check-input" checked>
+                <label for="check_promo" class="form-label" style="font-weight: 400;">Subscribe to our newsletter</label>
+              </div>
+            </div>
+
+            <div>
+              <div class="form-group">
+                <label class="form-label">Error State</label>
+                <input type="text" class="form-input is-error" value="invalid_data">
+                <span class="form-error"><i data-feather="alert-circle" style="width: 12px; display:inline;"></i> This field is required.</span>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Order Notes</label>
+                <textarea class="form-textarea" rows="3" placeholder="Additional requirements..."></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 12 CARDS -->
+      <section id="cards" class="ds-section">
+        <h2 class="h2 mb-2">Cards & Glassmorphism</h2>
+        <p class="body-base text-muted mb-8">Premium surfaces leveraging depth, shadows, and backdrop filters.</p>
+        
+        <div class="ds-component-preview pattern-bg">
+          <div class="grid grid-cols-2 gap-8">
+            <div class="card">
+              <h3 class="h3 mb-2">Standard Surface</h3>
+              <p class="body-sm text-muted mb-6">Clean, solid background card used for standard content presentation. Features a subtle lift on hover.</p>
+              <button class="btn btn-outline w-full">Learn More</button>
+            </div>
+            
+            <div style="position: relative; border-radius: var(--radius-2xl); overflow: hidden; padding: 2px; min-height: 250px;">
+              <!-- Decorative background to show off glass -->
+              <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(135deg, var(--yoode-secondary), #38bdf8); z-index: 1;"></div>
+              
+              <div class="card-glass" style="height: 100%; position: relative; z-index: 10; display: flex; flex-direction: column; justify-content: center;">
+                <h3 class="h3 mb-2 text-inverse">Glassmorphism</h3>
+                <p class="body-sm mb-6" style="color: rgba(255,255,255,0.9);">Uses backdrop-blur and semi-transparent backgrounds to create a frosted, premium aesthetic.</p>
+                <button class="btn btn-primary w-full" style="background: white; color: var(--yoode-primary);">Discover</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 13 PRODUCT COMPONENTS -->
+      <section id="product-components" class="ds-section">
+        <h2 class="h2 mb-2">Product Components</h2>
+        <p class="body-base text-muted mb-8">Designed to let the merchandise imagery shine.</p>
+        
+        <div class="ds-component-preview">
+          <div class="grid grid-cols-4 gap-6">
+            <!-- Product Card 1 -->
+            <div class="product-card">
+              <div class="product-image-wrap">
+                <div class="pc-badges">
+                  <span class="pc-badge-dark">- 20%</span>
+                  <span class="pc-badge-light">White</span>
+                </div>
+                <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="White Tee" class="product-image">
+                <div class="pc-actions">
+                  <div class="pc-sizes">
+                    <span class="pc-sizes-list">S M L + <i data-feather="chevron-down" style="width:10px;height:10px;"></i></span>
+                    <span class="pc-sizes-label">SIZES</span>
+                  </div>
+                  <div class="pc-action-group">
+                    <button class="pc-btn pc-btn-rating">
+                      <i data-feather="star" style="width:12px;height:12px;"></i>
+                      <span class="pc-rating-val">4.9</span>
+                    </button>
+                    <button class="pc-btn"><i data-feather="heart" style="width:14px;height:14px;"></i></button>
+                    <button class="pc-btn"><i data-feather="shopping-bag" style="width:14px;height:14px;"></i></button>
+                  </div>
+                </div>
+              </div>
+              <div class="pc-info">
+                <div>
+                  <span class="pc-brand">YOODE</span>
+                  <h4 class="pc-title">Premium Cotton Tee</h4>
+                </div>
+                <div class="pc-price-col">
+                  <span class="pc-price-old">₹ 999</span>
+                  <span class="pc-price-new">₹ 799</span>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Product Card 2 -->
+            <div class="product-card">
+              <div class="product-image-wrap">
+                <div class="pc-badges">
+                  <span class="pc-badge-dark">- 15%</span>
+                  <span class="pc-badge-light">Grey</span>
+                </div>
+                <img src="https://images.unsplash.com/photo-1556821840-3a63f95609a7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Hoodie" class="product-image">
+                <div class="pc-actions">
+                  <div class="pc-sizes">
+                    <span class="pc-sizes-list">M L XL + <i data-feather="chevron-down" style="width:10px;height:10px;"></i></span>
+                    <span class="pc-sizes-label">SIZES</span>
+                  </div>
+                  <div class="pc-action-group">
+                    <button class="pc-btn pc-btn-rating">
+                      <i data-feather="star" style="width:12px;height:12px;"></i>
+                      <span class="pc-rating-val">4.7</span>
+                    </button>
+                    <button class="pc-btn"><i data-feather="heart" style="width:14px;height:14px;"></i></button>
+                    <button class="pc-btn"><i data-feather="shopping-bag" style="width:14px;height:14px;"></i></button>
+                  </div>
+                </div>
+              </div>
+              <div class="pc-info">
+                <div>
+                  <span class="pc-brand">YOODE</span>
+                  <h4 class="pc-title">Heavyweight Hoodie</h4>
+                </div>
+                <div class="pc-price-col">
+                  <span class="pc-price-old">₹ 2,999</span>
+                  <span class="pc-price-new">₹ 2,499</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 14 SOLUTION COMPONENTS -->
+      <section id="solution-components" class="ds-section">
+        <h2 class="h2 mb-2">Solution Components</h2>
+        <p class="body-base text-muted mb-8">Large format storytelling cards for Corporate and Teams entry points.</p>
+        
+        <div class="ds-component-preview">
+          <div class="grid grid-cols-3 gap-6">
+            
+            <div class="solution-card" style="background-color: var(--yoode-surface-alt);">
+              <div class="sc-content">
+                <span class="label text-muted mb-3 block">Corporate</span>
+                <h3 class="font-display h3 mb-4" style="font-size: 28px; line-height: 1.2;">Equip your team. <br>Define your brand.</h3>
+                <p class="body-sm text-muted">Onboarding kits, company merch, corporate gifting, conference apparel.</p>
+              </div>
+              <div class="sc-image-wrap">
+                 <img src="https://yoode.vercel.app/Services/Corporate.png" alt="Corporate Team">
+              </div>
+            </div>
+
+            <div class="solution-card" style="background-color: var(--yoode-secondary); color: white;">
+              <div class="sc-content">
+                <span class="label mb-3 block" style="color: rgba(255,255,255,0.7);">Sports</span>
+                <h3 class="font-display h3 mb-4" style="font-size: 28px; line-height: 1.2; color: white;">Kit your team. <br>Own the field.</h3>
+                <p class="body-sm" style="color: rgba(255,255,255,0.8);">Custom jerseys, teamwear, tournament apparel, fanwear for any sport.</p>
+              </div>
+              <div class="sc-image-wrap">
+                 <img src="https://yoode.vercel.app/Services/Sports%20kit.png" alt="Sports Team">
+              </div>
+            </div>
+
+            <div class="solution-card" style="background-color: var(--yoode-bg-dark); color: white;">
+              <div class="sc-content">
+                <span class="label mb-3 block" style="color: rgba(255,255,255,0.7);">Personalised</span>
+                <h3 class="font-display h3 mb-4" style="font-size: 28px; line-height: 1.2; color: white;">Make it yours. <br>One piece or a thousand.</h3>
+                <p class="body-sm" style="color: rgba(255,255,255,0.8);">Custom tees, gifts, event merch, identity products any quantity.</p>
+              </div>
+              <div class="sc-image-wrap">
+                 <img src="https://yoode.vercel.app/Services/Personalized%20gift.png" alt="Personalised">
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- 16 CTA COMPONENTS -->
+      <section id="cta-components" class="ds-section">
+        <h2 class="h2 mb-2">CTA Components</h2>
+        <p class="body-base text-muted mb-8">Contextual Call to Actions designed for high conversion.</p>
+        
+        <div class="ds-component-preview dark-bg" style="padding: var(--space-16) var(--space-8); text-align: center; position: relative; overflow: hidden;">
+          <!-- Decorative Glow -->
+          <div style="position: absolute; top: -50%; left: 50%; transform: translateX(-50%); width: 600px; height: 600px; background: radial-gradient(circle, var(--yoode-secondary) 0%, transparent 60%); opacity: 0.15; pointer-events: none;"></div>
+          
+          <div style="position: relative; z-index: 10; max-width: 600px; margin: 0 auto;">
+            <h2 class="h2 mb-4">Start your custom order today.</h2>
+            <p class="body-lg mb-8 text-light">Whether you need 10 items or 10,000, our design labs are ready to bring your vision to life.</p>
+            <div class="flex items-center justify-center gap-4" style="flex-wrap: wrap;">
+              <button class="btn btn-secondary w-full" style="max-width: 200px; padding: var(--space-4) var(--space-8); font-size: var(--text-base);">Request a Quote</button>
+              <button class="btn btn-outline w-full" style="max-width: 200px; padding: var(--space-4) var(--space-8); font-size: var(--text-base); color: white; border-color: rgba(255,255,255,0.2);">View Catalog</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 17 LOCATION CARDS -->
+      <section id="location-components" class="ds-section">
+        <h2 class="h2 mb-2">Location Cards</h2>
+        <p class="body-base text-muted mb-8">Interactive contact and address cards for experience centers.</p>
+        
+        <div class="ds-component-preview">
+          <div class="grid grid-cols-3 gap-6">
+            
+            <div class="location-card" style="min-height: 180px;">
+              <div class="location-card-inner" style="min-height: 180px;">
+                <div class="flex items-start justify-between mb-2">
+                  <div class="lc-icon-wrap">
+                    <i data-feather="map-pin" style="width: 20px; height: 20px;"></i>
+                  </div>
+                  <span class="lc-badge">Open Now</span>
+                </div>
+                <h3 class="h3 mt-2 text-yoode-onyx" style="font-size: 20px;">Bangalore</h3>
+                <p class="body-sm text-muted mb-3 font-medium">Karnataka</p>
+                <p class="caption text-muted flex-grow">Ground Floor, #68 Transpade Tower, Jyoti Nivas College Rd, Koramangala 5th Block, Bengaluru, 560095</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- 18 NAVIGATION HEADER -->
+      <section id="navigation-components" class="ds-section">
+        <h2 class="h2 mb-2">Navigation Header</h2>
+        <p class="body-base text-muted mb-8">Transparent and sticky header used across the site.</p>
+        
+        <div class="ds-component-preview dark-bg" style="position: relative; overflow: hidden; height: 300px; padding: 0;">
+          <img src="https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80" alt="Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; filter: brightness(0.4);">
+          
+          <header style="position: absolute; top: 0; left: 0; width: 100%; z-index: 100; padding: var(--space-5) 0;">
+            <div style="max-width: 1200px; margin: 0 auto; padding: 0 var(--space-6); display: flex; align-items: center; justify-content: space-between;">
+              <a href="#" class="font-display" style="font-size: 24px; font-weight: 900; color: white; text-decoration: none; letter-spacing: -0.02em;">YOODE</a>
+              
+              <nav style="display: flex; gap: var(--space-8); align-items: center;">
+                <a href="#" class="body-sm" style="color: white; text-decoration: none; font-weight: 500;">Corporate</a>
+                <a href="#" class="body-sm" style="color: white; text-decoration: none; font-weight: 500;">Sportswear</a>
+                <a href="#" class="body-sm" style="color: white; text-decoration: none; font-weight: 500;">Trendz</a>
+              </nav>
+
+              <div style="display: flex; gap: var(--space-5); align-items: center; color: white;">
+                <i data-feather="search" style="width: 20px; cursor: pointer;"></i>
+                <i data-feather="user" style="width: 20px; cursor: pointer;"></i>
+                <div style="position: relative; cursor: pointer;">
+                  <i data-feather="shopping-bag" style="width: 20px;"></i>
+                  <span style="position: absolute; top: -6px; right: -8px; background: var(--yoode-primary); color: white; font-size: 10px; font-weight: 700; width: 16px; height: 16px; display: flex; align-items: center; justify-content: center; border-radius: 50%; border: 1px solid rgba(255,255,255,0.2);">0</span>
+                </div>
+              </div>
+            </div>
+          </header>
+        </div>
+      </section>
+
+      <!-- 19 MARQUEE COMPONENT -->
+      <section id="marquee-components" class="ds-section">
+        <h2 class="h2 mb-2">Logo Marquee</h2>
+        <p class="body-base text-muted mb-8">Continuous scrolling animation for trust badges and partners.</p>
+        
+        <div class="ds-component-preview" style="padding: var(--space-12) 0; position: relative; overflow: hidden; background: white; border: 1px solid var(--yoode-border); border-radius: var(--radius-2xl);">
+          <div class="marquee-gradient-left"></div>
+          <div class="marquee-gradient-right"></div>
+          
+          <div class="animate-marquee">
+            <div style="display: flex; gap: 6rem; padding-right: 6rem; align-items: center;">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/9/98/UST_%28company%29_Logo.svg" alt="UST" style="height: 40px; opacity: 0.6;">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/9/95/Infosys_logo.svg" alt="Infosys" style="height: 40px; opacity: 0.6;">
+              <img src="https://t3.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=http://hrblock.com&size=128" alt="HR Block" style="height: 40px; opacity: 0.6;">
+              <img src="https://t3.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=http://zafin.com&size=128" alt="Zafin" style="height: 40px; opacity: 0.6;">
+            </div>
+            <div style="display: flex; gap: 6rem; padding-right: 6rem; align-items: center;">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/9/98/UST_%28company%29_Logo.svg" alt="UST" style="height: 40px; opacity: 0.6;">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/9/95/Infosys_logo.svg" alt="Infosys" style="height: 40px; opacity: 0.6;">
+              <img src="https://t3.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=http://hrblock.com&size=128" alt="HR Block" style="height: 40px; opacity: 0.6;">
+              <img src="https://t3.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=http://zafin.com&size=128" alt="Zafin" style="height: 40px; opacity: 0.6;">
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 20 PAGE TEMPLATES -->
+        <h4 class="h4 mb-4">Hero Section Example</h4>
+        <div class="ds-component-preview mb-8" style="padding: 0;">
+          <div style="position: relative; width: 100%; height: 60vh; min-height: 400px; display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: var(--radius-xl);">
+            <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0;">
+              <img src="https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80" alt="Hero Background" style="width: 100%; height: 100%; object-fit: cover;">
+              <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(rgba(15,23,42,0.3), rgba(15,23,42,0.7));"></div>
+            </div>
+            
+            <div style="position: relative; z-index: 10; text-align: center; color: white; padding: var(--space-6); max-width: 800px;">
+              <span class="label mb-4 block" style="letter-spacing: 0.1em; color: rgba(255,255,255,0.8);">NEW COLLECTION</span>
+              <h1 class="h1 mb-6" style="color: white; font-size: var(--text-5xl);">Elevate Your Essentials</h1>
+              <p class="body-lg mb-8" style="color: rgba(255,255,255,0.9);">Discover the latest drops in premium streetwear and tailored basics.</p>
+              <div class="flex items-center justify-center gap-4">
+                <button class="btn btn-secondary">Shop Men</button>
+                <button class="btn btn-primary" style="background: white; color: var(--yoode-primary);">Shop Women</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <h4 class="h4 mb-4">Collection Grid Example</h4>
+        <div class="ds-component-preview">
+          <div class="flex items-center justify-between mb-6">
+            <h3 class="h3">Trending Now</h3>
+            <a href="#" class="body-sm" style="color: var(--yoode-secondary); text-decoration: none; font-weight: 600;">View All <i data-feather="arrow-right" style="width: 14px; display:inline; vertical-align: middle;"></i></a>
+          </div>
+          
+          <div class="grid grid-cols-4 gap-6">
+            <!-- Card 1 -->
+            <div class="product-card">
+              <div class="product-image-wrap">
+                <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Tee" class="product-image">
+                <div class="pc-actions">
+                  <div class="pc-sizes">
+                    <span class="pc-sizes-list">S M L + <i data-feather="chevron-down" style="width:10px;height:10px;"></i></span>
+                    <span class="pc-sizes-label">SIZES</span>
+                  </div>
+                  <div class="pc-action-group">
+                    <button class="pc-btn"><i data-feather="heart" style="width:14px;height:14px;"></i></button>
+                    <button class="pc-btn"><i data-feather="shopping-bag" style="width:14px;height:14px;"></i></button>
+                  </div>
+                </div>
+              </div>
+              <div class="pc-info">
+                <div>
+                  <span class="pc-brand">YOODE</span>
+                  <h4 class="pc-title">Essential Tee</h4>
+                </div>
+                <div class="pc-price-col">
+                  <span class="pc-price-new">₹ 799</span>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Card 2 -->
+            <div class="product-card">
+              <div class="product-image-wrap">
+                <img src="https://images.unsplash.com/photo-1556821840-3a63f95609a7?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Hoodie" class="product-image">
+                <div class="pc-actions">
+                  <div class="pc-sizes">
+                    <span class="pc-sizes-list">M L XL + <i data-feather="chevron-down" style="width:10px;height:10px;"></i></span>
+                    <span class="pc-sizes-label">SIZES</span>
+                  </div>
+                  <div class="pc-action-group">
+                    <button class="pc-btn pc-btn-rating">
+                      <i data-feather="star" style="width:12px;height:12px;"></i>
+                      <span class="pc-rating-val">4.8</span>
+                    </button>
+                    <button class="pc-btn"><i data-feather="heart" style="width:14px;height:14px;"></i></button>
+                    <button class="pc-btn"><i data-feather="shopping-bag" style="width:14px;height:14px;"></i></button>
+                  </div>
+                </div>
+              </div>
+              <div class="pc-info">
+                <div>
+                  <span class="pc-brand">YOODE</span>
+                  <h4 class="pc-title">Heavyweight Hoodie</h4>
+                </div>
+                <div class="pc-price-col">
+                  <span class="pc-price-old">₹ 2,999</span>
+                  <span class="pc-price-new">₹ 2,499</span>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Card 3 -->
+            <div class="product-card">
+              <div class="product-image-wrap">
+                <div class="pc-badges">
+                  <span class="pc-badge-dark">- 10%</span>
+                  <span class="pc-badge-light">Olive</span>
+                </div>
+                <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Jacket" class="product-image">
+                <div class="pc-actions">
+                  <div class="pc-sizes">
+                    <span class="pc-sizes-list">L XL + <i data-feather="chevron-down" style="width:10px;height:10px;"></i></span>
+                    <span class="pc-sizes-label">SIZES</span>
+                  </div>
+                  <div class="pc-action-group">
+                    <button class="pc-btn pc-btn-rating">
+                      <i data-feather="star" style="width:12px;height:12px;"></i>
+                      <span class="pc-rating-val">4.5</span>
+                    </button>
+                    <button class="pc-btn"><i data-feather="heart" style="width:14px;height:14px;"></i></button>
+                    <button class="pc-btn"><i data-feather="shopping-bag" style="width:14px;height:14px;"></i></button>
+                  </div>
+                </div>
+              </div>
+              <div class="pc-info">
+                <div>
+                  <span class="pc-brand">YOODE</span>
+                  <h4 class="pc-title">Utility Zip Jacket</h4>
+                </div>
+                <div class="pc-price-col">
+                  <span class="pc-price-old">₹ 4,500</span>
+                  <span class="pc-price-new">₹ 3,999</span>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Card 4 -->
+            <div class="product-card">
+              <div class="product-image-wrap">
+                <div class="pc-badges">
+                  <span class="pc-badge-dark">NEW</span>
+                  <span class="pc-badge-light">Black</span>
+                </div>
+                <img src="https://images.unsplash.com/photo-1588117260148-b47818741c74?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Cap" class="product-image">
+                <div class="pc-actions">
+                  <div class="pc-sizes">
+                    <span class="pc-sizes-list">OSFA <i data-feather="chevron-down" style="width:10px;height:10px;"></i></span>
+                    <span class="pc-sizes-label">SIZE</span>
+                  </div>
+                  <div class="pc-action-group">
+                    <button class="pc-btn pc-btn-rating">
+                      <i data-feather="star" style="width:12px;height:12px;"></i>
+                      <span class="pc-rating-val">5.0</span>
+                    </button>
+                    <button class="pc-btn"><i data-feather="heart" style="width:14px;height:14px;"></i></button>
+                    <button class="pc-btn"><i data-feather="shopping-bag" style="width:14px;height:14px;"></i></button>
+                  </div>
+                </div>
+              </div>
+              <div class="pc-info">
+                <div>
+                  <span class="pc-brand">YOODE</span>
+                  <h4 class="pc-title">Signature Cap</h4>
+                </div>
+                <div class="pc-price-col">
+                  <span class="pc-price-new">₹ 899</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    feather.replace();
+  </script>
+</body>
+</html>

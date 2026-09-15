@@ -2,6 +2,7 @@ import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
 import { TrustedBy } from "@/components/TrustedBy";
 import { MostLoved } from "@/components/MostLoved";
+import { CustomizerSection } from "@/components/CustomizerSection";
 import { ServicePillars } from "@/components/ServicePillars";
 import { ExperienceCenters } from "@/components/ExperienceCenters";
 import { Testimonials } from "@/components/Testimonials";
@@ -15,6 +16,7 @@ export default function Home() {
       <Hero />
       <TrustedBy />
       <MostLoved />
+      <CustomizerSection />
       <ServicePillars />
       <ExperienceCenters />
       <Testimonials />
