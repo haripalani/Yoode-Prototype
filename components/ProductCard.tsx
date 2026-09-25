@@ -120,9 +120,7 @@ export function ProductCard({ product, viewMode = "grid" }: { product: Product, 
           </div>
 
           {/* Action Buttons */}
-          <button title="Compare" className="bg-white/95 hover:bg-white backdrop-blur-md rounded-xl h-11 w-11 flex items-center justify-center shadow-sm transition-colors shrink-0 hidden sm:flex group/btn">
-            <ArrowRightLeft className="w-4 h-4 text-gray-600 group-hover/btn:text-yoode-onyx transition-colors" />
-          </button>
+
           <button title="Save" className="bg-white/95 hover:bg-white backdrop-blur-md rounded-xl h-11 w-11 flex items-center justify-center shadow-sm transition-colors shrink-0 hidden sm:flex group/btn">
             <Heart className="w-4 h-4 text-gray-600 group-hover/btn:text-red-500 transition-colors" />
           </button>
@@ -166,9 +164,7 @@ export function ProductCard({ product, viewMode = "grid" }: { product: Product, 
           
           {isList && (
             <div className="flex items-center gap-3 mt-6">
-              <button className="bg-gray-50 text-yoode-onyx text-[13px] font-bold px-6 py-3 rounded-xl hover:bg-gray-100 transition-colors shadow-sm flex items-center gap-2">
-                <ArrowRightLeft className="w-4 h-4" /> Compare
-              </button>
+
               <button className="bg-gray-50 text-yoode-onyx text-[13px] font-bold px-6 py-3 rounded-xl hover:bg-gray-100 transition-colors shadow-sm flex items-center gap-2">
                 <Heart className="w-4 h-4" /> Save
               </button>
