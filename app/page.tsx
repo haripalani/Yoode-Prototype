@@ -1,6 +1,5 @@
 import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
-import { FeaturesBar } from "@/components/FeaturesBar";
 import { TrustedBy } from "@/components/TrustedBy";
 import { FeaturedCategories } from "@/components/FeaturedCategories";
 import { WhyChooseYoode } from "@/components/WhyChooseYoode";
@@ -25,15 +24,14 @@ export default function Home() {
       <TrustedBy />
       <FeaturedCategories />
       <WhyChooseYoode />
-      <FeaturesBar />
       <ServicePillars />
+      <AboutYoode />
       <Process />
       <MostLoved />
       <Testimonials />
-      <Faq />
-      <AboutYoode />
       <ExperienceCenters />
       <Blogs />
+      <Faq />
       <CtaBanner />
       <Footer />
     </div>

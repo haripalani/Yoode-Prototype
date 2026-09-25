@@ -25,21 +25,16 @@ export function TrustedBy() {
     { src: "https://t3.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=http://zafin.com&size=128", alt: "Zafin" },
     { src: "https://upload.wikimedia.org/wikipedia/commons/3/36/McDonald%27s_Golden_Arches.svg", alt: "McDonalds" },
     { src: "https://upload.wikimedia.org/wikipedia/commons/1/12/Binance_logo.svg", alt: "Binance" },
-    { src: "https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg", alt: "Amazon" },
-    { src: "https://upload.wikimedia.org/wikipedia/commons/b/b9/Slack_Technologies_Logo.svg", alt: "Slack" },
-    { src: "https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg", alt: "Google" },
-    { src: "https://upload.wikimedia.org/wikipedia/commons/5/51/IBM_logo.svg", alt: "IBM" },
-    { src: "https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg", alt: "Microsoft" },
   ];
 
-  const row1 = logos.slice(0, 13);
-  const row2 = logos.slice(13);
+  const row1 = logos.slice(0, 10);
+  const row2 = logos.slice(10);
 
   return (
     <div className="w-full bg-[#FAF9F6] relative z-40 pt-16 pb-16 md:pt-20 md:pb-24 overflow-hidden shadow-[0_-10px_40px_rgba(0,0,0,0.03)] rounded-t-[40px] md:rounded-t-[60px] -mt-12 md:-mt-16">
       <SectionHeader
         subHeading="Trusted By"
-        title="Global leaders in logistics, manufacturing, and retail"
+        title="Leading brands and teams across the country"
         className="mb-10 md:mb-16"
       />
 

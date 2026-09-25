@@ -23,6 +23,30 @@ body {
   color: var(--foreground);
 }
 
+/* --- Custom Scrollbar --- */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #FAFAFA;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #E53935; /* Yoode Coral */
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #C13828; /* Darker Coral */
+}
+
+html {
+  scrollbar-width: thin;
+  scrollbar-color: #E53935 #FAFAFA;
+}
+
 
 @keyframes marquee {
   0% { transform: translateX(0); }

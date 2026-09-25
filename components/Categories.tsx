@@ -62,40 +62,52 @@ export function Categories() {
         />
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-          {categories.map((category) => (
-            <div key={category.id} className="bg-gray-50 rounded-[28px] p-3 shadow-sm hover:shadow-md transition-shadow cursor-pointer group">
-              {/* Image Container */}
-              <div className="relative aspect-[4/5] rounded-[20px] overflow-hidden">
-                <div className="absolute inset-0 bg-gray-200">
-                  <img
-                    src={category.image}
-                    alt={category.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
-                  />
-                  {/* Subtle dark gradient to make text readable */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-70 group-hover:opacity-90 transition-opacity duration-500" />
-                </div>
+          {categories.map((category) => {
+            const inner = (
+              <>
+                {/* Image Container */}
+                <div className="relative aspect-[4/5] rounded-[20px] overflow-hidden">
+                  <div className="absolute inset-0 bg-gray-200">
+                    <img
+                      src={category.image}
+                      alt={category.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                    />
+                    {/* Subtle dark gradient to make text readable */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-70 group-hover:opacity-90 transition-opacity duration-500" />
+                  </div>
 
-                {/* Overlay Text & Button */}
-                <div className="absolute bottom-5 inset-x-5 flex items-end justify-between z-10">
-                  <div className="text-white pr-4">
-                    <h3 className="font-bold text-xl md:text-[22px] leading-tight drop-shadow-md">{category.title}</h3>
-                    <p className="text-xs font-medium text-white/80 drop-shadow mt-1.5 uppercase tracking-wider">{category.items}</p>
-                  </div>
-                  <div className="bg-white/20 backdrop-blur-md rounded-xl w-11 h-11 flex items-center justify-center shrink-0 group-hover:bg-white group-hover:text-yoode-onyx text-white transition-all duration-300">
-                    <ArrowUpRight className="w-5 h-5" />
+                  {/* Overlay Text & Button */}
+                  <div className="absolute bottom-5 inset-x-5 flex items-end justify-between z-10">
+                    <div className="text-white pr-4">
+                      <h3 className="font-bold text-xl md:text-[22px] leading-tight drop-shadow-md">{category.title}</h3>
+                      <p className="text-xs font-medium text-white/80 drop-shadow mt-1.5 uppercase tracking-wider">{category.items}</p>
+                    </div>
+                    <div className="bg-white/20 backdrop-blur-md rounded-xl w-11 h-11 flex items-center justify-center shrink-0 group-hover:bg-white group-hover:text-yoode-onyx text-white transition-all duration-300">
+                      <ArrowUpRight className="w-5 h-5" />
+                    </div>
                   </div>
                 </div>
+              </>
+            );
+
+            return category.id === 8 ? (
+              <a href="/category" key={category.id} className="bg-gray-50 rounded-[28px] p-3 shadow-sm hover:shadow-md transition-shadow cursor-pointer group block">
+                {inner}
+              </a>
+            ) : (
+              <div key={category.id} className="bg-gray-50 rounded-[28px] p-3 shadow-sm hover:shadow-md transition-shadow cursor-pointer group">
+                {inner}
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         <div className="mt-12 flex justify-center">
-          <button className="flex items-center justify-center gap-2 font-bold text-sm hover:text-[#E53935] transition-colors group">
+          <a href="/category" className="flex items-center justify-center gap-2 font-bold text-sm hover:text-[#E53935] transition-colors group">
             View All Categories
             <ArrowUpRight className="w-4 h-4 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-transform" />
-          </button>
+          </a>
         </div>
       </div>
     </section>

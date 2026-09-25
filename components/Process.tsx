@@ -1,94 +1,201 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useRef } from "react";
+import { motion, useScroll } from "framer-motion";
 import Image from "next/image";
 import { SectionHeader } from "./SectionHeader";
+import { Package, Clock, Image as ImageIcon, ShieldCheck } from "lucide-react";
 
 const steps = [
   {
     image: "/process/step1.jpg",
     title: "Choose Product",
-    description: "Select from our wide range of t-shirts, jerseys, polos, hoodies and more.",
+    description: "Select from our wide range of premium t-shirts, jerseys, polos, hoodies and more.",
+    color: "bg-[#2563EB]", // Blue
   },
   {
     image: "/process/step2.jpg",
     title: "Share Design",
-    description: "Upload your artwork, logo or share your requirements with us.",
+    description: "Upload your artwork, logo or share your requirements with our expert design team.",
+    color: "bg-[#9D174D]", // Pinkish-Purple (matches screenshot vibe)
   },
   {
     image: "/process/step3.jpg",
     title: "Review Mockup",
-    description: "Get a digital preview of your design before production.",
+    description: "Get a highly detailed digital preview of your design before we start production.",
+    color: "bg-[#059669]", // Emerald
   },
   {
     image: "/process/step4.jpg",
     title: "Approve & Order",
-    description: "Confirm the design, place your order and we'll get to work.",
+    description: "Confirm the design, finalize your order and we'll immediately get to work.",
+    color: "bg-[#7C3AED]", // Violet
   },
   {
     image: "/process/step5.jpg",
     title: "Production & Delivery",
-    description: "Your apparel is carefully produced, quality checked and delivered.",
+    description: "Your apparel is carefully produced, rigorously quality checked and delivered.",
+    color: "bg-[#1E293B]", // Slate
   },
 ];
 
-const TopLoopArrow = () => (
-  <svg className="absolute -right-6 lg:-right-8 xl:-right-12 top-24 w-12 lg:w-16 xl:w-24 h-24 text-[#FDE3B8] hidden lg:block z-0" viewBox="0 0 100 100" fill="none">
-    <path d="M 0,50 C 20,20 60,10 70,40 C 75,55 55,60 50,45 C 45,30 70,20 90,40" stroke="currentColor" strokeWidth="3" strokeLinecap="round" fill="none"/>
-    <path d="M 75,35 L 90,40 L 85,50" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-  </svg>
-);
-
-const BottomLoopArrow = () => (
-  <svg className="absolute -right-6 lg:-right-8 xl:-right-12 bottom-24 w-12 lg:w-16 xl:w-24 h-24 text-[#FDE3B8] hidden lg:block z-0" viewBox="0 0 100 100" fill="none">
-    <path d="M 0,50 C 20,80 60,90 70,60 C 75,45 55,40 50,55 C 45,70 70,80 90,60" stroke="currentColor" strokeWidth="3" strokeLinecap="round" fill="none"/>
-    <path d="M 75,65 L 90,60 L 85,50" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-  </svg>
-);
+const usps = [
+  {
+    icon: <Package className="w-4 h-4 text-[#2A4B9B]" />,
+    title: "No Minimum Order",
+    description: "Order what you need, no quantity limits."
+  },
+  {
+    icon: <Clock className="w-4 h-4 text-[#2A4B9B]" />,
+    title: "Free 24-Hour Mockup",
+    description: "Get your design preview within 24 hours."
+  },
+  {
+    icon: <ImageIcon className="w-4 h-4 text-[#2A4B9B]" />,
+    title: "Own Trigger Gallery",
+    description: "Choose from our design templates or create your own."
+  },
+  {
+    icon: <ShieldCheck className="w-4 h-4 text-[#2A4B9B]" />,
+    title: "Pay After Approval",
+    description: "Your satisfaction comes first."
+  }
+];
 
 export function Process() {
-  return (
-    <section className="py-24 bg-white text-gray-900 overflow-hidden font-sans">
-      <div className="max-w-7xl mx-auto px-4 md:px-6">
-        <SectionHeader
-          subHeading="How Yoode Works"
-          title="From Idea to Delivery"
-          description="Getting your custom apparel is simple. Follow these easy steps and we'll handle the rest — from design to delivery."
-          className="mb-16 lg:mb-24"
-        />
+  const targetRef = useRef<HTMLDivElement>(null);
+  
+  const { scrollYProgress } = useScroll({
+    target: targetRef,
+    offset: ["start center", "end end"]
+  });
 
-        <div className="flex flex-col lg:flex-row items-stretch justify-center gap-6 lg:gap-2 xl:gap-6 relative">
+  return (
+    <section 
+      ref={targetRef} 
+      className="relative bg-[#F8F5F0] font-sans w-full overflow-x-clip"
+    >
+      <div className="max-w-[1600px] mx-auto w-full flex flex-col lg:flex-row items-start relative pb-32">
+        
+        {/* Left Column (Sticky Title, Mascot, Progress Line) */}
+        <div className="w-full lg:w-[40%] lg:sticky lg:top-32 flex flex-col justify-start pt-12 px-8 md:px-16 z-20 shrink-0">
+          <SectionHeader
+            align="left"
+            subHeading="How Yoode Works"
+            title="From Idea to Delivery"
+            description="Getting your custom apparel is simple. Follow these easy steps and we'll handle the rest from design to delivery."
+            className="mb-8"
+            descriptionClassName="text-gray-500 max-w-[400px]"
+          />
+          
+          {/* Elegant Progress Indicator */}
+          <div className="w-full max-w-[240px] mb-12">
+            <div className="flex items-center gap-4 mb-3">
+              <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400">Scroll Progress</span>
+            </div>
+            <div className="w-full h-[2px] bg-gray-200 rounded-full relative overflow-hidden">
+              <motion.div 
+                className="absolute left-0 top-0 bottom-0 bg-yoode-onyx origin-left rounded-full"
+                style={{ scaleX: scrollYProgress, width: "100%" }}
+              />
+            </div>
+          </div>
+
+          {/* Elite USP Grid */}
+          <div className="w-full max-w-xl grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-10 mt-6">
+            {usps.map((usp, i) => (
+              <motion.div 
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.7, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
+                key={i} 
+                className="group flex items-start gap-5 cursor-default"
+              >
+                {/* Icon Container with Micro-interactions */}
+                <div className="relative w-[46px] h-[46px] rounded-full bg-white flex items-center justify-center shrink-0 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] border border-gray-100/60 group-hover:shadow-[0_8px_30px_-4px_rgba(0,0,0,0.12)] group-hover:scale-[1.15] transition-all duration-700 ease-[0.16,1,0.3,1] overflow-hidden">
+                   {/* Shine effect sweep */}
+                   <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-gray-50/50 to-transparent opacity-0 group-hover:opacity-100 -translate-x-[150%] group-hover:translate-x-[150%] transition-transform duration-1000 ease-in-out" />
+                   
+                   {/* Icon */}
+                   <div className="text-gray-400 group-hover:text-yoode-onyx transition-colors duration-500 relative z-10">
+                     {usp.icon}
+                   </div>
+                </div>
+                
+                {/* Typography */}
+                <div className="flex-1 pt-0.5">
+                  <h4 className="font-bold text-yoode-onyx text-[14px] mb-1.5 leading-tight tracking-tight group-hover:text-black transition-colors duration-300">
+                    {usp.title}
+                  </h4>
+                  <p className="text-[13px] text-gray-500/90 leading-relaxed group-hover:text-gray-600 transition-colors duration-300">
+                    {usp.description}
+                  </p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+        </div>
+
+        {/* Right Column (Vertical Staggered List) */}
+        <div className="w-full lg:w-[60%] flex flex-col gap-16 lg:gap-20 pt-12 lg:pt-16 px-4 md:px-12">
           {steps.map((step, index) => {
             const isEven = index % 2 === 0;
             return (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className={`relative z-10 w-full max-w-sm mx-auto lg:w-1/5 shrink-0 flex flex-col ${
-                  !isEven ? 'lg:mt-20' : ''
-                }`}
-              >
-                <div className="group bg-white rounded-[2.5rem] p-6 lg:p-4 xl:p-6 flex flex-col items-center text-center shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-gray-100 hover:shadow-[0_20px_50px_rgb(0,0,0,0.12)] hover:-translate-y-2 transition-all duration-300 h-full relative z-10">
-                  <div className="w-32 h-32 md:w-36 md:h-36 lg:w-28 lg:h-28 xl:w-32 xl:h-32 rounded-full overflow-hidden mb-6 relative border-[6px] border-gray-50 group-hover:border-[#FFE066]/50 transition-colors duration-500 shadow-sm">
-                    <Image src={step.image} alt={step.title} fill className="object-cover group-hover:scale-110 transition-transform duration-500" />
+              <div key={index} className={`w-full relative flex flex-col ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'} gap-8 md:gap-16 items-center`}>
+                
+                {/* Number Watermark (Background) */}
+                <motion.div 
+                  initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                  whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                  viewport={{ amount: 0.4 }}
+                  transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+                  className={`absolute top-0 md:-top-12 ${isEven ? 'md:right-0 md:text-right' : 'md:left-0 md:text-left'} text-[120px] md:text-[200px] font-bold text-gray-100/60 z-0 pointer-events-none select-none tracking-tighter leading-none`}
+                >
+                  0{index + 1}
+                </motion.div>
+
+                {/* Image Side */}
+                <motion.div 
+                  initial={{ opacity: 0, x: isEven ? -60 : 60, filter: "blur(10px)" }}
+                  whileInView={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+                  viewport={{ amount: 0.4 }}
+                  transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+                  className="w-full md:w-[55%] aspect-[4/3] sm:aspect-[16/10] relative rounded-[2rem] overflow-hidden shrink-0 bg-gray-200 shadow-xl group z-10"
+                >
+                  <Image 
+                    src={step.image} 
+                    alt={step.title} 
+                    fill 
+                    className="object-cover group-hover:scale-105 transition-transform duration-1000 ease-out" 
+                  />
+                  <div className="absolute inset-0 bg-yoode-onyx/0 group-hover:bg-yoode-onyx/5 transition-colors duration-700" />
+                </motion.div>
+
+                {/* Text Side */}
+                <motion.div 
+                  initial={{ opacity: 0, x: isEven ? 60 : -60 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ amount: 0.4 }}
+                  transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
+                  className="w-full md:w-[45%] flex flex-col justify-center text-left z-10 relative mt-4 md:mt-0"
+                >
+                  <div className="flex items-center gap-4 mb-4">
+                     <span className="w-8 h-[2px] bg-yoode-onyx/20" />
+                     <span className="text-[11px] font-bold tracking-[0.2em] uppercase text-gray-500">Step 0{index + 1}</span>
                   </div>
                   
-                  <div className="bg-[#FFE066] group-hover:bg-[#FFD166] group-hover:-translate-y-1 transition-all duration-300 px-4 py-2 rounded-full font-bold text-gray-900 mb-4 whitespace-nowrap text-xs md:text-sm shadow-sm inline-block">
-                    {index + 1}. {step.title}
-                  </div>
+                  <h3 className="text-3xl md:text-4xl lg:text-[40px] font-bold text-yoode-onyx mb-5 leading-[1.1] tracking-tight">
+                    {step.title}.
+                  </h3>
                   
-                  <p className="text-gray-500 group-hover:text-gray-700 transition-colors duration-300 text-sm leading-relaxed flex-grow">
+                  <p className="text-[14px] md:text-base text-gray-500 leading-relaxed max-w-[320px]">
                     {step.description}
                   </p>
-                </div>
+                </motion.div>
 
-                {index < steps.length - 1 && (
-                  isEven ? <TopLoopArrow /> : <BottomLoopArrow />
-                )}
-              </motion.div>
+              </div>
             );
           })}
         </div>

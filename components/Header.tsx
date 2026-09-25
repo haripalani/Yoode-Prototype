@@ -15,9 +15,9 @@ const Instagram = ({ size = 24, ...props }: any) => (
 const Youtube = ({ size = 24, ...props }: any) => (
   <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33 2.78 2.78 0 0 0 1.94 2c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.33 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/></svg>
 );
+import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { SearchModal } from "./SearchModal";
-
 const menuData = [
   {
     label: "Shop",
@@ -156,6 +156,10 @@ export function Header() {
   const [hoveredLink, setHoveredLink] = useState<string | null>(null);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const pathname = usePathname();
+
+  const isInnerPage = pathname !== "/" && pathname !== "/category";
+  const isDarkHeader = isScrolled || isInnerPage;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -179,8 +183,8 @@ export function Header() {
 
   return (
     <>
-      <header className={`fixed top-0 left-0 w-full z-[100] transition-all duration-300 ${
-        isScrolled ? "bg-[#111827]/90 backdrop-blur-md shadow-md py-4 text-white" : "bg-transparent py-5 text-white"
+      <header className={`fixed top-[30px] md:top-[32px] left-0 w-full z-[100] transition-all duration-300 ${
+        isDarkHeader ? "bg-[#111827]/90 backdrop-blur-md shadow-md py-4 text-white" : "bg-transparent py-5 text-white"
       }`}>
         <div className="w-full max-w-[1600px] mx-auto px-6 md:px-12 flex items-center justify-between relative">
           

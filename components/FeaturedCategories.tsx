@@ -62,7 +62,7 @@ export function FeaturedCategories() {
           {categories.map((category) => (
             <Link
               key={category.id}
-              href="#"
+              href={category.id === 8 ? "/category" : "#"}
               className="group relative block aspect-[4/5] sm:aspect-square md:aspect-[4/5] overflow-hidden bg-gray-200 rounded-lg"
             >
               <Image

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Poppins, Space_Grotesk } from "next/font/google";
 import "./globals.css";
+import { FeaturesBar } from "@/components/FeaturesBar";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -28,7 +29,10 @@ export default function RootLayout({
       lang="en"
       className={`${poppins.variable} ${spaceGrotesk.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col font-sans">{children}</body>
+      <body className="min-h-full flex flex-col font-sans">
+        <FeaturesBar />
+        {children}
+      </body>
     </html>
   );
 }
