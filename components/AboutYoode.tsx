@@ -46,7 +46,7 @@ export function AboutYoode() {
             </div>
             
             {/* Top Card Images */}
-            <div className="flex gap-3 md:gap-4 shrink-0 h-[380px]">
+            <div className="flex justify-center gap-3 md:gap-4 shrink-0 w-full sm:w-auto sm:h-[380px] mt-4 md:mt-0">
               {/* Column 1 (2 images) */}
               <div className="flex flex-col gap-3 md:gap-4 w-[120px] lg:w-[180px] hidden md:flex">
                 <img 
@@ -65,7 +65,7 @@ export function AboutYoode() {
               <img 
                 src="/polo-jersey.jpg" 
                 alt="Polo Jersey" 
-                className="w-[160px] lg:w-[260px] h-full min-h-0 object-cover rounded-[24px] md:rounded-[32px] shadow-sm shrink-0" 
+                className="w-full max-w-[280px] aspect-square sm:aspect-auto sm:max-w-none sm:w-[160px] lg:w-[260px] sm:h-full min-h-0 object-cover rounded-[24px] md:rounded-[32px] shadow-sm shrink-0" 
               />
 
               {/* Column 3 (2 images) */}

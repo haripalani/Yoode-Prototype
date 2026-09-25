@@ -85,7 +85,7 @@ export function ProductCard({ product, viewMode = "grid" }: { product: Product, 
   return (
     <div className={`bg-white rounded-[28px] p-3 shadow-sm hover:shadow-md transition-shadow cursor-pointer group flex ${isList ? 'flex-col sm:flex-row gap-5 md:gap-8 items-center pr-6' : 'flex-col gap-3'}`}>
       {/* Image Container */}
-      <div className={`relative rounded-[20px] group overflow-hidden shrink-0 ${isList ? 'w-full sm:w-[240px] h-[240px]' : 'aspect-[4/5] w-full'}`}>
+      <div className={`relative rounded-[20px] group overflow-hidden shrink-0 ${isList ? 'w-full sm:w-[240px] h-[240px]' : 'aspect-square md:aspect-[4/5] w-full'}`}>
         {/* Clipped Background & Image Layer */}
         <div className="absolute inset-0 bg-gray-100 rounded-[20px] overflow-hidden">
           <img

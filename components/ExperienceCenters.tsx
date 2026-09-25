@@ -177,7 +177,7 @@ export function ExperienceCenters() {
           </div>
 
           {/* Map Container (Center) */}
-          <div className="relative w-full max-w-md lg:w-[38%] aspect-[612/696] flex-shrink-0 my-6 lg:my-0 z-10">
+          <div className="relative hidden lg:block w-full max-w-md lg:w-[38%] aspect-[612/696] flex-shrink-0 my-6 lg:my-0 z-10">
             {/* SVG Map */}
             <svg
               viewBox={IndiaMap.viewBox}

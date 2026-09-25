@@ -63,7 +63,7 @@ export function FeaturedCategories() {
             <Link
               key={category.id}
               href={category.id === 8 ? "/category" : "#"}
-              className="group relative block aspect-[4/5] sm:aspect-square md:aspect-[4/5] overflow-hidden bg-gray-200 rounded-lg"
+              className="group relative block aspect-square md:aspect-[4/5] overflow-hidden bg-gray-200 rounded-lg"
             >
               <Image
                 src={category.image}

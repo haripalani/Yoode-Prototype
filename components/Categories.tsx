@@ -66,7 +66,7 @@ export function Categories() {
             const inner = (
               <>
                 {/* Image Container */}
-                <div className="relative aspect-[4/5] rounded-[20px] overflow-hidden">
+                <div className="relative aspect-square md:aspect-[4/5] rounded-[20px] overflow-hidden">
                   <div className="absolute inset-0 bg-gray-200">
                     <img
                       src={category.image}
