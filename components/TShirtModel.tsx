@@ -12,7 +12,7 @@ export function TShirtModel({ color }: TShirtModelProps) {
   const { nodes, materials } = useGLTF("/shirt_baked.glb") as any;
 
   return (
-    <group dispose={null}>
+    <group dispose={null} scale={8}>
       <mesh
         castShadow
         receiveShadow

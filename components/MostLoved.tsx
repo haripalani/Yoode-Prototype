@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { ArrowUpRight, Heart, ShoppingBag, Star, ChevronDown, Search } from "lucide-react";
+import { SectionHeader } from "./SectionHeader";
 
 const products = [
   {
@@ -122,16 +123,16 @@ function SizeDropdown({ labels, value }: { labels: string[], value: string }) {
 
 export function MostLoved() {
   return (
-    <section className="py-20 px-6 md:px-12 bg-[#E9E4DC] text-yoode-onyx">
-      <div className="max-w-7xl mx-auto">
-        <div className="mb-16 text-center">
-          <h2 className="text-3xl md:text-5xl font-display font-black tracking-tight">Our Most Loved Products</h2>
-          <p className="text-yoode-onyx/70 mt-4 text-lg max-w-2xl mx-auto">
-            The products customers come back for customised exactly the way you need.
-          </p>
-        </div>
+    <section className="pb-16 md:pb-24 bg-white text-yoode-onyx">
+      <div className="bg-[#E9E4DC] rounded-[32px] mx-4 md:mx-8 py-16 md:py-20 px-6">
+        <div className="max-w-7xl mx-auto">
+          <SectionHeader
+            subHeading="Best Sellers"
+            title="Our Most Loved Products"
+            description="The products customers come back for — customised exactly the way you need."
+          />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
           {products.map((product) => (
             <div key={product.id} className="bg-white rounded-[28px] p-3 shadow-sm hover:shadow-md transition-shadow flex flex-col gap-3 cursor-pointer group">
 
@@ -195,6 +196,7 @@ export function MostLoved() {
               </div>
             </div>
           ))}
+        </div>
         </div>
       </div>
     </section>

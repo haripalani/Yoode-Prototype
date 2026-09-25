@@ -5,6 +5,7 @@ import IndiaMap from "@svg-maps/india";
 import { motion, AnimatePresence } from "framer-motion";
 import { Navigation, HardHat, MapPin } from "lucide-react";
 import Image from "next/image";
+import { SectionHeader } from "./SectionHeader";
 
 type ExperienceCenter = {
   id: string;
@@ -160,14 +161,12 @@ export function ExperienceCenters() {
       <div className="w-full max-w-6xl mx-auto px-6 md:px-8 flex flex-col items-center">
 
         {/* Header */}
-        <div className="text-center mb-10 md:mb-16">
-          <h2 className="text-3xl md:text-5xl font-display font-black tracking-tight text-yoode-onyx leading-tight">
-            We work for you. We care about quality. We're all over India.
-          </h2>
-          <p className="text-gray-500 mt-4 md:mt-6 text-base md:text-lg leading-relaxed">
-            See it. Touch it. Make it yours. Visit our physical design labs for reliable solutions, ongoing support, and real results.
-          </p>
-        </div>
+        <SectionHeader
+          subHeading="Our Locations"
+          title="We work for you. We care about quality. We're all over India."
+          description="See it. Touch it. Make it yours. Visit our physical design labs for reliable solutions, ongoing support, and real results."
+          className="mb-10 md:mb-16"
+        />
 
         {/* Layout: Map in center, Cards floating on left/right */}
         <div className="flex flex-col lg:flex-row w-full gap-6 lg:gap-4 items-center justify-between relative">

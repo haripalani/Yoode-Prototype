@@ -3,6 +3,7 @@
 import { Star } from "lucide-react";
 import { motion, useAnimate, AnimationPlaybackControls } from "framer-motion";
 import { useEffect, useRef } from "react";
+import { SectionHeader } from "./SectionHeader";
 
 type Theme = "purple" | "white" | "lime" | "dark" | "beige";
 
@@ -182,16 +183,12 @@ export function Testimonials() {
     <section className="w-full bg-[#e4d7bd] py-20 md:py-32 overflow-hidden flex flex-col items-center">
 
       {/* Header Area */}
-      <div className="mx-auto px-6 text-center mb-20 flex flex-col items-center z-10">
-
-        <h2 className="text-3xl md:text-5xl font-display font-black tracking-tight text-yoode-onyx leading-[1.1] mb-6">
-          Loved by people who care about quality.
-        </h2>
-
-        <p className="text-lg md:text-xl text-yoode-onyx/70 font-medium">
-          Real experiences from teams who turned ambitious ideas into products people enjoy using.
-        </p>
-      </div>
+      <SectionHeader
+        subHeading="Testimonials"
+        title="Loved by people who care about quality."
+        description="Real experiences from teams who turned ambitious ideas into products people enjoy using."
+        className="mb-20 z-10"
+      />
 
       {/* Marquee Area */}
       <div
@@ -208,13 +205,13 @@ export function Testimonials() {
             return (
               <div
                 key={`testimonial-${idx}`}
-                className={`${style.bg} w-[320px] md:w-[380px] shrink-0 rounded-[32px] p-8 md:p-10 shadow-xl shadow-black/5 flex flex-col justify-between ${t.rotation} transition-transform duration-500 hover:scale-105 relative overflow-hidden group`}
+                className={`${style.bg} w-[280px] md:w-[320px] shrink-0 rounded-[28px] p-6 md:p-8 shadow-xl shadow-black/5 flex flex-col justify-between ${t.rotation} transition-transform duration-500 hover:scale-105 relative overflow-hidden group`}
               >
                 {/* Subtle glass highlight in top right */}
                 <div className="absolute top-0 right-0 w-48 h-48 bg-white/20 blur-3xl rounded-full translate-x-1/3 -translate-y-1/3 group-hover:bg-white/30 transition-all duration-700 pointer-events-none"></div>
 
                 <div>
-                  <div className="flex items-center justify-between mb-8 relative z-10">
+                  <div className="flex items-center justify-between mb-6 relative z-10">
                     <div className="flex items-center gap-2">
                       <div className="flex gap-1">
                         {[1, 2, 3, 4, 5].map((star) => (
@@ -236,7 +233,7 @@ export function Testimonials() {
                     </div>
                   </div>
 
-                  <p className={`${style.text} text-xl md:text-2xl font-medium italic leading-snug mb-10 relative z-10`}>
+                  <p className={`${style.text} text-lg md:text-xl font-medium italic leading-snug mb-8 relative z-10`}>
                     "{t.quote}"
                   </p>
                 </div>

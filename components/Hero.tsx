@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Play, ArrowUpRight } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 
 const slides = [
   {
@@ -127,12 +127,13 @@ export function Hero() {
               transition={{ duration: 0.5 }}
               className="flex flex-col gap-4 md:gap-6"
             >
-              <button className="flex items-center gap-3 bg-white/10 backdrop-blur-md border border-white/20 py-2.5 px-4 rounded-full text-xs font-semibold uppercase tracking-wider hover:bg-white/20 transition-colors w-max shadow-lg">
-                <div className="bg-white text-black rounded-full p-1 shadow-sm">
-                  <Play size={12} fill="currentColor" />
-                </div>
+              <div className="flex items-center gap-2.5 bg-white/10 backdrop-blur-md border border-white/20 py-2 px-4 rounded-full text-xs font-semibold uppercase tracking-wider w-max shadow-lg">
+                <span className="relative flex h-2.5 w-2.5">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-40"></span>
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-white"></span>
+                </span>
                 {slide.videoText}
-              </button>
+              </div>
               
               <div className="flex flex-col">
                 <span className="text-4xl lg:text-5xl font-display font-bold tracking-tight">{slide.metric}</span>

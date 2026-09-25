@@ -41,3 +41,9 @@ yarn-error.log*
 next-env.d.ts
 
 package-lock.json
+
+# Unnecessary things
+venv/
+temp_js_bundle.js
+scratch_index.json
+yoode-shopify-theme/

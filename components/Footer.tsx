@@ -8,7 +8,7 @@ export function Footer() {
           
           {/* Company Info */}
           <div className="col-span-2 lg:col-span-1 flex flex-col gap-6">
-            <h3 className="font-display font-black text-3xl text-white tracking-tight">YOODE</h3>
+            <img src="/logo-dark.avif" alt="Yoode Logo" className="h-6 md:h-7 w-auto mb-4 object-contain object-left brightness-0 invert" />
             <p className="text-sm leading-relaxed font-medium">
               Yoode Promotions Pvt. Ltd.<br />
               Creating meaningful brand experiences through premium custom products.
