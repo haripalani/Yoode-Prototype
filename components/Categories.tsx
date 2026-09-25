@@ -4,27 +4,51 @@ import { SectionHeader } from "./SectionHeader";
 const categories = [
   {
     id: 1,
-    title: "T-Shirts & Polos",
+    title: "Custom T-shirts",
     items: "120+ Styles",
-    image: "/mens-polo.jpg",
+    image: "/categories/custom_tshirts.jpg",
   },
   {
     id: 2,
-    title: "Hoodies & Jackets",
+    title: "Custom Jersey's",
     items: "50+ Styles",
-    image: "/polo-jersey.jpg",
+    image: "/categories/custom_sports.jpg",
   },
   {
     id: 3,
-    title: "Corporate Gifting",
-    items: "Curated Boxes",
-    image: "/gift-box.jpg",
+    title: "Premium Polos",
+    items: "Premium Fits",
+    image: "/categories/premium_polos.jpg",
   },
   {
     id: 4,
-    title: "Bags & Accessories",
+    title: "Corporate Gifting",
+    items: "Curated Boxes",
+    image: "/categories/corporate_gifting.jpg",
+  },
+  {
+    id: 5,
+    title: "Acessories",
     items: "20+ Styles",
-    image: "/backpack.jpg",
+    image: "/categories/accessories_group.jpg",
+  },
+  {
+    id: 6,
+    title: "Trenz",
+    items: "Latest Trends",
+    image: "/categories/trenz_oversized_festive.jpg",
+  },
+  {
+    id: 7,
+    title: "Hoodiess & Sweat shirts",
+    items: "Cozy & Warm",
+    image: "/categories/hoodies_sweatshirts.jpg",
+  },
+  {
+    id: 8,
+    title: "Explore All",
+    items: "View Collection",
+    image: "/categories/apparels.jpg",
   }
 ];
 

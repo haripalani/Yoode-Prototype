@@ -6,43 +6,43 @@ import { SectionHeader } from "./SectionHeader";
 const categories = [
   {
     id: 1,
-    title: "APPARELS",
-    image: "/categories/apparels.jpg",
-  },
-  {
-    id: 2,
-    title: "BEST\nSELLERS",
-    image: "/categories/best_sellers.jpg",
-  },
-  {
-    id: 3,
-    title: "CUSTOM\nSPORTS KIT",
-    image: "/categories/custom_sports.jpg",
-  },
-  {
-    id: 4,
     title: "CUSTOM\nT-SHIRTS",
     image: "/categories/custom_tshirts.jpg",
   },
   {
-    id: 5,
-    title: "OVERSIZED\nTEES",
-    image: "/categories/oversized_tees.jpg",
+    id: 2,
+    title: "CUSTOM\nJERSEY'S",
+    image: "/categories/custom_sports.jpg",
   },
   {
-    id: 6,
-    title: "CORPORATE\nGIFTING",
-    image: "/categories/corporate_gifting.jpg",
-  },
-  {
-    id: 7,
+    id: 3,
     title: "PREMIUM\nPOLOS",
     image: "/categories/premium_polos.jpg",
   },
   {
+    id: 4,
+    title: "CORPORATE\nGIFTING",
+    image: "/categories/corporate_gifting.jpg",
+  },
+  {
+    id: 5,
+    title: "ACCESSORIES",
+    image: "/categories/accessories_group.jpg",
+  },
+  {
+    id: 6,
+    title: "TRENZ",
+    image: "/categories/trenz_oversized_festive.jpg",
+  },
+  {
+    id: 7,
+    title: "HOODIES &\nSWEAT SHIRTS",
+    image: "/categories/hoodies_sweatshirts.jpg",
+  },
+  {
     id: 8,
-    title: "ACTIVE\nWEAR",
-    image: "/categories/active_wear.jpg",
+    title: "EXPLORE\nALL",
+    image: "/categories/apparels.jpg",
   }
 ];
 
@@ -71,18 +71,33 @@ export function FeaturedCategories() {
                 fill
                 className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
               />
-              {/* Darker gradient overlay to ensure text readability */}
-              <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-500" />
               
-              <div className="absolute inset-x-4 sm:inset-x-6 bottom-4 sm:bottom-6 flex items-end justify-between z-10">
-                <h3 className="font-display font-black text-2xl sm:text-3xl md:text-4xl leading-[0.95] tracking-tight text-white drop-shadow-md whitespace-pre-line text-left">
-                  {category.title}
-                </h3>
-                
-                <div className="bg-white/20 backdrop-blur-md rounded-full w-10 h-10 sm:w-11 sm:h-11 flex flex-shrink-0 items-center justify-center group-hover:bg-white group-hover:text-yoode-onyx text-white transition-all duration-300">
-                  <ArrowUpRight className="w-5 h-5 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-transform" />
-                </div>
-              </div>
+              {category.id === 8 ? (
+                <>
+                  <div className="absolute inset-0 bg-black/40 group-hover:bg-black/60 transition-colors duration-500" />
+                  <div className="absolute inset-0 flex flex-col items-center justify-center z-10 p-4">
+                    <h3 className="font-display font-black text-4xl sm:text-5xl md:text-6xl leading-[0.95] tracking-tight text-white drop-shadow-lg whitespace-pre-line text-center">
+                      {category.title}
+                    </h3>
+                    <div className="mt-6 bg-white/20 backdrop-blur-md rounded-full w-12 h-12 flex flex-shrink-0 items-center justify-center group-hover:bg-white group-hover:text-yoode-onyx text-white transition-all duration-300">
+                      <ArrowUpRight className="w-6 h-6 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-transform" />
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-500" />
+                  <div className="absolute inset-x-4 sm:inset-x-6 bottom-4 sm:bottom-6 flex items-end justify-between z-10">
+                    <h3 className="font-display font-black text-2xl sm:text-3xl md:text-4xl leading-[0.95] tracking-tight text-white drop-shadow-md whitespace-pre-line text-left">
+                      {category.title}
+                    </h3>
+                    
+                    <div className="bg-white/20 backdrop-blur-md rounded-full w-10 h-10 sm:w-11 sm:h-11 flex flex-shrink-0 items-center justify-center group-hover:bg-white group-hover:text-yoode-onyx text-white transition-all duration-300">
+                      <ArrowUpRight className="w-5 h-5 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-transform" />
+                    </div>
+                  </div>
+                </>
+              )}
             </Link>
           ))}
         </div>

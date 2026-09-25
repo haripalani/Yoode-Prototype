@@ -20,45 +20,45 @@ const slides = [
     ctaColor: "bg-yoode-onyx text-white",
   },
   {
-    id: "trendz",
+    id: "sports",
     bgColor: "#111827",
-    text: "TRENDZ",
+    text: "SPORTS",
     image: "/banner-2.png",
-    title: "Streetwear & Trendz",
-    subtitle: "Heavyweight hoodies & tees",
+    title: "Sports",
+    subtitle: "Activewear & Performance Gear",
     videoText: "Lookbook Drop 04",
     metric: "240+ GSM",
-    metricText: "COMBED ORGANIC COTTON",
-    headline: "Wear the Spirit of Streetwear. Bold cuts, uncompromised fabric weights, and personalized print finishes.",
-    cta: "SHOP TRENDZ →",
+    metricText: "PERFORMANCE FABRICS",
+    headline: "High performance activewear designed for maximum comfort and mobility. Push your limits.",
+    cta: "SHOP SPORTS →",
     ctaColor: "bg-yoode-coral text-white",
   },
   {
-    id: "studio",
+    id: "trenz",
     bgColor: "#2E4A3E",
-    text: "COLLECTIONS",
+    text: "TRENZ",
     image: "/banner-3.png",
-    title: "Designer Collections",
-    subtitle: "Floral & Graphic Printed Tees",
-    videoText: "Explore Collection",
+    title: "Trenz",
+    subtitle: "Heavyweight hoodies & tees",
+    videoText: "Explore Trenz",
     metric: "OVERSIZED",
     metricText: "PREMIUM PRINTS",
-    headline: "Make a statement with our designer collections featuring oversized fits, floral prints, and unique graphic designs.",
-    cta: "VIEW COLLECTIONS →",
+    headline: "Wear the Spirit of Streetwear. Bold cuts, uncompromised fabric weights, and personalized print finishes.",
+    cta: "SHOP TRENZ →",
     ctaColor: "bg-white text-yoode-forest",
   },
   {
-    id: "shirts",
+    id: "uniforms",
     bgColor: "#8B5A2B",
-    text: "SHIRTS",
+    text: "UNIFORMS",
     image: "/banner-4.png",
-    title: "Premium Shirts",
-    subtitle: "Casual & Formal Shirts",
-    videoText: "Explore Shirts",
+    title: "Uniforms",
+    subtitle: "Professional & Comfortable",
+    videoText: "Explore Uniforms",
     metric: "TAILORED",
     metricText: "PERFECT FIT",
-    headline: "Elevate your style with our premium range of casual and formal shirts, tailored for a perfect fit and all-day comfort.",
-    cta: "SHOP SHIRTS →",
+    headline: "Elevate your team's style with our premium range of uniforms, tailored for a perfect fit and all-day comfort.",
+    cta: "SHOP UNIFORMS →",
     ctaColor: "bg-yoode-onyx text-white",
   }
 ];
@@ -94,7 +94,7 @@ export function Hero() {
             className="text-[28vw] font-display font-black leading-none tracking-tighter text-transparent"
             style={{ WebkitTextStroke: "1px rgba(255, 255, 255, 0.2)" }}
           >
-            YOODE
+            <span>YOODE</span>
           </h1>
         </div>
 
@@ -132,14 +132,14 @@ export function Hero() {
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-40"></span>
                   <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-white"></span>
                 </span>
-                {slide.videoText}
+                <span>{slide.videoText}</span>
               </div>
               
               <div className="flex flex-col">
-                <span className="text-4xl lg:text-5xl font-display font-bold tracking-tight">{slide.metric}</span>
+                <span className="text-4xl lg:text-5xl font-display font-bold tracking-tight"><span>{slide.metric}</span></span>
                 <span className="text-[10px] uppercase font-bold tracking-widest text-white/80 mt-1 md:mt-2 flex items-center gap-2 leading-relaxed">
                   <span className="h-1.5 w-1.5 rounded-full bg-white animate-pulse shrink-0" />
-                  {slide.metricText}
+                  <span>{slide.metricText}</span>
                 </span>
               </div>
             </motion.div>
@@ -158,11 +158,11 @@ export function Hero() {
               className="flex flex-col gap-4 md:gap-6 items-start md:items-center"
             >
               <p className="hidden md:block text-sm md:text-base leading-relaxed text-white/95 font-medium drop-shadow-md">
-                {slide.headline}
+                <span>{slide.headline}</span>
               </p>
               
               <button className={`hidden md:flex group items-center gap-2 py-3 px-6 md:py-3.5 md:px-7 rounded-full text-xs md:text-sm font-semibold uppercase tracking-wider hover:scale-105 transition-transform shadow-xl ${slide.ctaColor}`}>
-                {slide.cta}
+                <span>{slide.cta}</span>
               </button>
             </motion.div>
           </AnimatePresence>
@@ -196,9 +196,9 @@ export function Hero() {
               </div>
               <div className="flex-1 overflow-hidden">
                 <h3 className="font-display font-bold text-xs lg:text-sm leading-tight truncate">
-                  {s.title}
+                  <span>{s.title}</span>
                 </h3>
-                <p className="text-[10px] lg:text-xs text-yoode-onyx/60 mt-1 font-medium line-clamp-2">{s.subtitle}</p>
+                <p className="text-[10px] lg:text-xs text-yoode-onyx/60 mt-1 font-medium line-clamp-2"><span>{s.subtitle}</span></p>
               </div>
               <div className={`w-6 h-6 md:w-8 md:h-8 rounded-full border flex items-center justify-center shrink-0 transition-colors ${active === idx ? 'bg-yoode-onyx text-white border-yoode-onyx' : 'border-yoode-onyx/20 text-yoode-onyx group-hover:bg-yoode-onyx group-hover:text-white'}`}>
                 <ArrowUpRight className="w-3 h-3 md:w-4 md:h-4" />
