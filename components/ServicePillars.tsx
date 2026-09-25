@@ -7,37 +7,37 @@ import { SectionHeader } from "./SectionHeader";
 const services = [
   {
     title: "DTG Printing",
-    image: "/services/dtg.jpg",
+    image: "/Services/dtg.jpg",
     objectPosition: "object-center",
   },
   {
     title: "DTF Printing",
-    image: "/services/dtf.jpg",
+    image: "/Services/dtf.jpg",
     objectPosition: "object-center",
   },
   {
     title: "Embroidery",
-    image: "/services/embroidery.jpg",
+    image: "/Services/embroidery.jpg",
     objectPosition: "object-[50%_90%]", // Focus on the stitched logo at the bottom
   },
   {
     title: "Coloreel",
-    image: "/services/coloreel.jpg",
+    image: "/Services/coloreel.jpg",
     objectPosition: "object-center",
   },
   {
     title: "Screen Printing",
-    image: "/services/screen_printing.jpg",
+    image: "/Services/screen_printing.jpg",
     objectPosition: "object-center",
   },
   {
     title: "UV Printing",
-    image: "/services/uv_printing.jpg",
+    image: "/Services/uv_printing.jpg",
     objectPosition: "object-[50%_70%]",
   },
   {
     title: "Engraving",
-    image: "/services/engraving.jpg",
+    image: "/Services/engraving.jpg",
     objectPosition: "object-center",
   },
 ];
