@@ -73,7 +73,7 @@ export function ServicePillars() {
         </div>
 
         {/* Horizontal Accordion Layout */}
-        <div className="flex flex-col lg:flex-row gap-2 lg:gap-3 w-full h-[75vh] min-h-[600px] lg:h-[450px]">
+        <div className="flex flex-col lg:flex-row gap-2 lg:gap-3 w-full h-[60vh] min-h-[400px] lg:h-[350px] lg:min-h-0">
           {services.map((service, index) => {
             const isActive = activeIndex === index;
             return (
