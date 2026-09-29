@@ -93,7 +93,7 @@ export function MostLoved() {
         <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-[#FAF9F7] to-transparent z-10 pointer-events-none hidden md:block" />
 
         <div
-          className="flex gap-6 overflow-x-auto snap-x snap-mandatory px-6 md:px-12 md:justify-center pb-12 pt-8 w-full max-w-[1600px] mx-auto"
+          className="flex gap-6 overflow-x-auto snap-x snap-mandatory px-6 md:px-12 md:justify-center pb-12 pt-8 w-full max-w-[1600px] mx-auto cursor-grab active:cursor-grabbing"
           style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
         >
           {products.map((product, index) => (

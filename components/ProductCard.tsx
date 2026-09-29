@@ -79,8 +79,8 @@ function SizeDropdown({ labels, value }: { labels: string[], value: string }) {
   );
 }
 
-export function ProductCard({ product, viewMode = "grid" }: { product: Product, viewMode?: "grid" | "list" }) {
-  const isList = viewMode === "list";
+export function ProductCard({ product }: { product: Product }) {
+  const isList = false;
 
   return (
     <div className={`bg-white rounded-[28px] p-3 shadow-sm hover:shadow-md transition-shadow cursor-pointer group flex ${isList ? 'flex-col sm:flex-row gap-5 md:gap-8 items-center pr-6' : 'flex-col gap-3'}`}>

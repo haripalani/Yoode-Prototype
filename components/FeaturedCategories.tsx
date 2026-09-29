@@ -8,41 +8,49 @@ const categories = [
     id: 1,
     title: "CUSTOM\nT-SHIRTS",
     image: "/categories/custom_tshirts.jpg",
+    href: "/t-shirts"
   },
   {
     id: 2,
-    title: "CUSTOM\nJERSEY'S",
+    title: "CUSTOM\nJERSEYS",
     image: "/categories/custom_sports.jpg",
+    href: "/custom-sports-jerseys"
   },
   {
     id: 3,
     title: "PREMIUM\nPOLOS",
     image: "/categories/premium_polos.jpg",
+    href: "/polos"
   },
   {
     id: 4,
     title: "CORPORATE\nGIFTING",
     image: "/categories/corporate_gifting.jpg",
+    href: "/stationery-gifting-drinkware"
   },
   {
     id: 5,
     title: "ACCESSORIES",
     image: "/categories/accessories_group.jpg",
+    href: "/accessories"
   },
   {
     id: 6,
     title: "TRENZ",
     image: "/categories/trenz_oversized_festive.jpg",
+    href: "/trenz"
   },
   {
     id: 7,
     title: "HOODIES &\nSWEAT SHIRTS",
     image: "/categories/hoodies_sweatshirts.jpg",
+    href: "/hoodies-sweatshirts-jackets"
   },
   {
     id: 8,
     title: "EXPLORE\nALL",
     image: "/categories/apparels.jpg",
+    href: "/category"
   }
 ];
 
@@ -62,7 +70,7 @@ export function FeaturedCategories() {
           {categories.map((category) => (
             <Link
               key={category.id}
-              href={category.id === 8 ? "/category" : "#"}
+              href={category.href || "#"}
               className="group relative block aspect-square md:aspect-[4/5] overflow-hidden bg-gray-200 rounded-lg"
             >
               <Image

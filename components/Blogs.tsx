@@ -1,4 +1,5 @@
 import { ArrowUpRight, ArrowRight } from "lucide-react";
+import Link from "next/link";
 
 export function Blogs() {
   return (
@@ -8,9 +9,9 @@ export function Blogs() {
         {/* Header */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 md:mb-12 gap-4">
           <h2 className="text-5xl md:text-[5.5rem] font-black uppercase tracking-tighter leading-none">OUR BLOGS</h2>
-          <button className="px-6 py-3 bg-[#F2F2F2] rounded-full font-bold text-sm flex items-center gap-3 hover:bg-gray-200 transition-colors">
+          <Link href="/blogs" className="px-6 py-3 bg-[#F2F2F2] rounded-full font-bold text-sm flex items-center gap-3 hover:bg-gray-200 transition-colors">
             Read Our Blog <ArrowRight className="w-4 h-4" />
-          </button>
+          </Link>
         </div>
 
         {/* Bento Grid Layout */}

@@ -196,7 +196,7 @@ export function Header() {
             >
               <Menu size={26} />
             </button>
-            <a href="#" className="flex items-center">
+            <a href="/" className="flex items-center">
               <img src="/logo-dark.avif" alt="Yoode Logo" className="h-5 lg:h-6 w-auto object-contain brightness-0 invert" />
             </a>
           </div>

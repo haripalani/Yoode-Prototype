@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo, useRef, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { ProductCard } from "@/components/ProductCard";
@@ -146,6 +146,90 @@ export default function CategoryPage() {
   const [selectedCustomisations, setSelectedCustomisations] = useState<string[]>([]);
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
 
+  // Dynamic Category Filters
+  const params = useParams();
+  const categorySlug = typeof params?.category === 'string' ? params.category : '';
+  const [selectedSpecificFilters, setSelectedSpecificFilters] = useState<Record<string, string[]>>({});
+
+  const toggleSpecificFilter = (filterTitle: string, option: string) => {
+    setSelectedSpecificFilters(prev => {
+      const current = prev[filterTitle] || [];
+      return {
+        ...prev,
+        [filterTitle]: current.includes(option) ? current.filter(o => o !== option) : [...current, option]
+      };
+    });
+  };
+
+  const categoryFilterSpec: Record<string, {title: string, options: string[]}[]> = {
+    'custom-sports-jerseys': [
+      { title: "SPORT", options: ['Cricket (12)', 'Football (10)', 'Basketball (5)'] },
+      { title: "FABRIC", options: ['Dot Knit (15)', 'Micro Polyester (12)', 'Spandex Blend (8)'] },
+      { title: "GSM", options: ['140 GSM (12)', '160 GSM (15)', '180 GSM (8)'] },
+      { title: "NECK", options: ['V-Neck (10)', 'Round Neck (15)', 'Collar (5)'] },
+      { title: "SLEEVE", options: ['Half Sleeve (15)', 'Full Sleeve (10)', 'Sleeveless (5)'] },
+      { title: "PRINT METHOD", options: ['Sublimation (25)', 'Screen Print (5)'] },
+      { title: "PERSONALISATION", options: ['Name & Number (20)', 'Logo Only (10)'] },
+    ],
+    'polos': [
+      { title: "FABRIC", options: ['Pique Cotton (20)', 'Matty (15)', 'Dry-fit (10)'] },
+      { title: "GSM BAND", options: ['200 GSM (15)', '220 GSM (20)', '240 GSM (10)'] },
+      { title: "PLACKET", options: ['2 Button (25)', '3 Button (15)', 'Zip (5)'] },
+      { title: "SLEEVE", options: ['Half Sleeve (30)', 'Full Sleeve (15)'] },
+      { title: "FIT", options: ['Regular (25)', 'Slim Fit (20)'] },
+      { title: "BRANDING SUITABILITY", options: ['Embroidery (30)', 'Print (15)'] },
+    ],
+    't-shirts': [
+      { title: "FABRIC", options: ['100% Cotton (25)', 'Cotton Blend (15)', 'Polyester (10)'] },
+      { title: "GSM BAND", options: ['160 GSM (15)', '180 GSM (20)', '200 GSM (10)'] },
+      { title: "NECK", options: ['Round Neck (30)', 'V-Neck (15)'] },
+      { title: "SLEEVE", options: ['Half Sleeve (30)', 'Full Sleeve (15)'] },
+      { title: "FIT", options: ['Regular (25)', 'Slim Fit (15)', 'Oversized (10)'] },
+      { title: "USE CASE", options: ['Casual (25)', 'Activewear (15)', 'Corporate (10)'] },
+    ],
+    'hoodies-sweatshirts-jackets': [
+      { title: "STYLE", options: ['Pullover (15)', 'Zip-up (15)'] },
+      { title: "FABRIC", options: ['Fleece (20)', 'French Terry (10)', 'Cotton (5)'] },
+      { title: "GSM BAND", options: ['280 GSM (10)', '300 GSM (15)', '320 GSM (5)'] },
+      { title: "FIT", options: ['Regular (20)', 'Oversized (10)'] },
+      { title: "SEASON", options: ['Winter (25)', 'All Season (5)'] },
+    ],
+    'accessories': [
+      { title: "TYPE", options: ['Backpack (15)', 'Duffle Bag (10)', 'Laptop Sleeve (5)', 'Cap (15)', 'Watch (8)'] },
+      { title: "CAPACITY (LITRES)", options: ['10-20L (10)', '20-30L (15)', '30L+ (5)'] },
+      { title: "LAPTOP FIT", options: ['Up to 14" (10)', 'Up to 15.6" (15)'] },
+      { title: "MATERIAL", options: ['Polyester (15)', 'Nylon (10)', 'Canvas (5)', 'Leather (8)'] },
+    ],
+    'stationery-gifting-drinkware': [
+      { title: "PRODUCT TYPE", options: ['Notebooks (15)', 'Pens (10)', 'Mugs (10)', 'Bottles (5)'] },
+      { title: "MATERIAL", options: ['Paper (15)', 'Metal (10)', 'Plastic (10)'] },
+      { title: "CAPACITY (DRINKWARE)", options: ['300ml (10)', '500ml (10)', '750ml (5)'] },
+      { title: "INSULATED", options: ['Yes (10)', 'No (15)'] },
+      { title: "BRANDING METHOD", options: ['UV Print (10)', 'Laser Engraving (10)', 'Screen Print (5)'] },
+    ],
+    'trenz': [
+      { title: "GENDER", options: ['Men (15)', 'Women (15)', 'Kids (10)', 'Unisex (10)'] },
+      { title: "PRODUCT TYPE", options: ['Oversized T-Shirts (20)', 'Classic T-Shirts (15)', 'Shirts (10)'] },
+      { title: "FIT", options: ['Oversized (20)', 'Relaxed (15)', 'Regular (10)'] },
+      { title: "THEME/STYLE", options: ['Festive (15)', 'Streetwear (15)', 'Casual (10)'] },
+    ]
+  };
+
+  const currentCategoryFilters = categorySlug ? categoryFilterSpec[categorySlug] || [] : [];
+
+  const bannerConfig: Record<string, { title: string, image: string }> = {
+    'custom-sports-jerseys': { title: "Custom Jerseys", image: "/categories/custom_sports.jpg" },
+    'polos': { title: "Premium Polos", image: "/categories/premium_polos.jpg" },
+    't-shirts': { title: "Custom T-Shirts", image: "/categories/custom_tshirts.jpg" },
+    'hoodies-sweatshirts-jackets': { title: "Hoodies & Jackets", image: "/categories/hoodies_sweatshirts.jpg" },
+    'accessories': { title: "Accessories", image: "/categories/accessories_group.jpg" },
+    'stationery-gifting-drinkware': { title: "Corporate Gifting", image: "/categories/corporate_gifting.jpg" },
+    'trenz': { title: "Trenz Collection", image: "/categories/trenz_oversized_festive.jpg" }
+  };
+  
+  const currentBanner = categorySlug ? (bannerConfig[categorySlug] || { title: "The Shop", image: "/process/step1.jpg" }) : { title: "The Shop", image: "/process/step1.jpg" };
+
+
   const toggleCategory = (category: string) => {
     setExpandedCategories(prev => 
       prev.includes(category) ? prev.filter(c => c !== category) : [...prev, category]
@@ -164,6 +248,7 @@ export default function CategoryPage() {
 
   const sortedProducts = useMemo(() => {
     let result = products.filter(product => {
+      if (categorySlug && product.category !== categorySlug) return false;
       if (selectedBrands.length > 0 && !selectedBrands.includes(product.brand)) return false;
       if (selectedColors.length > 0 && !selectedColors.includes(product.variant)) return false;
       if (selectedSizes.length > 0) {
@@ -194,7 +279,7 @@ export default function CategoryPage() {
         <div className="relative w-full overflow-hidden bg-[#111827] text-white min-h-[400px] md:min-h-[500px] flex items-center justify-center flex-col pt-24 pb-16 md:pb-24">
           {/* Background Image & Overlay */}
           <div className="absolute inset-0 z-0">
-            <img src="/process/step1.jpg" alt="Shop Banner" className="w-full h-full object-cover object-center opacity-40 mix-blend-luminosity scale-105 hover:scale-100 transition-transform duration-1000" />
+            <img src={currentBanner.image} alt={currentBanner.title} className="w-full h-full object-cover object-center opacity-40 mix-blend-luminosity scale-105 hover:scale-100 transition-transform duration-1000" />
             <div className="absolute inset-0 bg-gradient-to-t from-[#111827] via-[#111827]/60 to-[#111827]/20" />
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(255,255,255,0.15)_0%,_transparent_70%)] pointer-events-none" />
           </div>
@@ -216,7 +301,7 @@ export default function CategoryPage() {
               Discover The Collection
               <span className="w-8 h-[1px] bg-white/40"></span>
             </span>
-            <h1 className="text-5xl md:text-7xl lg:text-[100px] font-display font-black tracking-tight drop-shadow-2xl text-white leading-none">The Shop</h1>
+            <h1 className="text-5xl md:text-7xl lg:text-[100px] font-display font-black tracking-tight drop-shadow-2xl text-white leading-none">{currentBanner.title}</h1>
           </div>
         </div>
 
@@ -225,21 +310,20 @@ export default function CategoryPage() {
           <div className="max-w-[1440px] mx-auto px-4 md:px-8">
 
             {/* Top Bar: Breadcrumb & Toolbar */}
-            <div className="flex flex-col lg:flex-row lg:items-center justify-between mb-8 gap-4 border-b border-gray-100 pb-4">
+            <div className="flex flex-col lg:flex-row lg:items-center justify-between mb-12 gap-4 border-b border-gray-100 pb-8">
               
               {/* Breadcrumb & Back Button */}
               <div className="flex items-center gap-4">
                 <button 
                   onClick={() => router.back()} 
-                  className="w-9 h-9 flex items-center justify-center rounded-full bg-white border border-gray-200 text-yoode-onyx hover:bg-yoode-onyx hover:text-white transition-all shadow-sm group" 
-                  aria-label="Go Back"
+                  className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center hover:bg-gray-50 transition-colors shrink-0 cursor-pointer group"
                 >
-                  <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-0.5" />
+                  <ArrowLeft className="w-4 h-4 text-gray-600 transition-transform group-hover:-translate-x-0.5" />
                 </button>
-                <div className="text-[11px] font-medium text-gray-500 uppercase tracking-wider flex items-center gap-2">
-                  <a href="/" className="hover:text-yoode-onyx transition-colors">Home</a>
-                  <ChevronRight className="w-3 h-3" />
-                  <span className="text-yoode-onyx font-bold">Apparel</span>
+                <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-gray-400">
+                  <a href="/" className="hover:text-black transition-colors cursor-pointer">Home</a>
+                  <span>/</span>
+                  <span className="text-black">{currentBanner.title}</span>
                 </div>
               </div>
 
@@ -266,146 +350,7 @@ export default function CategoryPage() {
             {/* Left Sidebar */}
             <aside className={`w-full lg:w-[280px] shrink-0 transition-all duration-300 ${isSidebarVisible ? 'block' : 'hidden'}`}>
               
-              <div className="mb-10">
-                <button 
-                  onClick={() => setShowCategoriesSection(!showCategoriesSection)}
-                  className="w-full text-[13px] font-bold text-yoode-onyx uppercase tracking-widest mb-2 flex items-center justify-between border-b border-gray-100 pb-4 cursor-pointer"
-                >
-                  CATEGORIES
-                  <span className="text-gray-400 transition-transform duration-300 text-lg">
-                    {showCategoriesSection ? "-" : "+"}
-                  </span>
-                </button>
-                
-                <AnimatePresence initial={false}>
-                  {showCategoriesSection && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.3, ease: "easeInOut" }}
-                      className="overflow-hidden"
-                    >
-                      <div className="space-y-4 mt-4">
-                  <div className="group">
-                    <button 
-                      onClick={() => toggleCategory("APPAREL")}
-                      className={`w-full flex items-center justify-between text-sm transition-colors ${expandedCategories.includes("APPAREL") ? "font-semibold text-yoode-onyx" : "font-medium text-gray-500 hover:text-yoode-onyx"}`}
-                    >
-                      APPAREL
-                      <span className="text-gray-400 transition-transform duration-300">
-                        {expandedCategories.includes("APPAREL") ? "-" : "+"}
-                      </span>
-                    </button>
-                    <AnimatePresence initial={false}>
-                      {expandedCategories.includes("APPAREL") && (
-                        <motion.div
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: "auto", opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.3, ease: "easeInOut" }}
-                          className="overflow-hidden"
-                        >
-                          <div className="pl-4 mt-3 pb-2 space-y-3 flex flex-col">
-                            <a href="#" className="text-[13px] text-gray-500 hover:text-yoode-onyx transition-colors">T-Shirts</a>
-                            <a href="#" className="text-[13px] text-gray-500 hover:text-yoode-onyx transition-colors">Polo Shirts</a>
-                            <a href="#" className="text-[13px] text-gray-500 hover:text-yoode-onyx transition-colors">Jackets</a>
-                            <a href="#" className="text-[13px] text-gray-500 hover:text-yoode-onyx transition-colors">Hoodies</a>
-                            <a href="#" className="text-[13px] text-gray-500 hover:text-yoode-onyx transition-colors">Activewear</a>
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
-                  
-                  <div className="group border-t border-gray-100 pt-4">
-                    <button 
-                      onClick={() => toggleCategory("ACCESSORIES")}
-                      className={`w-full flex items-center justify-between text-sm transition-colors ${expandedCategories.includes("ACCESSORIES") ? "font-semibold text-yoode-onyx" : "font-medium text-gray-500 hover:text-yoode-onyx"}`}
-                    >
-                      ACCESSORIES
-                      <span className="text-gray-400 transition-transform duration-300">
-                        {expandedCategories.includes("ACCESSORIES") ? "-" : "+"}
-                      </span>
-                    </button>
-                    <AnimatePresence initial={false}>
-                      {expandedCategories.includes("ACCESSORIES") && (
-                        <motion.div
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: "auto", opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.3, ease: "easeInOut" }}
-                          className="overflow-hidden"
-                        >
-                          <div className="pl-4 mt-3 pb-2 space-y-3 flex flex-col">
-                            <a href="#" className="text-[13px] text-gray-500 hover:text-yoode-onyx transition-colors">Caps & Hats</a>
-                            <a href="#" className="text-[13px] text-gray-500 hover:text-yoode-onyx transition-colors">Socks</a>
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
 
-                  <div className="group border-t border-gray-100 pt-4">
-                    <button 
-                      onClick={() => toggleCategory("BAGS & BACKPACKS")}
-                      className={`w-full flex items-center justify-between text-sm transition-colors ${expandedCategories.includes("BAGS & BACKPACKS") ? "font-semibold text-yoode-onyx" : "font-medium text-gray-500 hover:text-yoode-onyx"}`}
-                    >
-                      BAGS & BACKPACKS
-                      <span className="text-gray-400 transition-transform duration-300">
-                        {expandedCategories.includes("BAGS & BACKPACKS") ? "-" : "+"}
-                      </span>
-                    </button>
-                    <AnimatePresence initial={false}>
-                      {expandedCategories.includes("BAGS & BACKPACKS") && (
-                        <motion.div
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: "auto", opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.3, ease: "easeInOut" }}
-                          className="overflow-hidden"
-                        >
-                          <div className="pl-4 mt-3 pb-2 space-y-3 flex flex-col">
-                            <a href="#" className="text-[13px] text-gray-500 hover:text-yoode-onyx transition-colors">Laptop Bags</a>
-                            <a href="#" className="text-[13px] text-gray-500 hover:text-yoode-onyx transition-colors">Travel Bags</a>
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
-
-                  <div className="group border-t border-gray-100 pt-4">
-                    <button 
-                      onClick={() => toggleCategory("GIFT BOXES")}
-                      className={`w-full flex items-center justify-between text-sm transition-colors ${expandedCategories.includes("GIFT BOXES") ? "font-semibold text-yoode-onyx" : "font-medium text-gray-500 hover:text-yoode-onyx"}`}
-                    >
-                      GIFT BOXES
-                      <span className="text-gray-400 transition-transform duration-300">
-                        {expandedCategories.includes("GIFT BOXES") ? "-" : "+"}
-                      </span>
-                    </button>
-                    <AnimatePresence initial={false}>
-                      {expandedCategories.includes("GIFT BOXES") && (
-                        <motion.div
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: "auto", opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.3, ease: "easeInOut" }}
-                          className="overflow-hidden"
-                        >
-                          <div className="pl-4 mt-3 pb-2 space-y-3 flex flex-col">
-                            <a href="#" className="text-[13px] text-gray-500 hover:text-yoode-onyx transition-colors">Corporate Gifting</a>
-                            <a href="#" className="text-[13px] text-gray-500 hover:text-yoode-onyx transition-colors">Event Boxes</a>
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
 
               <div className="mb-10">
                 <button 
@@ -428,11 +373,8 @@ export default function CategoryPage() {
                       className="overflow-hidden"
                     >
                       <div className="mt-4">
-                {/* Universal Filters */}
-                {[
-                  { title: "PRODUCT TYPE", state: selectedProductTypes, setState: setSelectedProductTypes, options: ['Polo (24)', 'T-shirt (18)', 'Hoodie (12)', 'Sweatshirt (8)', 'Jacket (5)', 'Jersey (15)'] },
-                  { title: "GENDER", state: selectedGenders, setState: setSelectedGenders, options: ['Men (35)', 'Women (28)', 'Unisex (15)', 'Kids (Boys) (10)', 'Kids (Girls) (8)'] },
-                ].map(filter => (
+                {/* Category Specific Filters */}
+                {currentCategoryFilters.length > 0 && currentCategoryFilters.map(filter => (
                   <div key={filter.title} className="mb-8 border-b border-gray-100 pb-4">
                     <button 
                       onClick={() => toggleFilterSection(filter.title)}
@@ -456,15 +398,15 @@ export default function CategoryPage() {
                             {filter.options.map(option => {
                               const optionName = option.split(' (')[0];
                               const count = option.split('(')[1];
-                              const isSelected = filter.state.includes(optionName);
+                              const isSelected = (selectedSpecificFilters[filter.title] || []).includes(optionName);
                               return (
-                                <label key={option} className="flex items-center group cursor-pointer" onClick={(e) => { e.preventDefault(); toggleFilter(filter.setState, optionName); }}>
+                                <label key={option} className="flex items-center group cursor-pointer" onClick={(e) => { e.preventDefault(); toggleSpecificFilter(filter.title, optionName); }}>
                                   <div className={`w-3.5 h-3.5 mr-3 rounded-sm border flex items-center justify-center transition-colors ${isSelected ? 'bg-yoode-onyx border-yoode-onyx text-white' : 'border-gray-300 group-hover:border-yoode-onyx'}`}>
                                     {isSelected && <Check className="w-2.5 h-2.5" strokeWidth={3} />}
                                   </div>
                                   <div className="flex-1 flex items-center justify-between">
                                     <span className={`text-[13px] transition-colors ${isSelected ? 'text-yoode-onyx font-semibold' : 'text-gray-500 group-hover:text-yoode-onyx'}`}>{optionName}</span>
-                                    <span className={`text-[11px] transition-colors ${isSelected ? 'text-yoode-onyx font-semibold' : 'text-gray-400 group-hover:text-yoode-onyx'}`}>({count}</span>
+                                    <span className={`text-[11px] transition-colors ${isSelected ? 'text-yoode-onyx font-semibold' : 'text-gray-400 group-hover:text-yoode-onyx'}`}>({count.replace(')', '')})</span>
                                   </div>
                                 </label>
                               );
@@ -475,6 +417,8 @@ export default function CategoryPage() {
                     </AnimatePresence>
                   </div>
                 ))}
+
+
 
                 {/* Price Filter (Range) */}
                 <div className="mb-8 border-b border-gray-100 pb-4">
@@ -517,55 +461,7 @@ export default function CategoryPage() {
                   </AnimatePresence>
                 </div>
 
-                {/* Chips and Checkboxes */}
-                {[
-                  { title: "SIZE", state: selectedSizes, setState: setSelectedSizes, options: ['S (12)', 'M (15)', 'L (18)', 'XL (14)', '2XL (8)', '3XL (4)', '22 (5)', '24 (6)'] },
-                  { title: "COLOR FAMILY", state: selectedColors, setState: setSelectedColors, options: ['Black (25)', 'White (18)', 'Navy (15)', 'Grey (12)', 'Red (10)', 'Blue (8)'] },
-                  { title: "CUSTOMISATION", state: selectedCustomisations, setState: setSelectedCustomisations, options: ['Logo print (32)', 'Name/number (15)', 'Embroidery-ready (28)', 'Full custom (12)'] },
-                  { title: "BRAND", state: selectedBrands, setState: setSelectedBrands, options: ['Yoode Custom (45)', 'RedBolt (12)', 'Jack&Jones (8)', 'Vero Moda (5)'] }
-                ].map(filter => (
-                  <div key={filter.title} className="mb-8 border-b border-gray-100 pb-4">
-                    <button 
-                      onClick={() => toggleFilterSection(filter.title)}
-                      className="w-full flex items-center justify-between text-[11px] font-bold text-yoode-onyx uppercase tracking-wider mb-4"
-                    >
-                      {filter.title}
-                      <span className="text-gray-400 transition-transform duration-300">
-                        {expandedFilters.includes(filter.title) ? "-" : "+"}
-                      </span>
-                    </button>
-                    <AnimatePresence initial={false}>
-                      {expandedFilters.includes(filter.title) && (
-                        <motion.div
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: "auto", opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.3, ease: "easeInOut" }}
-                          className="overflow-hidden"
-                        >
-                          <div className="space-y-3 pb-2">
-                            {filter.options.map(option => {
-                              const optionName = option.split(' (')[0];
-                              const count = option.split('(')[1];
-                              const isSelected = filter.state.includes(optionName);
-                              return (
-                                <label key={option} className="flex items-center group cursor-pointer" onClick={(e) => { e.preventDefault(); toggleFilter(filter.setState, optionName); }}>
-                                  <div className={`w-3.5 h-3.5 mr-3 rounded-sm border flex items-center justify-center transition-colors ${isSelected ? 'bg-yoode-onyx border-yoode-onyx text-white' : 'border-gray-300 group-hover:border-yoode-onyx'}`}>
-                                    {isSelected && <Check className="w-2.5 h-2.5" strokeWidth={3} />}
-                                  </div>
-                                  <div className="flex-1 flex items-center justify-between">
-                                    <span className={`text-[13px] transition-colors ${isSelected ? 'text-yoode-onyx font-semibold' : 'text-gray-500 group-hover:text-yoode-onyx'}`}>{optionName}</span>
-                                    <span className={`text-[11px] transition-colors ${isSelected ? 'text-yoode-onyx font-semibold' : 'text-gray-400 group-hover:text-yoode-onyx'}`}>({count.replace(')', '')})</span>
-                                  </div>
-                                </label>
-                              );
-                            })}
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
-                ))}
+
                       </div>
                     </motion.div>
                   )}

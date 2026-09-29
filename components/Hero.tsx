@@ -173,7 +173,7 @@ export function Hero() {
 
       {/* Bottom Category Dock */}
       <div className="absolute bottom-20 md:bottom-32 z-40 w-full px-6 md:px-12 flex justify-center">
-        <div className="flex overflow-x-auto lg:grid lg:grid-cols-4 gap-4 lg:gap-6 w-full max-w-[1600px] pb-4 md:pb-0 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+        <div className="flex overflow-x-auto lg:grid lg:grid-cols-4 gap-4 lg:gap-6 w-full max-w-[1600px] pb-4 md:pb-0 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] cursor-grab active:cursor-grabbing">
           {slides.map((s, idx) => (
             <div 
               key={s.id} 
