@@ -1,0 +1,798 @@
+{
+  "images": [
+    {
+      "src": "https://yoode.com/cdn/shop/files/yd-seo-banner-custom-jersey-team.png?v=1789121863&width=1200",
+      "alt": "Custom Sports Jerseys Online - Yoode"
+    },
+    {
+      "src": "https://yoode.com/cdn/shop/files/cricket.png?v=1789385809&width=1600",
+      "alt": "Custom Cricket Jerseys Online - Yoode"
+    },
+    {
+      "src": "https://yoode.com/cdn/shop/files/Football.webp?v=1789388323&width=1600",
+      "alt": "Custom Football Jerseys Online - Yoode"
+    },
+    {
+      "src": "https://yoode.com/cdn/shop/files/BasketBall.webp?v=1789388369&width=1600",
+      "alt": "Custom Basketball Jerseys Online - Yoode"
+    },
+    {
+      "src": "https://yoode.com/cdn/shop/files/Badminton.webp?v=1789446482&width=1600",
+      "alt": "Custom Badminton Jerseys Online - Yoode"
+    },
+    {
+      "src": "https://yoode.com/cdn/shop/files/Cycling.webp?v=1789531339&width=1600",
+      "alt": "Custom Cycling Jerseys Online - Yoode"
+    },
+    {
+      "src": "https://yoode.com/cdn/shop/files/Esports.webp?v=1789531388&width=1600",
+      "alt": "Custom Esport Jerseys Online - Yoode"
+    },
+    {
+      "src": "https://yoode.com/cdn/shop/files/VolleyBall.webp?v=1789531414&width=1600",
+      "alt": "Custom Volleyball Jerseys Online - Yoode"
+    },
+    {
+      "src": "https://yoode.com/cdn/shop/files/Running.webp?v=1789531433&width=1600",
+      "alt": "Custom Running Jerseys Online - Yoode"
+    },
+    {
+      "src": "https://yoode.com/cdn/shop/files/yd-seo-steps-storefront.png?v=1789122680&width=900",
+      "alt": "The Yoode online store showing two custom jersey styles ready to personalise"
+    },
+    {
+      "src": "https://yoode.com/cdn/shop/files/yd-seo-price-junior-jersey.png?v=1789124822&width=600",
+      "alt": "Custom Junior Jerseys - Yoode"
+    },
+    {
+      "src": "https://yoode.com/cdn/shop/files/yd-seo-price-adult-jersey.png?v=1789124822&width=600",
+      "alt": "Custom Adult Jerseys- Yoode"
+    },
+    {
+      "src": "https://yoode.com/cdn/shop/files/yd-seo-price-full-sleeve-jersey.png?v=1789124822&width=600",
+      "alt": "Custom Full Sleeve Jerseys - Yoode"
+    },
+    {
+      "src": "https://yoode.com/cdn/shop/files/yd-seo-price-team-order.png?v=1789124823&width=600",
+      "alt": "Team Order Jerseys - Yoode"
+    },
+    {
+      "src": "https://yoode.com/cdn/shop/files/yd-seo-price-design-mockup.png?v=1789124822&width=600",
+      "alt": "Custom Design Mockup - Yoode"
+    },
+    {
+      "src": "https://yoode.com/cdn/shop/files/yd-seo-print-team-logo.png?v=1789123391&width=400",
+      "alt": "Custom Made Jerseys with Team Logo - Yoode"
+    },
+    {
+      "src": "https://yoode.com/cdn/shop/files/yd-seo-print-player-name.png?v=1789123391&width=400",
+      "alt": "Custom Made Jerseys with Player Name - Yoode"
+    },
+    {
+      "src": "https://yoode.com/cdn/shop/files/yd-seo-print-player-number.png?v=1789123391&width=400",
+      "alt": "Custom Made Jerseys with Player Number - Yoode"
+    },
+    {
+      "src": "https://yoode.com/cdn/shop/files/yd-seo-print-kit-front.png?v=1789123364&width=500",
+      "alt": "Front view of a custom kit with crest and sponsor print"
+    },
+    {
+      "src": "https://yoode.com/cdn/shop/files/yd-seo-print-kit-back.png?v=1789123364&width=500",
+      "alt": "Back view of the same kit showing the player name and number"
+    },
+    {
+      "src": "https://yoode.com/cdn/shop/files/yd-seo-print-sponsor-logos.png?v=1789123391&width=400",
+      "alt": "Custom Made Jerseys with Sponsor Logo - Yoode"
+    },
+    {
+      "src": "https://yoode.com/cdn/shop/files/yd-seo-print-team-colours.png?v=1789123391&width=400",
+      "alt": "Custom Made Jerseys with Team Colors - Yoode"
+    },
+    {
+      "src": "https://yoode.com/cdn/shop/files/yd-seo-print-patterns.png?v=1789123391&width=400",
+      "alt": "Custom Made Jerseys with Pattern and AOP - Yoode"
+    },
+    {
+      "src": "https://yoode.com/cdn/shop/files/yd-seo-icon-custom-design.png?v=1789122979&width=64",
+      "alt": ""
+    },
+    {
+      "src": "https://yoode.com/cdn/shop/files/yd-seo-icon-factory.png?v=1789122978&width=64",
+      "alt": ""
+    },
+    {
+      "src": "https://yoode.com/cdn/shop/files/yd-seo-icon-printing.png?v=1789122979&width=64",
+      "alt": ""
+    },
+    {
+      "src": "https://yoode.com/cdn/shop/files/yd-seo-icon-fabrics.png?v=1789122979&width=64",
+      "alt": ""
+    },
+    {
+      "src": "https://yoode.com/cdn/shop/files/yd-seo-icon-bulk.png?v=1789122979&width=64",
+      "alt": ""
+    },
+    {
+      "src": "https://yoode.com/cdn/shop/files/yd-seo-icon-delivery.png?v=1789122979&width=64",
+      "alt": ""
+    },
+    {
+      "src": "https://yoode.com/cdn/shop/files/yd-seo-why-design-team.png?v=1789122952&width=800",
+      "alt": "Custom Made Jerseys Designers - Yoode"
+    },
+    {
+      "src": "https://yoode.com/cdn/shop/files/yd-seo-bulk-team-kit.png?v=1789124615&width=1200",
+      "alt": "Custom Jerseys for Bulk & Teams - Yoode"
+    },
+    {
+      "src": "https://yoode.com/cdn/shop/files/yd-seo-cta-football-white.png?v=1789124436&width=300",
+      "alt": ""
+    },
+    {
+      "src": "https://yoode.com/cdn/shop/files/yd-seo-cta-basketball-blue.png?v=1789124437&width=300",
+      "alt": ""
+    },
+    {
+      "src": "https://yoode.com/cdn/shop/files/yd-seo-cta-jersey-blue-pair.png?v=1789124437&width=300",
+      "alt": ""
+    },
+    {
+      "src": "https://yoode.com/cdn/shop/files/yd-seo-cta-cycling-blue.png?v=1789124436&width=300",
+      "alt": ""
+    },
+    {
+      "src": "https://yoode.com/cdn/shop/files/yd-seo-cta-baseball-cream.png?v=1789124438&width=300",
+      "alt": ""
+    },
+    {
+      "src": "https://yoode.com/cdn/shop/files/yd-seo-cta-basketball-kit.png?v=1789124437&width=300",
+      "alt": ""
+    },
+    {
+      "src": "https://yoode.com/cdn/shop/files/yd-seo-store-bangalore.png?v=1789124334&width=800",
+      "alt": "Custom Sports Jerseys Store in Bangalore - Yoode"
+    },
+    {
+      "src": "https://yoode.com/cdn/shop/files/yd-seo-store-chennai.png?v=1789124334&width=800",
+      "alt": "Custom Sports Jerseys Store in Chennai - Yoode"
+    },
+    {
+      "src": "https://yoode.com/cdn/shop/files/yd-seo-store-trivandrum.png?v=1789124334&width=800",
+      "alt": "Custom Sports Jerseys Store in Trivandrum - Yoode"
+    },
+    {
+      "src": "https://yoode.com/cdn/shop/files/yd-seo-store-marthandam.png?v=1789124334&width=800",
+      "alt": "Custom Sports Jerseys Store in Marthandam - Yoode"
+    },
+    {
+      "src": "https://yoode.com/cdn/shop/files/yd-seo-outro-kit-display.png?v=1789123942&width=800",
+      "alt": "Custom Team Jerseys Online - Yoode"
+    },
+    {
+      "src": "https://yoode.com/cdn/shop/files/yd-seo-outro-player.png?v=1789123949&width=700",
+      "alt": "Design Your Own Jersey - Yoode"
+    }
+  ],
+  "content": [
+    {
+      "type": "h1",
+      "text": "Wear Your Team Pride with a Custom Sports Jersey"
+    },
+    {
+      "type": "p",
+      "text": "Bring together your team colours, logo, player details and preferred style in a jersey design that gives every player a consistent, recognisable look and represents your team on the field. Order your custom jersey online and get your jerseys delivered across worldwide."
+    },
+    {
+      "type": "a",
+      "text": "Call Our Team"
+    },
+    {
+      "type": "p",
+      "text": "From Rs.490"
+    },
+    {
+      "type": "p",
+      "text": "Per Jersey"
+    },
+    {
+      "type": "p",
+      "text": "500+"
+    },
+    {
+      "type": "p",
+      "text": "Units A Day"
+    },
+    {
+      "type": "p",
+      "text": "4"
+    },
+    {
+      "type": "p",
+      "text": "Experience Centres"
+    },
+    {
+      "type": "p",
+      "text": "99%"
+    },
+    {
+      "type": "p",
+      "text": "Quality Checks"
+    },
+    {
+      "type": "h2",
+      "text": "IN-HOUSE JERSEY PRODUCTION"
+    },
+    {
+      "type": "p",
+      "text": "Made at our Tirupur unit for better control over quality and consistency."
+    },
+    {
+      "type": "h2",
+      "text": "NO MINIMUM ORDER"
+    },
+    {
+      "type": "p",
+      "text": "Order one jersey or customise jerseys for your entire team."
+    },
+    {
+      "type": "h2",
+      "text": "DESIGN MOCKUP"
+    },
+    {
+      "type": "p",
+      "text": "Review and refine your jersey design before production begins."
+    },
+    {
+      "type": "h2",
+      "text": "DELIVERY ACROSS WORLDWIDE"
+    },
+    {
+      "type": "p",
+      "text": "Get your completed custom jerseys delivered anywhere across worldwide."
+    },
+    {
+      "type": "h2",
+      "text": "SHOP CUSTOM JERSEYS BY SPORT"
+    },
+    {
+      "type": "p",
+      "text": "Choose your sport, neck, sleeve and fit, then design your own jersey with unique team colours, logos and player details."
+    },
+    {
+      "type": "p",
+      "text": "Thesestyles are being photographed right now. Send us your design on WhatsApp and we will mock it up on this kit."
+    },
+    {
+      "type": "h2",
+      "text": "HOW TO CREATE YOUR OWN JERSEY"
+    },
+    {
+      "type": "p",
+      "text": "Four simple steps take your jersey from an idea to a finished kit, ready for your team"
+    },
+    {
+      "type": "p",
+      "text": "01"
+    },
+    {
+      "type": "h3",
+      "text": "CHOOSE YOUR STYLE"
+    },
+    {
+      "type": "p",
+      "text": "Choose your preferred neck, sleeve and fit from options including polo, crew, V-neck, mandarin, raglan, half-sleeve and full-sleeve styles."
+    },
+    {
+      "type": "p",
+      "text": "02"
+    },
+    {
+      "type": "h3",
+      "text": "SHARE YOUR IDEA"
+    },
+    {
+      "type": "p",
+      "text": "Share your logo, colours, artwork or reference on WhatsApp. No design yet? Our team can create one based on your requirements."
+    },
+    {
+      "type": "p",
+      "text": "03"
+    },
+    {
+      "type": "h3",
+      "text": "APPROVE THE MOCKUP"
+    },
+    {
+      "type": "p",
+      "text": "Review your digital mock-up with names, numbers and sponsor placements. Request changes until every detail is ready for final approval."
+    },
+    {
+      "type": "p",
+      "text": "04"
+    },
+    {
+      "type": "h3",
+      "text": "PRODUCTION & DELIVERY"
+    },
+    {
+      "type": "p",
+      "text": "Once approved, your jerseys are printed, stitched and quality-checked in-house, then delivered or collected from a Yoode Experience Centre."
+    },
+    {
+      "type": "h2",
+      "text": "CUSTOM MADE JERSEYS STARTING FROM \u0393\u00e9\u2563490"
+    },
+    {
+      "type": "p",
+      "text": "Choose your jersey style, fabric, sleeve length and print coverage, with player names and numbers included. Pricing varies by order quantity, with better per-piece pricing available for larger teams."
+    },
+    {
+      "type": "a",
+      "text": "\u252c\u00e1JUNIOR JERSEYStarts from \u0393\u00e9\u2563490"
+    },
+    {
+      "type": "h3",
+      "text": "\u252c\u00e1JUNIOR JERSEY"
+    },
+    {
+      "type": "p",
+      "text": "Starts from \u0393\u00e9\u2563490"
+    },
+    {
+      "type": "a",
+      "text": "ADULT JERSEYStarts from \u0393\u00e9\u2563650"
+    },
+    {
+      "type": "h3",
+      "text": "ADULT JERSEY"
+    },
+    {
+      "type": "p",
+      "text": "Starts from \u0393\u00e9\u2563650"
+    },
+    {
+      "type": "a",
+      "text": "FULL-SLEEVE & RAGLAN STYLESStarts from \u0393\u00e9\u2563750\u252c\u00e1"
+    },
+    {
+      "type": "h3",
+      "text": "FULL-SLEEVE & RAGLAN STYLES"
+    },
+    {
+      "type": "p",
+      "text": "Starts from \u0393\u00e9\u2563750\u252c\u00e1"
+    },
+    {
+      "type": "a",
+      "text": "TEAM ORDERS (11+ PIECES)Lower per-piece pricing"
+    },
+    {
+      "type": "h3",
+      "text": "TEAM ORDERS (11+ PIECES)"
+    },
+    {
+      "type": "p",
+      "text": "Lower per-piece pricing"
+    },
+    {
+      "type": "a",
+      "text": "Design Mockup\u252c\u00e1Preview"
+    },
+    {
+      "type": "h3",
+      "text": "Design Mockup"
+    },
+    {
+      "type": "p",
+      "text": "\u252c\u00e1Preview"
+    },
+    {
+      "type": "h2",
+      "text": "WHAT YOU CAN CUSTOMISE ON YOUR JERSEY\u252c\u00e1"
+    },
+    {
+      "type": "p",
+      "text": "Add team identity, player names and sponsor branding to a custom sports jersey. Sublimation makes designs part of fabric."
+    },
+    {
+      "type": "h3",
+      "text": "TEAM LOGO"
+    },
+    {
+      "type": "p",
+      "text": "Add your club, school or company logo to the chest, sleeve or back in your preferred position."
+    },
+    {
+      "type": "h3",
+      "text": "PLAYER NAME"
+    },
+    {
+      "type": "p",
+      "text": "Add individual player names to each jersey. Share the player list with us, and we\u0393\u00c7\u00d6ll take care of the personalisation."
+    },
+    {
+      "type": "h3",
+      "text": "PLAYER NUMBER"
+    },
+    {
+      "type": "p",
+      "text": "Choose the number style, size and placement for the front or back to suit your sport and team design."
+    },
+    {
+      "type": "h3",
+      "text": "SPONSOR LOGOS"
+    },
+    {
+      "type": "p",
+      "text": "Add sponsor logos to the front, sleeves or back while keeping your overall team branding clear and balanced."
+    },
+    {
+      "type": "h3",
+      "text": "TEAM COLOURS"
+    },
+    {
+      "type": "p",
+      "text": "Match your team colours or specific colour shades, with separate options available for home and away jerseys."
+    },
+    {
+      "type": "h3",
+      "text": "PATTERNS & ALL-OVER PRINTS"
+    },
+    {
+      "type": "p",
+      "text": "Add gradients, geometric patterns and full-sublimation graphics that flow across the jersey as part of your overall design."
+    },
+    {
+      "type": "h2",
+      "text": "WHY TEAMS CHOOSE YOODE FOR CUSTOM JERSEYS"
+    },
+    {
+      "type": "h3",
+      "text": "PERSONALISED FOR EVERY PLAYER"
+    },
+    {
+      "type": "p",
+      "text": "Keep your team design consistent while giving every player their own name and number across the complete jersey order."
+    },
+    {
+      "type": "h3",
+      "text": "HOME, AWAY & TEAM VARIANTS"
+    },
+    {
+      "type": "p",
+      "text": "Create coordinated home and away jerseys, along with captain, goalkeeper, staff or supporter variations based on your team requirements."
+    },
+    {
+      "type": "h3",
+      "text": "ONE ORDER, MULTIPLE SIZES"
+    },
+    {
+      "type": "p",
+      "text": "Order junior and adult sizes together, with sizes ranging from 22 to 52 for different players within the same team."
+    },
+    {
+      "type": "h3",
+      "text": "ALL-OVER PRINT DESIGN FREEDOM"
+    },
+    {
+      "type": "p",
+      "text": "Go beyond basic logo placement with gradients, patterns and full-sublimation graphics that can extend across the entire jersey."
+    },
+    {
+      "type": "h3",
+      "text": "REVISE BEFORE PRODUCTION"
+    },
+    {
+      "type": "p",
+      "text": "Review your jersey mockup and request changes to colours, player details and placements before the final design moves into production."
+    },
+    {
+      "type": "h3",
+      "text": "DELIVERED ACROSS WORLDWIDE"
+    },
+    {
+      "type": "p",
+      "text": "Nationwide delivery makes it easy to receive your custom jerseys wherever your team is."
+    },
+    {
+      "type": "h3",
+      "text": "READY TO BUILD YOUR TEAM KIT?"
+    },
+    {
+      "type": "p",
+      "text": "Planning jerseys for your team, school, club or organisation? Work with Yoode as your jersey maker and get your complete team order started with ease."
+    },
+    {
+      "type": "h2",
+      "text": "BULK & TEAM ORDERS"
+    },
+    {
+      "type": "p",
+      "text": "Personalized sports jerseys for teams, schools, colleges, tournaments and leagues across worldwide."
+    },
+    {
+      "type": "h3",
+      "text": "BULK PRODUCTION CAPACITY"
+    },
+    {
+      "type": "p",
+      "text": "With capacity for 1,000+ units a day, Yoode can handle large tournaments, leagues and high-volume team requirements."
+    },
+    {
+      "type": "h3",
+      "text": "BULK PRICING"
+    },
+    {
+      "type": "p",
+      "text": "Get better per-piece pricing on larger quantities, with tea m pricing available for orders of 11 pieces or more."
+    },
+    {
+      "type": "h3",
+      "text": "TEAM VARIANTS"
+    },
+    {
+      "type": "p",
+      "text": "Create coordinated home and away kits, goalkeeper or captain variants, plus jerseys for staff and supporters."
+    },
+    {
+      "type": "h3",
+      "text": "MIXED SIZE ORDERS"
+    },
+    {
+      "type": "p",
+      "text": "Choose sizes from 22 to 52, covering junior and adult players within the same team order."
+    },
+    {
+      "type": "h3",
+      "text": "PLAYER-WISE PERSONALISATION"
+    },
+    {
+      "type": "p",
+      "text": "Add individual player names and numbers across your order while keeping the overall team design consistent."
+    },
+    {
+      "type": "h3",
+      "text": "APPROVE BEFORE PRODUCTION"
+    },
+    {
+      "type": "p",
+      "text": "Review and approve your final team design before the complete order moves into production."
+    },
+    {
+      "type": "a",
+      "text": "Connect on WhatsApp"
+    },
+    {
+      "type": "h2",
+      "text": "WHAT TEAMS SAY ABOUT THEIR YOODE JERSEYS"
+    },
+    {
+      "type": "p",
+      "text": "See what clubs, schools, colleges and company teams say about their custom jerseys, personalisation and overall ordering experience with Yoode."
+    },
+    {
+      "type": "p",
+      "text": "4.8"
+    },
+    {
+      "type": "p",
+      "text": "Google reviews across our Experience Centres"
+    },
+    {
+      "type": "a",
+      "text": "Read All Reviews"
+    },
+    {
+      "type": "p",
+      "text": "Kirthik K"
+    },
+    {
+      "type": "p",
+      "text": "Team Order"
+    },
+    {
+      "type": "p",
+      "text": "J Jeflin"
+    },
+    {
+      "type": "p",
+      "text": "Tournament Order"
+    },
+    {
+      "type": "p",
+      "text": "Nahla K"
+    },
+    {
+      "type": "p",
+      "text": "Bulk Order"
+    },
+    {
+      "type": "h2",
+      "text": "READY TO KIT OUT YOUR TEAM?"
+    },
+    {
+      "type": "p",
+      "text": "Share your jersey idea with Yoode on WhatsApp. We\u0393\u00c7\u00d6ll help shape the design, send your mockup for approval and move to production once you\u0393\u00c7\u00d6re happy."
+    },
+    {
+      "type": "h2",
+      "text": "EXPERIENCE YOODE IN PERSON"
+    },
+    {
+      "type": "p",
+      "text": "See the fabrics, check the print quality and discuss your jersey requirements with our team in person at a Yoode Experience Centre near you."
+    },
+    {
+      "type": "h3",
+      "text": "Bangalore"
+    },
+    {
+      "type": "p",
+      "text": "Ground Floor #68, Transpade Tower, Jyoti Nivas College Road, Koramangala Industrial Layout, 5th Block, Koramangala, Bengaluru 560095"
+    },
+    {
+      "type": "p",
+      "text": "Mon - Sat|10AM - 8PM"
+    },
+    {
+      "type": "a",
+      "text": "Get Directions"
+    },
+    {
+      "type": "a",
+      "text": "Whatsapp"
+    },
+    {
+      "type": "h3",
+      "text": "Chennai"
+    },
+    {
+      "type": "p",
+      "text": "First Floor, City Centre Complex, No.6, 66/39, Thirumalai Pillai Road, T. Nagar, Chennai, Tamil Nadu 600017"
+    },
+    {
+      "type": "p",
+      "text": "Mon - Sat|10AM - 8PM"
+    },
+    {
+      "type": "a",
+      "text": "Get Directions"
+    },
+    {
+      "type": "a",
+      "text": "Whatsapp"
+    },
+    {
+      "type": "h3",
+      "text": "Trivandrum"
+    },
+    {
+      "type": "p",
+      "text": "Ground Floor, CloudQ Towers, 223/18-1, Service Road, near Technopark Campus, Phase 1, Kazhakkoottam, Thiruvananthapuram, Kerala 695582"
+    },
+    {
+      "type": "p",
+      "text": "Mon - Sat|10AM - 8PM"
+    },
+    {
+      "type": "a",
+      "text": "Get Directions"
+    },
+    {
+      "type": "a",
+      "text": "Whatsapp"
+    },
+    {
+      "type": "h3",
+      "text": "Marthandam"
+    },
+    {
+      "type": "p",
+      "text": "Eraviputhoorkadai, 1st Floor, Adhesh Tower, near AB.AB & CO, Marthandam, Tamil Nadu 629155"
+    },
+    {
+      "type": "p",
+      "text": "Mon - Sat|10AM - 8PM"
+    },
+    {
+      "type": "a",
+      "text": "Get Directions"
+    },
+    {
+      "type": "a",
+      "text": "Whatsapp"
+    },
+    {
+      "type": "h2",
+      "text": "CUSTOM SPORTS JERSEYS IN INDIA"
+    },
+    {
+      "type": "p",
+      "text": "Looking for Custom Sports Jerseys for Your Team?Every team deserves a jersey that reflects its identity. From cricket teams and college squads to football clubs and corporate leagues, Yoode creates custom sports jerseys around your colours, logo and playing style. For teams looking for acustom jersey in Bangalore, you can design your jersey with player names, numbers, sponsor logos and complete team branding."
+    },
+    {
+      "type": "a",
+      "text": "custom jersey in Bangalore"
+    },
+    {
+      "type": "p",
+      "text": "How to Choose the Right Fabric for Your Sports Jersey?Choose from fabric options suited to different sports, weather conditions and activity levels. Create your own jersey with colours, patterns and graphics using sublimation printing, which becomes part of the fabric and helps the design stay sharp through regular wear and washing."
+    },
+    {
+      "type": "p",
+      "text": "How to Design Your Own Jersey with Yoode?From weekend teams and college tournaments to running groups and corporate leagues, Yoode makes ordering simple. Forcustom jersey printing in Bangalore, our team helps you refine the design, review your mock-up, request changes and approve the final artwork before production. As your custom jersey maker, Yoode supports you at every stage."
+    },
+    {
+      "type": "a",
+      "text": "custom jersey printing in Bangalore"
+    },
+    {
+      "type": "h4",
+      "text": "What is the minimum order quantity for custom jerseys?"
+    },
+    {
+      "type": "p",
+      "text": "There is no high minimum order. You can order a single jersey, a complete team set or a larger bulk quantity based on your requirement."
+    },
+    {
+      "type": "h4",
+      "text": "How much does a custom sports jersey cost?"
+    },
+    {
+      "type": "p",
+      "text": "Pricing depends on the jersey style, fabric, sleeve type, print coverage and quantity. Yoode custom jerseys start from \u0393\u00e9\u2563490, with team pricing available for larger orders."
+    },
+    {
+      "type": "h4",
+      "text": "Can you design my jersey if I don\u0393\u00c7\u00d6t have artwork?"
+    },
+    {
+      "type": "p",
+      "text": "Yes. Share your logo, team colours, a reference image or even a rough idea. Our design team can prepare a mockup for you to review before production."
+    },
+    {
+      "type": "h4",
+      "text": "What can I customise on my team jersey?\u252c\u00e1"
+    },
+    {
+      "type": "p",
+      "text": "You can customise team colours, logos, player names, numbers, sponsor logos, patterns and other design elements to create a jersey that represents your team."
+    },
+    {
+      "type": "h4",
+      "text": "Can every jersey have a different player name and number?"
+    },
+    {
+      "type": "p",
+      "text": "Yes. Individual player names and numbers can be added across the team order. Simply provide the final player list when confirming your customisation."
+    },
+    {
+      "type": "h4",
+      "text": "How long does it take to receive custom jerseys?"
+    },
+    {
+      "type": "p",
+      "text": "Turnaround depends on the design, quantity and production requirements. Production is scheduled after you review and approve the final jersey mockup."
+    },
+    {
+      "type": "h4",
+      "text": "Do you deliver custom jerseys anywhere?"
+    },
+    {
+      "type": "p",
+      "text": "Yes. Yoode delivers custom jersey orders across worldwide. Customers can also choose to collect their order from a Yoode Experience Centre where available."
+    },
+    {
+      "type": "h2",
+      "text": "READY TO CREATE YOUR CUSTOM TEAM JERSEY?"
+    },
+    {
+      "type": "p",
+      "text": "Bring your team colours, logo and player details together in a jersey designed around your squad."
+    },
+    {
+      "type": "a",
+      "text": "Need Help? Call +91 8069 750 293\u252c\u00e1"
+    }
+  ]
+}
