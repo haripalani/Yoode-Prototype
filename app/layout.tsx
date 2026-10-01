@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Poppins, Space_Grotesk } from "next/font/google";
+import { Poppins, Sora } from "next/font/google";
 import "./globals.css";
 import { FeaturesBar } from "@/components/FeaturesBar";
 
@@ -9,8 +9,8 @@ const poppins = Poppins({
   weight: ["300", "400", "500", "600", "700"],
 });
 
-const spaceGrotesk = Space_Grotesk({
-  variable: "--font-space-grotesk",
+const sora = Sora({
+  variable: "--font-sora",
   subsets: ["latin"],
 });
 
@@ -27,9 +27,9 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${poppins.variable} ${spaceGrotesk.variable} h-full antialiased`}
+      className={`${poppins.variable} ${sora.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col font-sans">
+      <body className="min-h-full flex flex-col font-sans overflow-x-hidden">
         <FeaturesBar />
         {children}
       </body>

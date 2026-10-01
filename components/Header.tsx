@@ -159,7 +159,7 @@ export function Header() {
   const pathname = usePathname();
 
   const isInnerPage = pathname !== "/" && pathname !== "/category";
-  const isDarkHeader = isScrolled || isInnerPage;
+  const isDarkHeader = isScrolled;
 
   useEffect(() => {
     const handleScroll = () => {

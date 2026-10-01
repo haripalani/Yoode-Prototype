@@ -41,6 +41,7 @@ const allCenters: ExperienceCenter[] = [
     city: "Chennai",
     state: "Tamil Nadu",
     address: "Coming Soon",
+    image: "https://yoode.com/cdn/shop/files/yd-seo-store-chennai.png?v=1789124334&width=800",
     coords: { x: 260, y: 580 },
     isComingSoon: true,
   },

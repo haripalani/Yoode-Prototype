@@ -67,24 +67,26 @@ export default function ShopBySport() {
   };
 
   return (
-    <section className="py-10 px-6 md:px-12 max-w-[1600px] mx-auto overflow-hidden flex flex-col items-center justify-center relative">
-      <div className="bg-[#EBEBEB] w-full rounded-[40px] py-16 md:py-24 relative overflow-hidden flex flex-col items-center">
-        <div className="text-center mb-12 px-6 max-w-3xl z-10">
-          <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-black text-yoode-onyx tracking-tight mb-4">
+    <section className="bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-white via-[#EBEBEB] to-[#DFDFDF] w-full py-10 md:py-16 relative overflow-hidden flex flex-col items-center">
+      <div className="w-full max-w-[1600px] mx-auto flex flex-col items-center">
+        <div className="text-center mb-8 px-6 w-full max-w-[1200px] z-10">
+          <div className="flex justify-center items-center gap-4 text-yoode-coral uppercase tracking-[0.2em] text-xs font-bold mb-4">
+            SPORTS CATEGORIES
+          </div>
+          <h2 className="font-display text-4xl md:text-5xl lg:text-[52px] font-black text-yoode-onyx tracking-tight mb-4 lg:whitespace-nowrap">
             SHOP CUSTOM JERSEYS BY SPORT
           </h2>
-          <p className="text-yoode-onyx/70 text-lg font-medium">
-            Choose your sport, neck, sleeve and fit, then design your own jersey with
-            unique team colours, logos and player details.
+          <p className="text-yoode-onyx/70 text-lg font-medium max-w-3xl mx-auto">
+            Choose your sport, neck, sleeve and fit, then design your own jersey with unique team colours, logos and player details.
           </p>
         </div>
 
-        <div className="relative w-full max-w-[1400px] flex items-center justify-center min-h-[500px] md:min-h-[600px] px-4 md:px-20">
+        <div className="relative w-full max-w-[1400px] flex items-center justify-between min-h-[350px] md:min-h-[500px] px-4 lg:px-12 z-20">
           
-          {/* Left Nav Button */}
+          {/* Left Nav Button (Mobile Only) */}
           <button 
             onClick={handlePrev}
-            className="absolute left-4 md:left-24 z-20 w-12 h-12 bg-white/80 backdrop-blur rounded-full flex items-center justify-center hover:scale-105 shadow-sm transition-transform"
+            className="lg:hidden absolute left-4 z-30 w-12 h-12 bg-white/80 backdrop-blur rounded-full flex items-center justify-center hover:scale-105 shadow-sm transition-transform"
             aria-label="Previous sport"
           >
             <svg className="w-5 h-5 text-yoode-onyx" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
@@ -92,87 +94,88 @@ export default function ShopBySport() {
             </svg>
           </button>
 
-          {/* Left Arc Icons (indices 0-3) */}
-          <div className="hidden lg:flex flex-col absolute left-[5%] xl:left-[10%] h-[400px] justify-between z-20">
+          {/* Left Arc Icons */}
+          <div className="hidden lg:flex flex-col h-[380px] justify-between w-48 z-20 shrink-0">
             {sportsData.slice(0, 4).map((sport, idx) => {
               const isActive = sport.id === activeSport.id;
-              // Arc offset calculations
-              const translateX = idx === 0 || idx === 3 ? '0px' : '-40px';
+              const translateX = idx === 1 || idx === 2 ? '-20px' : '0px';
               return (
                 <div 
                   key={sport.id} 
                   className="flex items-center gap-4 transition-transform duration-300"
                   style={{ transform: `translateX(${translateX})` }}
                 >
-                  {isActive && (
-                    <span className="font-bold text-sm text-yoode-onyx tracking-wide">{sport.name}</span>
-                  )}
                   <button
                     onClick={() => setActiveIndex(idx)}
-                    className={`w-14 h-14 rounded-full flex items-center justify-center shadow-md transition-all duration-300 ${
-                      isActive ? 'bg-yoode-onyx scale-110' : 'bg-white/80 backdrop-blur hover:bg-white border border-white/20'
+                    className={`w-16 h-16 shrink-0 rounded-full flex items-center justify-center shadow-md transition-all duration-300 ${
+                      isActive ? 'bg-yoode-onyx scale-110 shadow-xl' : 'bg-white/80 backdrop-blur hover:bg-white border border-white/20'
                     }`}
                   >
                     <img 
                       src={sport.icon} 
                       alt={sport.name} 
-                      className={`w-8 h-8 ${isActive ? 'brightness-0 invert' : ''}`} 
+                      className={`w-8 h-8 ${isActive ? 'brightness-0 invert' : 'brightness-0 opacity-80'}`} 
                     />
                   </button>
+                  {isActive && (
+                    <span className="font-bold text-sm text-yoode-onyx tracking-wide whitespace-nowrap">{sport.name}</span>
+                  )}
                 </div>
               );
             })}
           </div>
 
           {/* Center Image */}
-          <div className="relative w-full max-w-4xl h-[50vh] md:h-[60vh] min-h-[400px] md:min-h-[500px] z-10 transition-opacity duration-500">
+          <div className="relative w-full max-w-4xl h-[350px] md:h-[500px] z-10 mx-auto transition-opacity duration-500">
+            {/* Studio Floor Shadow */}
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-[60%] h-10 bg-black/20 blur-xl rounded-[100%] z-0 pointer-events-none"></div>
+            
             <Image 
               key={activeSport.id}
               src={activeSport.image} 
               alt={activeSport.name}
               fill
-              className="object-contain animate-fade-in mix-blend-multiply"
+              className="object-contain animate-fade-in mix-blend-multiply relative z-10 drop-shadow-[0_15px_25px_rgba(0,0,0,0.15)]"
               priority
             />
           </div>
 
-          {/* Right Arc Icons (indices 4-7) */}
-          <div className="hidden lg:flex flex-col absolute right-[5%] xl:right-[10%] h-[400px] justify-between z-20">
+          {/* Right Arc Icons */}
+          <div className="hidden lg:flex flex-col h-[380px] justify-between w-48 z-20 shrink-0 items-end">
             {sportsData.slice(4, 8).map((sport, idx) => {
               const actualIdx = idx + 4;
               const isActive = sport.id === activeSport.id;
-              // Arc offset calculations
-              const translateX = idx === 0 || idx === 3 ? '0px' : '40px';
+              const translateX = idx === 1 || idx === 2 ? '20px' : '0px';
               return (
                 <div 
                   key={sport.id} 
                   className="flex items-center gap-4 flex-row-reverse transition-transform duration-300"
                   style={{ transform: `translateX(${translateX})` }}
                 >
-                  {isActive && (
-                    <span className="font-bold text-sm text-yoode-onyx tracking-wide">{sport.name}</span>
-                  )}
                   <button
                     onClick={() => setActiveIndex(actualIdx)}
-                    className={`w-14 h-14 rounded-full flex items-center justify-center shadow-md transition-all duration-300 ${
-                      isActive ? 'bg-yoode-onyx scale-110' : 'bg-white/80 backdrop-blur hover:bg-white border border-white/20'
+                    className={`w-16 h-16 shrink-0 rounded-full flex items-center justify-center shadow-md transition-all duration-300 ${
+                      isActive ? 'bg-yoode-onyx scale-110 shadow-xl' : 'bg-white/80 backdrop-blur hover:bg-white border border-white/20'
                     }`}
                   >
                     <img 
                       src={sport.icon} 
                       alt={sport.name} 
-                      className={`w-8 h-8 ${isActive ? 'brightness-0 invert' : ''}`} 
+                      className={`w-8 h-8 ${isActive ? 'brightness-0 invert' : 'brightness-0 opacity-80'}`} 
                     />
                   </button>
+                  {isActive && (
+                    <span className="font-bold text-sm text-yoode-onyx tracking-wide whitespace-nowrap">{sport.name}</span>
+                  )}
                 </div>
               );
             })}
           </div>
 
-          {/* Right Nav Button */}
+          {/* Right Nav Button (Mobile Only) */}
           <button 
             onClick={handleNext}
-            className="absolute right-4 md:right-24 z-20 w-12 h-12 bg-white/80 backdrop-blur rounded-full flex items-center justify-center hover:scale-105 shadow-sm transition-transform"
+            className="lg:hidden absolute right-4 z-30 w-12 h-12 bg-white/80 backdrop-blur rounded-full flex items-center justify-center hover:scale-105 shadow-sm transition-transform"
             aria-label="Next sport"
           >
             <svg className="w-5 h-5 text-yoode-onyx" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
