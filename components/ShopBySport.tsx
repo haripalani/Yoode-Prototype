@@ -1,6 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const sportsData = [
   {
@@ -8,6 +9,7 @@ const sportsData = [
     name: 'Cricket Jersey',
     icon: 'https://yoode.com/cdn/shop/files/yd-seo-icon-cricket.svg?v=1789122339&width=96',
     image: 'https://yoode.com/cdn/shop/files/cricket.png?v=1789385809&width=1600',
+    link: '/custom-cricket-jerseys',
   },
   {
     id: 'football',
@@ -69,16 +71,17 @@ export default function ShopBySport() {
   return (
     <section className="bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-white via-[#EBEBEB] to-[#DFDFDF] w-full py-10 md:py-16 relative overflow-hidden flex flex-col items-center">
       <div className="w-full max-w-[1600px] mx-auto flex flex-col items-center">
-        <div className="text-center mb-8 px-6 w-full max-w-[1200px] z-10">
+        <div className="text-center mb-10 px-6 w-full z-10">
           <div className="flex justify-center items-center gap-4 text-yoode-coral uppercase tracking-[0.2em] text-xs font-bold mb-4">
             SPORTS CATEGORIES
           </div>
-          <h2 className="font-display text-4xl md:text-5xl lg:text-[52px] font-black text-yoode-onyx tracking-tight mb-4 lg:whitespace-nowrap">
+          <h2 className="font-display text-4xl md:text-5xl lg:text-[52px] font-black text-yoode-onyx tracking-tight mb-4">
             SHOP CUSTOM JERSEYS BY SPORT
           </h2>
-          <p className="text-yoode-onyx/70 text-lg font-medium max-w-3xl mx-auto">
+          <p className="text-yoode-onyx/70 text-lg font-medium w-full mb-8">
             Choose your sport, neck, sleeve and fit, then design your own jersey with unique team colours, logos and player details.
           </p>
+
         </div>
 
         <div className="relative w-full max-w-[1400px] flex items-center justify-between min-h-[350px] md:min-h-[500px] px-4 lg:px-12 z-20">
@@ -135,9 +138,18 @@ export default function ShopBySport() {
               src={activeSport.image} 
               alt={activeSport.name}
               fill
-              className="object-contain animate-fade-in mix-blend-multiply relative z-10 drop-shadow-[0_15px_25px_rgba(0,0,0,0.15)]"
+              className="object-contain animate-fade-in mix-blend-multiply relative z-10 drop-shadow-[0_15px_25px_rgba(0,0,0,0.15)] pb-16"
               priority
             />
+
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-30">
+              <Link 
+                href={activeSport.link || "#"} 
+                className="inline-block bg-[#EB6F3D] text-white font-bold uppercase tracking-widest text-sm px-10 py-4 rounded-full hover:bg-yoode-onyx transition-colors shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 whitespace-nowrap"
+              >
+                Design {activeSport.name}
+              </Link>
+            </div>
           </div>
 
           {/* Right Arc Icons */}
