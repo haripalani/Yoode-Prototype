@@ -6,36 +6,36 @@ import { Plus, ArrowUpRight, Shirt, Layers, PenTool } from "lucide-react";
 
 const faqs = [
   {
-    question: "What is the minimum order quantity for custom jerseys?",
-    answer: "There is no high minimum order. You can order a single jersey, a complete team set or a larger bulk quantity based on your requirement."
+    question: "1. Can I design my own cricket jersey online with Yoode?",
+    answer: "Yes. You can share your team colours, logo, player names, numbers, sponsor details, and design ideas online. The Yoode team will prepare the jersey design for your review before production."
   },
   {
-    question: "How much does a custom sports jersey cost?",
-    answer: "Pricing depends on the jersey style, fabric, sleeve type, print coverage and quantity. Yoode custom jerseys start from ₹490, with team pricing available for larger orders."
+    question: "2. Can I add my name and number to a cricket jersey?",
+    answer: "Yes. You can personalise individual jerseys with player names and numbers, making it easy to create coordinated jerseys for complete cricket teams, clubs, academies, and tournament squads."
   },
   {
-    question: "Can you design my jersey if I don’t have artwork?",
-    answer: "Yes. Share your logo, team colours, a reference image or even a rough idea. Our design team can prepare a mockup for you to review before production."
+    question: "3. Can Yoode create a personalized cricket jersey for every player?",
+    answer: "Yes. Each player can have their own name, number, size, and other approved details while maintaining one consistent cricket jersey design across the entire team."
   },
   {
-    question: "What can I customise on my team jersey?",
-    answer: "You can customise team colours, logos, player names, numbers, sponsor logos, patterns and other design elements to create a jersey that represents your team."
+    question: "4. What can I customise in a cricket team jersey design?",
+    answer: "You can customise team colours, logos, sponsor branding, player names, numbers, patterns, sleeve details, and other design elements based on your team requirements."
   },
   {
-    question: "Can every jersey have a different player name and number?",
-    answer: "Yes. Individual player names and numbers can be added across the team order. Simply provide the final player list when confirming your customisation."
+    question: "5. Can I create an Indian-style cricket jersey with my own name?",
+    answer: "Yes. If you are searching for an Indian cricket jersey with my name, you can create a personalised cricket-inspired design using your preferred colours, player name, number, and team branding."
   },
   {
-    question: "How long does it take to receive custom jerseys?",
-    answer: "Turnaround depends on the design, quantity and production requirements. Production is scheduled after you review and approve the final jersey mockup."
+    question: "6. Does Yoode provide full sublimation printing for cricket jerseys?",
+    answer: "Yes. Full sublimation printing can be used for team colours, patterns, logos, sponsor branding, names, and numbers, creating a smooth finish across the jersey fabric."
   },
   {
-    question: "Do you deliver custom jerseys anywhere?",
-    answer: "Yes. Yoode delivers custom jersey orders across worldwide. Customers can also choose to collect their order from a Yoode Experience Centre where available."
+    question: "7. How do I order custom cricket jerseys online from Yoode?",
+    answer: "Contact Yoode with your team requirements, quantity, sizes, colours, logos, and player details. The design is prepared for approval, finalised, and then moved into production after confirmation."
   }
 ];
 
-export function CustomJerseysFaq() {
+export function CricketJerseysFaq() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
@@ -46,7 +46,7 @@ export function CustomJerseysFaq() {
         <div className="flex flex-col">
           <div className="mb-10">
             <span className="text-[#E53935] text-xs font-bold uppercase tracking-[0.2em] mb-4 block">
-              Custom Sports Jerseys
+              Custom Cricket Jerseys
             </span>
             <h2 className="text-4xl md:text-5xl lg:text-[56px] font-black text-yoode-onyx leading-[1.1] font-display tracking-tight">
               FREQUENTLY ASKED QUESTIONS
@@ -56,28 +56,28 @@ export function CustomJerseysFaq() {
           <div className="flex flex-col gap-10">
             <div className="flex flex-col">
               <h3 className="font-display font-bold text-yoode-onyx mb-3 text-[20px] leading-snug">
-                Looking for Custom Sports Jerseys for Your Team?
+                Looking for Custom Cricket Jerseys for Your Team?
               </h3>
               <p className="text-gray-500 text-[15px] leading-relaxed font-medium">
-                Every team deserves a jersey that reflects its identity. From cricket teams and college squads to football clubs and corporate leagues, Yoode creates custom sports jerseys around your colours, logo and playing style. For teams looking for a custom jersey in Bangalore, you can design your jersey with player names, numbers, sponsor logos and complete team branding.
+                Every cricket team deserves a jersey that reflects its true spirit. Whether you represent a club, an academy, or a corporate squad, Yoode crafts premium custom cricket jerseys featuring your team colours, sponsor logos, and player details for a professional on-field look.
               </p>
             </div>
 
             <div className="flex flex-col">
               <h3 className="font-display font-bold text-yoode-onyx mb-3 text-[20px] leading-snug">
-                How to Choose the Right Fabric for Your Sports Jersey?
+                Why Choose Sublimation for Cricket Kits?
               </h3>
               <p className="text-gray-500 text-[15px] leading-relaxed font-medium">
-                Choose from fabric options suited to different sports, weather conditions and activity levels. Create your own jersey with colours, patterns and graphics using sublimation printing, which becomes part of the fabric and helps the design stay sharp through regular wear and washing.
+                Sublimation printing integrates the design directly into the fabric. This means your team logo, vibrant colours, and custom patterns remain sharp, breathable, and fade-resistant—perfect for long days on the pitch under the sun.
               </p>
             </div>
 
             <div className="flex flex-col">
               <h3 className="font-display font-bold text-yoode-onyx mb-3 text-[20px] leading-snug">
-                How to Design Your Own Jersey with Yoode?
+                How to Personalise Your Cricket Jersey?
               </h3>
               <p className="text-gray-500 text-[15px] leading-relaxed font-medium">
-                From weekend teams and college tournaments to running groups and corporate leagues, Yoode makes ordering simple. For custom jersey printing in Bangalore, our team helps you refine the design, review your mock-up, request changes and approve the final artwork before production. As your custom jersey maker, Yoode supports you at every stage.
+                Yoode makes it easy to bring your vision to life. Share your ideas, pick your colours, and we'll handle the rest. Add individual player names and numbers to every kit, review your final mockup, and get match-ready with confidence.
               </p>
             </div>
           </div>

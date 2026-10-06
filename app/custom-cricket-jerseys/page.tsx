@@ -5,7 +5,7 @@ import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { PromoModal } from '@/components/PromoModal';
 import { ArrowUpRight, Star, Factory, PackageOpen, LayoutTemplate, PenTool, CheckCircle2, Columns, Printer, Layers, Box, Truck } from 'lucide-react';
-import { CustomJerseysFaq } from '@/components/CustomJerseysFaq';
+import { CricketJerseysFaq } from '@/components/CricketJerseysFaq';
 import { CustomJerseysHowItWorks } from '@/components/CustomJerseysHowItWorks';
 import { CustomJerseysBulkOrders } from '@/components/CustomJerseysBulkOrders';
 import { Testimonials } from '@/components/Testimonials';
@@ -20,7 +20,7 @@ export const metadata = {
 
 export default function CustomCricketJerseys() {
   return (
-    <div className="relative min-h-screen w-full selection:bg-yoode-onyx selection:text-white flex flex-col font-sans">
+    <div className="relative min-h-screen w-full selection:bg-yoode-onyx selection:text-white flex flex-col font-sans overflow-x-clip">
       <PromoModal />
       <Header />
       <main className="flex-1 bg-background text-foreground">
@@ -59,7 +59,7 @@ export default function CustomCricketJerseys() {
                 </h1>
                 
                 <p className="text-base lg:text-[1.15rem] text-white/70 leading-[1.75] max-w-[750px] mb-8 drop-shadow-sm">
-                  Fully sublimated Cricket kits for clubs, academies & corporate tournaments. Your names, numbers & sponsor logos, made in our own factory and shipped pan-India in ~4 days.
+                  Looking to design cricket jersey for your team? Choose a full sublimation cricket jersey with custom names, numbers, colours and sponsor logos for clubs, schools, academies and tournaments across India.
                 </p>
 
                 {/* Trust Metrics */}
@@ -123,9 +123,9 @@ export default function CustomCricketJerseys() {
             <div className="max-w-[1400px] mx-auto grid grid-cols-2 lg:grid-cols-4 gap-6">
               {[
                 { title: 'NO MINIMUM ORDER', desc: '1 piece or 500', icon: <PackageOpen className="w-5 h-5"/> },
-                { title: 'FREE 24-HR MOCKUP', desc: 'Real designer', icon: <PenTool className="w-5 h-5"/> },
-                { title: '4-DAY DISPATCH', desc: 'Pan-India', icon: <CheckCircle2 className="w-5 h-5"/> },
-                { title: 'OWN FACTORY', desc: 'Factory-direct pricing', icon: <Factory className="w-5 h-5"/> },
+                { title: 'IN-HOUSE JERSEY PRODUCTION', desc: 'Factory-direct pricing', icon: <Factory className="w-5 h-5"/> },
+                { title: 'DESIGN MOCKUP', desc: 'Real designer', icon: <PenTool className="w-5 h-5"/> },
+                { title: 'DELIVERY ACROSS WORLDWIDE', desc: 'Global shipping', icon: <CheckCircle2 className="w-5 h-5"/> },
               ].map((p, i) => (
                 <div key={i} className="flex flex-col items-center text-center p-6 bg-gray-50 rounded-3xl border border-gray-100">
                   <div className="w-12 h-12 rounded-full bg-orange-50 text-[#EA580C] flex items-center justify-center mb-4">
@@ -150,7 +150,7 @@ export default function CustomCricketJerseys() {
                   WHY TEAMS CHOOSE YOODE FOR CRICKET KITS
                 </h2>
                 <p className="text-gray-500 text-sm md:text-base font-medium leading-relaxed max-w-2xl">
-                  Experience the perfect blend of premium breathable fabrics, unlimited design freedom, and reliable production for your club or academy.
+                  Get customized jersey cricket solutions with breathable performance fabrics, flexible design options, and reliable production for clubs, academies, schools, and tournament teams.
                 </p>
               </div>
               
@@ -162,33 +162,33 @@ export default function CustomCricketJerseys() {
                   {[
                     {
                       icon: <PenTool className="w-5 h-5 text-gray-700" />,
-                      title: "INDIVIDUAL NAMES & NUMBERS",
-                      desc: "Keep your team's on-field look professional while giving every player their own name and number printed seamlessly into the jersey."
+                      title: "CUSTOM TEAM COLOURS",
+                      desc: "Match your cricket jerseys with club, academy, school, or corporate team colours for a consistent and professional team identity."
                     },
                     {
                       icon: <Columns className="w-5 h-5 text-gray-700" />,
-                      title: "MATCH, PRACTICE & TRAVEL",
-                      desc: "Create coordinated coloured match-day jerseys, training whites, and travel polos for the entire club."
+                      title: "BUILT FOR MATCH COMFORT",
+                      desc: "Choose performance-focused fabrics designed for comfort, easy movement, and reliable wear throughout training sessions and competitive cricket matches."
                     },
                     {
                       icon: <Printer className="w-5 h-5 text-gray-700" />,
-                      title: "JUNIOR TO SENIOR SIZES",
-                      desc: "Outfit the entire academy in one order, with sizes ranging from youth players up to adult 5XL."
+                      title: "MULTIPLE JERSEY VARIANTS",
+                      desc: "Create home, away, tournament, and training jersey variations while maintaining a consistent look across your complete cricket team."
                     },
                     {
                       icon: <Layers className="w-5 h-5 text-gray-700" />,
-                      title: "FULL SUBLIMATION PRINTING",
-                      desc: "Your club crest, sponsor logos, and team colours are printed directly into the fabric—they will never fade, peel, or weigh you down."
+                      title: "MADE FOR FULL SQUADS",
+                      desc: "Order coordinated cricket kits for clubs, academies, schools, corporate teams, and tournament squads with consistent designs and sizing."
                     },
                     {
                       icon: <Box className="w-5 h-5 text-gray-700" />,
-                      title: "FREE 24-HOUR MOCKUP",
-                      desc: "See a free, realistic mockup of your custom cricket kit before you commit. We don't start production until you approve the design."
+                      title: "APPROVE EVERY DETAIL",
+                      desc: "Review your jersey design, colours, branding, player names, numbers, and placements carefully before the order moves into production."
                     },
                     {
                       icon: <Truck className="w-5 h-5 text-gray-700" />,
-                      title: "DISPATCH IN ~4 DAYS",
-                      desc: "Our own factory allows us to manufacture and dispatch your team's kits across India in just a few days."
+                      title: "COMPLETE CRICKET TEAMWEAR",
+                      desc: "Build a complete team look with cricket jerseys, trousers, training wear, and coordinated apparel for players and support staff."
                     }
                   ].map((feat, idx) => (
                     <div key={idx} className="bg-white rounded-[24px] p-6 lg:p-8 flex flex-col border border-gray-100 shadow-sm">
@@ -216,10 +216,10 @@ export default function CustomCricketJerseys() {
                   </div>
                   <div className="px-5 pt-6 pb-5 flex flex-col flex-1 relative">
                     <h3 className="text-white font-bold text-[15px] uppercase tracking-wide mb-3 leading-tight">
-                      READY TO KIT OUT YOUR CLUB?
+                      YOUR TEAM. YOUR CRICKET KIT.
                     </h3>
                     <p className="text-white/50 text-[12px] leading-relaxed font-medium">
-                      Planning jerseys for your team, academy, club or tournament? Work with Yoode as your official kitting partner and get your team looking sharp.
+                      Create a cricket custom jersey that brings your team identity together with coordinated colours, branding, and a professional match-ready look.
                     </p>
                   </div>
                 </div>
@@ -235,10 +235,10 @@ export default function CustomCricketJerseys() {
                 ✓ Names & numbers printed FREE on every kit · pay only after you approve
               </div>
               <div className="flex flex-wrap gap-8 justify-around flex-1 text-center">
-                <div><div className="font-black text-lg">1,200+</div><div className="text-[10px] uppercase tracking-widest text-gray-500">teams kitted</div></div>
-                <div><div className="font-black text-lg text-yellow-500">4.9★</div><div className="text-[10px] uppercase tracking-widest text-gray-500">57 reviews</div></div>
+                <div><div className="font-black text-lg">400+</div><div className="text-[10px] uppercase tracking-widest text-gray-500">teams kitted</div></div>
+                <div><div className="font-black text-lg text-yellow-500">4.9★</div><div className="text-[10px] uppercase tracking-widest text-gray-500">reviews</div></div>
                 <div><div className="font-black text-lg">No MOQ</div><div className="text-[10px] uppercase tracking-widest text-gray-500">1 or 500</div></div>
-                <div><div className="font-black text-lg">Pan-India</div><div className="text-[10px] uppercase tracking-widest text-gray-500">3 stores</div></div>
+                <div><div className="font-black text-lg">Pan-India</div><div className="text-[10px] uppercase tracking-widest text-gray-500">4 stores</div></div>
               </div>
             </div>
           </section>
@@ -350,24 +350,24 @@ export default function CustomCricketJerseys() {
             <div className="max-w-[1400px] mx-auto">
               <div className="text-center mb-16">
                 <div className="inline-block bg-[#EA580C]/10 text-[#EA580C] px-4 py-1.5 rounded-full font-bold uppercase tracking-widest text-xs mb-4">Yoode Quality Standards</div>
-                <h2 className="text-4xl md:text-[3.5rem] font-black uppercase text-yoode-onyx leading-[1.1] tracking-tight mb-4">Fabric that performs</h2>
-                <p className="text-gray-500 font-medium text-lg max-w-2xl mx-auto">Built for Indian conditions and engineered to our exact specifications in Tirupur.</p>
+                <h2 className="text-4xl md:text-[3.5rem] font-black uppercase text-yoode-onyx leading-[1.1] tracking-tight mb-4">Fabric Made for Cricket</h2>
+                <p className="text-gray-500 font-medium text-lg max-w-2xl mx-auto">Designed for active play, reliable comfort, and consistent performance across training sessions, tournaments, and match days.</p>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 
                 <div className="bg-[#FAF9F6] rounded-[32px] p-10 hover:-translate-y-2 transition-transform duration-300 border border-gray-100 flex flex-col gap-2 group">
                   <h3 className="font-black text-2xl uppercase tracking-tight text-yoode-onyx group-hover:text-[#EA580C] transition-colors">Yoode-Tech™ Polyester</h3>
-                  <p className="text-gray-600 text-sm leading-relaxed">Custom-milled exclusively for our kits. A lightweight, advanced moisture-wicking knit that actively cools the body during intense Indian summers.</p>
+                  <p className="text-gray-600 text-sm leading-relaxed">Developed specifically for performance wear, this lightweight moisture-wicking fabric helps players stay cool, dry, and comfortable during demanding matches.</p>
                 </div>
                 
                 <div className="bg-[#FAF9F6] rounded-[32px] p-10 hover:-translate-y-2 transition-transform duration-300 border border-gray-100 flex flex-col gap-2 group">
-                  <h3 className="font-black text-2xl uppercase tracking-tight text-yoode-onyx group-hover:text-[#EA580C] transition-colors">Never fades or peels</h3>
-                  <p className="text-gray-600 text-sm leading-relaxed">We use industrial-grade Japanese sublimation machines. The colour is permanently locked into the fibres—it will survive a hundred washes without cracking.</p>
+                  <h3 className="font-black text-2xl uppercase tracking-tight text-yoode-onyx group-hover:text-[#EA580C] transition-colors">Colour That Stays Sharp</h3>
+                  <p className="text-gray-600 text-sm leading-relaxed">Our sublimation process bonds the design directly into the fabric, helping colours remain vibrant without peeling, cracking, or sitting heavily on the surface.</p>
                 </div>
                 
                 <div className="bg-yoode-onyx rounded-[32px] p-10 hover:-translate-y-2 transition-transform duration-300 border border-yoode-onyx flex flex-col gap-2 shadow-xl shadow-yoode-onyx/10">
-                  <h3 className="font-black text-2xl uppercase tracking-tight text-[#EA580C]">All inclusive pricing</h3>
-                  <p className="text-white/80 text-sm leading-relaxed">Every kit comes with unlimited sponsor logos, individual player names, and numbers printed directly into the fabric at zero extra cost.</p>
+                  <h3 className="font-black text-2xl uppercase tracking-tight text-[#EA580C]">Everything Included</h3>
+                  <p className="text-white/80 text-sm leading-relaxed">Your kit pricing covers sponsor logos, player names, and numbers, so essential team customisation is handled in one straightforward package.</p>
                 </div>
 
               </div>
@@ -479,7 +479,7 @@ export default function CustomCricketJerseys() {
           <ExperienceCenters />
 
           {/* 12. FAQ */}
-          <CustomJerseysFaq />
+          <CricketJerseysFaq />
 
           {/* 13. Custom CTA matches wireframe with popping image */}
           <section className="px-6 md:px-12 py-24 md:py-32 bg-[#FAF9F6]">
@@ -503,6 +503,8 @@ export default function CustomCricketJerseys() {
                </div>
             </div>
           </section>
+
+
 
         </div>
       </main>

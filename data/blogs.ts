@@ -15,10 +15,48 @@ export const blogs = [
       <p class="text-xl md:text-2xl text-gray-800 leading-relaxed font-medium mb-10">
         In today's fast-paced corporate world, a strong brand identity is more than just a memorable logo—it's about creating tangible connections with your audience. As we transition into the new season, there is no better time to rethink how your merchandise strategy can elevate your brand presence.
       </p>
-      <h2 class="text-3xl md:text-4xl font-display font-black tracking-tight text-black uppercase mb-6 mt-16">The Power of Premium Corporate Gifting</h2>
-      <p class="text-lg text-gray-600 leading-relaxed mb-8">
-        Generic pens and flimsy notebooks are a thing of the past. Modern corporate gifting is all about premium, curated experiences that leave a lasting impression.
+      
+      <h2 id="section-1" class="text-3xl md:text-4xl font-display font-black tracking-tight text-black uppercase mb-6 mt-16 scroll-mt-32">1. The Power of Premium Corporate Gifting</h2>
+      <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&auto=format&fit=crop&q=80" alt="Premium watch" class="float-right w-1/2 md:w-1/3 ml-6 mb-6 mt-2 rounded-2xl shadow-md object-cover aspect-square" />
+      <p class="text-lg text-gray-600 leading-relaxed mb-6">
+        Generic pens and flimsy notebooks are a thing of the past. Modern corporate gifting is all about premium, curated experiences that leave a lasting impression. When you hand a client or employee a gift, it's not just an item—it is a physical manifestation of your brand's values, quality standards, and appreciation for the recipient. 
       </p>
+      <p class="text-lg text-gray-600 leading-relaxed mb-8">
+        Studies show that 80% of consumers are more likely to do business with a company if it offers personalized experiences, and corporate gifting is the ultimate form of physical personalization. Imagine the impact of receiving a beautifully packaged, high-quality item that feels bespoke rather than mass-produced.
+      </p>
+      <div class="clear-both"></div>
+
+      <h2 id="section-2" class="text-3xl md:text-4xl font-display font-black tracking-tight text-black uppercase mb-6 mt-16 scroll-mt-32">2. Cotton vs. Blends</h2>
+      <img src="/mens-polo.jpg" alt="Premium Polo Fabric" class="float-left w-1/2 md:w-1/3 mr-6 mb-6 mt-2 rounded-2xl shadow-md object-cover aspect-[4/5]" />
+      <p class="text-lg text-gray-600 leading-relaxed mb-6">
+        Not all fabrics are created equal. When selecting apparel for your team or merchandise line, understanding the intricacies of premium fabrics can make all the difference in comfort, durability, and brand perception. The debate between 100% cotton and synthetic blends has been ongoing for decades, but the choice largely depends on the end-use of the garment.
+      </p>
+      <ul class="list-disc list-inside text-lg text-gray-600 leading-relaxed mb-8 space-y-3">
+        <li><strong>Ringspun Cotton:</strong> Extremely soft, breathable, and ideal for casual, everyday wear. It offers a premium hand-feel that makes any t-shirt feel luxurious.</li>
+        <li><strong>Polyester Blends:</strong> Best for activewear or corporate uniforms that require moisture-wicking properties, wrinkle resistance, and shape retention over hundreds of washes.</li>
+        <li><strong>Tri-Blends:</strong> The holy grail of t-shirt fabrics, combining cotton, polyester, and rayon for the ultimate drape, stretch, and vintage softness.</li>
+      </ul>
+      <div class="clear-both"></div>
+
+      <h2 id="section-3" class="text-3xl md:text-4xl font-display font-black tracking-tight text-black uppercase mb-6 mt-16 scroll-mt-32">3. Curating with Intent</h2>
+      <p class="text-lg text-gray-600 leading-relaxed mb-6">
+        Don't just throw branded items into a box. Think about a theme, color coordination, and utility. A cohesive gift set tells a story about your brand's attention to detail. For instance, a "Work From Anywhere" kit might include a premium thermal mug, a high-capacity power bank, and a minimalist notebook, all subtly branded and presented in a sleek matte box.
+      </p>
+      <img src="/gift-box.jpg" alt="Curated Gift Box" class="float-right w-1/2 md:w-2/5 ml-6 mb-6 mt-2 rounded-2xl shadow-md object-cover aspect-video" />
+      <p class="text-lg text-gray-600 leading-relaxed mb-8">
+        The unboxing experience is your first physical touchpoint with a client. It sets the tone for your entire professional relationship. Invest in custom tissue paper, branded stickers, and a personalized note to make the unboxing process feel like a true event.
+      </p>
+      <div class="clear-both"></div>
+
+      <h2 id="section-4" class="text-3xl md:text-4xl font-display font-black tracking-tight text-black uppercase mb-6 mt-16 scroll-mt-32">4. The Athleisure Revolution</h2>
+      <img src="/categories/hoodies_sweatshirts.jpg" alt="Athleisure" class="float-left w-1/2 md:w-1/3 mr-6 mb-6 mt-2 rounded-2xl shadow-md object-cover aspect-square" />
+      <p class="text-lg text-gray-600 leading-relaxed mb-6">
+        The traditional suit and tie is dead. Today's tech teams want apparel that effortlessly transitions from the office to the gym to the local coffee shop. Athleisure has taken over the corporate uniform market, driven by a desire for comfort without sacrificing a professional silhouette.
+      </p>
+      <p class="text-lg text-gray-600 leading-relaxed mb-8">
+        Sleek quarter-zips, high-performance polo shirts, and technical jackets are the new corporate uniform. When designing for the modern workforce, prioritize neutral colors, minimalist logos (think tone-on-tone embroidery), and modern, tailored fits. Your team should *want* to wear your merchandise on the weekends.
+      </p>
+      <div class="clear-both"></div>
     `
   },
   {

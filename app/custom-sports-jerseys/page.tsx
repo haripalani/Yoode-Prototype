@@ -27,7 +27,7 @@ export const metadata = {
 
 export default function CustomSportsJerseys() {
   return (
-    <div className="relative min-h-screen w-full selection:bg-yoode-onyx selection:text-white flex flex-col font-sans">
+    <div className="relative min-h-screen w-full selection:bg-yoode-onyx selection:text-white flex flex-col font-sans overflow-x-clip">
       <PromoModal />
       <Header />
       <main className="flex-1 bg-background text-foreground">
