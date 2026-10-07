@@ -6,57 +6,82 @@ import Link from 'next/link';
 const sportsData = [
   {
     id: 'cricket',
-    name: 'Cricket Jersey',
+    name: 'Cricket',
     icon: 'https://yoode.com/cdn/shop/files/yd-seo-icon-cricket.svg?v=1789122339&width=96',
     image: 'https://yoode.com/cdn/shop/files/cricket.png?v=1789385809&width=1600',
     link: '/custom-cricket-jerseys',
   },
   {
-    id: 'football',
-    name: 'Football Jersey',
-    icon: 'https://yoode.com/cdn/shop/files/yd-seo-icon-football.svg?v=1789122339&width=96',
-    image: 'https://yoode.com/cdn/shop/files/Football.webp?v=1789388323&width=1600',
-  },
-  {
     id: 'basketball',
-    name: 'Basketball Jersey',
+    name: 'Basketball',
     icon: 'https://yoode.com/cdn/shop/files/yd-seo-icon-basketball.svg?v=1789122339&width=96',
     image: 'https://yoode.com/cdn/shop/files/BasketBall.webp?v=1789388369&width=1600',
   },
   {
-    id: 'badminton',
-    name: 'Badminton Jersey',
-    icon: 'https://yoode.com/cdn/shop/files/yd-seo-icon-badminton.svg?v=1789122339&width=96',
-    image: 'https://yoode.com/cdn/shop/files/Badminton.webp?v=1789446482&width=1600',
-  },
-  {
-    id: 'cycling',
-    name: 'Cycling Jersey',
-    icon: 'https://yoode.com/cdn/shop/files/yd-seo-icon-cycling.svg?v=1789122339&width=96',
-    image: 'https://yoode.com/cdn/shop/files/Cycling.webp?v=1789531339&width=1600',
-  },
-  {
-    id: 'esports',
-    name: 'Esports Jersey',
-    icon: 'https://yoode.com/cdn/shop/files/yd-seo-icon-esports.svg?v=1789122339&width=96',
-    image: 'https://yoode.com/cdn/shop/files/Esports.webp?v=1789531388&width=1600',
-  },
-  {
     id: 'volleyball',
-    name: 'Volleyball Jersey',
+    name: 'Volleyball',
     icon: 'https://yoode.com/cdn/shop/files/yd-seo-icon-volleyball.svg?v=1789122339&width=96',
     image: 'https://yoode.com/cdn/shop/files/VolleyBall.webp?v=1789531414&width=1600',
   },
   {
+    id: 'baseball',
+    name: 'Baseball',
+    icon: 'https://yoode.com/cdn/shop/files/yd-seo-icon-baseball.svg?v=1789122339&width=96',
+    image: 'https://yoode.com/cdn/shop/files/Baseball.webp?v=1789388323&width=1600',
+  },
+  {
+    id: 'football',
+    name: 'Football',
+    icon: 'https://yoode.com/cdn/shop/files/yd-seo-icon-football.svg?v=1789122339&width=96',
+    image: 'https://yoode.com/cdn/shop/files/Football.webp?v=1789388323&width=1600',
+  },
+  {
+    id: 'badminton',
+    name: 'Badminton',
+    icon: 'https://yoode.com/cdn/shop/files/yd-seo-icon-badminton.svg?v=1789122339&width=96',
+    image: 'https://yoode.com/cdn/shop/files/Badminton.webp?v=1789446482&width=1600',
+  },
+  {
+    id: 'esports',
+    name: 'Esports',
+    icon: 'https://yoode.com/cdn/shop/files/yd-seo-icon-esports.svg?v=1789122339&width=96',
+    image: 'https://yoode.com/cdn/shop/files/Esports.webp?v=1789531388&width=1600',
+  },
+  {
     id: 'running',
-    name: 'Running Jersey',
+    name: 'Running',
     icon: 'https://yoode.com/cdn/shop/files/yd-seo-icon-running.svg?v=1789122339&width=96',
     image: 'https://yoode.com/cdn/shop/files/Running.webp?v=1789531433&width=1600',
+  },
+  {
+    id: 'cycling',
+    name: 'Cycling',
+    icon: 'https://yoode.com/cdn/shop/files/yd-seo-icon-cycling.svg?v=1789122339&width=96',
+    image: 'https://yoode.com/cdn/shop/files/Cycling.webp?v=1789531339&width=1600',
+  },
+  {
+    id: 'golf',
+    name: 'Golf',
+    icon: 'https://yoode.com/cdn/shop/files/yd-seo-icon-golf.svg?v=1789122339&width=96',
+    image: 'https://yoode.com/cdn/shop/files/Golf.webp?v=1789388323&width=1600',
+  },
+  {
+    id: 'kabbadi',
+    name: 'Kabbadi',
+    icon: 'https://yoode.com/cdn/shop/files/yd-seo-icon-kabbadi.svg?v=1789122339&width=96',
+    image: 'https://yoode.com/cdn/shop/files/Kabbadi.webp?v=1789388323&width=1600',
+  },
+  {
+    id: 'pickleball',
+    name: 'Pickle ball',
+    icon: 'https://yoode.com/cdn/shop/files/yd-seo-icon-pickleball.svg?v=1789122339&width=96',
+    image: 'https://yoode.com/cdn/shop/files/Pickleball.webp?v=1789388323&width=1600',
   },
 ];
 
 export default function ShopBySport() {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [imageError, setImageError] = useState<Record<string, boolean>>({});
 
   const activeSport = sportsData[activeIndex];
 
@@ -66,6 +91,12 @@ export default function ShopBySport() {
 
   const handleNext = () => {
     setActiveIndex((prev) => (prev === sportsData.length - 1 ? 0 : prev + 1));
+  };
+
+  const getTranslateX = (idx: number, isRight: boolean) => {
+    if (idx === 0 || idx === 5) return '0px';
+    if (idx === 1 || idx === 4) return isRight ? '15px' : '-15px';
+    return isRight ? '30px' : '-30px';
   };
 
   return (
@@ -98,10 +129,10 @@ export default function ShopBySport() {
           </button>
 
           {/* Left Arc Icons */}
-          <div className="hidden lg:flex flex-col h-[380px] justify-between w-48 z-20 shrink-0">
-            {sportsData.slice(0, 4).map((sport, idx) => {
+          <div className="hidden lg:flex flex-col h-[500px] justify-between w-48 z-20 shrink-0 py-4">
+            {sportsData.slice(0, 6).map((sport, idx) => {
               const isActive = sport.id === activeSport.id;
-              const translateX = idx === 1 || idx === 2 ? '-20px' : '0px';
+              const translateX = getTranslateX(idx, false);
               return (
                 <div 
                   key={sport.id} 
@@ -110,14 +141,17 @@ export default function ShopBySport() {
                 >
                   <button
                     onClick={() => setActiveIndex(idx)}
-                    className={`w-16 h-16 shrink-0 rounded-full flex items-center justify-center shadow-md transition-all duration-300 ${
+                    className={`w-14 h-14 shrink-0 rounded-full flex items-center justify-center shadow-md transition-all duration-300 ${
                       isActive ? 'bg-yoode-onyx scale-110 shadow-xl' : 'bg-white/80 backdrop-blur hover:bg-white border border-white/20'
                     }`}
                   >
                     <img 
                       src={sport.icon} 
                       alt={sport.name} 
-                      className={`w-8 h-8 ${isActive ? 'brightness-0 invert' : 'brightness-0 opacity-80'}`} 
+                      className={`w-7 h-7 ${isActive ? 'brightness-0 invert' : 'brightness-0 opacity-80'}`} 
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).style.display = 'none';
+                      }}
                     />
                   </button>
                   {isActive && (
@@ -129,35 +163,48 @@ export default function ShopBySport() {
           </div>
 
           {/* Center Image */}
-          <div className="relative w-full max-w-4xl h-[350px] md:h-[500px] z-10 mx-auto transition-opacity duration-500">
+          <div className="relative w-full max-w-4xl h-[350px] md:h-[500px] z-10 mx-auto transition-opacity duration-500 flex items-center justify-center">
             {/* Studio Floor Shadow */}
             <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-[60%] h-10 bg-black/20 blur-xl rounded-[100%] z-0 pointer-events-none"></div>
             
-            <Image 
-              key={activeSport.id}
-              src={activeSport.image} 
-              alt={activeSport.name}
-              fill
-              className="object-contain animate-fade-in mix-blend-multiply relative z-10 drop-shadow-[0_15px_25px_rgba(0,0,0,0.15)] pb-16"
-              priority
-            />
+            {imageError[activeSport.id] ? (
+              <div className="relative z-10 flex flex-col items-center justify-center text-center p-8 bg-white/50 backdrop-blur-sm rounded-3xl border border-white/40 shadow-xl pb-16 mt-8 max-w-md w-full">
+                <div className="w-16 h-16 mb-4 rounded-full bg-yoode-onyx/10 flex items-center justify-center">
+                  <svg className="w-8 h-8 text-yoode-onyx/40" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-bold text-yoode-onyx mb-2">{activeSport.name} Image</h3>
+                <p className="text-yoode-onyx/60 font-medium">Image will be uploaded soon</p>
+              </div>
+            ) : (
+              <Image 
+                key={activeSport.id}
+                src={activeSport.image} 
+                alt={activeSport.name}
+                fill
+                className="object-contain animate-fade-in mix-blend-multiply relative z-10 drop-shadow-[0_15px_25px_rgba(0,0,0,0.15)] pb-16"
+                priority
+                onError={() => setImageError(prev => ({ ...prev, [activeSport.id]: true }))}
+              />
+            )}
 
             <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-30">
               <Link 
                 href={activeSport.link || "#"} 
                 className="inline-block bg-[#EB6F3D] text-white font-bold uppercase tracking-widest text-sm px-10 py-4 rounded-full hover:bg-yoode-onyx transition-colors shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 whitespace-nowrap"
               >
-                Design {activeSport.name}
+                Design {activeSport.name} Jersey
               </Link>
             </div>
           </div>
 
           {/* Right Arc Icons */}
-          <div className="hidden lg:flex flex-col h-[380px] justify-between w-48 z-20 shrink-0 items-end">
-            {sportsData.slice(4, 8).map((sport, idx) => {
-              const actualIdx = idx + 4;
+          <div className="hidden lg:flex flex-col h-[500px] justify-between w-48 z-20 shrink-0 items-end py-4">
+            {sportsData.slice(6, 12).map((sport, idx) => {
+              const actualIdx = idx + 6;
               const isActive = sport.id === activeSport.id;
-              const translateX = idx === 1 || idx === 2 ? '20px' : '0px';
+              const translateX = getTranslateX(idx, true);
               return (
                 <div 
                   key={sport.id} 
@@ -166,14 +213,17 @@ export default function ShopBySport() {
                 >
                   <button
                     onClick={() => setActiveIndex(actualIdx)}
-                    className={`w-16 h-16 shrink-0 rounded-full flex items-center justify-center shadow-md transition-all duration-300 ${
+                    className={`w-14 h-14 shrink-0 rounded-full flex items-center justify-center shadow-md transition-all duration-300 ${
                       isActive ? 'bg-yoode-onyx scale-110 shadow-xl' : 'bg-white/80 backdrop-blur hover:bg-white border border-white/20'
                     }`}
                   >
                     <img 
                       src={sport.icon} 
                       alt={sport.name} 
-                      className={`w-8 h-8 ${isActive ? 'brightness-0 invert' : 'brightness-0 opacity-80'}`} 
+                      className={`w-7 h-7 ${isActive ? 'brightness-0 invert' : 'brightness-0 opacity-80'}`} 
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).style.display = 'none';
+                      }}
                     />
                   </button>
                   {isActive && (

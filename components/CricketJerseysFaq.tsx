@@ -46,38 +46,68 @@ export function CricketJerseysFaq() {
         <div className="flex flex-col">
           <div className="mb-10">
             <span className="text-[#E53935] text-xs font-bold uppercase tracking-[0.2em] mb-4 block">
-              Custom Cricket Jerseys
+              Custom Cricket Jersey Maker in India
             </span>
             <h2 className="text-4xl md:text-5xl lg:text-[56px] font-black text-yoode-onyx leading-[1.1] font-display tracking-tight">
               FREQUENTLY ASKED QUESTIONS
             </h2>
           </div>
 
-          <div className="flex flex-col gap-10">
+          <div className="flex flex-col gap-10 pr-0 lg:pr-8">
             <div className="flex flex-col">
               <h3 className="font-display font-bold text-yoode-onyx mb-3 text-[20px] leading-snug">
                 Looking for Custom Cricket Jerseys for Your Team?
               </h3>
+              <p className="text-gray-500 text-[15px] leading-relaxed font-medium mb-3">
+                Every cricket team needs a jersey that reflects its colours, identity, and players. Whether you are ordering for a club, academy, school, college, corporate tournament, or local league, Yoode helps you create jerseys around your exact team requirements.
+              </p>
+              <p className="text-gray-500 text-[15px] leading-relaxed font-medium mb-3">
+                You can personalise every jersey with player names, numbers, sponsor logos, club branding, team colours, and custom patterns. If you are looking for a personalized cricket jersey or want an Indian cricket jersey with my name, Yoode makes the process simple from design approval to production.
+              </p>
               <p className="text-gray-500 text-[15px] leading-relaxed font-medium">
-                Every cricket team deserves a jersey that reflects its true spirit. Whether you represent a club, an academy, or a corporate squad, Yoode crafts premium custom cricket jerseys featuring your team colours, sponsor logos, and player details for a professional on-field look.
+                For teams comparing custom sports jerseys, our cricket-specific options give you greater control over appearance, fit, fabric, and overall team branding.
               </p>
             </div>
 
             <div className="flex flex-col">
               <h3 className="font-display font-bold text-yoode-onyx mb-3 text-[20px] leading-snug">
-                Why Choose Sublimation for Cricket Kits?
+                How to Choose the Right Fabric for Your Cricket Jersey?
               </h3>
+              <p className="text-gray-500 text-[15px] leading-relaxed font-medium mb-3">
+                Cricket jerseys need to stay comfortable through long matches, practice sessions, and tournament days. The right fabric should support movement, manage heat, and feel lightweight during play.
+              </p>
+              <p className="text-gray-500 text-[15px] leading-relaxed font-medium mb-3">
+                Yoode offers performance-focused fabric options suited to different playing conditions. You can also design cricket shirt styles using team colours, gradients, patterns, sponsor branding, and player details with full sublimation printing.
+              </p>
               <p className="text-gray-500 text-[15px] leading-relaxed font-medium">
-                Sublimation printing integrates the design directly into the fabric. This means your team logo, vibrant colours, and custom patterns remain sharp, breathable, and fade-resistant—perfect for long days on the pitch under the sun.
+                Sublimation allows the artwork to become part of the fabric rather than sitting as a separate layer on top, helping the jersey maintain a smooth and comfortable finish through regular use.
               </p>
             </div>
 
             <div className="flex flex-col">
               <h3 className="font-display font-bold text-yoode-onyx mb-3 text-[20px] leading-snug">
-                How to Personalise Your Cricket Jersey?
+                How to Create the Right Cricket Uniform Design?
               </h3>
+              <p className="text-gray-500 text-[15px] leading-relaxed font-medium mb-3">
+                A strong cricket uniform design should bring together your team colours, logo, sponsor branding, player details, and overall visual identity in one coordinated look. The aim is to create a jersey that looks professional while remaining practical for match play.
+              </p>
               <p className="text-gray-500 text-[15px] leading-relaxed font-medium">
-                Yoode makes it easy to bring your vision to life. Share your ideas, pick your colours, and we'll handle the rest. Add individual player names and numbers to every kit, review your final mockup, and get match-ready with confidence.
+                With Yoode, you can explore different colour combinations, sleeve styles, patterns, logo placements, and full-body graphics before finalising the design. Whether you prefer a clean club look, a bold tournament style, or a customized Indian cricket jersey inspired by modern cricket aesthetics, the final design can be tailored around your team.
+              </p>
+            </div>
+
+            <div className="flex flex-col">
+              <h3 className="font-display font-bold text-yoode-onyx mb-3 text-[20px] leading-snug">
+                How to Design Your Cricket Jersey with Yoode?
+              </h3>
+              <p className="text-gray-500 text-[15px] leading-relaxed font-medium mb-3">
+                Creating your cricket team jersey design starts with your team identity. Share your logo, preferred colours, player details, sponsor artwork, and any design reference you already have.
+              </p>
+              <p className="text-gray-500 text-[15px] leading-relaxed font-medium mb-3">
+                The Yoode team helps organise these elements into a complete jersey layout. You can review the design, check placements, request necessary changes, and approve the final artwork before production begins.
+              </p>
+              <p className="text-gray-500 text-[15px] leading-relaxed font-medium">
+                If you are looking for a cricket jersey maker that can support the complete process, Yoode makes it easy to discuss your requirements online and move from an initial concept to a production-ready jersey.
               </p>
             </div>
           </div>
@@ -85,47 +115,69 @@ export function CricketJerseysFaq() {
 
         {/* Right Column: FAQ Accordion */}
         <div className="flex flex-col pt-2 lg:pt-14">
-          {faqs.map((faq, index) => {
-            const isOpen = openIndex === index;
-            return (
-              <div 
-                key={index} 
-                className={`mb-4 rounded-2xl transition-all duration-300 border ${
-                  isOpen ? "bg-white border-yoode-coral/20 shadow-[0_8px_30px_rgba(0,0,0,0.04)]" : "bg-white/60 border-gray-100 hover:bg-white hover:shadow-sm"
-                }`}
-              >
-                <button
-                  className="w-full px-6 py-6 flex items-center justify-between gap-4 text-left group focus:outline-none"
-                  onClick={() => setOpenIndex(isOpen ? null : index)}
-                >
-                  <span className={`text-[15px] md:text-base font-bold font-display tracking-wide leading-snug transition-colors duration-300 ${isOpen ? "text-yoode-coral" : "text-yoode-onyx group-hover:text-yoode-coral"}`}>
-                    {faq.question}
-                  </span>
-                  <span className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 ${isOpen ? "bg-yoode-coral text-white rotate-45" : "bg-gray-100 text-gray-500 group-hover:bg-yoode-coral/10 group-hover:text-yoode-coral"}`}>
-                    <Plus className="w-4 h-4" strokeWidth={3} />
-                  </span>
-                </button>
-                <AnimatePresence initial={false}>
-                  {isOpen && (
-                    <motion.div
-                      key="answer"
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-                      className="overflow-hidden"
-                    >
-                      <p className="px-6 pb-6 pt-1 text-[14px] md:text-[15px] text-gray-500 leading-relaxed font-medium">
-                        {faq.answer}
-                      </p>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            );
-          })}
-        </div>
+          
+          {/* Top Divider */}
+          <div className="w-full h-px bg-gray-200" />
+          
+          <div className="flex flex-col">
+            {faqs.map((faq, index) => {
+              const isOpen = openIndex === index;
+              return (
+                <div key={index} className="border-b border-gray-200">
+                  {/* Row */}
+                  <button
+                    className="w-full py-6 md:py-7 flex items-center gap-5 md:gap-8 text-left group focus:outline-none"
+                    onClick={() => setOpenIndex(isOpen ? null : index)}
+                  >
+                    {/* Plus Icon — rotates to × when open */}
+                    <span className="flex-shrink-0 w-8 h-8 flex items-center justify-center text-gray-400 group-hover:text-yoode-onyx transition-colors duration-300">
+                      <motion.div
+                        animate={{ rotate: isOpen ? 45 : 0 }}
+                        transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+                      >
+                        <Plus className="w-5 h-5" strokeWidth={2.5} />
+                      </motion.div>
+                    </span>
 
+                    {/* Question */}
+                    <span className="flex-1 text-base md:text-lg font-semibold text-yoode-onyx leading-snug group-hover:text-black transition-colors duration-300">
+                      {faq.question}
+                    </span>
+
+                    {/* Arrow circle */}
+                    <span
+                      className={`flex-shrink-0 w-9 h-9 rounded-full flex items-center justify-center transition-all duration-300 ${
+                        isOpen
+                          ? "bg-[#E53935] text-white"
+                          : "bg-white text-[#E53935] border border-[#E53935]/20 group-hover:bg-[#E53935] group-hover:text-white"
+                      }`}
+                    >
+                      <ArrowUpRight className="w-4 h-4" strokeWidth={2} />
+                    </span>
+                  </button>
+
+                  {/* Answer */}
+                  <AnimatePresence initial={false}>
+                    {isOpen && (
+                      <motion.div
+                        key="answer"
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                        className="overflow-hidden"
+                      >
+                        <p className="pl-[52px] md:pl-[72px] pr-16 pb-7 text-[14px] md:text-[15px] text-gray-500 leading-relaxed">
+                          {faq.answer}
+                        </p>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              );
+            })}
+          </div>
+        </div>
       </div>
     </section>
   );

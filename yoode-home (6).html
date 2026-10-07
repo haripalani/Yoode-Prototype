@@ -1,0 +1,1098 @@
+<title>Yoode Counter</title>
+<meta name="description" content="Seven ways to put your mark on anything you can wear, carry or gift, and everything to know before you order. Yoode custom apparel and merchandise, India.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,600;1,6..96,400;1,6..96,500&family=Manrope:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root{
+    --paper:#FFFFFF; --paper-2:#F7F7F5; --stone:#E4E3DF; --hair:rgba(17,17,17,.12);
+    --ink:#111111; --ink-soft:#3D3D3D; --mute:#6B6B6B; --navy:#0A0A0A;
+    --thread:#F65302; --thread-soft:#FFE6D9; --saffron:#F59E0B; --whats:#1FAB52;
+    --display:"Bodoni Moda","Didot","Bodoni 72",Georgia,serif;
+    --body:"Manrope","Helvetica Neue",Arial,sans-serif;
+    --mono:"IBM Plex Mono","SFMono-Regular",Menlo,monospace;
+    --gutter:clamp(18px,4.5vw,72px);
+    --ease:cubic-bezier(.16,1,.3,1);
+    color-scheme:light;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+  h1,h2,h3,h4{margin:0;font-weight:400;text-wrap:balance}
+  p{margin:0}
+  img,svg{max-width:100%;display:block}
+  button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+  :focus-visible{outline:2px solid var(--thread);outline-offset:3px}
+  .mono{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase}
+  .wrap{padding-inline:var(--gutter)}
+  em{font-style:italic;font-weight:400}
+  .eyebrow{color:var(--mute);display:flex;gap:14px;align-items:center}
+  .eyebrow i{width:26px;height:1px;background:var(--thread);display:inline-block;flex:none}
+
+  /* ---------- loader ---------- */
+  .loader{position:fixed;inset:0;z-index:100;background:var(--paper);display:grid;grid-template-rows:1fr auto;padding:24px var(--gutter);color:var(--ink)}
+  .loader .big{font-family:var(--display);font-weight:600;font-size:clamp(64px,14vw,200px);line-height:.85;letter-spacing:-.02em;align-self:end;overflow:hidden}
+  .loader .big span{display:inline-block}
+  .loader .row{display:flex;justify-content:space-between;align-items:end;padding-top:20px;border-top:1px solid var(--hair);margin-top:18px}
+  .loader .count{font-family:var(--mono);font-size:13px;font-variant-numeric:tabular-nums}
+  .loader .bar{position:absolute;left:0;top:0;height:2px;width:0;background:var(--ink)}
+
+  /* ---------- cursor ---------- */
+  .cursor{position:fixed;left:0;top:0;z-index:90;pointer-events:none;mix-blend-mode:difference;color:#fff}
+  .cursor .dot{position:absolute;left:-3px;top:-3px;width:6px;height:6px;border-radius:50%;background:#fff}
+  .cursor .ring{position:absolute;left:-22px;top:-22px;width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.7);display:grid;place-items:center;transition:transform .35s var(--ease),background .35s;font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase}
+  .cursor .ring span{opacity:0;transition:opacity .25s}
+  .cursor.is-label .ring{transform:scale(1.9);background:rgba(255,255,255,.12)}
+  .cursor.is-label .ring span{opacity:1}
+  .cursor.is-down .ring{transform:scale(.7)}
+  @media (hover:none){.cursor{display:none}}
+
+  /* ---------- nav ---------- */
+  .nav{position:fixed;inset:env(safe-area-inset-top,0px) 0 auto 0;z-index:60;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:16px var(--gutter);transition:color .4s;color:var(--ink)}
+  .nav .mark{font-family:var(--display);font-weight:600;font-size:22px;letter-spacing:.14em}
+  .nav ul{display:flex;gap:28px;list-style:none;margin:0;padding:0;justify-self:center}
+  .nav li a{position:relative;padding-bottom:3px;font-size:14px;font-weight:500}
+  .nav li a::after{content:"";position:absolute;left:0;right:100%;bottom:0;height:1px;background:currentColor;transition:right .4s var(--ease)}
+  .nav li a:hover::after{right:0}
+  .nav .quote{justify-self:end;border:1px solid var(--thread);padding:10px 18px;border-radius:999px;font-size:14px;font-weight:600;background:var(--thread);color:#fff;transition:background .3s,border-color .3s}
+  .nav .quote:hover{background:#d94800;border-color:#d94800}
+  .nav .progress{position:absolute;left:0;right:0;bottom:-1px;height:1px;background:var(--hair)}
+  .nav .progress i{display:block;height:100%;width:var(--p,0%);background:var(--thread)}
+  .nav.inverse{color:var(--paper)}
+  .nav.inverse .quote{border-color:var(--thread);background:var(--thread);color:#fff}
+  .nav.inverse .quote:hover{background:#d94800;border-color:#d94800}
+  .nav.inverse .progress i{background:var(--thread)}
+  @media (max-width:900px){.nav{grid-template-columns:1fr auto}.nav ul{display:none}}
+
+  /* ---------- one canvas behind the page; every spread is a viewport into it ---------- */
+  #gl{position:fixed;inset:0;width:100%;height:100%;display:block;z-index:0;pointer-events:none}
+  #smooth-wrapper,#smooth-content{position:relative;z-index:1}
+  .hero,.method{background:transparent}
+
+  /* ---------- hero: look closer ---------- */
+  .hero{position:relative;height:160vh}
+  .hframe{position:relative;height:100vh;height:100svh;overflow:hidden}
+  .hview{position:absolute;inset:0;cursor:crosshair}
+  .hscrim{position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,rgba(255,255,255,.88) 0%,rgba(255,255,255,.7) 34%,rgba(255,255,255,0) 68%)}
+  .hcopy{position:absolute;left:0;right:0;top:50%;transform:translateY(-52%);padding:0 var(--gutter);z-index:3;max-width:min(60%,900px);pointer-events:none}
+  .hcopy > *{pointer-events:auto}
+  .hero h1{font-family:var(--display);font-size:clamp(46px,7.6vw,132px);line-height:.92;letter-spacing:-.025em;max-width:9ch}
+  .hero h1 em{font-style:italic;font-weight:400;color:var(--thread)}
+  .hero .intro{color:var(--ink-soft);max-width:44ch;margin-top:26px;font-size:clamp(15px,1.2vw,19px)}
+  .hindex{position:absolute;left:0;right:0;bottom:0;z-index:3;display:grid;grid-template-columns:repeat(7,1fr);border-top:1px solid rgba(17,17,17,.14);background:rgba(255,255,255,.72);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+  .hindex,.hindex li{list-style:none;margin:0;padding:0}
+  .hindex a{display:grid;gap:4px;padding:16px var(--gutter) 18px 18px;border-right:1px solid rgba(17,17,17,.1);font-size:13px;font-weight:500;color:var(--ink);position:relative;overflow:hidden}
+  .hindex a:last-child{border-right:0}
+  .hindex a small{font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--mute)}
+  .hindex a::after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--thread);transform:scaleX(0);transform-origin:left;transition:transform .45s var(--ease)}
+  .hindex a:hover::after{transform:scaleX(1)}
+  .hframe.narrow .hscrim{background:linear-gradient(180deg,rgba(255,255,255,.92) 0%,rgba(255,255,255,.75) 45%,rgba(255,255,255,0) 80%)}
+  .hframe.narrow .hcopy{top:clamp(84px,12vh,120px);transform:none;max-width:none}
+  .hframe.narrow .hero h1{font-size:clamp(40px,11vw,60px);max-width:none}
+  .hframe.narrow .hero .intro{margin-top:14px;font-size:15px}
+  .hframe.narrow .hindex{grid-template-columns:repeat(4,1fr)}
+  .hframe.narrow .hindex a{padding:10px 12px;font-size:12px}
+  .hframe.narrow .hindex a:nth-child(n+5){border-top:1px solid rgba(17,17,17,.1)}
+
+  /* ---------- the seven spreads ---------- */
+  .method{position:relative;height:220vh;--fg:var(--ink);--fg-soft:var(--ink-soft);--fg-mute:var(--mute);--rule:rgba(17,17,17,.18);--scrim:255,255,255;--kfill:rgba(17,17,17,.06)}
+  .method[data-tone="dark"]{--fg:#FFFFFF;--fg-soft:rgba(255,255,255,.82);--fg-mute:rgba(255,255,255,.62);--rule:rgba(255,255,255,.22);--scrim:12,12,12;--kfill:rgba(255,255,255,.08)}
+  .mframe{position:relative;height:100vh;height:100svh;overflow:hidden;color:var(--fg)}
+  .mview{position:absolute;inset:0;cursor:crosshair}
+  .mscrim{position:absolute;inset:0;pointer-events:none}
+  .method[data-side="left"] .mscrim{background:linear-gradient(90deg,rgba(var(--scrim),.9) 0%,rgba(var(--scrim),.72) 36%,rgba(var(--scrim),0) 64%)}
+  .method[data-side="right"] .mscrim{background:linear-gradient(270deg,rgba(var(--scrim),.9) 0%,rgba(var(--scrim),.72) 36%,rgba(var(--scrim),0) 64%)}
+  .kword{position:absolute;left:50%;bottom:.02em;z-index:1;pointer-events:none;white-space:nowrap;font-family:var(--display);font-weight:600;font-size:clamp(80px,13vw,240px);line-height:1;letter-spacing:-.03em;color:var(--kfill);-webkit-text-stroke:1.5px var(--fg);opacity:.92;will-change:transform;user-select:none}
+  .method[data-side="right"] .kword{left:auto;right:50%;text-align:right}
+  .mcopy{position:absolute;top:50%;transform:translateY(calc(-50% + var(--py,0px)));z-index:3;padding:0 var(--gutter);max-width:min(50%,720px);pointer-events:none}
+  .mcopy > *{pointer-events:auto}
+  .method[data-side="left"] .mcopy{left:0}
+  .method[data-side="right"] .mcopy{right:0}
+  .mnum{display:flex;align-items:baseline;gap:10px;font-family:var(--display);color:var(--thread);margin-bottom:12px}
+  .mnum b{font-weight:400;font-size:clamp(44px,4.8vw,80px);line-height:.9;letter-spacing:-.03em}
+  .mnum span{font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--fg-mute)}
+  .mcopy .eyebrow{color:var(--fg-mute)}
+  .mcopy h2{font-family:var(--display);font-size:clamp(38px,5.2vw,88px);line-height:.96;letter-spacing:-.02em;max-width:11ch;margin-top:14px}
+  .mcopy h2 em{font-style:italic;font-weight:400}
+  .mcopy .lede{color:var(--fg-soft);font-size:clamp(15px,1.15vw,18px);max-width:42ch;margin-top:20px}
+  .facts{list-style:none;margin:26px 0 0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:0 28px;max-width:480px;border-top:1px solid var(--rule)}
+  .facts li{display:grid;gap:3px;padding:12px 0;border-bottom:1px solid var(--rule)}
+  .facts small{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--fg-mute)}
+  .facts b{font-weight:600;font-size:14px;line-height:1.3;color:var(--fg)}
+  .prods{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+  .prods span{border:1px solid var(--rule);padding:6px 12px;border-radius:999px;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--fg-soft)}
+  .mbar{position:absolute;left:var(--gutter);right:var(--gutter);bottom:clamp(18px,3.5vh,34px);height:1px;background:var(--rule);z-index:3}
+  .mbar i{display:block;height:100%;width:0;background:var(--thread)}
+  .mbar span{position:absolute;right:0;top:-20px;font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--fg)}
+  .mframe.narrow .mscrim{background:linear-gradient(0deg,rgba(var(--scrim),.94) 0%,rgba(var(--scrim),.8) 48%,rgba(var(--scrim),0) 72%) !important}
+  .mframe.narrow .mcopy{left:0;right:0;top:auto;bottom:clamp(44px,7vh,70px);transform:translateY(var(--py,0px));max-width:none}
+  .mframe.narrow .mnum b{font-size:40px}
+  .mframe.narrow .mcopy h2{font-size:clamp(32px,9vw,46px);max-width:none;margin-top:8px}
+  .mframe.narrow .mcopy .lede{font-size:14px;margin-top:10px;max-width:none}
+  .mframe.narrow .facts{margin-top:12px;max-width:none}.mframe.narrow .facts li{padding:8px 0}.mframe.narrow .facts b{font-size:12.5px}
+  .mframe.narrow .prods{display:none}
+  .mframe.narrow .kword{font-size:22vw;bottom:auto;top:clamp(70px,9vh,90px);opacity:.9;left:0;right:auto;text-align:left;padding-left:var(--gutter)}
+  .mframe.narrow .mbar{display:none}
+
+  .btn{display:inline-flex;align-items:center;gap:14px;padding:15px 24px;border-radius:999px;border:1px solid var(--ink);font-weight:600;font-size:15px;background:var(--paper);color:var(--ink);transition:background .3s,color .3s,border-color .3s;will-change:transform}
+  .btn.solid{background:var(--ink);color:var(--paper)}
+  .btn:hover{background:var(--ink);color:var(--paper)}
+  .btn.solid:hover{background:var(--thread);border-color:var(--thread)}
+  .btn.orange{background:var(--thread);border-color:var(--thread);color:#fff}
+  .btn.orange:hover{background:#d94800;border-color:#d94800}
+  .btn.green{background:var(--whats);border-color:var(--whats);color:#fff}
+  .btn.green:hover{background:#178f44;border-color:#178f44}
+  .btn .arr{display:inline-block;transition:transform .35s var(--ease)}
+  .btn:hover .arr{transform:translateX(5px)}
+
+  /* the bridge between the spreads and the guide */
+  .bridge{padding-block:clamp(70px,10vw,140px);text-align:center;display:grid;justify-items:center;gap:22px;background:var(--paper);position:relative;z-index:2}
+  .bridge h2{font-family:var(--display);font-size:clamp(32px,4.2vw,64px);line-height:1;letter-spacing:-.015em;max-width:18ch}
+  .bridge .actions{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+
+  /* ---------- sections ---------- */
+  .section{padding-block:clamp(80px,11vw,170px)}
+  .head{display:grid;grid-template-columns:1.2fr .8fr;gap:32px;align-items:end;margin-bottom:clamp(40px,6vw,88px)}
+  .head .eyebrow{margin-bottom:16px}
+  .head h2{font-family:var(--display);font-size:clamp(38px,5.2vw,80px);line-height:1;letter-spacing:-.015em}
+  .head p{color:var(--mute);max-width:44ch;justify-self:end;font-size:clamp(15px,1.15vw,17px)}
+  @media (max-width:820px){.head{grid-template-columns:1fr}.head p{justify-self:start}}
+
+  /* pillars */
+  .pillars{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--hair);border-bottom:1px solid var(--hair)}
+  .pillar{position:relative;padding:36px 28px 32px;border-right:1px solid var(--hair);display:grid;grid-template-rows:auto 1fr auto;gap:28px;min-height:500px;overflow:hidden;transition:background .5s}
+  .pillar:last-child{border-right:0}
+  .pillar:hover{background:var(--paper-2)}
+  .pillar .k{display:flex;justify-content:space-between;color:var(--mute)}
+  .pillar h3{font-family:var(--display);font-size:clamp(30px,3vw,46px);line-height:1;letter-spacing:-.01em}
+  .pillar h3 em{color:var(--mute)}
+  .pillar p{color:var(--mute);margin-top:14px;max-width:30ch}
+  .pillar ul{list-style:none;margin:16px 0 0;padding:0;display:grid;gap:6px;font-size:14px}
+  .pillar ul li::before{content:"— ";color:var(--thread)}
+  .pillar .art{position:absolute;right:-10%;bottom:-8%;width:60%;color:var(--c);transition:transform .8s var(--ease)}
+  .pillar:hover .art{transform:translate(-6%,-6%) rotate(-4deg)}
+  .pillar .go{display:inline-flex;gap:10px;align-items:center;font-weight:600;font-size:14px}
+  .pillar .go .arr{transition:transform .35s var(--ease)}
+  .pillar:hover .go .arr{transform:translateX(6px)}
+  @media (max-width:900px){.pillars{grid-template-columns:1fr}.pillar{border-right:0;border-bottom:1px solid var(--hair);min-height:360px}.pillar:last-child{border-bottom:0}}
+
+  /* method × product guide */
+  .guide{background:var(--paper-2)}
+  .matrix{overflow-x:auto;border:1px solid var(--hair);background:var(--paper)}
+  .matrix table{border-collapse:collapse;width:100%;min-width:820px;font-size:14px}
+  .matrix th,.matrix td{padding:14px 16px;border-bottom:1px solid var(--hair);text-align:center;white-space:nowrap}
+  .matrix th{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);font-weight:500;background:var(--paper)}
+  .matrix th:first-child,.matrix td:first-child{text-align:left;position:sticky;left:0;background:var(--paper);font-weight:600;min-width:200px}
+  .matrix td:first-child small{display:block;color:var(--mute);font-weight:400;font-size:12px}
+  .matrix tr:last-child td{border-bottom:0}
+  .matrix .d{display:inline-block;width:11px;height:11px;border-radius:50%}
+  .matrix .d.y{background:var(--thread)}
+  .matrix .d.m{border:1px solid var(--ink)}
+  .matrix tbody tr:hover td{background:var(--paper-2)}
+  .matrix td.hi,.matrix th.hi{background:var(--thread-soft)}
+  .legend{display:flex;gap:28px;margin-top:16px;color:var(--mute);font-size:13px;flex-wrap:wrap}
+  .legend span{display:flex;gap:10px;align-items:center}
+  .picker{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:48px}
+  .picker a{border:1px solid var(--hair);padding:20px 22px;background:var(--paper);display:grid;gap:10px;transition:background .3s,transform .4s var(--ease)}
+  .picker a:hover{background:var(--thread-soft);transform:translateY(-3px)}
+  .picker a small{color:var(--mute);font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase}
+  .picker a b{font-family:var(--display);font-weight:400;font-size:22px;line-height:1.1}
+  .picker a span{color:var(--mute);font-size:14px}
+  @media (max-width:900px){.picker{grid-template-columns:1fr 1fr}}
+  @media (max-width:520px){.picker{grid-template-columns:1fr}}
+
+  /* lookbook */
+  .look{overflow:hidden}
+  .look-track{display:flex;gap:18px;will-change:transform;padding-inline:var(--gutter)}
+  .card{flex:0 0 clamp(240px,26vw,340px);display:grid;gap:14px}
+  .card .fig{aspect-ratio:4/5;max-width:100%;background:var(--paper-2);border:1px solid var(--hair);display:grid;place-items:center;position:relative;overflow:hidden}
+  .card .fig svg{width:62%;color:var(--c);filter:drop-shadow(0 18px 24px rgba(21,22,27,.12));transition:transform .8s var(--ease)}
+  .card:hover .fig svg{transform:translateY(-6px) rotate(-3deg)}
+  .card .fig .num{position:absolute;left:14px;top:12px;font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--mute)}
+  .card .fig .badge{position:absolute;right:12px;top:12px;background:var(--thread);color:#fff;padding:5px 9px;font-family:var(--mono);font-size:10px;letter-spacing:.12em}
+  .card .fig .how{position:absolute;left:14px;bottom:12px;font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
+  .card .row{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+  .card h3{font-family:var(--display);font-size:24px;line-height:1.05}
+  .card .sub{color:var(--mute);font-size:13px}
+  .card .price{font-family:var(--mono);font-size:13px;white-space:nowrap}
+  .card .price s{color:var(--mute);margin-right:8px}
+  .chips{display:flex;gap:6px}
+  .chips button{width:18px;height:18px;border-radius:50%;border:1px solid var(--hair);padding:0;background:var(--h);transition:transform .25s}
+  .chips button.on,.chips button:hover{transform:scale(1.25);box-shadow:0 0 0 2px var(--paper),0 0 0 3px var(--ink)}
+  .look-foot{display:flex;justify-content:space-between;align-items:center;margin-top:30px;color:var(--mute);gap:16px;flex-wrap:wrap}
+  .cats{display:grid;grid-template-columns:repeat(5,1fr);border-top:1px solid var(--hair);border-left:1px solid var(--hair)}
+  .cats a{padding:22px;border-right:1px solid var(--hair);border-bottom:1px solid var(--hair);display:grid;gap:8px;transition:background .3s}
+  .cats a:hover{background:var(--paper-2)}
+  .cats a b{font-family:var(--display);font-weight:400;font-size:22px}
+  .cats a span{color:var(--mute);font-size:13px}
+  @media (max-width:900px){.cats{grid-template-columns:repeat(2,1fr)}}
+
+  /* process */
+  .process{background:var(--paper-2)}
+  .proc-viewport{overflow:hidden}
+  .proc-track{display:flex;gap:18px;will-change:transform;padding-inline:var(--gutter)}
+  .step{flex:0 0 min(80vw,540px);background:var(--paper);border:1px solid var(--hair);padding:28px;display:grid;grid-template-rows:auto 1fr auto;gap:28px;min-height:420px}
+  .step .num{font-family:var(--display);font-size:76px;line-height:.85;letter-spacing:-.03em;display:flex;justify-content:space-between;align-items:start;color:var(--thread)}
+  .step .num small{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);padding-top:8px}
+  .step h3{font-family:var(--display);font-size:clamp(26px,2.6vw,38px);line-height:1.05}
+  .step p{color:var(--mute);margin-top:12px;max-width:34ch}
+  .step .ill{height:110px;display:flex;align-items:end;justify-content:space-between;border-top:1px solid var(--hair);padding-top:16px}
+  .step .ill svg{height:84px;width:auto;color:var(--ink)}
+  .step .ill .t{color:var(--mute)}
+  .good{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--hair);border-left:1px solid var(--hair);margin-inline:var(--gutter)}
+  .good div{padding:24px;border-right:1px solid var(--hair);border-bottom:1px solid var(--hair);display:grid;gap:8px;background:var(--paper)}
+  .good b{font-family:var(--display);font-weight:400;font-size:24px;line-height:1.05}
+  .good span{color:var(--mute);font-size:14px;max-width:26ch}
+  @media (max-width:900px){.proc-track{flex-direction:column}.step{flex-basis:auto;min-height:0}.good{grid-template-columns:1fr 1fr}}
+  @media (max-width:520px){.good{grid-template-columns:1fr}}
+
+  /* centres */
+  .centres{display:grid;grid-template-columns:1fr 1fr;column-gap:48px}
+  .centre{display:grid;grid-template-columns:auto 1fr auto;gap:22px;align-items:start;padding:28px 0;border-top:1px solid var(--hair)}
+  .centre .city{font-family:var(--display);font-size:clamp(28px,2.8vw,44px);line-height:1;letter-spacing:-.01em}
+  .centre .state{color:var(--mute);margin-top:6px;font-size:14px}
+  .centre address{font-style:normal;color:var(--mute);max-width:30ch;font-size:15px}
+  .centre .status{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;display:flex;align-items:center;gap:8px;white-space:nowrap}
+  .centre .status i{width:7px;height:7px;border-radius:50%;background:var(--whats)}
+  .centre .status.soon i{background:var(--stone)}
+  .walk{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:40px}
+  .walk div{border-top:1px solid var(--hair);padding-top:16px;color:var(--mute);font-size:14px}
+  .walk div b{display:block;color:var(--ink);font-weight:600;margin-bottom:4px}
+  @media (max-width:900px){.centres{grid-template-columns:1fr}.centre{grid-template-columns:1fr;gap:10px}.walk{grid-template-columns:1fr}}
+
+  /* proof */
+  .marquee{border-top:1px solid var(--hair);border-bottom:1px solid var(--hair);overflow:hidden;padding-block:18px}
+  .marquee .track{display:flex;gap:64px;white-space:nowrap;width:max-content;animation:mq 46s linear infinite}
+  .marquee .track span{font-family:var(--display);font-size:clamp(22px,2.6vw,34px);color:var(--ink)}
+  .marquee .track span::after{content:"·";color:var(--thread);margin-left:64px}
+  @keyframes mq{to{transform:translateX(-50%)}}
+  .testis{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--hair);border-left:1px solid var(--hair)}
+  .testi{padding:32px 28px;border-right:1px solid var(--hair);border-bottom:1px solid var(--hair);display:grid;grid-template-rows:auto 1fr auto;gap:22px;min-height:320px}
+  .testi .stars{color:var(--thread);letter-spacing:.2em;font-size:13px}
+  .testi blockquote{margin:0;font-family:var(--display);font-size:clamp(20px,1.7vw,26px);line-height:1.2;text-wrap:balance}
+  .testi .who{display:flex;justify-content:space-between;gap:12px;color:var(--mute);font-size:13px}
+  .testi .who b{color:var(--ink);font-weight:600}
+  .numbers{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;font-variant-numeric:tabular-nums;border-top:1px solid var(--hair);padding-top:28px;margin-top:64px}
+  .numbers b{display:block;font-family:var(--display);font-weight:400;font-size:clamp(40px,5.4vw,84px);line-height:.95;letter-spacing:-.02em}
+  .numbers small{color:var(--mute)}
+  @media (max-width:900px){.testis{grid-template-columns:1fr}.testi{border-right:0;min-height:0}.numbers{grid-template-columns:1fr 1fr}}
+
+  /* faq */
+  .faq{display:grid;grid-template-columns:.8fr 1.2fr;gap:48px;align-items:start}
+  .faq details{border-top:1px solid var(--hair)}
+  .faq details:last-child{border-bottom:1px solid var(--hair)}
+  .faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:20px;align-items:center;padding:22px 0;font-family:var(--display);font-size:clamp(20px,1.9vw,28px);line-height:1.2}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary i{width:34px;height:34px;border:1px solid var(--hair);border-radius:50%;display:grid;place-items:center;flex:none;transition:transform .4s var(--ease),background .3s;font-style:normal;font-family:var(--mono);font-size:14px}
+  .faq details[open] summary i{transform:rotate(45deg);background:var(--ink);color:var(--paper)}
+  .faq .a{color:var(--mute);padding:0 0 24px;max-width:56ch}
+    @media (max-width:900px){.faq{grid-template-columns:1fr}}
+
+  /* end */
+  .end{background:var(--navy);color:var(--paper);color-scheme:dark;padding-block:clamp(90px,13vw,190px) 40px;position:relative;overflow:hidden}
+  .end .eyebrow{color:rgba(246,244,239,.6);margin-bottom:22px}
+  .end .eyebrow i{background:var(--thread)}
+  .end h2{font-family:var(--display);font-size:clamp(46px,8.6vw,150px);line-height:.92;letter-spacing:-.025em;max-width:10ch}
+  .end h2 em{color:rgba(246,244,239,.55)}
+  .end p{color:rgba(246,244,239,.7);max-width:44ch;margin-top:28px}
+  .end .actions{display:flex;gap:14px;flex-wrap:wrap;margin-top:40px}
+  .end .btn{border-color:rgba(246,244,239,.35);background:transparent;color:var(--paper)}
+  .end .btn:hover{background:var(--paper);color:var(--navy)}
+  .end .btn.green{background:var(--whats);color:#fff;border-color:var(--whats)}
+  .end .btn.green:hover{background:#178f44;border-color:#178f44}
+  .end .ghost2{position:absolute;right:-4%;bottom:-10%;width:42%;color:rgba(246,244,239,.06);pointer-events:none}
+  .foot{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:32px;margin-top:clamp(70px,9vw,130px);padding-top:32px;border-top:1px solid rgba(246,244,239,.16);color:rgba(246,244,239,.65);font-size:14px;position:relative}
+  .foot h4{margin:0 0 12px;color:var(--paper);font-weight:600;font-size:14px}
+  .foot ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+  .foot .contact{display:grid;gap:6px;margin-top:14px;color:var(--paper);user-select:all}
+  .legal{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:40px;padding-top:20px;border-top:1px solid rgba(246,244,239,.16);color:rgba(246,244,239,.55);font-size:12px}
+  @media (max-width:820px){.foot{grid-template-columns:1fr 1fr}}
+
+  @media (prefers-reduced-motion:reduce){
+    .marquee .track{animation:none}
+    .loader{display:none}
+    .hero{height:auto}.method{height:auto}
+  }
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="g-tee" viewBox="0 0 100 100"><path d="M22 14 L38 8 Q50 19 62 8 L78 14 L94 32 L79 41 L79 92 L21 92 L21 41 L6 32 Z"/></symbol>
+  <symbol id="g-polo" viewBox="0 0 100 100"><path d="M22 14 L38 8 Q50 19 62 8 L78 14 L94 32 L79 41 L79 92 L21 92 L21 41 L6 32 Z"/><path d="M38 8 L45 30 L50 23 L55 30 L62 8" fill="none" stroke="var(--paper)" stroke-width="2" stroke-linejoin="round"/><path d="M50 23 V44" stroke="var(--paper)" stroke-width="2"/><circle cx="50" cy="31" r="1.4" fill="var(--paper)"/><circle cx="50" cy="38" r="1.4" fill="var(--paper)"/></symbol>
+  <symbol id="g-hoodie" viewBox="0 0 100 100"><path d="M20 22 L34 12 Q50 -2 66 12 L80 22 L95 40 L80 48 L80 94 L20 94 L20 48 L5 40 Z"/><path d="M38 16 Q50 8 62 16 Q50 30 38 16 Z" fill="var(--paper)"/><path d="M33 70 H67 V90 H33 Z" fill="none" stroke="var(--paper)" stroke-width="2"/><path d="M44 30 V52 M56 30 V52" stroke="var(--paper)" stroke-width="2"/></symbol>
+  <symbol id="g-jersey" viewBox="0 0 100 100"><path d="M22 14 L38 8 Q50 22 62 8 L78 14 L94 32 L79 41 L79 92 L21 92 L21 41 L6 32 Z"/><path d="M21 52 H79 M21 60 H79" stroke="var(--paper)" stroke-width="3"/><text x="50" y="84" text-anchor="middle" font-family="Bodoni Moda,serif" font-size="22" fill="var(--paper)">10</text></symbol>
+  <symbol id="g-cap" viewBox="0 0 100 100"><path d="M18 60 Q18 26 50 26 Q82 26 82 60 Z"/><path d="M10 60 H92 Q100 66 90 71 H10 Q4 66 10 60 Z"/><path d="M50 26 V60" stroke="var(--paper)" stroke-width="2"/></symbol>
+  <symbol id="g-box" viewBox="0 0 100 100"><path d="M14 40 H86 V88 H14 Z"/><path d="M10 28 H90 V40 H10 Z"/><path d="M50 28 V88" stroke="var(--paper)" stroke-width="3"/><path d="M40 28 Q50 10 50 28 Q50 10 60 28" fill="none" stroke="var(--paper)" stroke-width="2"/></symbol>
+  <symbol id="g-bag" viewBox="0 0 100 100"><path d="M26 30 Q26 8 50 8 Q74 8 74 30 V88 Q74 94 68 94 H32 Q26 94 26 88 Z"/><path d="M34 40 H66 V70 H34 Z" fill="none" stroke="var(--paper)" stroke-width="2"/><path d="M38 30 Q38 16 50 16 Q62 16 62 30" fill="none" stroke="var(--paper)" stroke-width="2"/></symbol>
+  <symbol id="g-bottle" viewBox="0 0 100 100"><path d="M42 6 H58 V18 Q68 26 68 38 V88 Q68 94 62 94 H38 Q32 94 32 88 V38 Q32 26 42 18 Z"/><path d="M38 48 H62 M38 56 H62" stroke="var(--paper)" stroke-width="2"/></symbol>
+  <symbol id="g-note" viewBox="0 0 100 100"><path d="M24 10 H80 V92 H24 Z"/><path d="M20 24 H30 M20 40 H30 M20 56 H30 M20 72 H30" stroke="var(--paper)" stroke-width="3"/><path d="M40 34 H68 M40 46 H68 M40 58 H60" stroke="var(--paper)" stroke-width="2"/></symbol>
+</svg>
+
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="bar" id="loaderBar"></div>
+  <div class="big"><span>Y</span><span>O</span><span>O</span><span>D</span><span>E</span></div>
+  <div class="row"><span class="mono">Seven ways to make it yours</span><span class="count" id="count">000</span></div>
+</div>
+
+<div class="cursor" id="cursor" aria-hidden="true"><div class="dot"></div><div class="ring"><span id="cursorLabel">Drag</span></div></div>
+
+<header class="nav">
+  <a class="mark" href="#top" aria-label="Yoode home">YOODE</a>
+  <ul>
+    <li><a href="#m-dtg">Methods</a></li>
+    <li><a href="#who">Who it's for</a></li>
+    <li><a href="#guide">Method guide</a></li>
+    <li><a href="#shop">Products</a></li>
+    <li><a href="#process">How it works</a></li>
+    <li><a href="#centres">Centres</a></li>
+    <li><a href="#faq">FAQ</a></li>
+  </ul>
+  <a class="quote magnetic" href="#quote">Get a quote</a>
+  <div class="progress"><i id="prog"></i></div>
+</header>
+
+<canvas id="gl" aria-hidden="true"></canvas>
+<div id="smooth-wrapper"><div id="smooth-content">
+
+<!-- ================= HERO: LOOK CLOSER ================= -->
+<section class="hero" id="top" aria-label="Look closer at the fabric">
+  <div class="hframe" id="hframe">
+    <div class="hview" data-view="wide" data-cursor="Touch" aria-hidden="true"></div>
+    <div class="hscrim" aria-hidden="true"></div>
+    <div class="hcopy" id="heroCopy">
+      <div class="mono eyebrow"><i></i>Custom apparel, merchandise &amp; gifting · India</div>
+      <h1 class="split">Look <em>closer.</em></h1>
+      <p class="intro">Anything you can wear, carry or gift, made yours seven ways. Scroll in to the fibre and watch what each one does to the cloth. Move across the fabric to touch it.</p>
+    </div>
+    <ol class="hindex" id="hindex" aria-label="The seven methods">
+      <li><a href="#m-dtg" data-base="0"><small>01</small>DTG print</a></li>
+      <li><a href="#m-dtf" data-base="1"><small>02</small>DTF transfer</a></li>
+      <li><a href="#m-embroidery" data-base="2"><small>03</small>Embroidery</a></li>
+      <li><a href="#m-coloreel" data-base="3"><small>04</small>Coloreel</a></li>
+      <li><a href="#m-screen" data-base="4"><small>05</small>Screen print</a></li>
+      <li><a href="#m-uv" data-base="5"><small>06</small>UV print</a></li>
+      <li><a href="#m-engraving" data-base="6"><small>07</small>Engraving</a></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ================= SEVEN SPREADS ================= -->
+<section class="method" id="m-dtg" data-k="0" data-side="left" data-tone="light">
+  <div class="mframe">
+    <div class="mview" data-view="0" aria-label="DTG, seen at the fibre"></div>
+    <div class="mscrim" aria-hidden="true"></div>
+    <div class="kword" aria-hidden="true">DTG</div>
+    <div class="mcopy">
+      <div class="mnum"><b>01</b><span>/ 07</span></div>
+      <div class="mono eyebrow"><i></i>Chapter 01 · Direct-to-garment · 180 GSM combed cotton</div>
+      <h2 class="split">Ink that <em>soaks in.</em></h2>
+      <p class="lede">Water-based ink sprayed straight into the knit. It sinks between the loops instead of sitting on them, so a photograph prints with every gradient and the shirt still feels like a shirt.</p>
+      <ul class="facts"><li><small>Best for</small><b>Photos, gradients, art</b></li><li><small>Fabric</small><b>100% cotton</b></li><li><small>Minimum</small><b>1 piece</b></li><li><small>Wash life</small><b>50+ washes</b></li></ul>
+      <div class="prods"><span>Tees</span><span>Sweatshirts</span><span>Totes</span></div>
+    </div>
+    <div class="mbar"><i></i><span>DTG</span></div>
+  </div>
+</section>
+<section class="method" id="m-dtf" data-k="1" data-side="right" data-tone="dark">
+  <div class="mframe">
+    <div class="mview" data-view="1" aria-label="DTF, seen at the fibre"></div>
+    <div class="mscrim" aria-hidden="true"></div>
+    <div class="kword" aria-hidden="true">DTF</div>
+    <div class="mcopy">
+      <div class="mnum"><b>02</b><span>/ 07</span></div>
+      <div class="mono eyebrow"><i></i>Chapter 02 · Direct-to-film · 320 GSM fleece</div>
+      <h2 class="split">A print that <em>sits on top.</em></h2>
+      <p class="lede">The artwork is printed on film, pressed onto the fleece at heat, and the film peeled away cold. What stays is a bold, flat layer with white ink built in, so it works on black, on polyester, on anything.</p>
+      <ul class="facts"><li><small>Best for</small><b>Logos and vectors</b></li><li><small>Fabric</small><b>Any, including poly</b></li><li><small>Minimum</small><b>1 piece</b></li><li><small>Wash life</small><b>60+ washes</b></li></ul>
+      <div class="prods"><span>Hoodies</span><span>Jerseys</span><span>Caps</span><span>Bags</span></div>
+    </div>
+    <div class="mbar"><i></i><span>DTF</span></div>
+  </div>
+</section>
+<section class="method" id="m-embroidery" data-k="2" data-side="left" data-tone="light">
+  <div class="mframe">
+    <div class="mview" data-view="2" aria-label="Embroidery, seen at the fibre"></div>
+    <div class="mscrim" aria-hidden="true"></div>
+    <div class="kword" aria-hidden="true">Embroidery</div>
+    <div class="mcopy">
+      <div class="mnum"><b>03</b><span>/ 07</span></div>
+      <div class="mono eyebrow"><i></i>Chapter 03 · Embroidery · Pique cotton</div>
+      <h2 class="split">Thread, <em>four thousand</em> times.</h2>
+      <p class="lede">Your artwork is digitised into a stitch file, then a needle lays satin thread across the pique, pass after pass. It does not print; it becomes part of the cloth, and it outlasts the garment.</p>
+      <ul class="facts"><li><small>Best for</small><b>Logos, monograms</b></li><li><small>Fabric</small><b>Pique, twill, fleece</b></li><li><small>Minimum</small><b>1 piece</b></li><li><small>Life</small><b>Outlasts the garment</b></li></ul>
+      <div class="prods"><span>Polos</span><span>Caps</span><span>Jackets</span><span>Towels</span></div>
+    </div>
+    <div class="mbar"><i></i><span>Embroidery</span></div>
+  </div>
+</section>
+<section class="method" id="m-coloreel" data-k="3" data-side="right" data-tone="light">
+  <div class="mframe">
+    <div class="mview" data-view="3" aria-label="Coloreel, seen at the fibre"></div>
+    <div class="mscrim" aria-hidden="true"></div>
+    <div class="kword" aria-hidden="true">Coloreel</div>
+    <div class="mcopy">
+      <div class="mnum"><b>04</b><span>/ 07</span></div>
+      <div class="mono eyebrow"><i></i>Chapter 04 · Coloreel · Cotton twill</div>
+      <h2 class="split">One thread, <em>every colour.</em></h2>
+      <p class="lede">A single white thread, dyed on the machine as it feeds. Gradients and photoreal logos in embroidery, with no thread changes and no colour limit.</p>
+      <ul class="facts"><li><small>Best for</small><b>Gradient logos</b></li><li><small>Fabric</small><b>As embroidery</b></li><li><small>Minimum</small><b>1 piece</b></li><li><small>Colours</small><b>Unlimited</b></li></ul>
+      <div class="prods"><span>Caps</span><span>Polos</span><span>Jackets</span></div>
+    </div>
+    <div class="mbar"><i></i><span>Coloreel</span></div>
+  </div>
+</section>
+<section class="method" id="m-screen" data-k="4" data-side="left" data-tone="dark">
+  <div class="mframe">
+    <div class="mview" data-view="4" aria-label="Screen, seen at the fibre"></div>
+    <div class="mscrim" aria-hidden="true"></div>
+    <div class="kword" aria-hidden="true">Screen</div>
+    <div class="mcopy">
+      <div class="mnum"><b>05</b><span>/ 07</span></div>
+      <div class="mono eyebrow"><i></i>Chapter 05 · Screen printing · Cotton jersey</div>
+      <h2 class="split">Pull once, print <em>five hundred.</em></h2>
+      <p class="lede">Ink pulled through a mesh stencil, one colour per screen. Thick, matte, opaque, and once the screens are made every extra piece is cheap and fast. Built for events, uniforms and merch drops.</p>
+      <ul class="facts"><li><small>Best for</small><b>1–6 solid colours</b></li><li><small>Fabric</small><b>Cotton, blends</b></li><li><small>Minimum</small><b>50 pieces</b></li><li><small>Wash life</small><b>50+ washes</b></li></ul>
+      <div class="prods"><span>Event tees</span><span>Uniforms</span><span>Totes</span></div>
+    </div>
+    <div class="mbar"><i></i><span>Screen</span></div>
+  </div>
+</section>
+<section class="method" id="m-uv" data-k="5" data-side="right" data-tone="dark">
+  <div class="mframe">
+    <div class="mview" data-view="5" aria-label="UV, seen at the fibre"></div>
+    <div class="mscrim" aria-hidden="true"></div>
+    <div class="kword" aria-hidden="true">UV</div>
+    <div class="mcopy">
+      <div class="mnum"><b>06</b><span>/ 07</span></div>
+      <div class="mono eyebrow"><i></i>Chapter 06 · UV printing · Brushed steel</div>
+      <h2 class="split">Colour that <em>cures on steel.</em></h2>
+      <p class="lede">Droplets of ink land on the metal and an ultraviolet lamp sets them the instant they touch. Full colour on bottles, pens and boxes, slightly raised, glossy and scratch resistant.</p>
+      <ul class="facts"><li><small>Best for</small><b>Full colour, hard goods</b></li><li><small>Surface</small><b>Metal, glass, wood, plastic</b></li><li><small>Minimum</small><b>1 piece</b></li><li><small>Finish</small><b>Gloss, raised</b></li></ul>
+      <div class="prods"><span>Bottles</span><span>Pens</span><span>Notebooks</span><span>Phone cases</span></div>
+    </div>
+    <div class="mbar"><i></i><span>UV</span></div>
+  </div>
+</section>
+<section class="method" id="m-engraving" data-k="6" data-side="left" data-tone="dark">
+  <div class="mframe">
+    <div class="mview" data-view="6" aria-label="Engraving, seen at the fibre"></div>
+    <div class="mscrim" aria-hidden="true"></div>
+    <div class="kword" aria-hidden="true">Engraving</div>
+    <div class="mcopy">
+      <div class="mnum"><b>07</b><span>/ 07</span></div>
+      <div class="mono eyebrow"><i></i>Chapter 07 · Laser engraving · Full-grain leather</div>
+      <h2 class="split">Burned in. <em>Never off.</em></h2>
+      <p class="lede">A laser traces your artwork into leather, wood or steel and takes the surface with it. No ink, nothing to fade or peel. The finish for gifts, awards and anything meant to be kept.</p>
+      <ul class="facts"><li><small>Best for</small><b>Gifts, awards</b></li><li><small>Surface</small><b>Steel, wood, leather</b></li><li><small>Minimum</small><b>1 piece</b></li><li><small>Finish</small><b>Permanent</b></li></ul>
+      <div class="prods"><span>Bottles</span><span>Pens</span><span>Plaques</span><span>Gift boxes</span></div>
+    </div>
+    <div class="mbar"><i></i><span>Engraving</span></div>
+  </div>
+</section>
+<section class="bridge wrap">
+  <div class="mono eyebrow"><i></i>Walk in. Design it. Wear it.</div>
+  <h2 class="split">That's the whole counter. Bring the artwork and we'll pick the method.</h2>
+  <div class="actions">
+    <a class="btn orange magnetic" href="#quote">Start your order <span class="arr" aria-hidden="true">→</span></a>
+    <a class="btn magnetic" href="#guide">See the method guide</a>
+  </div>
+</section>
+
+<!-- ================= WHO IT'S FOR ================= -->
+<section class="section wrap" id="who">
+  <div class="head">
+    <div>
+      <div class="mono eyebrow"><i></i>Who it's for</div>
+      <h2 class="split">Made for the team, the field, <em>or just you.</em></h2>
+    </div>
+    <p>Everything is customised. What changes is who it's for, how many you need, and how fast you need them.</p>
+  </div>
+  <div class="pillars">
+    <a class="pillar" href="#" style="--c:var(--ink)" data-cursor="View">
+      <div class="mono k"><span>Corporate</span><span>01</span></div>
+      <div><h3>Equip your team. <em>Define your brand.</em></h3><p>Onboarding kits, embroidered polos, event tees and gift boxes with your mark on every piece.</p>
+        <ul><li>Bulk pricing from 25 pieces</li><li>Dedicated account manager</li><li>GST invoicing, pan-India dispatch</li></ul></div>
+      <span class="go">Explore corporate <span class="arr">→</span></span>
+      <svg class="art"><use href="#g-polo"/></svg>
+    </a>
+    <a class="pillar" href="#" style="--c:var(--thread)" data-cursor="View">
+      <div class="mono k"><span>Sports &amp; teams</span><span>02</span></div>
+      <div><h3>Kit your team. <em>Own the field.</em></h3><p>Sublimated jerseys, training wear and supporter merch. Official kit partner to Kombans FC.</p>
+        <ul><li>Names and numbers per player</li><li>Mockup request by sport</li><li>Match-day turnaround on request</li></ul></div>
+      <span class="go">Explore sportswear <span class="arr">→</span></span>
+      <svg class="art"><use href="#g-jersey"/></svg>
+    </a>
+    <a class="pillar" href="#" style="--c:var(--saffron)" data-cursor="View">
+      <div class="mono k"><span>Personalised</span><span>03</span></div>
+      <div><h3>Make it yours. <em>One piece or a thousand.</em></h3><p>Hoodies, caps, bottles and notebooks. No minimum order, a free mockup within 24 hours.</p>
+        <ul><li>Design online or at a centre</li><li>Template gallery or your own art</li><li>Pay only after you approve</li></ul></div>
+      <span class="go">Start designing <span class="arr">→</span></span>
+      <svg class="art"><use href="#g-hoodie"/></svg>
+    </a>
+  </div>
+</section>
+
+<!-- ================= METHOD GUIDE ================= -->
+<section class="section guide" id="guide">
+  <div class="wrap">
+    <div class="head">
+      <div>
+        <div class="mono eyebrow"><i></i>Method guide</div>
+        <h2 class="split">Which method for <em>which</em> product.</h2>
+      </div>
+      <p>Filled dots are what we recommend. Open dots work with the right artwork. Hover a column to compare, or skip all of this and send us the file.</p>
+    </div>
+    <div class="matrix" id="matrix">
+      <table>
+        <thead><tr><th>Product</th><th>DTG</th><th>DTF</th><th>Embroidery</th><th>Coloreel</th><th>Screen</th><th>UV</th><th>Engraving</th></tr></thead>
+        <tbody>
+          <tr><td>Cotton tees<small>Round, V, oversized</small></td><td><i class="d y"></i></td><td><i class="d y"></i></td><td><i class="d m"></i></td><td><i class="d m"></i></td><td><i class="d y"></i></td><td></td><td></td></tr>
+          <tr><td>Polos<small>Pique and jersey</small></td><td><i class="d m"></i></td><td><i class="d y"></i></td><td><i class="d y"></i></td><td><i class="d y"></i></td><td><i class="d m"></i></td><td></td><td></td></tr>
+          <tr><td>Hoodies &amp; sweatshirts<small>Fleece, French terry</small></td><td><i class="d m"></i></td><td><i class="d y"></i></td><td><i class="d y"></i></td><td><i class="d m"></i></td><td><i class="d y"></i></td><td></td><td></td></tr>
+          <tr><td>Jerseys<small>Polyester, sublimated</small></td><td></td><td><i class="d y"></i></td><td><i class="d m"></i></td><td><i class="d m"></i></td><td><i class="d m"></i></td><td></td><td></td></tr>
+          <tr><td>Caps<small>Cotton twill</small></td><td></td><td><i class="d y"></i></td><td><i class="d y"></i></td><td><i class="d y"></i></td><td></td><td></td><td></td></tr>
+          <tr><td>Jackets<small>Bomber, softshell</small></td><td></td><td><i class="d m"></i></td><td><i class="d y"></i></td><td><i class="d y"></i></td><td></td><td></td><td></td></tr>
+          <tr><td>Bags &amp; totes<small>Canvas, poly</small></td><td><i class="d y"></i></td><td><i class="d y"></i></td><td><i class="d y"></i></td><td><i class="d m"></i></td><td><i class="d y"></i></td><td></td><td></td></tr>
+          <tr><td>Bottles &amp; mugs<small>Steel, ceramic</small></td><td></td><td></td><td></td><td></td><td></td><td><i class="d y"></i></td><td><i class="d y"></i></td></tr>
+          <tr><td>Pens &amp; desk<small>Metal, wood</small></td><td></td><td></td><td></td><td></td><td></td><td><i class="d y"></i></td><td><i class="d y"></i></td></tr>
+          <tr><td>Notebooks<small>Leather, hardbound</small></td><td></td><td></td><td></td><td></td><td></td><td><i class="d y"></i></td><td><i class="d y"></i></td></tr>
+          <tr><td>Gift boxes &amp; awards<small>Wood, acrylic, crystal</small></td><td></td><td></td><td></td><td></td><td></td><td><i class="d y"></i></td><td><i class="d y"></i></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="legend"><span><i class="d y" style="display:inline-block;width:11px;height:11px;border-radius:50%;background:var(--thread)"></i>Recommended</span><span><i style="display:inline-block;width:11px;height:11px;border-radius:50%;border:1px solid var(--ink)"></i>Works with the right artwork</span></div>
+    <div class="picker">
+      <a href="#quote"><small>If your artwork is</small><b>A photo or gradient</b><span>DTG on cotton, UV on hard goods</span></a>
+      <a href="#quote"><small>If your artwork is</small><b>A logo, 1–6 colours</b><span>DTF for small runs, screen for 50+</span></a>
+      <a href="#quote"><small>If it should feel</small><b>Premium and permanent</b><span>Embroidery, Coloreel or engraving</span></a>
+      <a href="#quote"><small>If you need</small><b>500 pieces by Friday</b><span>Screen printing, talk to us today</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PRODUCTS ================= -->
+<section class="section look" id="shop">
+  <div class="wrap head">
+    <div>
+      <div class="mono eyebrow"><i></i>Most loved</div>
+      <h2 class="split">The pieces teams <em>come back for.</em></h2>
+    </div>
+    <p>Pick a colour on any card. Every piece ships in bulk, customised with the method noted on it. Prices are per piece before customisation.</p>
+  </div>
+  <div class="look-track" id="lookTrack">
+    <article class="card" style="--c:#1B2A48">
+      <div class="fig"><span class="num">01</span><span class="badge">−50%</span><svg><use href="#g-polo"/></svg><span class="how">Embroidery</span></div>
+      <div class="row"><div><h3>Men's Cotton Polo</h3><div class="sub">Pique cotton · S–XXL · 4.9★</div></div><span class="price"><s>₹1,560</s>₹780</span></div>
+      <div class="chips"><button class="on" style="--h:#1B2A48" aria-label="Navy"></button><button style="--h:#15161B" aria-label="Ink"></button><button style="--h:#F1ECE2" aria-label="Bone"></button><button style="--h:#7A1F2B" aria-label="Bordeaux"></button></div>
+    </article>
+    <article class="card" style="--c:#C8102E">
+      <div class="fig"><span class="num">02</span><span class="badge">−20%</span><svg><use href="#g-jersey"/></svg><span class="how">Sublimation · DTF</span></div>
+      <div class="row"><div><h3>Polo Half-Sleeve Jersey</h3><div class="sub">Polyester · S–XXL · 4.9★</div></div><span class="price"><s>₹875</s>₹700</span></div>
+      <div class="chips"><button class="on" style="--h:#C8102E" aria-label="Signal red"></button><button style="--h:#2C9AAB" aria-label="Lagoon"></button><button style="--h:#2E7D4F" aria-label="Forest"></button><button style="--h:#E5A100" aria-label="Saffron"></button></div>
+    </article>
+    <article class="card" style="--c:#15161B">
+      <div class="fig"><span class="num">03</span><svg><use href="#g-hoodie"/></svg><span class="how">DTF · Screen</span></div>
+      <div class="row"><div><h3>Heavyweight Hoodie</h3><div class="sub">320 GSM fleece · XS–3XL</div></div><span class="price">On request</span></div>
+      <div class="chips"><button class="on" style="--h:#15161B" aria-label="Ink"></button><button style="--h:#D2C6A8" aria-label="Sand"></button><button style="--h:#6C4AB6" aria-label="Amethyst"></button><button style="--h:#7A5A42" aria-label="Walnut"></button></div>
+    </article>
+    <article class="card" style="--c:#7A5A42">
+      <div class="fig"><span class="num">04</span><span class="badge">−11%</span><svg><use href="#g-box"/></svg><span class="how">Engraving · UV</span></div>
+      <div class="row"><div><h3>Corporate Gift Box</h3><div class="sub">Curated kit · 4.7★</div></div><span class="price"><s>₹2,800</s>₹2,499</span></div>
+      <div class="chips"><button class="on" style="--h:#7A5A42" aria-label="Walnut"></button><button style="--h:#1B2A48" aria-label="Navy"></button><button style="--h:#15161B" aria-label="Ink"></button><button style="--h:#D8734F" aria-label="Terracotta"></button></div>
+    </article>
+    <article class="card" style="--c:#2C9AAB">
+      <div class="fig"><span class="num">05</span><svg><use href="#g-bag"/></svg><span class="how">Embroidery</span></div>
+      <div class="row"><div><h3>RedBolt Space Backpack</h3><div class="sub">Laptop sleeve · embroidered</div></div><span class="price">₹4,999</span></div>
+      <div class="chips"><button class="on" style="--h:#2C9AAB" aria-label="Lagoon"></button><button style="--h:#15161B" aria-label="Ink"></button><button style="--h:#C8102E" aria-label="Signal red"></button><button style="--h:#1B2A48" aria-label="Navy"></button></div>
+    </article>
+    <article class="card" style="--c:#E5A100">
+      <div class="fig"><span class="num">06</span><svg><use href="#g-cap"/></svg><span class="how">Coloreel · Embroidery</span></div>
+      <div class="row"><div><h3>Structured Cap</h3><div class="sub">6-panel twill · 3D embroidery</div></div><span class="price">On request</span></div>
+      <div class="chips"><button class="on" style="--h:#E5A100" aria-label="Saffron"></button><button style="--h:#15161B" aria-label="Ink"></button><button style="--h:#F1ECE2" aria-label="Bone"></button><button style="--h:#2E7D4F" aria-label="Forest"></button></div>
+    </article>
+    <article class="card" style="--c:#2E7D4F">
+      <div class="fig"><span class="num">07</span><svg><use href="#g-bottle"/></svg><span class="how">UV · Engraving</span></div>
+      <div class="row"><div><h3>Steel Bottle</h3><div class="sub">750 ml · double wall</div></div><span class="price">On request</span></div>
+      <div class="chips"><button class="on" style="--h:#2E7D4F" aria-label="Forest"></button><button style="--h:#15161B" aria-label="Ink"></button><button style="--h:#D2C6A8" aria-label="Sand"></button><button style="--h:#7A1F2B" aria-label="Bordeaux"></button></div>
+    </article>
+    <article class="card" style="--c:#D8734F">
+      <div class="fig"><span class="num">08</span><svg><use href="#g-note"/></svg><span class="how">Engraving · Foil</span></div>
+      <div class="row"><div><h3>Hardbound Notebook</h3><div class="sub">A5 · leather cover</div></div><span class="price">On request</span></div>
+      <div class="chips"><button class="on" style="--h:#D8734F" aria-label="Terracotta"></button><button style="--h:#15161B" aria-label="Ink"></button><button style="--h:#1B2A48" aria-label="Navy"></button><button style="--h:#2C9AAB" aria-label="Lagoon"></button></div>
+    </article>
+  </div>
+  <div class="wrap">
+    <div class="look-foot">
+      <span class="mono">Prices per piece before customisation · bulk pricing on request</span>
+      <a class="btn magnetic" href="#">Shop all <span class="arr" aria-hidden="true">→</span></a>
+    </div>
+  </div>
+</section>
+
+<section class="wrap" style="padding-bottom:clamp(80px,11vw,170px)">
+    <div class="cats">
+      <a href="#"><b>Apparel</b><span>Tees, polos, hoodies, jackets, uniforms</span></a>
+      <a href="#"><b>Sportswear</b><span>Jerseys, training kits, supporter wear</span></a>
+      <a href="#"><b>Accessories</b><span>Caps, bags, bottles, mugs</span></a>
+      <a href="#"><b>Stationery</b><span>Notebooks, pens, desk sets</span></a>
+      <a href="#"><b>Gifting &amp; Kids</b><span>Gift boxes, awards, kids' wear</span></a>
+    </div>
+</section>
+
+<!-- ================= PROCESS ================= -->
+<section class="section process" id="process">
+  <div class="wrap head">
+    <div>
+      <div class="mono eyebrow"><i></i>How it works</div>
+      <h2 class="split">Idea to delivery in <em>five</em> steps.</h2>
+    </div>
+    <p>You pay only after you approve the mockup. From there, production and quality checks are on us.</p>
+  </div>
+  <div class="proc-viewport">
+    <div class="proc-track" id="procTrack">
+      <article class="step">
+        <div class="num">01<small>Day 0</small></div>
+        <div><h3>Choose the product.</h3><p>Tees, jerseys, polos, hoodies, gift kits. Tell us the quantity and sizes. There is no minimum.</p></div>
+        <div class="ill"><svg viewBox="0 0 100 100"><use href="#g-tee"/></svg><span class="mono t">Catalogue or brief</span></div>
+      </article>
+      <article class="step">
+        <div class="num">02<small>Day 0</small></div>
+        <div><h3>Share the design.</h3><p>Upload artwork, a logo or a rough idea. Our studio vectorises it, places it and matches the colour.</p></div>
+        <div class="ill"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3"><path d="M50 78 V26 M30 46 L50 26 L70 46"/><path d="M16 84 H84"/></svg><span class="mono t">Any file format</span></div>
+      </article>
+      <article class="step">
+        <div class="num">03<small>Within 24 h</small></div>
+        <div><h3>Review the mockup.</h3><p>A detailed preview on the exact garment and shade. Revise as many times as you like, free.</p></div>
+        <div class="ill"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3"><rect x="14" y="20" width="72" height="52"/><path d="M14 60 L38 40 L56 56 L68 46 L86 60"/><path d="M36 84 H64"/></svg><span class="mono t">Free, unlimited revisions</span></div>
+      </article>
+      <article class="step">
+        <div class="num">04<small>Day 1–2</small></div>
+        <div><h3>Approve and order.</h3><p>Confirm the mockup, then pay. Production begins the day your approval lands.</p></div>
+        <div class="ill"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3"><circle cx="50" cy="50" r="32"/><path d="M34 52 L46 63 L68 38"/></svg><span class="mono t">Pay after approval</span></div>
+      </article>
+      <article class="step">
+        <div class="num">05<small>Day 5–10</small></div>
+        <div><h3>Production and delivery.</h3><p>Printed or stitched, quality-checked piece by piece, packed and shipped anywhere in India.</p></div>
+        <div class="ill"><svg viewBox="0 0 100 100"><use href="#g-box"/></svg><span class="mono t">Pan-India</span></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="process" style="padding-bottom:clamp(80px,11vw,170px)">
+  <div class="good">
+    <div><b>No minimum order</b><span>Order one, or one thousand. Same care either way.</span></div>
+    <div><b>Free 24-hour mockup</b><span>See it on the exact product and colour before you pay.</span></div>
+    <div><b>Pay after approval</b><span>Nothing goes to production until you've signed off.</span></div>
+    <div><b>Mix sizes and colours</b><span>One order, any mix of sizes and shades, same price.</span></div>
+    <div><b>Bulk pricing</b><span>Per-piece cost steps down with quantity. Ask for the tier.</span></div>
+    <div><b>Design help included</b><span>No artwork yet? Start from our template gallery or brief the studio.</span></div>
+    <div><b>Pan-India delivery</b><span>Dispatch from four centres, tracked to your door.</span></div>
+    <div><b>Reply within 2 hours</b><span>WhatsApp, phone or email, on working days.</span></div>
+  </div>
+</section>
+
+<!-- ================= CENTRES ================= -->
+<section class="section wrap" id="centres">
+  <div class="head">
+    <div>
+      <div class="mono eyebrow"><i></i>Experience centres</div>
+      <h2 class="split">See it. Touch it. <em>Make it yours.</em></h2>
+    </div>
+    <p>Most merch is bought off a screen. Ours has four front doors. Walk in for fabric swatches, samples and a mockup on the spot.</p>
+  </div>
+  <div class="centres">
+    <div class="centre"><div><div class="city">Bengaluru</div><div class="state">Karnataka</div></div><address>Ground Floor, #68 Transpade Tower, Jyoti Nivas College Rd, Koramangala 5th Block, 560095</address><div class="status"><i></i>Open</div></div>
+    <div class="centre"><div><div class="city">Trivandrum</div><div class="state">Kerala</div></div><address>Ground Floor, CloudQ Towers, Service Rd, near Technopark Phase 1, Kazhakkoottam, 695582</address><div class="status"><i></i>Open</div></div>
+    <div class="centre"><div><div class="city">Marthandam</div><div class="state">Tamil Nadu</div></div><address>1st Floor, Adhesh Tower, Eraviputhoorkadai, 629155</address><div class="status"><i></i>Open</div></div>
+    <div class="centre"><div><div class="city">Chennai</div><div class="state">Tamil Nadu</div></div><address>Directions and hours on yoode.com</address><div class="status soon"><i></i>Newest</div></div>
+  </div>
+  <div class="walk">
+    <div><b>Walk in</b>Bring a logo on your phone. Nothing else needed.</div>
+    <div><b>Design it</b>Pick the blank, feel the fabric, choose the method with a designer beside you.</div>
+    <div><b>Wear it</b>Approve the mockup on the spot. Single pieces can be ready the same day.</div>
+  </div>
+</section>
+
+<!-- ================= PROOF ================= -->
+<div class="marquee" aria-label="Trusted by">
+  <div class="track">
+    <span>Meta</span><span>Infosys</span><span>Slack</span><span>Samsung</span><span>Amazon</span><span>Netflix</span><span>Google</span><span>IBM</span><span>Microsoft</span><span>Cisco</span><span>UST</span><span>Kombans FC</span>
+    <span>Meta</span><span>Infosys</span><span>Slack</span><span>Samsung</span><span>Amazon</span><span>Netflix</span><span>Google</span><span>IBM</span><span>Microsoft</span><span>Cisco</span><span>UST</span><span>Kombans FC</span>
+  </div>
+</div>
+<section class="section wrap">
+  <div class="head">
+    <div>
+      <div class="mono eyebrow"><i></i>From the order book</div>
+      <h2 class="split">Loved by people who <em>care</em> about quality.</h2>
+    </div>
+    <p>Real orders from teams who turned an idea into something people actually wear.</p>
+  </div>
+  <div class="testis">
+    <div class="testi"><div class="stars">★★★★★</div><blockquote>Ordered 500 personalised welcome kits for our new hires. They arrived ahead of schedule and the packaging was stunning.</blockquote><div class="who"><span><b>Rahul Verma</b> · People operations</span><span>Welcome kits · 500</span></div></div>
+    <div class="testi"><div class="stars">★★★★★</div><blockquote>The print quality on our custom team hoodies was phenomenal. Every detail was sharp and the fabric is premium.</blockquote><div class="who"><span><b>Maya Collins</b> · Team lead</span><span>Hoodies · DTF</span></div></div>
+    <div class="testi"><div class="stars">★★★★★</div><blockquote>Embroidered polos for our sales team. The stitching is flawless and they look incredibly professional.</blockquote><div class="who"><span><b>Ethan Brooks</b> · Sales director</span><span>Polos · Embroidery</span></div></div>
+  </div>
+  <div class="numbers">
+    <div><b>10,000+</b><small>Orders delivered</small></div>
+    <div><b>500+</b><small>Teams and brands</small></div>
+    <div><b>50+</b><small>Colours in stock</small></div>
+    <div><b>18 yrs</b><small>Of printing</small></div>
+  </div>
+</section>
+
+<!-- ================= FAQ ================= -->
+<section class="section wrap" id="faq">
+  <div class="faq">
+    <aside>
+      <div class="mono eyebrow"><i></i>Before you order</div>
+      <h2 class="split" style="font-family:var(--display);font-size:clamp(38px,4.6vw,70px);line-height:1;letter-spacing:-.015em;margin-top:16px">Answers to the <em>usual</em> questions.</h2>
+      <p style="color:var(--mute);margin-top:22px;max-width:36ch">Still have one? A real person replies within two hours on working days.</p>
+      <div style="margin-top:22px"><a class="btn magnetic" href="#quote">Ask us <span class="arr" aria-hidden="true">→</span></a></div>
+    </aside>
+    <div>
+      <details open><summary>Do you offer bulk discounts?<i>+</i></summary><div class="a">Yes. The per-piece price steps down with quantity, and screen printing gets cheaper the more you print. Tell us the number and we'll quote the tier the same day.</div></details>
+      <details><summary>What is your typical turnaround time?<i>+</i></summary><div class="a">Your free mockup lands within 24 hours. Most orders ship within 5 to 10 working days after you approve it. Single pieces at an experience centre can be ready the same day, and rush orders are possible when the stock is in.</div></details>
+      <details><summary>Can I mix and match sizes and colours?<i>+</i></summary><div class="a">Yes. One order can carry any mix of sizes and shades of the same product at the same price. Names and numbers per piece are fine too.</div></details>
+      <details><summary>Which printing method is best for my design?<i>+</i></summary><div class="a">Photos and gradients go DTG on cotton or UV on hard goods. Logos and flat-colour vectors go DTF for small runs and screen printing from 50 pieces. Anything that should feel premium and last goes to embroidery, Coloreel or engraving. Send the file and we'll recommend.</div></details>
+      <details><summary>Do you have a minimum order quantity?<i>+</i></summary><div class="a">No. One piece is an order. The only exception is screen printing, where the screens make sense from about 50 pieces.</div></details>
+      <details><summary>How do I contact customer support?<i>+</i></summary><div class="a">WhatsApp or call +91 8069 750 293, email info@yoode.com, or walk into any of the four experience centres. Replies within two hours on working days.</div></details>
+    </div>
+  </div>
+</section>
+
+<!-- ================= END ================= -->
+<footer class="end wrap" id="quote">
+  <svg class="ghost2" aria-hidden="true"><use href="#g-tee"/></svg>
+  <div class="mono eyebrow"><i></i>Ready when you are</div>
+  <h2 class="split">Your brand deserves more than <em>ordinary.</em></h2>
+  <p>Tell us what you need. A real person replies within two hours on working days, and your free mockup lands within twenty-four.</p>
+  <div class="actions">
+    <a class="btn green magnetic" href="https://wa.me/918069750293" target="_blank" rel="noopener">Chat on WhatsApp <span class="arr" aria-hidden="true">→</span></a>
+    <a class="btn magnetic" href="#shop">Browse the catalogue</a>
+  </div>
+  <div class="foot">
+    <div>
+      <div style="font-family:var(--display);font-size:20px;letter-spacing:.14em;font-weight:600;color:var(--paper)">YOODE</div>
+      <p style="margin-top:10px;max-width:34ch;color:rgba(246,244,239,.65)">Yoode Promotions Pvt. Ltd. Creating meaningful brand experiences through premium custom products.</p>
+      <div class="contact"><span>+91 8069 750 293</span><span>+91 9025 927 014</span><span>info@yoode.com</span></div>
+    </div>
+    <div><h4>Shop</h4><ul><li>Corporate essentials</li><li>Sportswear</li><li>Trendz</li><li>Streetwear</li><li>Kids</li><li>Accessories</li><li>Stationery</li></ul></div>
+    <div><h4>Centres</h4><ul><li>Bengaluru</li><li>Trivandrum</li><li>Marthandam</li><li>Chennai</li></ul></div>
+    <div><h4>Company</h4><ul><li>About us</li><li>Case studies</li><li>Bulk ordering</li><li>Refunds · Privacy · Terms · Shipping</li></ul></div>
+  </div>
+  <div class="legal"><span>© 2026 Yoode Promotions Pvt. Ltd.</span><span>Instagram · Facebook · Pinterest · YouTube · X</span></div>
+</footer>
+
+</div></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollSmoother.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/SplitText.min.js"></script>
+<script>
+(function(){
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const fine = matchMedia('(hover:hover)').matches;
+  gsap.registerPlugin(ScrollTrigger);
+  if (window.ScrollSmoother) gsap.registerPlugin(ScrollSmoother);
+  if (window.SplitText) gsap.registerPlugin(SplitText);
+  const $ = s=>document.querySelector(s);
+  const lerp=(a,b,t)=>a+(b-a)*t, clamp01=v=>Math.max(0,Math.min(1,v)), smooth=t=>{t=clamp01(t);return t*t*(3-2*t)};
+  const win=(p,a,b)=>clamp01((p-a)/(b-a));
+
+  /* ---------- loader starts at once; the page initialises when fonts are in ---------- */
+  const loader = $('#loader'); let loaderTl = null;
+  if (reduced) loader.remove();
+  else {
+    const n = {v:0};
+    loaderTl = gsap.timeline();
+    loaderTl.from('.loader .big span', {yPercent:110, duration:0.9, stagger:0.06, ease:'power4.out'}, 0);
+    loaderTl.to(n, {v:100, duration:1.2, ease:'power2.inOut', onUpdate:()=>{ $('#count').textContent = String(Math.round(n.v)).padStart(3,'0'); $('#loaderBar').style.width = n.v+'%'; }}, 0);
+  }
+  const fontsReady = (document.fonts && document.fonts.load)
+    ? Promise.all(['600 40px "Bodoni Moda"','400 40px "Bodoni Moda"','italic 400 40px "Bodoni Moda"','400 16px Manrope','600 16px Manrope','400 12px "IBM Plex Mono"'].map(f=>document.fonts.load(f).catch(()=>{})))
+    : Promise.resolve();
+  Promise.race([fontsReady, new Promise(r=>setTimeout(r, 2500))]).then(init);
+
+  function init(){
+  const $$ = s=>[...document.querySelectorAll(s)];
+  const hframe = $('#hframe');
+  /* views: the hero (mode 7) and one per spread (mode = chapter index) */
+  const views = { wide:{el:$('.hview'), p:0, mode:7, side:'left'} };
+  $$('.mview').forEach(el=>{ const sec = el.closest('.method'); views[+el.dataset.view] = {el, p:0, mode:+el.dataset.view, side:sec.dataset.side}; });
+
+  /* ---------- the material shader ---------- */
+  const FRAG = `
+precision highp float;
+varying vec2 vUv;
+uniform vec2 uRes, uMouse, uRipple, uArt;
+uniform float uTime, uP, uMode, uBaseA, uBaseB, uBaseMix, uZoom, uArtS, uRippleT;
+#define PI 3.14159265
+#define ORANGE vec3(0.925,0.085,0.0)
+#define AMBER  vec3(0.91,0.34,0.0)
+float hash21(vec2 p){ p=fract(p*vec2(123.34,456.21)); p+=dot(p,p+45.32); return fract(p.x*p.y); }
+float vnoise(vec2 p){ vec2 i=floor(p), f=fract(p); f=f*f*(3.0-2.0*f);
+  float a=hash21(i), b=hash21(i+vec2(1.,0.)), c=hash21(i+vec2(0.,1.)), d=hash21(i+vec2(1.,1.));
+  return mix(mix(a,b,f.x),mix(c,d,f.x),f.y); }
+float fbm(vec2 p){ float v=0.0, a=0.5; for(int i=0;i<4;i++){ v+=a*vnoise(p); p=p*2.03+17.17; a*=0.5; } return v; }
+vec3 hue2rgb(float h){ vec3 p=abs(fract(vec3(h)+vec3(0.,2./3.,1./3.))*6.-3.); return clamp(p-1.,0.,1.); }
+float sdSeg(vec2 p, vec2 a, vec2 b){ vec2 pa=p-a, ba=b-a; float h=clamp(dot(pa,ba)/dot(ba,ba),0.0,1.0); return length(pa-ba*h); }
+float sdBox(vec2 p, vec2 b){ vec2 d=abs(p)-b; return length(max(d,0.0))+min(max(d.x,d.y),0.0); }
+float sdY(vec2 p, float s){ float d=sdSeg(p,vec2(0.,-0.58*s),vec2(0.,0.02*s)); d=min(d,sdSeg(p,vec2(0.,0.02*s),vec2(-0.42*s,0.58*s))); d=min(d,sdSeg(p,vec2(0.,0.02*s),vec2(0.42*s,0.58*s))); return d-0.115*s; }
+float sdRing(vec2 p, float s){ return abs(length(p)-0.5*s)-0.06*s; }
+float sdBars(vec2 p, float s){ return min(sdBox(p-vec2(0.,0.80*s),vec2(0.62*s,0.05*s)), sdBox(p+vec2(0.,0.80*s),vec2(0.62*s,0.05*s))); }
+float sdFrame(vec2 p, float s){ return max(sdBox(p,vec2(0.78*s,0.88*s)), -sdBox(p,vec2(0.72*s,0.82*s))); }
+float sdWave(vec2 p, float s){ return abs(p.y - 0.26*s*sin(p.x/(0.5*s))) - 0.10*s; }
+float rev(float y, float front, float w){ return smoothstep(front-w, front+w, y); }
+/* base materials, macro scale */
+float mJersey(vec2 q){ float col=q.x/9.0; float stag=step(0.5,fract(col*0.5)); float row=q.y/6.5+stag*0.5;
+  float cx=fract(col)-0.5, ry=fract(row)-0.5; float loop=1.0-smoothstep(0.05,0.5,abs(cx)*1.4+abs(ry)*0.9); return loop*0.8+fbm(q*0.35)*0.25; }
+float mFleece(vec2 q){ return fbm(q*0.22)*0.65+fbm(q*1.1)*0.35; }
+float mPique(vec2 q){ float a=cos(q.x/5.6)+cos(q.y/5.6); return smoothstep(-0.7,1.0,a)*0.85+fbm(q*0.45)*0.2; }
+float mTwill(vec2 q){ float d=0.5+0.5*sin((q.x+q.y)*0.5); float th=0.5+0.5*sin(q.x*2.2); return d*0.65+th*0.15+fbm(q*0.5)*0.2; }
+float mSteel(vec2 q){ return fbm(vec2(q.x*0.06,q.y*2.4))*0.55+vnoise(vec2(q.x*0.25,q.y*7.0))*0.25+0.1; }
+float mLeather(vec2 q){ float c=fbm(q*0.11); float pores=smoothstep(0.58,0.92,vnoise(q*0.55)); return c*0.75-pores*0.25+0.2; }
+float baseH(vec2 q, float b){
+  if(b<0.5) return mJersey(q); if(b<1.5) return mFleece(q); if(b<2.5) return mPique(q); if(b<3.5) return mTwill(q);
+  if(b<4.5) return mJersey(q); if(b<5.5) return mSteel(q); return mLeather(q); }
+vec3 baseAlb(float b){
+  if(b<0.5) return vec3(0.90,0.86,0.78); if(b<1.5) return vec3(0.012,0.012,0.014); if(b<2.5) return ORANGE; if(b<3.5) return vec3(0.80,0.77,0.70);
+  if(b<4.5) return vec3(0.009,0.009,0.010); if(b<5.5) return vec3(0.055,0.06,0.07); return vec3(0.16,0.075,0.035); }
+/* the height field, with each chapter's effect on the surface */
+float heightAt(vec2 px){
+  vec2 q = px/uZoom; float m = uMode; float h;
+  if (m > 6.5){ h = mix(baseH(q,uBaseA), baseH(q,uBaseB), uBaseMix);
+    float r = distance(px, uRipple); h += 0.4*sin(r*0.11 - uRippleT*7.0)*exp(-r*0.006)*exp(-uRippleT*1.2); return h; }
+  vec2 ap = px - uArt; float s = uArtS; float H = uRes.y;
+  float pp = clamp((uP-0.1)/0.75, 0.0, 1.0); float front = H*(1.0-pp);
+  if (m < 0.5){ h = mJersey(q); float d = sdBox(ap, vec2(0.62*s)) - 0.1*s; float mk = 1.0-smoothstep(-2.0,2.0,d); float ink = mk*rev(px.y,front,6.0); return h - ink*0.15; }
+  if (m < 1.5){ h = mFleece(q); float d = min(sdRing(ap,s), sdY(ap,0.62*s)); float mk=1.0-smoothstep(-1.5,1.5,d);
+    float film = 1.0-smoothstep(-2.0,2.0, sdBox(ap, vec2(0.85*s))-0.05*s); float p1=clamp((uP-0.05)/0.3,0.,1.), p2=clamp((uP-0.35)/0.15,0.,1.), p3=clamp((uP-0.55)/0.4,0.,1.);
+    float coord = (ap.x - ap.y*0.7 + 1.5*s)/(3.0*s); float peeled = smoothstep(p3-0.03,p3+0.03,coord); float filmOn = film*p1*(1.0-peeled);
+    h = mix(h, 0.5, filmOn*p2*0.85); float printed = mk*step(0.4,uP); h = mix(h, 0.62, printed*0.9) + printed*0.3; return h; }
+  if (m < 3.5){ bool cr = m > 2.5; h = cr ? mTwill(q) : mPique(q);
+    float d = cr ? sdWave(ap,s) : sdY(ap,s); float revl = cr ? (1.0-smoothstep(uRes.x*pp-4.0, uRes.x*pp+4.0, px.x)) : rev(px.y,front,2.0);
+    float inM = (1.0-smoothstep(-1.0,1.0,d))*revl;
+    float thr = cr ? (0.5+0.5*cos(px.x*2.0*PI/3.4 + vnoise(px*0.4)*0.6)) : (0.5+0.5*cos(px.y*2.0*PI/3.4 + vnoise(px*0.4)*0.6));
+    float pucker = (1.0-smoothstep(0.0,9.0,d))*step(0.0,d)*revl;
+    return mix(h, 0.55 + thr*0.45 + 0.3, inM) - pucker*0.22; }
+  if (m < 4.5){ h = mJersey(q); float d = min(sdY(ap,s), sdBars(ap,s)); float mk=1.0-smoothstep(-1.5,1.5,d); float ink = mk*rev(px.y,front,3.0);
+    float rim = (1.0-smoothstep(0.0,2.5,abs(d)))*ink; return mix(h, 0.7, ink*0.9) + ink*0.3 + rim*0.15; }
+  if (m < 5.5){ h = mSteel(q); float cell = 11.0; vec2 c = (floor(ap/cell)+0.5)*cell; float dm = sdY(c,1.2*s); float cov = 1.0-smoothstep(-1.0,3.0,dm);
+    float rowRev = rev(c.y+uArt.y, front, cell*0.6); float r = 4.6*cov*rowRev; float dd = length(ap-c); float dome = sqrt(max(0.0, r*r-dd*dd))/max(r,0.001);
+    return h*0.6 + dome*0.9*step(0.5,r); }
+  h = mLeather(q); float d = min(sdFrame(ap,0.9*s), sdY(ap,0.9*s)); float mk=1.0-smoothstep(-1.0,1.0,d); float burn = mk*rev(px.y,front,2.0); return h - burn*0.4;
+}
+void main(){
+  vec2 px = vUv*uRes; float m = uMode; float e = 1.0;
+  float h0 = heightAt(px), hx = heightAt(px+vec2(e,0.)), hy = heightAt(px+vec2(0.,e));
+  vec3 alb; float rough=0.85, bump=3.0, aniso=0.0, specK=0.35; vec2 T=vec2(1.,0.); vec3 glow=vec3(0.);
+  vec2 ap = px-uArt; float s = uArtS; float H = uRes.y; float pp = clamp((uP-0.1)/0.75,0.,1.); float front = H*(1.0-pp);
+  float live = step(0.1,uP)*step(uP,0.85);
+  if (m > 6.5){ alb = mix(baseAlb(uBaseA), baseAlb(uBaseB), uBaseMix); float b = uBaseMix<0.5 ? uBaseA : uBaseB;
+    if (b>4.5&&b<5.5){ aniso=1.0; rough=0.35; specK=0.9; bump=2.0; } if (b>5.5){ rough=0.6; specK=0.5; bump=2.2; } if (b>0.5&&b<1.5){ bump=1.6; } }
+  else if (m < 0.5){ alb = baseAlb(0.0); float d = sdBox(ap, vec2(0.62*s))-0.1*s; float mk = 1.0-smoothstep(-2.0,2.0,d); float ink = mk*rev(px.y,front,6.0);
+    float g = clamp((ap.y+0.62*s)/(1.24*s),0.,1.); vec3 art = mix(vec3(0.02,0.015,0.012), ORANGE, smoothstep(0.0,0.45,g)); art = mix(art, AMBER*1.1, smoothstep(0.45,0.8,g)); art = mix(art, vec3(0.95,0.75,0.55), smoothstep(0.8,1.0,g));
+    float sun = 1.0-smoothstep(0.16*s,0.19*s, length(ap-vec2(0.22*s,0.25*s))); art = mix(art, vec3(0.98,0.93,0.85), sun);
+    float mts = 1.0-smoothstep(-0.02*s,0.02*s, ap.y + 0.1*s + 0.2*s*sin(ap.x/(0.18*s))); art = mix(art, vec3(0.02,0.018,0.015), mts);
+    float valley = 1.0-h0; alb = mix(alb, art*(0.7+0.3*valley), ink*0.96);
+    float wet = exp(-abs(px.y-front)/12.0)*mk*live; rough = mix(rough,0.3,wet); specK += wet*0.6; glow += wet*vec3(0.05); }
+  else if (m < 1.5){ alb = baseAlb(1.0); bump = 1.6; float dr = sdRing(ap,s), dy = sdY(ap,0.62*s); float d = min(dr,dy); float mk=1.0-smoothstep(-1.5,1.5,d);
+    float film = 1.0-smoothstep(-2.0,2.0, sdBox(ap, vec2(0.85*s))-0.05*s); float p1=clamp((uP-0.05)/0.3,0.,1.), p3=clamp((uP-0.55)/0.4,0.,1.);
+    float coord = (ap.x-ap.y*0.7+1.5*s)/(3.0*s); float peeled = smoothstep(p3-0.03,p3+0.03,coord); float filmOn = film*p1*(1.0-peeled);
+    float printed = mk*step(0.4,uP); vec3 pc = (dr < dy) ? ORANGE : vec3(0.9);
+    alb = mix(alb, pc, printed); rough = mix(rough,0.35,printed); specK = mix(specK,0.7,printed); bump = mix(bump,0.5,printed);
+    alb = mix(alb, vec3(0.55), filmOn*0.55); rough = mix(rough,0.25,filmOn); specK += filmOn*0.5;
+    float edge = exp(-abs(coord-p3)*40.0)*film*p1*step(0.01,p3)*step(p3,0.99); glow += edge*vec3(0.45); }
+  else if (m < 3.5){ bool cr = m > 2.5; alb = cr ? baseAlb(3.0) : baseAlb(2.0);
+    float d = cr ? sdWave(ap,s) : sdY(ap,s); float revl = cr ? (1.0-smoothstep(uRes.x*pp-4.0, uRes.x*pp+4.0, px.x)) : rev(px.y,front,2.0);
+    float inM = (1.0-smoothstep(-1.0,1.0,d))*revl;
+    vec3 thread = cr ? pow(hue2rgb(fract(px.x/uRes.x*1.15)), vec3(2.2))*1.1 : vec3(0.92,0.9,0.86);
+    float shade = 0.85+0.15*vnoise(px*0.7);
+    alb = mix(alb, thread*shade, inM); aniso = inM; T = cr ? vec2(0.,1.) : vec2(1.,0.); rough = mix(rough,0.45,inM); specK = mix(specK,0.8,inM); bump = mix(bump,4.0,inM);
+    float fpos = cr ? abs(px.x-uRes.x*pp) : abs(px.y-front); float nd = 1.0-smoothstep(-2.0,6.0,d); float needle = exp(-fpos/3.0)*nd*live;
+    glow += needle*vec3(0.9,0.85,0.7); alb *= 1.0-exp(-fpos/8.0)*nd*live*0.35; }
+  else if (m < 4.5){ alb = baseAlb(4.0); float d = min(sdY(ap,s), sdBars(ap,s)); float mk=1.0-smoothstep(-1.5,1.5,d); float ink = mk*rev(px.y,front,3.0);
+    alb = mix(alb, ORANGE, ink); rough = mix(rough,0.8,ink); bump = mix(bump,1.2,ink);
+    float band = (1.0-smoothstep(0.0,70.0, front-px.y))*step(px.y,front)*live; vec2 g = abs(fract(px/5.0)-0.5); float mesh = smoothstep(0.42,0.5,max(g.x,g.y));
+    alb = mix(alb, alb*0.5 + vec3(0.02), band*mesh*0.9);
+    float blade = exp(-abs(px.y-front)/2.5)*live; alb *= 1.0-blade*0.6; glow += exp(-abs(px.y-front-3.0)/2.0)*live*vec3(0.12); }
+  else if (m < 5.5){ alb = baseAlb(5.0); aniso = 1.0; T = vec2(1.,0.); rough = 0.35; specK = 0.9; bump = 2.0;
+    float cell = 11.0; vec2 c = (floor(ap/cell)+0.5)*cell; float dm = sdY(c,1.2*s); float cov = 1.0-smoothstep(-1.0,3.0,dm); float rowRev = rev(c.y+uArt.y,front,cell*0.6);
+    float r = 4.6*cov*rowRev; float dd = length(ap-c); float dot_ = (1.0-smoothstep(r-1.0,r+0.5,dd))*step(0.5,r);
+    float g = clamp((c.y+0.7*s)/(1.4*s),0.,1.); vec3 dc = mix(ORANGE, AMBER, smoothstep(0.2,0.5,g)); dc = mix(dc, vec3(0.9), smoothstep(0.55,0.9,g));
+    alb = mix(alb, dc, dot_); aniso = mix(aniso,0.0,dot_); rough = mix(rough,0.12,dot_); specK = mix(specK,1.2,dot_); bump = mix(bump,5.0,dot_);
+    float lamp = exp(-abs(px.y-front)/16.0)*live; glow += lamp*vec3(0.35,0.12,0.9)*0.8; }
+  else { alb = baseAlb(6.0); rough = 0.6; specK = 0.45; bump = 2.2; float d = min(sdFrame(ap,0.9*s), sdY(ap,0.9*s)); float mk=1.0-smoothstep(-1.0,1.0,d); float burn = mk*rev(px.y,front,2.0);
+    float scorch = (1.0-smoothstep(0.0,7.0,d))*step(0.0,d)*rev(px.y,front,4.0); alb = mix(alb, vec3(0.03,0.018,0.01), burn); alb *= 1.0-scorch*0.45; rough = mix(rough,0.95,burn); specK = mix(specK,0.05,burn);
+    float nd = 1.0-smoothstep(-2.0,5.0,d); float ember = exp(-abs(px.y-front)/4.0)*nd*live*(0.8+0.3*sin(uTime*37.0)); glow += ember*vec3(1.0,0.35,0.05)*1.4;
+    float sp = step(0.987, hash21(floor(px/3.0)+floor(uTime*24.0)))*exp(-abs(px.y-front)/16.0)*(1.0-smoothstep(-2.0,14.0,d))*live; glow += sp*vec3(1.0,0.8,0.3); }
+  /* macro depth of field: detail softens away from the subject */
+  vec2 fu = (m>6.5) ? (uMouse/uRes) : (uArt/uRes); float far = smoothstep(0.35,0.95, length((vUv-fu)*vec2(uRes.x/uRes.y,1.0)));
+  bump *= 1.0-0.7*far;
+  vec3 N = normalize(vec3(-(hx-h0)*bump, -(hy-h0)*bump, 1.0));
+  vec3 L = normalize(vec3(0.45+0.2*sin(uTime*0.23), 0.55+0.15*cos(uTime*0.17), 0.72));
+  vec3 Hh = normalize(L+vec3(0.,0.,1.));
+  float diff = max(dot(N,L),0.0); float shin = mix(90.0,6.0,rough);
+  float specIso = pow(max(dot(N,Hh),0.0), shin);
+  float th = dot(normalize(T), Hh.xy); float specAn = pow(sqrt(max(0.0,1.0-th*th)), shin*0.6)*smoothstep(0.0,0.35,dot(N,L));
+  float spec = mix(specIso, specAn, aniso)*specK*(1.0-rough*0.5);
+  vec3 col = alb*(0.30+0.80*diff) + spec + glow;
+  col *= 1.0-0.28*smoothstep(0.45,1.05,length((vUv-0.5)*vec2(1.3,1.0)));
+  col += (hash21(px+fract(uTime))-0.5)*0.02;
+  col = pow(max(col,0.0), vec3(1.0/2.2));
+  gl_FragColor = vec4(col,1.0);
+}`;
+  const VERT = 'varying vec2 vUv; void main(){ vUv = uv; gl_Position = vec4(position.xy, 0.0, 1.0); }';
+
+  let three = null;
+  try{
+    const canvas = $('#gl');
+    const renderer = new THREE.WebGLRenderer({canvas, antialias:false, alpha:true, powerPreference:'high-performance'});
+    const isMobile = matchMedia('(pointer:coarse)').matches;
+    renderer.setPixelRatio(Math.min(devicePixelRatio, isMobile ? 1.0 : 1.25));
+    renderer.setClearColor(0x000000, 0); renderer.autoClear = false;
+    const scene = new THREE.Scene(); const cam = new THREE.OrthographicCamera(-1,1,1,-1,0,1);
+    const U = { uRes:{value:new THREE.Vector2(1,1)}, uMouse:{value:new THREE.Vector2(-999,-999)}, uRipple:{value:new THREE.Vector2(-999,-999)}, uArt:{value:new THREE.Vector2(0,0)},
+      uTime:{value:0}, uP:{value:0}, uMode:{value:7}, uBaseA:{value:0}, uBaseB:{value:0}, uBaseMix:{value:0}, uZoom:{value:1}, uArtS:{value:200}, uRippleT:{value:99} };
+    const mat = new THREE.ShaderMaterial({uniforms:U, vertexShader:VERT, fragmentShader:FRAG, depthTest:false, depthWrite:false});
+    scene.add(new THREE.Mesh(new THREE.PlaneGeometry(2,2), mat));
+
+    /* hero material crossfade + pointer touch */
+    const heroBase = {a:0, b:0, mix:0}; const rip = {x:-999, y:-999, t0:-99, lx:0, ly:0};
+    const heroZoom = {v:0.7};
+    $$('#hindex a').forEach(a=>{ a.addEventListener('pointerenter', ()=>{ const nb = +a.dataset.base; if (nb === (heroBase.mix>0.5 ? heroBase.b : heroBase.a)) return;
+      heroBase.a = heroBase.mix>0.5 ? heroBase.b : heroBase.a; heroBase.b = nb; heroBase.mix = 0; gsap.to(heroBase, {mix:1, duration:0.9, ease:'power2.inOut', overwrite:true}); }); });
+    const heroMouse = {x:-999, y:-999};
+    views.wide.el.addEventListener('pointermove', e=>{ const r = views.wide.el.getBoundingClientRect(); const x = e.clientX-r.left, y = r.height-(e.clientY-r.top);
+      heroMouse.x = x; heroMouse.y = y; const now = performance.now()/1000;
+      if (Math.hypot(x-rip.lx, y-rip.ly) > 90 || now-rip.t0 > 0.9){ rip.x = x; rip.y = y; rip.t0 = now; rip.lx = x; rip.ly = y; } }, {passive:true});
+    views.wide.el.addEventListener('pointerleave', ()=>{ heroMouse.x = -999; heroMouse.y = -999; });
+    const secMouse = {x:-999,y:-999};
+    $$('.mview').forEach(el=> el.addEventListener('pointermove', e=>{ const r = el.getBoundingClientRect(); secMouse.x = e.clientX-r.left; secMouse.y = r.height-(e.clientY-r.top); }, {passive:true}));
+
+    const resize = ()=>{ renderer.setSize(innerWidth, innerHeight, false); const nar = innerWidth/innerHeight < 1.0; hframe.classList.toggle('narrow', nar); $$('.mframe').forEach(f=>f.classList.toggle('narrow', nar)); };
+    addEventListener('resize', resize); resize();
+
+    const clock = new THREE.Clock();
+    const renderInto = (el, set) => {
+      const r = el.getBoundingClientRect();
+      if (r.bottom <= 0 || r.top >= innerHeight || r.width < 2 || r.height < 2) return false;
+      const w = Math.round(r.width), h = Math.round(r.height), left = Math.round(r.left), bottom = Math.round(innerHeight - r.bottom);
+      renderer.setViewport(left, bottom, w, h); renderer.setScissor(left, bottom, w, h); renderer.setScissorTest(true);
+      U.uRes.value.set(w, h); set(w, h); renderer.render(scene, cam); return true;
+    };
+    const render = ()=>{
+      const t = clock.getElapsedTime(); U.uTime.value = t;
+      renderer.setScissorTest(false); renderer.clear();
+      const nar = innerWidth/innerHeight < 1.0;
+      // hero
+      renderInto(views.wide.el, (w,h)=>{ U.uMode.value = 7; U.uP.value = views.wide.p; U.uBaseA.value = heroBase.a; U.uBaseB.value = heroBase.b; U.uBaseMix.value = heroBase.mix;
+        U.uZoom.value = heroZoom.v*(1.0 + 0.8*smooth(views.wide.p)); U.uMouse.value.set(heroMouse.x, heroMouse.y); U.uRipple.value.set(rip.x, rip.y); U.uRippleT.value = performance.now()/1000 - rip.t0; });
+      // spreads
+      for (let k=0;k<7;k++){ const v = views[k]; if (!v) continue;
+        renderInto(v.el, (w,h)=>{ U.uMode.value = k; U.uP.value = v.p; U.uZoom.value = 1.0; U.uMouse.value.set(secMouse.x, secMouse.y); U.uRippleT.value = 99;
+          const ax = nar ? 0.5*w : (v.side==='left' ? 0.70*w : 0.30*w); const ay = nar ? 0.64*h : 0.52*h; U.uArt.value.set(ax, ay); U.uArtS.value = Math.min(w*0.34, h*0.36); }); }
+      renderer.setScissorTest(false);
+    };
+    three = {render, heroZoom};
+  } catch(err){ $('#gl').hidden = true; console.warn('WebGL unavailable', err); }
+
+  /* ---------- text splitting ---------- */
+  const linesOf = el => { if (window.SplitText && !reduced){ try { return SplitText.create(el, {type:'lines', mask:'lines', linesClass:'line'}).lines; } catch(e){} } return [el]; };
+  const splits = new Map(); $$('.split').forEach(el=> splits.set(el, linesOf(el)));
+  const itemsOf = block => [...block.children].flatMap(ch => splits.get(ch) || [ch]);
+
+  /* ---------- smooth scroll ---------- */
+  let smoother = null;
+  if (window.ScrollSmoother && !reduced) smoother = ScrollSmoother.create({wrapper:'#smooth-wrapper', content:'#smooth-content', smooth:1.1, effects:false, normalizeScroll:false});
+  gsap.ticker.add(()=>{ if (three) three.render(); });
+
+  /* ---------- scroll: the hero pin, then one pin per spread ---------- */
+  const heroItems = itemsOf($('#heroCopy'));
+  if (!reduced){
+    gsap.set(heroItems, {opacity:0}); gsap.set('#hindex', {opacity:0, y:20});
+    ScrollTrigger.create({ trigger:'.hero', start:'top top', end:'bottom bottom', scrub:0.8, pin:'.hframe', pinSpacing:false, anticipatePin:1,
+      onUpdate: st => { views.wide.p = st.progress; const f = 1 - smooth(win(st.progress, 0.1, 0.65)); $('#heroCopy').style.opacity = f; $('#heroCopy').style.transform = `translateY(calc(-52% - ${(50*(1-f)).toFixed(1)}px))`; $('#hindex').style.opacity = (1 - smooth(win(st.progress,0.3,0.8))).toFixed(2); } });
+
+    $$('.method').forEach(sec=>{
+      const k = +sec.dataset.k, frame = sec.querySelector('.mframe'), copy = sec.querySelector('.mcopy'), bar = sec.querySelector('.mbar i'), kword = sec.querySelector('.kword');
+      const items = itemsOf(copy);
+      const tl = gsap.timeline({ scrollTrigger:{ trigger:sec, start:'top top', end:'bottom bottom', scrub:0.8, pin:frame, pinSpacing:false, anticipatePin:1,
+        onUpdate: st => { views[k].p = st.progress; bar.style.width = (st.progress*100).toFixed(1)+'%';
+          const dir = sec.dataset.side === 'left' ? 1 : -1; kword.style.transform = `translate3d(${(dir*(6 - 30*st.progress)).toFixed(2)}%,0,0)`;
+          copy.style.setProperty('--py', (12 - 24*st.progress).toFixed(1)+'px'); } } });
+      tl.fromTo(items, {yPercent:110, opacity:0}, {yPercent:0, opacity:1, duration:0.2, stagger:0.022, ease:'power3.out'}, 0.02);
+      if (sec.dataset.tone === 'dark') ScrollTrigger.create({trigger:sec, start:'top 40px', end:'bottom 40px', toggleClass:{targets:'.nav', className:'inverse'}});
+    });
+
+    // horizontal strips (wide screens)
+    const mm = gsap.matchMedia();
+    mm.add('(min-width: 901px)', ()=>{
+      [['#lookTrack','.look'],['#procTrack','.process']].forEach(([id, sec])=>{
+        const track = document.querySelector(id);
+        const dist = ()=> Math.max(0, track.scrollWidth - document.documentElement.clientWidth);
+        gsap.to(track, {x:()=>-dist(), ease:'none', scrollTrigger:{trigger:sec, start:'top top', end:()=>'+='+dist(), pin:true, scrub:0.7, invalidateOnRefresh:true, anticipatePin:1}});
+      });
+    });
+    ScrollTrigger.create({trigger:'.end', start:'top 60px', toggleClass:{targets:'.nav', className:'inverse'}});
+
+    $$('.split').forEach(el=>{ if (el.closest('.hero') || el.closest('.method')) return;
+      gsap.from(splits.get(el), {yPercent:110, duration:1, stagger:0.08, ease:'power4.out', scrollTrigger:{trigger:el, start:'top 88%', once:true}}); });
+    gsap.utils.toArray('.pillar, .card, .step, .centre, .good > div, .picker a, .cats a, .testi, .numbers > div, .faq details, .bridge .actions').forEach(el=>{
+      gsap.from(el, {y:30, opacity:0, duration:0.9, ease:'power3.out', scrollTrigger:{trigger:el, start:'top 93%', once:true}}); });
+    gsap.from('.matrix tbody tr', {opacity:0, x:-14, duration:0.6, stagger:0.05, ease:'power2.out', scrollTrigger:{trigger:'.matrix', start:'top 85%', once:true}});
+  } else {
+    $$('.method').forEach(sec=>{ const k=+sec.dataset.k; views[k].p = 0.7; });
+    if (three) three.heroZoom.v = 1;
+  }
+
+  /* ---------- hero entrance after the loader ---------- */
+  const hero = ()=>{
+    if (reduced) return;
+    gsap.fromTo(heroItems, {yPercent:110, opacity:0}, {yPercent:0, opacity:1, duration:1.1, stagger:0.06, ease:'power4.out', delay:0.1});
+    gsap.to('#hindex', {opacity:1, y:0, duration:0.9, ease:'power3.out', delay:0.5});
+    if (three) gsap.to(three.heroZoom, {v:1, duration:2.2, ease:'power3.out'});
+    gsap.from('.nav', {y:-16, opacity:0, duration:0.8, ease:'power3.out', delay:0.4});
+  };
+  if (reduced) hero();
+  else {
+    const exit = ()=> gsap.to(loader, {yPercent:-100, duration:1.0, ease:'expo.inOut', onStart:hero, onComplete:()=>{ loader.remove(); ScrollTrigger.refresh(); }});
+    if (loaderTl.progress() >= 1) exit(); else loaderTl.eventCallback('onComplete', exit);
+  }
+  ScrollTrigger.refresh();
+
+  /* ---------- cursor, magnetism, chips, matrix, anchors ---------- */
+  if (fine && !reduced){
+    const cur = $('#cursor'), lab = $('#cursorLabel'); const pos = {x:innerWidth/2, y:innerHeight/2}, tgt = {x:pos.x, y:pos.y};
+    addEventListener('pointermove', e=>{ tgt.x = e.clientX; tgt.y = e.clientY; }, {passive:true});
+    addEventListener('pointerdown', ()=>cur.classList.add('is-down')); addEventListener('pointerup', ()=>cur.classList.remove('is-down'));
+    gsap.ticker.add(()=>{ pos.x = lerp(pos.x,tgt.x,0.22); pos.y = lerp(pos.y,tgt.y,0.22); cur.style.transform = `translate(${pos.x}px,${pos.y}px)`; });
+    $$('[data-cursor]').forEach(el=>{
+      el.addEventListener('pointerenter', ()=>{ lab.textContent = el.dataset.cursor; cur.classList.add('is-label'); });
+      el.addEventListener('pointerleave', ()=> cur.classList.remove('is-label'));
+    });
+    $$('.magnetic').forEach(el=>{
+      const x = gsap.quickTo(el, 'x', {duration:0.5, ease:'power3'}), y = gsap.quickTo(el, 'y', {duration:0.5, ease:'power3'});
+      el.addEventListener('pointermove', e=>{ const r = el.getBoundingClientRect(); x((e.clientX - (r.left+r.width/2))*0.3); y((e.clientY - (r.top+r.height/2))*0.3); });
+      el.addEventListener('pointerleave', ()=>{ x(0); y(0); });
+    });
+  }
+  $$('.card').forEach(card=>{
+    card.querySelectorAll('.chips button').forEach(b=>{ b.addEventListener('click', ()=>{
+      card.style.setProperty('--c', getComputedStyle(b).getPropertyValue('--h').trim());
+      card.querySelectorAll('.chips button').forEach(x=>x.classList.toggle('on', x===b)); }); });
+  });
+  const mtx = $('#matrix table');
+  mtx.addEventListener('pointerover', e=>{ const cell = e.target.closest('td,th'); if (!cell) return; const i = cell.cellIndex;
+    mtx.querySelectorAll('.hi').forEach(x=>x.classList.remove('hi')); if (i>0) mtx.querySelectorAll('tr').forEach(r=> r.children[i] && r.children[i].classList.add('hi')); });
+  mtx.addEventListener('pointerleave', ()=> mtx.querySelectorAll('.hi').forEach(x=>x.classList.remove('hi')));
+  $$('a[href^="#"]').forEach(a=>{
+    a.addEventListener('click', e=>{ const id = a.getAttribute('href').slice(1); const el = id && document.getElementById(id); if (!el) return; e.preventDefault();
+      if (smoother) smoother.scrollTo(el, true, 'top top'); else el.scrollIntoView({behavior: reduced?'auto':'smooth'}); });
+  });
+  } // init
+})();
+</script>
