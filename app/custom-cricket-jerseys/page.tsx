@@ -481,28 +481,8 @@ export default function CustomCricketJerseys() {
           {/* 12. FAQ */}
           <CricketJerseysFaq />
 
-          {/* 13. Custom CTA matches wireframe with popping image */}
-          <section className="px-6 md:px-12 py-24 md:py-32 bg-[#FAF9F6]">
-            <div className="max-w-[1200px] mx-auto bg-[#FDE047] rounded-[40px] p-12 md:p-20 shadow-xl relative mt-16 md:mt-24 flex flex-col items-center md:items-end text-center md:text-right">
-               {/* Radial Background */}
-               <div className="absolute inset-0 bg-[radial-gradient(#000_1px,transparent_1px)] [background-size:20px_20px] opacity-[0.05] rounded-[40px] overflow-hidden pointer-events-none"></div>
-               
-               {/* Popping Image - Breaks out of container */}
-               <div className="absolute bottom-0 left-[-20px] md:left-12 w-[280px] md:w-[400px] h-[380px] md:h-[550px] z-20 pointer-events-none">
-                 <Image src="https://yoode.com/cdn/shop/files/yd-seo-print-kit-front.png" alt="Custom Jersey" fill className="object-contain object-bottom drop-shadow-2xl" />
-               </div>
-
-               {/* Text & Buttons */}
-               <div className="relative z-10 md:w-[60%] flex flex-col items-center md:items-end mt-[200px] md:mt-0">
-                 <h2 className="text-4xl md:text-[3.5rem] font-black uppercase leading-[1.1] tracking-tight mb-4 text-yoode-onyx">Ready to kit your team?</h2>
-                 <p className="text-yoode-onyx/70 font-bold mb-10 max-w-lg">Free 24-hour mockup · no minimum order · pay only after you approve.</p>
-                 <div className="flex flex-wrap justify-center md:justify-end gap-4">
-                   <button className="bg-yoode-onyx text-white font-bold px-8 py-4 rounded-full hover:bg-black transition-colors shadow-lg">Design your kit →</button>
-                   <button className="bg-white border border-gray-200 text-yoode-onyx font-bold px-8 py-4 rounded-full shadow-sm hover:shadow-md transition-shadow">Get a bulk quote</button>
-                 </div>
-               </div>
-            </div>
-          </section>
+          {/* 13. Custom CTA */}
+          <CustomJerseysCtaLight />
 
 
 
