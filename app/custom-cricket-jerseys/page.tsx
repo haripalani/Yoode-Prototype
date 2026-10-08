@@ -437,41 +437,49 @@ export default function CustomCricketJerseys() {
           <Testimonials />
 
           {/* 10. Kits we've made */}
-          <section className="py-16 md:py-24 bg-[#FAF9F6] px-6 md:px-12 border-t border-gray-100">
-            <div className="max-w-[1400px] mx-auto">
-              <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-6">
-                <div>
-                  <h2 className="text-4xl md:text-[3.5rem] font-black uppercase text-yoode-onyx leading-[1.1] tracking-tight mb-2">Kits we've <span className="text-[#EA580C]">made</span></h2>
-                  <p className="text-gray-500 font-medium">A few of the 1,200+ teams & brands we've dressed.</p>
+          <section className="py-16 md:py-24 bg-[#FAF9F6] border-t border-gray-100 overflow-hidden">
+            <style dangerouslySetInnerHTML={{__html: `
+              @keyframes marquee {
+                0% { transform: translateX(0); }
+                100% { transform: translateX(-50%); }
+              }
+              .animate-marquee {
+                animation: marquee 30s linear infinite;
+              }
+              .animate-marquee:hover {
+                animation-play-state: paused;
+              }
+            `}} />
+            <div className="max-w-[1400px] mx-auto px-6 md:px-12 mb-12">
+              <div>
+                <h2 className="text-4xl md:text-[3.5rem] font-black uppercase text-yoode-onyx leading-[1.1] tracking-tight mb-2">Kits we've <span className="text-[#EA580C]">made</span></h2>
+                <p className="text-gray-500 font-medium">A few of the 1,200+ teams & brands we've dressed.</p>
+              </div>
+            </div>
+            
+            <div className="flex w-max animate-marquee">
+              {[
+                { img: '/images/cricket-kit-1.jpg' },
+                { img: '/images/cricket-kit-2.jpg' },
+                { img: '/images/cricket-kit-3.jpg' },
+                { img: '/images/cricket-kit-4.jpg' },
+                { img: '/images/cricket-kit-5.jpg' },
+                { img: '/images/cricket-kit-1.jpg' },
+                { img: '/images/cricket-kit-2.jpg' },
+                { img: '/images/cricket-kit-3.jpg' },
+                { img: '/images/cricket-kit-4.jpg' },
+                { img: '/images/cricket-kit-5.jpg' }
+              ].map((k, idx) => (
+                <div key={idx} className="shrink-0 px-3 h-[240px] md:h-[300px] lg:h-[360px]">
+                   <div className="h-full w-max rounded-[24px] relative overflow-hidden bg-[#FAF9F6] flex items-center justify-center shadow-sm">
+                     <img 
+                       src={k.img} 
+                       alt="Cricket Kit" 
+                       className="h-full w-auto object-contain hover:scale-105 transition-transform duration-700 cursor-pointer" 
+                     />
+                   </div>
                 </div>
-                <button className="bg-white border border-gray-200 text-yoode-onyx px-8 py-3 rounded-full font-bold text-sm shadow-sm hover:shadow-md transition-shadow">See portfolio →</button>
-              </div>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                {[
-                  { name: 'Bangalore United CC', color: 'from-blue-500/20 to-indigo-600/20' },
-                  { name: 'Infosys Premier League', color: 'from-orange-500/20 to-red-600/20' },
-                  { name: "St. Xavier's Academy", color: 'from-emerald-500/20 to-teal-600/20' },
-                  { name: 'Koramangala Strikers', color: 'from-purple-500/20 to-pink-600/20' }
-                ].map((k, idx) => (
-                  <div key={idx} className="bg-white p-2 md:p-3 rounded-[32px] shadow-sm border border-gray-100 hover:shadow-2xl transition-all duration-300 cursor-pointer group">
-                     <div className={`w-full aspect-[4/5] rounded-[24px] relative overflow-hidden bg-gradient-to-br ${k.color} flex items-center justify-center`}>
-                       
-                       <div className="absolute inset-0 bg-yoode-onyx/5 group-hover:bg-yoode-onyx/0 transition-colors duration-500" />
-                       
-                       <div className="absolute inset-0 flex items-center justify-center opacity-30 mix-blend-overlay">
-                         <Columns className="w-24 h-24 text-yoode-onyx transform group-hover:scale-110 transition-transform duration-700" />
-                       </div>
-
-                       <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between bg-white/95 backdrop-blur-md px-4 py-3 rounded-2xl shadow-lg translate-y-2 opacity-90 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
-                         <span className="text-yoode-onyx font-black text-sm truncate pr-2">{k.name}</span>
-                         <div className="w-8 h-8 rounded-full bg-yoode-onyx text-white flex items-center justify-center shrink-0">
-                           <ArrowUpRight className="w-4 h-4" />
-                         </div>
-                       </div>
-                     </div>
-                  </div>
-                ))}
-              </div>
+              ))}
             </div>
           </section>
 

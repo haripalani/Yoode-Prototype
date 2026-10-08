@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Plus, ArrowUpRight, Shirt, Layers, PenTool } from "lucide-react";
+import { Plus, ArrowUpRight } from "lucide-react";
 
 const faqs = [
   {
@@ -39,21 +39,22 @@ export function CricketJerseysFaq() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
-    <section className="py-20 md:py-32 bg-[#FAF9F6] font-sans">
-      <div className="max-w-[1400px] mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
-        
-        {/* Left Column: SEO Text */}
+    <>
+      <section className="py-20 md:py-32 bg-[#FAF9F6] font-sans">
+        <div className="max-w-[900px] mx-auto px-6 md:px-12 flex flex-col gap-16 lg:gap-24">
+          
+          {/* Top Section: Cricket Jersey Details */}
         <div className="flex flex-col">
-          <div className="mb-10">
+          <div className="mb-10 md:text-center">
             <span className="text-[#E53935] text-xs font-bold uppercase tracking-[0.2em] mb-4 block">
               Custom Cricket Jersey Maker in India
             </span>
             <h2 className="text-4xl md:text-5xl lg:text-[56px] font-black text-yoode-onyx leading-[1.1] font-display tracking-tight">
-              FREQUENTLY ASKED QUESTIONS
+              ABOUT CRICKET JERSEYS
             </h2>
           </div>
 
-          <div className="flex flex-col gap-10 pr-0 lg:pr-8">
+          <div className="flex flex-col gap-10">
             <div className="flex flex-col">
               <h3 className="font-display font-bold text-yoode-onyx mb-3 text-[20px] leading-snug">
                 Looking for Custom Cricket Jerseys for Your Team?
@@ -112,13 +113,28 @@ export function CricketJerseysFaq() {
             </div>
           </div>
         </div>
+      </div>
+    </section>
 
-        {/* Right Column: FAQ Accordion */}
-        <div className="flex flex-col pt-2 lg:pt-14">
-          
+      {/* Bottom Section: FAQ Accordion */}
+      <section className="py-20 md:py-28 bg-[#F9FAFB] font-sans">
+        <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+          {/* Header: Giant FAQ + subtitle */}
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-6 md:mb-10 gap-4">
+            <h2
+              className="text-[100px] sm:text-[130px] md:text-[160px] font-black leading-none tracking-tighter text-yoode-onyx select-none"
+            >
+              FAQ
+            </h2>
+            <p className="text-[11px] font-semibold tracking-[0.18em] uppercase text-gray-400 md:mb-8 md:text-right">
+              Answers to your questions
+            </p>
+          </div>
+
           {/* Top Divider */}
           <div className="w-full h-px bg-gray-200" />
-          
+
+          {/* Accordion List */}
           <div className="flex flex-col">
             {faqs.map((faq, index) => {
               const isOpen = openIndex === index;
@@ -177,8 +193,19 @@ export function CricketJerseysFaq() {
               );
             })}
           </div>
+
+          {/* Bottom CTA */}
+          <div className="mt-12 flex items-center gap-4">
+            <span className="text-sm text-gray-400">Still have questions?</span>
+            <a
+              href="mailto:hello@yoode.in"
+              className="text-sm font-bold text-[#E53935] underline underline-offset-4 hover:opacity-70 transition-opacity duration-200"
+            >
+              Get in touch →
+            </a>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }
