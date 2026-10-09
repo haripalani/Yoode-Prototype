@@ -184,7 +184,9 @@ export function Header() {
   return (
     <>
       <header className={`fixed top-[30px] md:top-[32px] left-0 w-full z-[100] transition-all duration-300 ${
-        isDarkHeader ? "bg-[#111827]/90 backdrop-blur-md shadow-md py-4 text-white" : "bg-transparent py-5 text-white"
+        (isDarkHeader || isInnerPage) 
+          ? "bg-[#111827]/90 backdrop-blur-md shadow-md py-4 text-white" 
+          : "bg-transparent py-5 text-white"
       }`}>
         <div className="w-full max-w-[1600px] mx-auto px-6 md:px-12 flex items-center justify-between relative">
           
@@ -197,7 +199,11 @@ export function Header() {
               <Menu size={26} />
             </button>
             <a href="/" className="flex items-center">
-              <img src="/logo-dark.avif" alt="Yoode Logo" className="h-5 lg:h-6 w-auto object-contain brightness-0 invert" />
+              <img 
+                src="/logo-dark.avif" 
+                alt="Yoode Logo" 
+                className="h-5 lg:h-6 w-auto object-contain transition-all duration-300 brightness-0 invert" 
+              />
             </a>
           </div>
 

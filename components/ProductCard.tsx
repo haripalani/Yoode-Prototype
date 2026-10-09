@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { Heart, ShoppingBag, Star, ChevronDown, Search, ArrowRightLeft } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export interface Product {
   id: string | number;
@@ -39,7 +40,7 @@ function SizeDropdown({ labels, value }: { labels: string[], value: string }) {
   return (
     <div className="relative mr-auto" ref={dropdownRef}>
       <button
-        onClick={(e) => { e.preventDefault(); setIsOpen(!isOpen); }}
+        onClick={(e) => { e.preventDefault(); e.stopPropagation(); setIsOpen(!isOpen); }}
         className="bg-white/95 backdrop-blur-md rounded-xl h-11 px-3 shadow-sm flex flex-col items-center justify-center cursor-pointer hover:bg-white transition-colors"
       >
         <div className="text-[9px] text-gray-400 font-bold tracking-widest flex gap-1.5 items-center">
@@ -81,9 +82,13 @@ function SizeDropdown({ labels, value }: { labels: string[], value: string }) {
 
 export function ProductCard({ product }: { product: Product }) {
   const isList = false;
+  const router = useRouter();
 
   return (
-    <div className={`bg-white rounded-[28px] p-3 shadow-sm hover:shadow-md transition-shadow cursor-pointer group flex ${isList ? 'flex-col sm:flex-row gap-5 md:gap-8 items-center pr-6' : 'flex-col gap-3'}`}>
+    <div 
+      onClick={() => router.push('/products/womens-polo')}
+      className={`bg-white rounded-[28px] p-3 shadow-sm hover:shadow-md transition-shadow cursor-pointer group flex ${isList ? 'flex-col sm:flex-row gap-5 md:gap-8 items-center pr-6' : 'flex-col gap-3'}`}
+    >
       {/* Image Container */}
       <div className={`relative rounded-[20px] group overflow-hidden shrink-0 ${isList ? 'w-full sm:w-[240px] h-[240px]' : 'aspect-square md:aspect-[4/5] w-full'}`}>
         {/* Clipped Background & Image Layer */}
@@ -121,11 +126,19 @@ export function ProductCard({ product }: { product: Product }) {
 
           {/* Action Buttons */}
 
-          <button title="Save" className="bg-white/95 hover:bg-white backdrop-blur-md rounded-xl h-11 w-11 flex items-center justify-center shadow-sm transition-colors shrink-0 hidden sm:flex group/btn">
+          <button 
+            title="Save" 
+            onClick={(e) => e.stopPropagation()}
+            className="bg-white/95 hover:bg-white backdrop-blur-md rounded-xl h-11 w-11 flex items-center justify-center shadow-sm transition-colors shrink-0 hidden sm:flex group/btn"
+          >
             <Heart className="w-4 h-4 text-gray-600 group-hover/btn:text-red-500 transition-colors" />
           </button>
           {!isList && (
-            <button title="Add to Cart" className="bg-white/95 hover:bg-white backdrop-blur-md rounded-xl h-11 w-11 flex items-center justify-center shadow-sm transition-colors shrink-0 group/btn">
+            <button 
+              title="Add to Cart" 
+              onClick={(e) => e.stopPropagation()}
+              className="bg-white/95 hover:bg-white backdrop-blur-md rounded-xl h-11 w-11 flex items-center justify-center shadow-sm transition-colors shrink-0 group/btn"
+            >
               <ShoppingBag className="w-4 h-4 text-gray-600 group-hover/btn:text-yoode-onyx transition-colors" />
             </button>
           )}
@@ -165,10 +178,16 @@ export function ProductCard({ product }: { product: Product }) {
           {isList && (
             <div className="flex items-center gap-3 mt-6">
 
-              <button className="bg-gray-50 text-yoode-onyx text-[13px] font-bold px-6 py-3 rounded-xl hover:bg-gray-100 transition-colors shadow-sm flex items-center gap-2">
+              <button 
+                onClick={(e) => e.stopPropagation()}
+                className="bg-gray-50 text-yoode-onyx text-[13px] font-bold px-6 py-3 rounded-xl hover:bg-gray-100 transition-colors shadow-sm flex items-center gap-2"
+              >
                 <Heart className="w-4 h-4" /> Save
               </button>
-              <button className="bg-yoode-onyx text-white text-[13px] font-bold px-8 py-3 rounded-xl hover:bg-black transition-colors shadow-sm flex items-center gap-2">
+              <button 
+                onClick={(e) => e.stopPropagation()}
+                className="bg-yoode-onyx text-white text-[13px] font-bold px-8 py-3 rounded-xl hover:bg-black transition-colors shadow-sm flex items-center gap-2"
+              >
                 <ShoppingBag className="w-4 h-4" /> Add to Cart
               </button>
             </div>
