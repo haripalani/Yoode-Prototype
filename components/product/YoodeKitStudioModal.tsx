@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useRef } from "react";
+import { useParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   X, 
@@ -65,9 +66,14 @@ export default function YoodeKitStudioModal({
   const [isAdded, setIsAdded] = useState<boolean>(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  const params = useParams();
+  const slug = (params?.slug as string) || "";
+  const isWomenPolo = slug === "womens-polo" || slug === "womens-performance-polo";
+  const modelImg = isWomenPolo ? "/polo/women-navy-model.jpg" : "/polo/navy-model.jpg";
+
   // Customization State
   const [customState, setCustomState] = useState<CustomKitState>({
-    style: "Performance Zipper Polo",
+    style: isWomenPolo ? "Women's Performance Polo" : "Performance Zipper Polo",
     colorId: initialColor?.id || "navy",
     colorName: initialColor?.name || "Navy Blue",
     viewAngle: "F",
@@ -88,7 +94,7 @@ export default function YoodeKitStudioModal({
       hex: "#1E293B", 
       imageF: "/polo/navy-front.jpg", 
       imageB: "/polo/navy-back.jpg", 
-      imageL: "/polo/navy-model.jpg", 
+      imageL: modelImg, 
       imageR: "/polo/navy-collar.jpg" 
     },
     { 
@@ -97,7 +103,7 @@ export default function YoodeKitStudioModal({
       hex: "#121212", 
       imageF: "/polo/black-front.jpg", 
       imageB: "/polo/navy-back.jpg", 
-      imageL: "/polo/navy-model.jpg", 
+      imageL: modelImg, 
       imageR: "/polo/navy-collar.jpg" 
     },
     { 
@@ -106,7 +112,7 @@ export default function YoodeKitStudioModal({
       hex: "#2E4A3E", 
       imageF: "/polo/green-front.jpg", 
       imageB: "/polo/navy-back.jpg", 
-      imageL: "/polo/navy-model.jpg", 
+      imageL: modelImg, 
       imageR: "/polo/navy-collar.jpg" 
     },
     { 
@@ -115,7 +121,7 @@ export default function YoodeKitStudioModal({
       hex: "#F8FAFC", 
       imageF: "/polo/white-front.jpg", 
       imageB: "/polo/navy-back.jpg", 
-      imageL: "/polo/navy-model.jpg", 
+      imageL: modelImg, 
       imageR: "/polo/navy-collar.jpg" 
     }
   ];

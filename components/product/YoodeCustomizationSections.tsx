@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { useParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   Package, 
@@ -35,6 +36,10 @@ interface FAQItem {
 }
 
 export default function YoodeCustomizationSections() {
+  const params = useParams();
+  const slug = (params?.slug as string) || "";
+  const isWomenPolo = slug === "womens-polo" || slug === "womens-performance-polo";
+
   const [activeFaqIndex, setActiveFaqIndex] = useState<number | null>(0);
   const [isBulkModalOpen, setIsBulkModalOpen] = useState<boolean>(false);
   const [bulkQuantity, setBulkQuantity] = useState<number>(50);
@@ -280,7 +285,7 @@ export default function YoodeCustomizationSections() {
                 desc: "Crisp vector reproduction with zero thread puckering" 
               },
               { 
-                src: "/polo/navy-model.jpg", 
+                src: isWomenPolo ? "/polo/women-navy-model.jpg" : "/polo/navy-model.jpg", 
                 title: "Athletic Tailored Drape",
                 desc: "Structured fit designed for team and office wear" 
               },

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
@@ -64,6 +64,18 @@ export default function RainsProductHero({
     if (slug === "womens-performance-polo") return "Women's Performance Polo";
     return RAINS_JACKET_DATA.title;
   };
+
+  const isWomenPolo = slug === "womens-polo" || slug === "womens-performance-polo";
+
+  const displayImages = useMemo(() => {
+    return selectedColor.images.map((img) => {
+      if (isWomenPolo && img.includes("navy-model.jpg")) {
+        return "/polo/women-navy-model.jpg";
+      }
+      return img;
+    });
+  }, [selectedColor.images, isWomenPolo]);
+
   const [isColorDropdownOpen, setIsColorDropdownOpen] = useState<boolean>(false);
   const [isSizeDropdownOpen, setIsSizeDropdownOpen] = useState<boolean>(false);
   const colorDropdownRef = useRef<HTMLDivElement>(null);
@@ -268,9 +280,9 @@ export default function RainsProductHero({
 
   // Triplicate images for infinite continuous looping
   const infiniteImages = [
-    ...selectedColor.images,
-    ...selectedColor.images,
-    ...selectedColor.images
+    ...displayImages,
+    ...displayImages,
+    ...displayImages
   ];
 
   // Set initial scroll position to middle set on mount or color change
@@ -332,11 +344,11 @@ export default function RainsProductHero({
   const isCurrentSizeAvailable = currentSizeObj ? currentSizeObj.available : true;
 
   const handleNextImage = () => {
-    setCurrentImageIndex((prev) => (prev + 1) % selectedColor.images.length);
+    setCurrentImageIndex((prev) => (prev + 1) % displayImages.length);
   };
 
   const handlePrevImage = () => {
-    setCurrentImageIndex((prev) => (prev - 1 + selectedColor.images.length) % selectedColor.images.length);
+    setCurrentImageIndex((prev) => (prev - 1 + displayImages.length) % displayImages.length);
   };
 
   // Horizontal infinite track controls
@@ -387,11 +399,11 @@ export default function RainsProductHero({
     }
 
     const slide = trackRef.current.querySelector('[data-gallery-slide="0"]') as HTMLElement;
-    const slideWidth = slide ? slide.offsetWidth : singleSetWidth / selectedColor.images.length;
+    const slideWidth = slide ? slide.offsetWidth : singleSetWidth / displayImages.length;
     if (slideWidth > 0) {
       const relativeOffset = scrollLeft - singleSetWidth;
       const rawIdx = Math.round(relativeOffset / slideWidth);
-      const activeIdx = ((rawIdx % selectedColor.images.length) + selectedColor.images.length) % selectedColor.images.length;
+      const activeIdx = ((rawIdx % displayImages.length) + displayImages.length) % displayImages.length;
       setCurrentImageIndex(activeIdx);
     }
   };
@@ -400,7 +412,7 @@ export default function RainsProductHero({
     if (trackRef.current) {
       const slide = trackRef.current.querySelector('[data-gallery-slide="0"]') as HTMLElement;
       const slideWidth = slide ? slide.offsetWidth : 480;
-      const singleSetWidth = slideWidth * selectedColor.images.length;
+      const singleSetWidth = slideWidth * displayImages.length;
       trackRef.current.scrollTo({ left: singleSetWidth + idx * slideWidth, behavior: "smooth" });
     }
   };
@@ -505,7 +517,7 @@ export default function RainsProductHero({
             style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
           >
             {infiniteImages.map((imgUrl, idx) => {
-              const originalIndex = idx % selectedColor.images.length;
+              const originalIndex = idx % displayImages.length;
               return (
                 <div
                   key={`${selectedColor.id}-slide-${idx}`}
@@ -585,7 +597,7 @@ export default function RainsProductHero({
 
           {/* Carousel Indicator Bar (Centered in the middle of the page) */}
           <div className="absolute bottom-5 left-1/2 -translate-x-1/2 z-40 flex items-center gap-2 bg-black/50 backdrop-blur-md px-3.5 py-2 rounded-full border border-white/10 shadow-lg">
-            {selectedColor.images.map((_, idx) => (
+            {displayImages.map((_, idx) => (
               <button
                 key={idx}
                 type="button"
@@ -1034,6 +1046,7 @@ export default function RainsProductHero({
               {/* Left: Navigation links */}
               <div className="hidden md:flex items-center gap-6 text-xs font-semibold tracking-wider uppercase text-gray-600">
                 <a href="#product-details" className="hover:text-black transition-colors">Description</a>
+                <a href="#customer-reviews" className="hover:text-black transition-colors">Reviews</a>
                 <a href="#recommendations" className="hover:text-black transition-colors">Recommendations</a>
               </div>
 
@@ -1669,7 +1682,7 @@ export default function RainsProductHero({
               className="absolute top-5 left-6 right-20 flex items-center justify-between z-20 text-white cursor-default"
             >
               <div className="text-xs font-semibold tracking-wider uppercase text-white/90">
-                {RAINS_JACKET_DATA.title} &ndash; {selectedColor.name} ({currentImageIndex + 1}/{selectedColor.images.length})
+                {getProductTitle()} &ndash; {selectedColor.name} ({currentImageIndex + 1}/{displayImages.length})
               </div>
             </div>
 
@@ -1679,7 +1692,7 @@ export default function RainsProductHero({
               className="relative w-full h-[85vh] flex items-center justify-center px-4 cursor-default"
             >
               <img
-                src={selectedColor.images[currentImageIndex]}
+                src={displayImages[currentImageIndex]}
                 alt={`Zoom View ${currentImageIndex + 1}`}
                 className="max-w-full max-h-full object-contain"
               />
@@ -1713,7 +1726,7 @@ export default function RainsProductHero({
               onClick={(e) => e.stopPropagation()}
               className="absolute bottom-6 flex items-center gap-2 z-20 cursor-default"
             >
-              {selectedColor.images.map((img, idx) => (
+              {displayImages.map((img, idx) => (
                 <button
                   key={idx}
                   type="button"
