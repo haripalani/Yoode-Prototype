@@ -1,5 +1,11 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## 🏏 Shopify Theme Implementation
+The Custom Sports Jerseys and Custom Cricket Jerseys pages have been fully ported to Shopify Liquid in `yoode-shopify-theme/`:
+- Complete documentation: [`yoode-shopify-theme/README-custom-sports-jerseys.md`](file:///Users/hari/Desktop/Yoode/yoode-shopify-theme/README-custom-sports-jerseys.md)
+- Custom Cricket Jerseys preview: `http://127.0.0.1:9292/?view=custom-cricket-jerseys`
+- Custom Sports Jerseys preview: `http://127.0.0.1:9292/?view=custom-sports-jerseys`
+
 ## Getting Started
 
 First, run the development server:
