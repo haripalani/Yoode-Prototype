@@ -50,7 +50,7 @@ export function Footer() {
             <h4 className="font-bold text-white text-base mb-2">Company</h4>
             <a href="#" className="text-sm text-white/60 hover:text-white transition-colors w-max">About Us</a>
             <a href="#" className="text-sm text-white/60 hover:text-white transition-colors w-max">Experience Centers</a>
-            <a href="#" className="text-sm text-white/60 hover:text-white transition-colors w-max">Design Studio</a>
+            <a href="/design-studio" className="text-sm text-white/60 hover:text-white transition-colors w-max">Design Studio</a>
             <a href="#" className="text-sm text-white/60 hover:text-white transition-colors w-max">Bulk Ordering</a>
           </div>
 

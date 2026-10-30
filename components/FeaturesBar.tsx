@@ -1,9 +1,15 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import { Box, PaintBucket, Printer, MapPin, Building2 } from "lucide-react";
 
 export function FeaturesBar() {
+  const pathname = usePathname();
+  if (pathname?.startsWith("/design-studio")) {
+    return null;
+  }
+
   const features = [
     <span key="1" className="flex items-center gap-2">
       <Box className="w-4 h-4 text-[#E53935]" />
