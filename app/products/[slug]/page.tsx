@@ -1,5 +1,7 @@
 import ProductClient from "./ProductClient";
 
+export const dynamicParams = false;
+
 export function generateStaticParams() {
   return [
     { slug: "polo-tshirt" },

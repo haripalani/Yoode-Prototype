@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Search, User, ShoppingBag, X } from "lucide-react";
 import { SearchModal } from "./SearchModal";
-import { RynoxMenu } from "./RynoxMenu";
+import { YoodeMenu } from "./YoodeMenu";
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -27,7 +27,7 @@ export function Header() {
   return (
     <>
       {/* 
-        TOP HEADER BAR (Rynox Gear Navigation Style)
+        TOP HEADER BAR
         - Left: 9-Dot Matrix Menu Trigger
         - Center: Bold Brand Logo
         - Right: Search, Log In, and Cart badge with price
@@ -41,7 +41,7 @@ export function Header() {
       >
         <div className="w-full max-w-[1700px] mx-auto px-4 md:px-8 flex items-center justify-between relative h-full">
           
-          {/* LEFT: 9-Dot Matrix Launcher (Boxed Button Style with Rynox SVG) */}
+          {/* LEFT: 9-Dot Matrix Launcher */}
           <div className="flex items-center z-10">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -99,7 +99,7 @@ export function Header() {
             </Link>
           </div>
 
-          {/* RIGHT: Search, Log In, Cart (Rynox style layout) */}
+          {/* RIGHT: Search, Log In, Cart */}
           <div className="flex items-center gap-3 sm:gap-6 text-xs md:text-sm font-semibold z-10">
             {/* Search */}
             <button
@@ -141,8 +141,8 @@ export function Header() {
         </div>
       </header>
 
-      {/* RYNOX STYLE SPLIT MEGA DRAWER */}
-      <RynoxMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
+      {/* YOODE MEGA DRAWER */}
+      <YoodeMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
 
       {/* SEARCH MODAL */}
       <SearchModal isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />

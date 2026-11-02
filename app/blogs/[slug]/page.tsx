@@ -5,6 +5,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { blogs } from "@/data/blogs";
 
+export const dynamicParams = false;
+
 export function generateStaticParams() {
   return blogs.map((blog) => ({
     slug: blog.slug,

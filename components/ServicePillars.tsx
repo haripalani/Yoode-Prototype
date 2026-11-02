@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { ArrowUpRight, Wrench } from "lucide-react";
 import { SectionHeader } from "./SectionHeader";
 
@@ -63,12 +64,12 @@ export function ServicePillars() {
           />
 
           <div className="max-w-md lg:pb-2 w-full lg:w-auto">
-            <a href="#all-services" className="inline-flex items-center justify-between lg:justify-start w-full lg:w-auto gap-4 px-6 py-3 rounded-full bg-[#E5CDC0] hover:bg-[#d8c1b4] transition-colors font-semibold text-yoode-onyx shadow-sm group cursor-pointer">
+            <Link href="/services" className="inline-flex items-center justify-between lg:justify-start w-full lg:w-auto gap-4 px-6 py-3 rounded-full bg-[#E5CDC0] hover:bg-[#d8c1b4] transition-colors font-semibold text-yoode-onyx shadow-sm group cursor-pointer">
               Continue exploring
               <span className="w-10 h-10 rounded-full bg-yoode-onyx text-white flex items-center justify-center group-hover:scale-105 transition-transform">
                 <ArrowUpRight size={18} />
               </span>
-            </a>
+            </Link>
           </div>
         </div>
 

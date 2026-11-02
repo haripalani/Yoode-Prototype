@@ -1,3 +1,5 @@
+export const dynamicParams = false;
+
 export function generateStaticParams() {
   return [
     { category: 't-shirts' },
@@ -15,5 +17,5 @@ export default function CategoryLayout({
 }: {
   children: React.ReactNode
 }) {
-  return <>{children}</>
+  return <>{children}</>;
 }

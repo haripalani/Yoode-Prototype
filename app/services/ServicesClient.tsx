@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { SplitText } from "gsap/SplitText";
 
 const FRAG = `
 precision highp float;
@@ -473,7 +472,7 @@ export function ServicesClient() {
     const rootEl = rootRef.current;
     if (!rootEl) return;
     const root: HTMLDivElement = rootEl;
-    gsap.registerPlugin(ScrollTrigger, SplitText);
+    gsap.registerPlugin(ScrollTrigger);
 
     const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
     const fine = matchMedia("(hover:hover)").matches;
@@ -606,7 +605,6 @@ export function ServicesClient() {
 
         /* ---------- text splitting ---------- */
         const linesOf = (el: HTMLElement): HTMLElement[] => {
-          if (!reduced) { try { return SplitText.create(el, { type: "lines", mask: "lines", linesClass: "line" }).lines as HTMLElement[]; } catch { /* fall through */ } }
           return [el];
         };
         const splits = new Map<Element, HTMLElement[]>(); $$("[data-split]").forEach((el) => splits.set(el, linesOf(el)));
