@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { 
   Heart, 
   ShoppingBag, 
@@ -11,18 +12,42 @@ import {
   Check, 
   Upload,
   ShieldCheck,
-  ChevronDown
+  ChevronDown,
+  ChevronUp,
+  Layers,
+  Palette,
+  Sparkles,
+  Type,
+  Sliders,
+  SlidersHorizontal,
+  Wrench,
+  CheckCircle2,
+  ChevronRight,
+  ArrowUpRight,
+  Shirt
 } from "lucide-react";
 
-export type StudioStep = "silhouette" | "material" | "colors" | "logo" | "text";
-export type StudioProductType = "polo" | "jersey";
+export type StudioStep = "style" | "look" | "fabric" | "colors" | "logo" | "player";
 
-export interface SilhouetteOption {
+export interface SportItem {
   id: string;
   name: string;
-  shortLabel: string;
+  tagline: string;
   badge: string;
-  iconLetter: string;
+  basePrice: number;
+  icon?: string;
+  iconLetter?: string;
+  image: string;
+  backImage?: string;
+  sideImage?: string;
+  styles: Array<{
+    id: string;
+    name: string;
+    shortLabel: string;
+    badge: string;
+    desc: string;
+    priceDelta: number;
+  }>;
 }
 
 export interface MaterialOption {
@@ -35,14 +60,13 @@ export interface MaterialOption {
   texturePattern: string;
 }
 
-export interface ColorOption {
+export interface ColorSchemeOption {
   id: string;
   name: string;
   shortLabel: string;
-  hex: string;
-  frontImage: string;
-  backImage: string;
-  modelImage: string;
+  primaryHex: string;
+  secondaryHex: string;
+  description: string;
 }
 
 export interface LogoTechniqueOption {
@@ -51,9 +75,10 @@ export interface LogoTechniqueOption {
   shortLabel: string;
   badge: string;
   priceDelta: number;
+  desc: string;
 }
 
-export interface TextOption {
+export interface TextFontOption {
   id: string;
   name: string;
   shortLabel: string;
@@ -62,40 +87,218 @@ export interface TextOption {
 }
 
 // ---------------------------------------------------------------------------
-// AUTHENTIC YOODE DATA DEFINITIONS
+// LAYER & CRAFTSMANSHIP SPECS
 // ---------------------------------------------------------------------------
 
-const POLO_SILHOUETTES: SilhouetteOption[] = [
-  { id: "zipper", name: "Zipper Polo", shortLabel: "Zipper Polo", badge: "Bestseller", iconLetter: "Z" },
-  { id: "classic", name: "Classic Pique", shortLabel: "Classic Pique", badge: "Classic", iconLetter: "C" },
-  { id: "dryfit", name: "Active Dry-Fit", shortLabel: "Active Dry-Fit", badge: "Athletic", iconLetter: "D" },
-  { id: "tipped", name: "Tipped Rib", shortLabel: "Tipped Rib", badge: "Corporate", iconLetter: "T" },
+const LAYER_SPECS = [
+  { title: "Placket & Closure", opt: "Anti-Rust YKK Silver Quarter-Zip", desc: "Smooth glide with auto-lock puller & inner shield" },
+  { title: "Collar Construction", opt: "Reinforced Structured Rib (Lycra Core)", desc: "Guaranteed zero collar curl after 100+ washes" },
+  { title: "Fabric Construction", opt: "220 GSM Bio-Washed Combed Cotton", desc: "Soft handfeel, pre-shrunk, colorfast knit" },
+  { title: "Hem & Side Slits", opt: "Bar-Tacked Side Vent Slits", desc: "Clean athletic drape over trousers or track pants" },
 ];
 
-const JERSEY_SILHOUETTES: SilhouetteOption[] = [
-  { id: "cricket", name: "Cricket Kit", shortLabel: "Cricket Kit", badge: "Pro Match", iconLetter: "CR" },
-  { id: "football", name: "Football Kit", shortLabel: "Football Kit", badge: "Match Day", iconLetter: "FB" },
-  { id: "esports", name: "Esports Jersey", shortLabel: "Esports", badge: "Pro Gaming", iconLetter: "ES" },
-  { id: "badminton", name: "Court Jersey", shortLabel: "Court Jersey", badge: "Featherlight", iconLetter: "BM" },
+// ---------------------------------------------------------------------------
+// AUTHENTIC YOODE SPORTS DATA DEFINITIONS (13 Comprehensive Sports & Apparel)
+// ---------------------------------------------------------------------------
+
+const SPORTS_DATA: SportItem[] = [
+  {
+    id: "basketball",
+    name: "Basketball",
+    tagline: "Court High-Motion Reversible Kit",
+    badge: "Athletic Cut",
+    basePrice: 540,
+    icon: "/icons/sports/basketball.svg",
+    image: "https://yoode.com/cdn/shop/files/BasketBall.webp?v=1789388369&width=1600",
+    styles: [
+      { id: "bb-tank", name: "Wide Shoulder Match Tank", shortLabel: "Pro Tank", badge: "Standard", desc: "Reinforced deep armholes for unrestricted shooting", priceDelta: 0 },
+      { id: "bb-reversible", name: "Reversible Game Day Jersey", shortLabel: "Reversible", badge: "Dual-Side", desc: "Two kits in one with contrast inside color", priceDelta: 90 },
+      { id: "bb-shooter", name: "Short-Sleeve Warmup Shirt", shortLabel: "Shooter Shirt", badge: "Pre-Game", desc: "Loose drape pre-game shooting shirt", priceDelta: 30 },
+      { id: "bb-mesh", name: "Pro Mesh Court Jersey", shortLabel: "Pro Mesh", badge: "Tournament", desc: "Honeycomb moisture-release ventilation panels", priceDelta: 40 },
+    ],
+  },
+  {
+    id: "cricket",
+    name: "Cricket",
+    tagline: "Pro Match & Tournament Sublimation",
+    badge: "Bestseller",
+    basePrice: 490,
+    icon: "/icons/sports/cricket.svg",
+    image: "/cricket-preview.png",
+    backImage: "https://yoode.com/cdn/shop/files/yd-seo-print-kit-back.png?v=1789123364&width=1000",
+    sideImage: "https://yoode.com/cdn/shop/files/yd-seo-banner-custom-jersey-team.png?v=1789121863&width=1000",
+    styles: [
+      { id: "half-sleeve", name: "Half Sleeve Match Jersey", shortLabel: "Half Sleeve", badge: "Match Day", desc: "Breathable side mesh & rib collar", priceDelta: 0 },
+      { id: "full-sleeve", name: "Full Sleeve Pro Kit", shortLabel: "Full Sleeve", badge: "Sun Protection", desc: "Full arm UV shield & elastic cuffs", priceDelta: 60 },
+      { id: "raglan-collar", name: "Raglan Polo Collar", shortLabel: "Polo Collar", badge: "Club Classic", desc: "Two-button tipped placket", priceDelta: 40 },
+      { id: "training-vest", name: "Sleeveless Training Vest", shortLabel: "Training Vest", badge: "Practice", desc: "Lightweight nets warm-up cut", priceDelta: 0 },
+    ],
+  },
+  {
+    id: "football",
+    name: "Football",
+    tagline: "Official Matchday Striker Kit",
+    badge: "Pro Grade",
+    basePrice: 490,
+    icon: "/icons/sports/football.svg",
+    image: "https://yoode.com/cdn/shop/files/Football.webp?v=1789388323&width=1600",
+    styles: [
+      { id: "fb-short", name: "Short Sleeve Striker Jersey", shortLabel: "Match Kit", badge: "Official Cut", desc: "Ergonomic shoulder seams & ventilated back", priceDelta: 0 },
+      { id: "fb-vneck", name: "V-Neck Pro Sublimation", shortLabel: "V-Neck Pro", badge: "Lightweight", desc: "Featherlight competition collar", priceDelta: 20 },
+      { id: "fb-long", name: "Long Sleeve Keeper / Striker", shortLabel: "Long Sleeve", badge: "Pro Match", desc: "Ribbed cuffs for tight forearm grip", priceDelta: 60 },
+      { id: "fb-mesh", name: "Ventilated Air-Mesh Tee", shortLabel: "Air Mesh", badge: "Warm Weather", desc: "Micro-perforated side panels", priceDelta: 30 },
+    ],
+  },
+  {
+    id: "volleyball",
+    name: "Volleyball",
+    tagline: "Featherlight Spike & Block Jersey",
+    badge: "High Stretch",
+    basePrice: 490,
+    icon: "/icons/sports/volleyball.svg",
+    image: "https://yoode.com/cdn/shop/files/VolleyBall.webp?v=1789531414&width=1600",
+    styles: [
+      { id: "vb-sleeveless", name: "Sleeveless Spike Jersey", shortLabel: "Sleeveless", badge: "Match Day", desc: "Maximum arm reach with flexible armhole tape", priceDelta: 0 },
+      { id: "vb-capsleeve", name: "Cap Sleeve Pro Top", shortLabel: "Cap Sleeve", badge: "Tournament", desc: "Fitted shoulders with aerodynamic cut", priceDelta: 25 },
+      { id: "vb-libero", name: "Contrast Libero Kit", shortLabel: "Libero Special", badge: "Specialist", desc: "High-contrast colorway for court visibility", priceDelta: 40 },
+    ],
+  },
+  {
+    id: "badminton",
+    name: "Badminton",
+    tagline: "Rapid-Dry Court Motion Tee",
+    badge: "Ultra Light",
+    basePrice: 490,
+    icon: "/icons/sports/badminton.svg",
+    image: "https://yoode.com/cdn/shop/files/Badminton.webp?v=1789446482&width=1600",
+    styles: [
+      { id: "bm-crew", name: "Featherlight Crew Neck", shortLabel: "Crew Neck", badge: "Speed Cut", desc: "Sub-120g construction for fast smashes", priceDelta: 0 },
+      { id: "bm-polo", name: "Rapid-Dry Zipper Polo", shortLabel: "Zip Polo", badge: "Pro Tour", desc: "Concealed micro-zipper and anti-chafing seams", priceDelta: 50 },
+      { id: "bm-raglan", name: "Ergonomic Raglan Court Tee", shortLabel: "Raglan Court", badge: "Training", desc: "Split-hem design for rapid lateral steps", priceDelta: 30 },
+    ],
+  },
+  {
+    id: "esports",
+    name: "Esports",
+    tagline: "Pro Gaming Tournament Apparel",
+    badge: "Championship",
+    basePrice: 520,
+    icon: "/icons/sports/esports.svg",
+    image: "https://yoode.com/cdn/shop/files/Esports.webp?v=1789531388&width=1600",
+    styles: [
+      { id: "es-classic", name: "Raglan Gamer Match Tee", shortLabel: "Match Tee", badge: "Bestseller", desc: "Full sublimation front, back and sleeve branding", priceDelta: 0 },
+      { id: "es-hooded", name: "Pro Tournament Hooded Jersey", shortLabel: "Hooded Jersey", badge: "Stage Pro", desc: "Integrated lightweight jersey hood for arena lights", priceDelta: 80 },
+      { id: "es-zip", name: "Quarter-Zip Performance Top", shortLabel: "Quarter-Zip", badge: "Official LAN", desc: "Stand collar with concealed nylon zip", priceDelta: 60 },
+    ],
+  },
+  {
+    id: "running",
+    name: "Running",
+    tagline: "Marathon & Athletic Breathable Singlet",
+    badge: "Zero Chafe",
+    basePrice: 490,
+    icon: "/icons/sports/running.svg",
+    image: "https://yoode.com/cdn/shop/files/Running.webp?v=1789531433&width=1600",
+    styles: [
+      { id: "rn-singlet", name: "Marathon Racerback Singlet", shortLabel: "Racer Singlet", badge: "Endurance", desc: "Bonded flatlock seams prevent friction on 42km runs", priceDelta: 0 },
+      { id: "rn-tee", name: "Ultralight Running Tee", shortLabel: "Ultralight Tee", badge: "All Weather", desc: "Reflective silver micro-dots for night running", priceDelta: 20 },
+      { id: "rn-full", name: "Half-Zip Thermal Long Sleeve", shortLabel: "Thermal Long", badge: "Early Morning", desc: "Thumbholes and ventilation chest zip", priceDelta: 70 },
+    ],
+  },
+  {
+    id: "cycling",
+    name: "Cycling",
+    tagline: "Aerodynamic Sublimated Cycling Jersey",
+    badge: "Aero Fit",
+    basePrice: 590,
+    icon: "/icons/sports/cycling.svg",
+    image: "https://yoode.com/cdn/shop/files/Cycling.webp?v=1789531339&width=1600",
+    styles: [
+      { id: "cy-fullzip", name: "Full Zip Aero Jersey", shortLabel: "Full Zip Aero", badge: "Road Race", desc: "YKK camlock zip, silicone hem gripper, 3 rear pockets", priceDelta: 0 },
+      { id: "cy-halfzip", name: "Club Fit Half-Zip Jersey", shortLabel: "Club Fit", badge: "Gran Fondo", desc: "Relaxed torso cut with breathable underarm mesh", priceDelta: -30 },
+      { id: "cy-long", name: "Windbreaker Long Sleeve", shortLabel: "Wind Long Sleeve", badge: "Cold Morning", desc: "Water-resistant front chest membrane", priceDelta: 90 },
+    ],
+  },
+  {
+    id: "baseball",
+    name: "Baseball",
+    tagline: "Heritage Full Button Placket Jersey",
+    badge: "Authentic",
+    basePrice: 520,
+    icon: "/icons/sports/baseball.svg",
+    image: "https://yoode.com/cdn/shop/files/Baseball.webp?v=1789388323&width=1600",
+    styles: [
+      { id: "bb-fullbutton", name: "Full Button Authentic Jersey", shortLabel: "Full Button", badge: "Heritage", desc: "6-button placket with double-stitched contrast piping", priceDelta: 0 },
+      { id: "bb-twobutton", name: "Two-Button Henley Jersey", shortLabel: "Henley Cut", badge: "Modern Fit", desc: "Casual henley collar with raglan arm cut", priceDelta: -20 },
+      { id: "bb-crew", name: "Sublimated Baseball Tee", shortLabel: "Sublimated Tee", badge: "Training", desc: "Lightweight pullover batting practice tee", priceDelta: -40 },
+    ],
+  },
+  {
+    id: "polo",
+    name: "Polo Shirt",
+    tagline: "Luxury Atelier Bespoke Polo",
+    badge: "Signature",
+    basePrice: 480,
+    iconLetter: "P",
+    image: "/polo/clean-navy-front.png",
+    backImage: "/polo/clean-navy-back.png",
+    sideImage: "/polo/clean-navy-model.png",
+    styles: [
+      { id: "polo-zipper", name: "Concealed Zipper Polo", shortLabel: "Zipper Polo", badge: "Bestseller", desc: "Modern minimal metallic zipper and tailored collar", priceDelta: 0 },
+      { id: "polo-classic", name: "Classic 3-Button Pique", shortLabel: "Classic Pique", badge: "Heritage", desc: "Traditional mother-of-pearl buttons with rib knit collar", priceDelta: 0 },
+      { id: "polo-dryfit", name: "Active Dry-Fit Sports Polo", shortLabel: "Dry-Fit Polo", badge: "Athletic", desc: "Lightweight moisture wicking with contrast tipping", priceDelta: 20 },
+      { id: "polo-tipped", name: "Executive Tipped Rib Polo", shortLabel: "Tipped Rib", badge: "Corporate", desc: "Double contrast tipping on collar and cuffs", priceDelta: 30 },
+    ],
+  },
+  {
+    id: "golf",
+    name: "Golf",
+    tagline: "PGA Tour Grade Technical Polo",
+    badge: "Tour Grade",
+    basePrice: 550,
+    iconLetter: "GF",
+    image: "https://yoode.com/cdn/shop/files/Golf.webp?v=1789388323&width=1600",
+    styles: [
+      { id: "gf-tour", name: "Tour Performance 4-Way Stretch", shortLabel: "Tour 4-Way", badge: "Tour Match", desc: "Silky 4-way stretch fabric with UV 50+ rating", priceDelta: 0 },
+      { id: "gf-mock", name: "Sun-Protection Mock Neck", shortLabel: "Mock Neck", badge: "Modern Tour", desc: "Low-profile mock collar favored by pro players", priceDelta: 40 },
+    ],
+  },
+  {
+    id: "kabbadi",
+    name: "Kabaddi",
+    tagline: "Heavy-Duty Pro Raider Sleeveless Kit",
+    badge: "Heavy Duty",
+    basePrice: 490,
+    iconLetter: "KB",
+    image: "https://yoode.com/cdn/shop/files/Kabbadi.webp?v=1789388323&width=1600",
+    styles: [
+      { id: "kb-raider", name: "Pro Raider Sleeveless Vest", shortLabel: "Raider Vest", badge: "Match Pro", desc: "Tear-resistant double reinforced neck and arm bindings", priceDelta: 0 },
+      { id: "kb-tight", name: "Skin-Fit Compression Top", shortLabel: "Compression", badge: "Anti-Tackle", desc: "Friction-minimizing aerodynamic fit", priceDelta: 30 },
+    ],
+  },
+  {
+    id: "pickleball",
+    name: "Pickleball",
+    tagline: "Lightweight Agility Court Top",
+    badge: "Fast Dry",
+    basePrice: 490,
+    iconLetter: "PB",
+    image: "https://yoode.com/cdn/shop/files/Pickleball.webp?v=1789388323&width=1600",
+    styles: [
+      { id: "pb-tee", name: "Agility Court Performance Tee", shortLabel: "Court Tee", badge: "Quick Dry", desc: "Featherlight cooling fabric with relaxed side drape", priceDelta: 0 },
+      { id: "pb-polo", name: "Active Placket Court Polo", shortLabel: "Active Polo", badge: "Club Play", desc: "Breathable collar with lightweight buttons", priceDelta: 30 },
+    ],
+  },
 ];
 
 const MATERIALS: MaterialOption[] = [
   { 
-    id: "cotton-220", 
-    name: "220 GSM Pique Cotton", 
-    shortLabel: "Pique Cotton", 
-    specs: "Bio-Washed Combed Cotton", 
-    color: "#ECE8DD", 
-    priceDelta: 0,
-    texturePattern: "radial-gradient(circle at 50% 50%, rgba(255,255,255,0.5) 0%, transparent 80%), repeating-linear-gradient(45deg, rgba(0,0,0,0.06) 0px, rgba(0,0,0,0.06) 2px, transparent 2px, transparent 5px)"
-  },
-  { 
     id: "micropoly-180", 
     name: "180 GSM Micro-Poly", 
     shortLabel: "Micro-Poly", 
-    specs: "Rapid Moisture-Wicking", 
+    specs: "Rapid Moisture-Wicking · Quick Dry", 
     color: "#3B4E63", 
-    priceDelta: 20,
+    priceDelta: 0,
     texturePattern: "repeating-linear-gradient(0deg, rgba(255,255,255,0.15) 0px, rgba(255,255,255,0.15) 1px, transparent 1px, transparent 3px)"
   },
   { 
@@ -108,164 +311,238 @@ const MATERIALS: MaterialOption[] = [
     texturePattern: "radial-gradient(circle, rgba(0,0,0,0.25) 20%, transparent 20%) 0 0/6px 6px"
   },
   { 
+    id: "cotton-220", 
+    name: "220 GSM Pique Cotton", 
+    shortLabel: "Pique Cotton", 
+    specs: "Bio-Washed Combed Cotton · Structured", 
+    color: "#ECE8DD", 
+    priceDelta: 30,
+    texturePattern: "radial-gradient(circle at 50% 50%, rgba(255,255,255,0.5) 0%, transparent 80%), repeating-linear-gradient(45deg, rgba(0,0,0,0.06) 0px, rgba(0,0,0,0.06) 2px, transparent 2px, transparent 5px)"
+  },
+  { 
+    id: "interlock-poly", 
+    name: "Interlock Dry-Fit UV", 
+    shortLabel: "Interlock UV", 
+    specs: "Anti-Bacterial UV 50+ Shield", 
+    color: "#1E2A38", 
+    priceDelta: 50,
+    texturePattern: "repeating-linear-gradient(45deg, rgba(255,255,255,0.1) 0px, rgba(255,255,255,0.1) 1px, transparent 1px, transparent 4px)"
+  },
+  { 
     id: "fleece-320", 
     name: "320 GSM Brushed Fleece", 
     shortLabel: "Brushed Fleece", 
-    specs: "Winter Structured Terry", 
+    specs: "Winter Structured Warmth Terry", 
     color: "#8B8178", 
     priceDelta: 120,
     texturePattern: "radial-gradient(circle, rgba(255,255,255,0.3) 10%, transparent 20%) 0 0/4px 4px"
   },
 ];
 
-const POLO_COLORS: ColorOption[] = [
-  { 
-    id: "navy", 
-    name: "Navy Blue", 
-    shortLabel: "Navy Blue",
-    hex: "#1E293B", 
-    frontImage: "/polo/clean-navy-front.png",
-    backImage: "/polo/clean-navy-back.png",
-    modelImage: "/polo/clean-navy-model.png"
-  },
-  { 
-    id: "black", 
-    name: "Onyx Black", 
-    shortLabel: "Onyx Black",
-    hex: "#121212", 
-    frontImage: "/polo/clean-black-front.png",
-    backImage: "/polo/clean-navy-back.png",
-    modelImage: "/polo/clean-navy-model.png"
-  },
-  { 
-    id: "green", 
-    name: "Forest Green", 
-    shortLabel: "Forest Green",
-    hex: "#2E4A3E", 
-    frontImage: "/polo/clean-green-front.png",
-    backImage: "/polo/clean-navy-back.png",
-    modelImage: "/polo/clean-navy-model.png"
-  },
-  { 
-    id: "white", 
-    name: "Pure White", 
-    shortLabel: "Pure White",
-    hex: "#FFFFFF", 
-    frontImage: "/polo/clean-white-front.png",
-    backImage: "/polo/clean-navy-back.png",
-    modelImage: "/polo/clean-navy-model.png"
-  },
-  { 
-    id: "royal", 
-    name: "Royal Blue", 
-    shortLabel: "Royal Blue",
-    hex: "#1E40AF", 
-    frontImage: "/polo/clean-navy-front.png",
-    backImage: "/polo/clean-navy-back.png",
-    modelImage: "/polo/clean-navy-model.png"
-  },
-];
-
-const JERSEY_COLORS: ColorOption[] = [
+const COLOR_SCHEMES: ColorSchemeOption[] = [
   { 
     id: "navy-gold", 
-    name: "Navy & Gold", 
+    name: "Navy & Solar Gold", 
     shortLabel: "Navy / Gold",
-    hex: "#1E2A38", 
-    frontImage: "/polo/clean-navy-front.png",
-    backImage: "/polo/clean-navy-back.png",
-    modelImage: "/polo/clean-navy-model.png"
+    primaryHex: "#1E293B", 
+    secondaryHex: "#F59E0B",
+    description: "Championship royal navy body with metallic solar gold accents"
   },
   { 
-    id: "black-red", 
-    name: "Onyx & Crimson", 
-    shortLabel: "Onyx / Crimson",
-    hex: "#171717", 
-    frontImage: "/polo/clean-black-front.png",
-    backImage: "/polo/clean-navy-back.png",
-    modelImage: "/polo/clean-navy-model.png"
+    id: "black-crimson", 
+    name: "Onyx Black & Crimson", 
+    shortLabel: "Onyx / Red",
+    primaryHex: "#121212", 
+    secondaryHex: "#DC2626",
+    description: "Deep stealth black with racing crimson red trims and details"
   },
   { 
-    id: "forest-gold", 
-    name: "Emerald Kit", 
+    id: "royal-white", 
+    name: "Royal Blue & Pure White", 
+    shortLabel: "Royal / White",
+    primaryHex: "#1E40AF", 
+    secondaryHex: "#FFFFFF",
+    description: "Classic stadium blue with high-contrast alpine white panels"
+  },
+  { 
+    id: "emerald-gold", 
+    name: "Emerald Green & Gold", 
     shortLabel: "Emerald / Gold",
-    hex: "#064E3B", 
-    frontImage: "/polo/clean-green-front.png",
-    backImage: "/polo/clean-navy-back.png",
-    modelImage: "/polo/clean-navy-model.png"
+    primaryHex: "#064E3B", 
+    secondaryHex: "#FBBF24",
+    description: "Rich botanical deep green paired with vibrant golden stripes"
   },
   { 
-    id: "arctic-white", 
-    name: "Arctic White", 
-    shortLabel: "Arctic White",
-    hex: "#F8FAFC", 
-    frontImage: "/polo/clean-white-front.png",
-    backImage: "/polo/clean-navy-back.png",
-    modelImage: "/polo/clean-navy-model.png"
+    id: "arctic-cyan", 
+    name: "Arctic White & Electric Cyan", 
+    shortLabel: "White / Cyan",
+    primaryHex: "#F8FAFC", 
+    secondaryHex: "#06B6D4",
+    description: "Clean crisp white kit with luminous electric cyan highlights"
   },
   { 
-    id: "cobalt", 
-    name: "Cobalt Lightning", 
-    shortLabel: "Cobalt Blue",
-    hex: "#2563EB", 
-    frontImage: "/polo/clean-navy-front.png",
-    backImage: "/polo/clean-navy-back.png",
-    modelImage: "/polo/clean-navy-model.png"
+    id: "ruby-charcoal", 
+    name: "Ruby Crimson & Charcoal", 
+    shortLabel: "Ruby / Grey",
+    primaryHex: "#B91C1C", 
+    secondaryHex: "#374151",
+    description: "Aggressive striker ruby with matte gunmetal charcoal trims"
   },
 ];
 
 const LOGO_TECHNIQUES: LogoTechniqueOption[] = [
-  { id: "embroidery", name: "High-Density Japanese Embroidery", shortLabel: "Embroidery", badge: "Premium Atelier", priceDelta: 50 },
-  { id: "crest", name: "Silicone High-Density 3D Crest", shortLabel: "3D Crest", badge: "Pro Grade", priceDelta: 70 },
-  { id: "dtf", name: "Ultra-Vibrant DTF Chest Print", shortLabel: "DTF Print", badge: "Full Spectrum", priceDelta: 35 },
-  { id: "sleeve-patch", name: "Woven Sleeve Patch", shortLabel: "Sleeve Patch", badge: "Official Detail", priceDelta: 40 },
-  { id: "upload", name: "Upload Custom Vector Artwork", shortLabel: "Upload Artwork", badge: "Instant Mockup", priceDelta: 50 },
+  { 
+    id: "embroidery", 
+    name: "High-Density Japanese Embroidery", 
+    shortLabel: "HD Embroidery", 
+    badge: "Premium Atelier", 
+    priceDelta: 50,
+    desc: "10,000+ stitch count raised Japanese Tajima thread embroidery"
+  },
+  { 
+    id: "crest", 
+    name: "Silicone High-Density 3D Crest", 
+    shortLabel: "3D Silicone Crest", 
+    badge: "Official Team", 
+    priceDelta: 70,
+    desc: "Tactile molded silicone badge favored by international clubs"
+  },
+  { 
+    id: "dtf", 
+    name: "Ultra-Vibrant DTF Chest Print", 
+    shortLabel: "Vibrant DTF", 
+    badge: "Full Spectrum", 
+    priceDelta: 35,
+    desc: "High-definition gradient printing, wash-proof for 100+ cycles"
+  },
+  { 
+    id: "sleeve-patch", 
+    name: "Woven Sleeve Patch", 
+    shortLabel: "Sleeve Patch", 
+    badge: "Official Detail", 
+    priceDelta: 40,
+    desc: "Sublimated woven border patch placed on left or right sleeve"
+  },
+  { 
+    id: "upload", 
+    name: "Upload Custom Vector Artwork", 
+    shortLabel: "Upload Artwork", 
+    badge: "Instant Mockup", 
+    priceDelta: 50,
+    desc: "Upload your club logo or vector artwork for instant live rendering"
+  },
 ];
 
-const TEXT_FONTS: TextOption[] = [
-  { id: "modern", name: "Modern Sans Tracked", shortLabel: "Modern", fontFamily: "var(--font-sora), sans-serif", sample: "Aa" },
-  { id: "athletic", name: "Championship Athletic Block", shortLabel: "Athletic", fontFamily: "Impact, sans-serif", sample: "07" },
-  { id: "bodoni", name: "Editorial Bodoni Serif", shortLabel: "Bodoni", fontFamily: "Georgia, serif", sample: "Vd" },
-  { id: "mono", name: "Technical Monospace", shortLabel: "Mono", fontFamily: "Courier New, monospace", sample: "//" },
+const TEXT_FONTS: TextFontOption[] = [
+  { id: "athletic", name: "Championship Athletic Block", shortLabel: "Athletic Block", fontFamily: "Impact, sans-serif", sample: "07" },
+  { id: "modern", name: "Modern Sans Tracked", shortLabel: "Modern Sans", fontFamily: "var(--font-sora), sans-serif", sample: "Aa" },
+  { id: "bodoni", name: "Editorial Bodoni Serif", shortLabel: "Bodoni Luxury", fontFamily: "Georgia, serif", sample: "Vd" },
+  { id: "mono", name: "Technical Monospace", shortLabel: "Cyber Monospace", fontFamily: "Courier New, monospace", sample: "//" },
 ];
 
 export function DesignStudio() {
-  const [productType, setProductType] = useState<StudioProductType>("polo");
-  const [activeStep, setActiveStep] = useState<StudioStep>("material");
-  const [selectedSilhouette, setSelectedSilhouette] = useState<string>("zipper");
-  const [selectedMaterial, setSelectedMaterial] = useState<string>("cotton-220");
-  const [selectedColor, setSelectedColor] = useState<string>("navy");
-  const [selectedTechnique, setSelectedTechnique] = useState<string>("embroidery");
-  const [selectedFont, setSelectedFont] = useState<string>("athletic");
+  const searchParams = useSearchParams();
+  const initialSportParam = searchParams.get("sport");
+
+  // Primary Selection (Sport / Product Type)
+  const [selectedSportId, setSelectedSportId] = useState<string>(() => {
+    if (initialSportParam && SPORTS_DATA.some(s => s.id === initialSportParam)) {
+      return initialSportParam;
+    }
+    return "basketball";
+  });
+
+  // Active step in right options panel
+  const [activeStep, setActiveStep] = useState<StudioStep>("style");
+
+  // Customization State
+  const [selectedStyleId, setSelectedStyleId] = useState<string>("bb-tank");
+  const [selectedMaterialId, setSelectedMaterialId] = useState<string>("micropoly-180");
+  const [selectedColorId, setSelectedColorId] = useState<string>("navy-gold");
+  const [selectedTechniqueId, setSelectedTechniqueId] = useState<string>("embroidery");
+  const [selectedFontId, setSelectedFontId] = useState<string>("athletic");
   const [customName, setCustomName] = useState<string>("ARJUN");
-  const [customNumber, setCustomNumber] = useState<string>("07");
+  const [customNumber, setCustomNumber] = useState<string>("12");
   const [logoZone, setLogoZone] = useState<"left-chest" | "right-chest" | "back" | "sleeve">("left-chest");
   const [uploadedLogo, setUploadedLogo] = useState<string | null>(null);
   const [activeAngle, setActiveAngle] = useState<number>(0);
   const [isSaved, setIsSaved] = useState<boolean>(false);
   const [isAddedToBag, setIsAddedToBag] = useState<boolean>(false);
+  const [arcScrollIndex, setArcScrollIndex] = useState<number>(0);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const colors = productType === "polo" ? POLO_COLORS : JERSEY_COLORS;
-  const silhouettes = productType === "polo" ? POLO_SILHOUETTES : JERSEY_SILHOUETTES;
+  // Sync sport if URL param changes
+  useEffect(() => {
+    if (initialSportParam && SPORTS_DATA.some(s => s.id === initialSportParam)) {
+      setSelectedSportId(initialSportParam);
+    }
+  }, [initialSportParam]);
 
-  const currentColor = colors.find((c) => c.id === selectedColor) || colors[0];
-  const currentMaterial = MATERIALS.find((m) => m.id === selectedMaterial) || MATERIALS[0];
-  const currentTechnique = LOGO_TECHNIQUES.find((t) => t.id === selectedTechnique) || LOGO_TECHNIQUES[0];
-  const currentFont = TEXT_FONTS.find((t) => t.id === selectedFont) || TEXT_FONTS[0];
+  // Current active data entities
+  const currentSport = useMemo(() => {
+    return SPORTS_DATA.find(s => s.id === selectedSportId) || SPORTS_DATA[0];
+  }, [selectedSportId]);
 
-  // Base price in Indian Rupees
-  const baseUnitPrice = productType === "polo" ? 480 : 490;
-  const unitAddons = currentMaterial.priceDelta + (activeStep === "logo" ? currentTechnique.priceDelta : 0);
-  const totalPrice = baseUnitPrice + unitAddons;
+  // Ensure selected style exists for current sport
+  useEffect(() => {
+    if (!currentSport.styles.some(st => st.id === selectedStyleId)) {
+      setSelectedStyleId(currentSport.styles[0]?.id || "default");
+    }
+  }, [currentSport, selectedStyleId]);
 
-  // Multi-angle imagery (3 Views matching reference)
-  const angleImages = [
-    { id: "front", label: "Front View", src: currentColor.frontImage },
-    { id: "back", label: "Back View", src: currentColor.backImage },
-    { id: "model", label: "Side Profile", src: currentColor.modelImage },
-  ];
+  const currentStyle = useMemo(() => {
+    return currentSport.styles.find(s => s.id === selectedStyleId) || currentSport.styles[0];
+  }, [currentSport, selectedStyleId]);
+
+  const currentMaterial = useMemo(() => {
+    return MATERIALS.find(m => m.id === selectedMaterialId) || MATERIALS[0];
+  }, [selectedMaterialId]);
+
+  const currentColor = useMemo(() => {
+    return COLOR_SCHEMES.find(c => c.id === selectedColorId) || COLOR_SCHEMES[0];
+  }, [selectedColorId]);
+
+  const currentTechnique = useMemo(() => {
+    return LOGO_TECHNIQUES.find(t => t.id === selectedTechniqueId) || LOGO_TECHNIQUES[0];
+  }, [selectedTechniqueId]);
+
+  const currentFont = useMemo(() => {
+    return TEXT_FONTS.find(f => f.id === selectedFontId) || TEXT_FONTS[0];
+  }, [selectedFontId]);
+
+  // Pricing Calculation
+  const basePrice = currentSport.basePrice;
+  const styleDelta = currentStyle?.priceDelta || 0;
+  const materialDelta = currentMaterial.priceDelta;
+  const logoDelta = selectedTechniqueId === "upload" ? 50 : currentTechnique.priceDelta;
+  const totalPrice = basePrice + styleDelta + materialDelta + logoDelta;
+
+  // Multi-angle imagery for the active sport
+  const angleImages = useMemo(() => {
+    if (currentSport.id === "polo") {
+      let frontSrc = "/polo/clean-navy-front.png";
+      const c = selectedColorId.toLowerCase();
+      if (c.includes("black")) {
+        frontSrc = "/polo/clean-black-front.png";
+      } else if (c.includes("emerald") || c.includes("green")) {
+        frontSrc = "/polo/clean-green-front.png";
+      } else if (c.includes("arctic") || c.includes("white")) {
+        frontSrc = "/polo/clean-white-front.png";
+      }
+
+      return [
+        { id: "front", label: "Front View", src: frontSrc },
+        { id: "back", label: "Back View", src: "/polo/clean-navy-back.png" },
+        { id: "side", label: "Profile View", src: "/polo/clean-navy-model.png" },
+      ];
+    }
+    return [
+      { id: "front", label: "Front View", src: currentSport.image },
+      { id: "back", label: "Back View", src: currentSport.backImage || currentSport.image },
+      { id: "side", label: "Profile View", src: currentSport.sideImage || currentSport.image },
+    ];
+  }, [currentSport, selectedColorId]);
 
   const handleAngleRotate = (direction: "left" | "right") => {
     setActiveAngle((prev) => {
@@ -279,8 +556,53 @@ export function DesignStudio() {
     if (file) {
       const url = URL.createObjectURL(file);
       setUploadedLogo(url);
-      setSelectedTechnique("upload");
+      setSelectedTechniqueId("upload");
     }
+  };
+
+  // 7-Node Concentric Circular Arc Geometry (Curving around the Center Garment as in the reference)
+  // Circle Center: (480, 250), Radius R=330. Apex at (150, 250). Equal 72.8px spacing between every node!
+  const ARC_COORDINATES = [
+    { x: 220.0, y: 46.8 },   // Node 0
+    { x: 181.7, y: 108.8 },  // Node 1
+    { x: 158.0, y: 177.6 },  // Node 2
+    { x: 150.0, y: 250.0 },  // Node 3 (APEX - ALWAYS THE ACTIVE SPORT)
+    { x: 158.0, y: 322.4 },  // Node 4
+    { x: 181.7, y: 391.2 },  // Node 5
+    { x: 220.0, y: 453.2 },  // Node 6
+  ];
+
+  const currentSportIndex = useMemo(() => {
+    const idx = SPORTS_DATA.findIndex(s => s.id === selectedSportId);
+    return idx >= 0 ? idx : 0;
+  }, [selectedSportId]);
+
+  const visibleSports = useMemo(() => {
+    const list: Array<{ sport: SportItem; realIdx: number; arcPos: number }> = [];
+    const len = SPORTS_DATA.length;
+    for (let offset = -3; offset <= 3; offset++) {
+      const idx = (currentSportIndex + offset + len * 10) % len;
+      list.push({ 
+        sport: SPORTS_DATA[idx], 
+        realIdx: idx,
+        arcPos: offset + 3 // 0 to 6 (offset 0 is apex arcPos 3)
+      });
+    }
+    return list;
+  }, [currentSportIndex]);
+
+  const handleScrollUp = () => {
+    const len = SPORTS_DATA.length;
+    const newIdx = (currentSportIndex - 1 + len) % len;
+    setSelectedSportId(SPORTS_DATA[newIdx].id);
+    setActiveAngle(0);
+  };
+
+  const handleScrollDown = () => {
+    const len = SPORTS_DATA.length;
+    const newIdx = (currentSportIndex + 1) % len;
+    setSelectedSportId(SPORTS_DATA[newIdx].id);
+    setActiveAngle(0);
   };
 
   return (
@@ -304,46 +626,21 @@ export function DesignStudio() {
           </Link>
 
           <nav className="flex items-center gap-6 text-[11px] md:text-[12px] font-bold tracking-[0.16em] uppercase text-black/75">
-            <span className="text-black border-b-2 border-black pb-0.5 cursor-pointer">Custom</span>
-            <Link href="/products/polo-tshirt" className="hover:text-black transition-colors hidden sm:inline">Lookbook</Link>
-            <Link href="/services" className="hover:text-black transition-colors hidden sm:inline">About Us</Link>
+            <span className="text-black border-b-2 border-black pb-0.5 cursor-pointer">Design Studio</span>
+            <Link href="/custom-sports-jerseys" className="hover:text-black transition-colors hidden sm:inline">Sports Showcase</Link>
+            <Link href="/services" className="hover:text-black transition-colors hidden sm:inline">Atelier Services</Link>
           </nav>
         </div>
 
-        {/* Center: Product Category Switcher */}
-        <div className="flex items-center bg-black/[0.04] p-1 rounded-full text-xs font-bold border border-black/[0.06]">
-          <button
-            type="button"
-            onClick={() => {
-              setProductType("polo");
-              setSelectedSilhouette("zipper");
-              setSelectedColor("navy");
-              setActiveAngle(0);
-            }}
-            className={`px-3 py-1 rounded-full transition-all cursor-pointer text-[11px] md:text-xs ${
-              productType === "polo" 
-                ? "bg-black text-white shadow-xs font-extrabold" 
-                : "text-gray-600 hover:text-black"
-            }`}
-          >
-            Polo
-          </button>
-          <button
-            type="button"
-            onClick={() => {
-              setProductType("jersey");
-              setSelectedSilhouette("cricket");
-              setSelectedColor("navy-gold");
-              setActiveAngle(0);
-            }}
-            className={`px-3 py-1 rounded-full transition-all cursor-pointer text-[11px] md:text-xs ${
-              productType === "jersey" 
-                ? "bg-black text-white shadow-xs font-extrabold" 
-                : "text-gray-600 hover:text-black"
-            }`}
-          >
-            Jersey
-          </button>
+        {/* Center: Selected Sport Indicator Badge */}
+        <div className="flex items-center gap-2 bg-black/[0.04] px-4 py-1.5 rounded-full border border-black/[0.06]">
+          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+          <span className="text-xs font-black uppercase tracking-wider text-black">
+            {currentSport.name} Kit Studio
+          </span>
+          <span className="text-[10px] text-gray-500 uppercase tracking-widest hidden sm:inline">
+            · {currentSport.badge}
+          </span>
         </div>
 
         {/* Right: Currency Flag, Favorites, Bag */}
@@ -378,164 +675,209 @@ export function DesignStudio() {
       </header>
 
       {/* -------------------------------------------------------------
-          STEP HEADLINE (Exact uppercase tracked headline from reference)
+          STEP SUB-HEADLINE
       -------------------------------------------------------------- */}
-      <div className="w-full h-8 shrink-0 flex items-center justify-center pt-2">
-        <h1 className="font-sans text-xs md:text-[14px] font-black tracking-[0.22em] uppercase text-black text-center">
-          {activeStep === "silhouette" && "Choose Your Silhouette"}
-          {activeStep === "material" && "Choose Your Material"}
-          {activeStep === "colors" && "Choose Your Color"}
-          {activeStep === "logo" && "Choose Your Logo Technique"}
-          {activeStep === "text" && "Personalize Your Name & Number"}
-        </h1>
+      <div className="w-full h-8 shrink-0 flex items-center justify-between px-6 md:px-12 pt-1 border-b border-black/[0.03]">
+        <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-black/50">
+          <span>1. Choose Sport</span>
+          <ChevronRight size={12} />
+          <span className="text-black font-extrabold">2. Customize {currentSport.name} Details</span>
+          <ChevronRight size={12} />
+          <span>3. Order & Mockup</span>
+        </div>
+
+        <div className="hidden sm:flex items-center gap-3 text-[11px] font-bold text-gray-500 tracking-wider">
+          <span>100% Sublimation Guaranteed</span>
+          <span>·</span>
+          <span>No Minimum Order</span>
+        </div>
       </div>
 
       {/* -------------------------------------------------------------
-          MOBILE STEP NAV BAR (Visible only on < md screens)
+          MIDDLE WORKSPACE:
+          - LEFT SIDE: CURVED FULL SELECTIONS (SPORTS)
+          - CENTER: PRODUCT DISPLAY & LIVE MOCKUP
+          - RIGHT SIDE: VERTICALLY STACKED OPTIONS
       -------------------------------------------------------------- */}
-      <div className="md:hidden w-full px-3 py-1.5 flex items-center gap-2 overflow-x-auto no-scrollbar shrink-0 border-b border-black/[0.04]">
-        {[
-          { id: "silhouette" as StudioStep, label: "Silhouette" },
-          { id: "material" as StudioStep, label: "Material" },
-          { id: "colors" as StudioStep, label: "Colors" },
-          { id: "logo" as StudioStep, label: "Logo" },
-          { id: "text" as StudioStep, label: "Text" },
-        ].map((step) => {
-          const isActive = activeStep === step.id;
-          return (
-            <button
-              key={step.id}
-              type="button"
-              onClick={() => setActiveStep(step.id)}
-              className={`whitespace-nowrap px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider flex items-center gap-1.5 transition-all ${
-                isActive 
-                  ? "bg-black text-white shadow-xs" 
-                  : "bg-white/80 text-black/60 border border-black/10"
-              }`}
-            >
-              <span className="text-[10px]">✻</span>
-              <span>{step.label}</span>
-            </button>
-          );
-        })}
-      </div>
-
-      {/* -------------------------------------------------------------
-          MIDDLE WORKSPACE: DESKTOP DUAL ARCS & CENTER PRODUCT DISPLAY
-      -------------------------------------------------------------- */}
-      <div className="flex-1 min-h-0 w-full max-w-[1440px] mx-auto px-2 md:px-8 flex items-center justify-between relative overflow-hidden">
+      <div className="flex-1 min-h-0 w-full max-w-[1520px] mx-auto px-2 md:px-8 flex items-center justify-between relative overflow-hidden py-1">
         
         {/* =========================================================
-            DESKTOP LEFT ARCH TRACK: STEP NODES WITH STAR ICONS
+            LEFT COLUMN: FULL SELECTIONS CURVED ON THE ARC
         ========================================================== */}
-        <div className="relative w-52 md:w-60 h-[380px] hidden md:block shrink-0 z-20">
+        <div className="relative w-80 h-[480px] hidden md:flex flex-col items-center justify-center shrink-0 z-20 select-none">
           
-          {/* SVG Arc Track Line (Curving gently inward toward product) */}
+          {/* Header over the curved arc */}
+          <div className="absolute top-1 left-4 flex items-center gap-1.5 z-30 select-none">
+            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400">
+              SELECT SPORT
+            </span>
+            <span className="text-[9px] bg-black/5 px-2 py-0.5 rounded-full font-bold text-gray-600">
+              {SPORTS_DATA.length} Kits
+            </span>
+          </div>
+
+          {/* Up Navigation Arrow for rotating through sports along the curve */}
+          <button
+            type="button"
+            onClick={handleScrollUp}
+            className="absolute top-2 left-[220px] -translate-x-1/2 z-30 w-7 h-7 rounded-full bg-white/95 shadow-sm border border-black/10 flex items-center justify-center hover:bg-black hover:text-white transition-all cursor-pointer group active:scale-95"
+            aria-label="Previous sport"
+            title="Previous sport"
+          >
+            <ChevronUp size={14} className="group-hover:scale-110 transition-transform" />
+          </button>
+
+          {/* SVG Arc Track Line (Concentric Circular Arc matching Reference) */}
           <svg 
             className="absolute inset-0 w-full h-full pointer-events-none" 
-            viewBox="0 0 220 380" 
+            viewBox="0 0 320 480" 
             fill="none"
           >
             <path 
-              d="M 185 15 Q 105 190 185 365" 
-              stroke="rgba(0,0,0,0.22)" 
-              strokeWidth="1.2"
-              strokeLinecap="round"
+              d="M 242.6 20.8 A 330 330 0 0 0 242.6 479.2" 
+              stroke="rgba(0,0,0,0.18)" 
+              strokeWidth="1.5"
             />
           </svg>
 
-          {/* 5 Step Nodes on Left Arc: exact bezier coordinates */}
-          {[
-            { id: "silhouette" as StudioStep, label: "Silhouette", price: null, x: 174.4, y: 40 },
-            { id: "material" as StudioStep, label: "Material", price: null, x: 152.4, y: 115 },
-            { id: "colors" as StudioStep, label: "Colors", price: null, x: 145.0, y: 190 },
-            { id: "logo" as StudioStep, label: "Logo", price: "+ ₹50", x: 152.4, y: 265 },
-            { id: "text" as StudioStep, label: "Text", price: "Free", x: 174.4, y: 340 },
-          ].map((step) => {
-            const isActive = activeStep === step.id;
-            return (
-              <div
-                key={step.id}
-                onClick={() => setActiveStep(step.id)}
-                className="absolute group cursor-pointer"
-                style={{ 
-                  left: `${step.x}px`, 
-                  top: `${step.y}px`, 
-                  transform: "translate(-50%, -50%)" 
-                }}
-              >
-                {/* Step Label (Cleanly to the left of node, right-aligned) */}
-                <div 
-                  className="absolute right-6 top-1/2 -translate-y-1/2 flex flex-col items-end pr-2 text-right whitespace-nowrap cursor-pointer select-none"
-                >
-                  <span className={`text-[12px] font-bold tracking-wide transition-colors ${
-                    isActive ? "text-black font-extrabold" : "text-black/60 group-hover:text-black"
-                  }`}>
-                    {step.label}
-                  </span>
-                  {step.price && (
-                    <span className="text-[10px] text-black/45 font-medium">
-                      {step.price}
-                    </span>
-                  )}
-                </div>
+          {/* Curved Circular Nodes along Arc */}
+          <div className="relative w-full h-full">
+            {visibleSports.map(({ sport, arcPos }) => {
+              const isActive = arcPos === 3;
+              const coord = ARC_COORDINATES[arcPos];
 
-                {/* Step Circle Node on the Arc Line (Charcoal circle with white star ✻) */}
-                <div className={`w-[26px] h-[26px] rounded-full flex items-center justify-center transition-all duration-300 shrink-0 cursor-pointer ${
-                  isActive 
-                    ? "bg-[#161616] text-white shadow-md scale-110 ring-2 ring-black/15" 
-                    : "bg-[#2D2D2D] text-white/90 group-hover:bg-black group-hover:scale-105"
-                }`}>
-                  <span className="text-[11px] leading-none select-none font-serif">✻</span>
+              return (
+                <div
+                  key={sport.id}
+                  onClick={() => {
+                    setSelectedSportId(sport.id);
+                    setActiveAngle(0);
+                  }}
+                  className="absolute cursor-pointer will-change-transform group"
+                  style={{ 
+                    left: 0,
+                    top: 0,
+                    transform: `translate3d(${coord.x}px, ${coord.y}px, 0) translate(-50%, -50%)`,
+                    transition: "transform 500ms cubic-bezier(0.16, 1, 0.3, 1), opacity 400ms ease"
+                  }}
+                >
+                  {/* Sport Label to the left of node with ZERO overlap (16px gap) */}
+                  <div 
+                    className={`absolute right-full mr-4 top-1/2 -translate-y-1/2 flex items-center pr-1 select-none pointer-events-none whitespace-nowrap transition-all duration-300 ${
+                      isActive ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0"
+                    }`}
+                  >
+                    <span className={`text-[12px] font-extrabold tracking-wide px-3.5 py-1 rounded-full shadow-md border transition-all ${
+                      isActive 
+                        ? "bg-[#111111] text-white border-black" 
+                        : "bg-white/95 text-black/90 border-black/10 shadow-xs"
+                    }`}>
+                      {sport.name}
+                    </span>
+                  </div>
+
+                  {/* Circular Node sitting precisely on the SVG curve line */}
+                  <button
+                    type="button"
+                    className={`rounded-full flex items-center justify-center transition-all duration-300 cursor-pointer ${
+                      isActive 
+                        ? "w-13 h-13 bg-[#121212] text-white shadow-[0_12px_28px_rgba(0,0,0,0.35)] scale-110 ring-4 ring-black/10 z-20" 
+                        : "w-9 h-9 bg-white text-black/75 shadow-xs border border-black/15 group-hover:scale-110 group-hover:shadow-md group-hover:border-black/30"
+                    }`}
+                    aria-label={`Select ${sport.name}`}
+                    title={sport.name}
+                  >
+                    {sport.icon ? (
+                      <img 
+                        src={sport.icon} 
+                        alt="" 
+                        className={`transition-all duration-300 ${
+                          isActive 
+                            ? "w-6 h-6 brightness-0 invert" 
+                            : "w-4 h-4 brightness-0 opacity-70 group-hover:opacity-100"
+                        }`} 
+                      />
+                    ) : sport.id === "polo" ? (
+                      <Shirt size={isActive ? 22 : 16} className={isActive ? "text-white" : "text-black/80"} />
+                    ) : (
+                      <span className={`font-black text-xs ${isActive ? "text-white" : "text-black/80"}`}>
+                        {sport.iconLetter || sport.name.slice(0, 2).toUpperCase()}
+                      </span>
+                    )}
+                  </button>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
+
+          {/* Down Navigation Arrow for rotating through sports along the curve */}
+          <button
+            type="button"
+            onClick={handleScrollDown}
+            className="absolute bottom-2 left-[220px] -translate-x-1/2 z-30 w-7 h-7 rounded-full bg-white/95 shadow-sm border border-black/10 flex items-center justify-center hover:bg-black hover:text-white transition-all cursor-pointer group active:scale-95"
+            aria-label="Next sport"
+            title="Next sport"
+          >
+            <ChevronDown size={14} className="group-hover:scale-110 transition-transform" />
+          </button>
         </div>
 
         {/* =========================================================
-            CENTER PRODUCT VIEWPORT: GARMENT DISPLAY, 3 ANGLES & BUY
+            CENTER COLUMN: PRODUCT VIEWPORT & GARMENT DISPLAY
         ========================================================== */}
-        <div className="flex-1 flex flex-col items-center justify-center relative z-10 px-2 h-full max-h-[100%]">
+        <div className="flex-1 flex flex-col items-center justify-center relative z-10 px-2 h-full max-h-[100%] min-w-0">
           
-          {/* Main Product Visual (Floats directly on warm atelier canvas) */}
-          <div className="relative w-[280px] sm:w-[320px] md:w-[360px] h-[34vh] max-h-[290px] flex items-center justify-center">
+          {/* Main Garment Canvas */}
+          <div className="relative w-[340px] sm:w-[420px] md:w-[480px] lg:w-[540px] h-[48vh] sm:h-[52vh] max-h-[440px] md:max-h-[480px] flex items-center justify-center">
             
-            {/* Soft Shadow underneath garment base */}
-            <div className="absolute bottom-1 left-1/2 -translate-x-1/2 w-[60%] h-5 bg-black/[0.12] blur-lg rounded-[100%] pointer-events-none z-0" />
+            {/* Diffused Floor Shadow */}
+            <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-[70%] h-8 bg-black/[0.10] blur-xl rounded-[100%] pointer-events-none z-0" />
 
-            {/* Product Image with transparent cutout */}
-            <div className="relative w-full h-full flex items-center justify-center z-10 transition-transform duration-500">
+            {/* Product Garment Image with Cutout */}
+            <div className="relative w-full h-full flex items-center justify-center z-10">
               <Image
-                src={angleImages[activeAngle]?.src || currentColor.frontImage}
-                alt={`${currentColor.name} ${productType === "polo" ? "Performance Polo" : "Custom Jersey"}`}
+                key={`${selectedSportId}-${activeAngle}-${selectedColorId}`}
+                src={angleImages[activeAngle]?.src || currentSport.image}
+                alt={`${currentSport.name} Custom Jersey`}
                 fill
-                className="object-contain drop-shadow-[0_10px_20px_rgba(0,0,0,0.08)] transition-all duration-500"
+                className="object-contain drop-shadow-[0_16px_32px_rgba(0,0,0,0.12)] transition-all duration-300 animate-fade-in"
                 priority
               />
 
-              {/* Live Custom Text & Number Overlay */}
-              {activeAngle === 0 && customName && (
-                <div 
-                  className="absolute top-[36%] left-[64%] -translate-x-1/2 -translate-y-1/2 pointer-events-none z-20 text-white font-black tracking-widest drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] text-xs sm:text-sm px-2 py-0.5 border border-white/20 rounded-xs bg-black/40 backdrop-blur-xs"
-                  style={{ fontFamily: currentFont.fontFamily }}
-                >
-                  {customName}
-                </div>
-              )}
+              {/* Dynamic Live Custom Player Name Overlay on Back View */}
+              {activeAngle === 1 && (
+                <>
+                  {customName && (
+                    <div 
+                      className="absolute top-[28%] left-[50%] -translate-x-1/2 -translate-y-1/2 pointer-events-none z-20 text-white font-black tracking-widest drop-shadow-[0_3px_6px_rgba(0,0,0,0.9)] text-sm sm:text-base uppercase"
+                      style={{ fontFamily: currentFont.fontFamily }}
+                    >
+                      {customName}
+                    </div>
+                  )}
 
-              {activeAngle === 1 && customNumber && (
-                <div 
-                  className="absolute top-[40%] left-[50%] -translate-x-1/2 -translate-y-1/2 pointer-events-none z-20 text-white font-black tracking-widest drop-shadow-[0_3px_8px_rgba(0,0,0,0.9)] text-3xl sm:text-4xl"
-                  style={{ fontFamily: currentFont.fontFamily }}
-                >
-                  {customNumber}
-                </div>
+                  {customNumber && (
+                    <div 
+                      className="absolute top-[48%] left-[50%] -translate-x-1/2 -translate-y-1/2 pointer-events-none z-20 text-white font-black tracking-tight drop-shadow-[0_4px_10px_rgba(0,0,0,0.95)] text-4xl sm:text-5xl"
+                      style={{ fontFamily: currentFont.fontFamily }}
+                    >
+                      {customNumber}
+                    </div>
+                  )}
+                </>
               )}
 
               {/* Live Uploaded Logo Overlay */}
-              {activeAngle === 0 && uploadedLogo && logoZone === "left-chest" && (
-                <div className="absolute top-[36%] left-[64%] -translate-x-1/2 -translate-y-1/2 pointer-events-none z-25 w-8 h-8 sm:w-10 sm:h-10">
+              {activeAngle === 0 && uploadedLogo && (
+                <div 
+                  className={`absolute pointer-events-none z-25 w-10 h-10 sm:w-12 sm:h-12 transition-all ${
+                    logoZone === "left-chest" 
+                      ? "top-[32%] left-[64%] -translate-x-1/2 -translate-y-1/2" 
+                      : logoZone === "right-chest"
+                      ? "top-[32%] left-[36%] -translate-x-1/2 -translate-y-1/2"
+                      : "top-[42%] left-[50%] -translate-x-1/2 -translate-y-1/2"
+                  }`}
+                >
                   <img 
                     src={uploadedLogo} 
                     alt="Uploaded Logo" 
@@ -545,13 +887,13 @@ export function DesignStudio() {
               )}
             </div>
 
-            {/* Curved Rotation Arrows hugging garment base */}
+            {/* Curved Rotation Controls */}
             <button 
               type="button"
               onClick={() => handleAngleRotate("left")}
-              className="absolute -bottom-2 left-2 md:left-6 p-1.5 text-black/50 hover:text-black transition-colors cursor-pointer group z-20"
+              className="absolute -bottom-2 left-2 md:left-4 p-2 text-black/50 hover:text-black transition-colors cursor-pointer group z-20"
               aria-label="Rotate left"
-              title="Previous view"
+              title="Previous view angle"
             >
               <svg className="w-7 h-7 transition-transform group-hover:-translate-x-1" viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.8">
                 <path d="M 28 8 A 20 20 0 0 0 6 24" strokeLinecap="round"/>
@@ -562,9 +904,9 @@ export function DesignStudio() {
             <button 
               type="button"
               onClick={() => handleAngleRotate("right")}
-              className="absolute -bottom-2 right-2 md:right-6 p-1.5 text-black/50 hover:text-black transition-colors cursor-pointer group z-20"
+              className="absolute -bottom-2 right-2 md:right-4 p-2 text-black/50 hover:text-black transition-colors cursor-pointer group z-20"
               aria-label="Rotate right"
-              title="Next view"
+              title="Next view angle"
             >
               <svg className="w-7 h-7 transition-transform group-hover:scale-105" viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.8">
                 <path d="M 4 8 A 20 20 0 0 1 26 24" strokeLinecap="round"/>
@@ -573,17 +915,17 @@ export function DesignStudio() {
             </button>
           </div>
 
-          {/* 3 Angle View Thumbnails (Front, Back, Side Profile) */}
-          <div className="flex items-center gap-3 mt-1 shrink-0 z-20">
+          {/* 3 Angle View Thumbnails */}
+          <div className="flex items-center gap-3 mt-3 shrink-0 z-20">
             {angleImages.map((angle, idx) => (
               <button
                 key={angle.id}
                 type="button"
                 onClick={() => setActiveAngle(idx)}
-                className={`w-11 h-10 rounded-md p-0.5 transition-all flex items-center justify-center cursor-pointer ${
+                className={`w-12 h-11 rounded-lg p-1 transition-all flex items-center justify-center cursor-pointer ${
                   activeAngle === idx 
-                    ? "ring-1 ring-black bg-white shadow-xs scale-105" 
-                    : "opacity-60 bg-white/40 hover:opacity-100 hover:scale-105 border border-black/10"
+                    ? "ring-2 ring-black bg-white shadow-sm scale-105" 
+                    : "opacity-70 bg-white/60 hover:opacity-100 hover:scale-105 border border-black/10"
                 }`}
                 aria-label={angle.label}
                 title={angle.label}
@@ -601,56 +943,61 @@ export function DesignStudio() {
           </div>
 
           {/* Undo / Redo Controls */}
-          <div className="flex items-center gap-5 mt-1 text-[10px] md:text-[11px] font-bold tracking-wider text-black/60 uppercase shrink-0">
+          <div className="flex items-center gap-5 mt-1.5 text-[10px] md:text-[11px] font-bold tracking-wider text-black/60 uppercase shrink-0">
             <button 
               type="button"
               onClick={() => {
-                setSelectedSilhouette("zipper");
-                setSelectedMaterial("cotton-220");
-                setSelectedColor("navy");
-                setSelectedTechnique("embroidery");
+                setSelectedStyleId(currentSport.styles[0]?.id || "default");
+                setSelectedMaterialId("micropoly-180");
+                setSelectedColorId("navy-gold");
+                setSelectedTechniqueId("embroidery");
                 setCustomName("ARJUN");
                 setCustomNumber("07");
               }}
               className="flex items-center gap-1 hover:text-black cursor-pointer transition-colors"
             >
               <Undo2 size={12} />
-              <span>Undo</span>
+              <span>Reset</span>
             </button>
             
             <button 
               type="button"
               onClick={() => {
-                setSelectedColor("black");
-                setSelectedTechnique("crest");
+                setSelectedColorId("black-crimson");
+                setSelectedTechniqueId("crest");
               }}
               className="flex items-center gap-1 hover:text-black cursor-pointer transition-colors"
             >
               <Redo2 size={12} />
-              <span>Redo</span>
+              <span>Pro Preset</span>
             </button>
           </div>
 
-          {/* Price & Solid Black BUY Button */}
+          {/* Pricing & Solid BUY Action */}
           <div className="flex items-center gap-4 mt-2 shrink-0 z-20">
-            <span className="text-lg md:text-xl font-black tracking-tight text-black">
-              {totalPrice.toLocaleString("en-IN")},00 ₹
-            </span>
+            <div className="flex flex-col items-start">
+              <span className="text-[10px] font-bold uppercase tracking-widest text-gray-500">
+                Starting At
+              </span>
+              <span className="text-lg md:text-xl font-black tracking-tight text-black">
+                ₹{totalPrice.toLocaleString("en-IN")},00
+              </span>
+            </div>
 
             <button
               type="button"
               onClick={() => {
                 setIsAddedToBag(true);
               }}
-              className="bg-black hover:bg-neutral-800 text-white font-black text-xs md:text-[13px] px-7 py-2 tracking-[0.18em] uppercase rounded-xs transition-all active:scale-95 cursor-pointer shadow-sm flex items-center gap-2"
+              className="bg-black hover:bg-neutral-800 text-white font-black text-xs md:text-[13px] px-8 py-2.5 tracking-[0.18em] uppercase rounded-xs transition-all active:scale-95 cursor-pointer shadow-sm flex items-center gap-2"
             >
               {isAddedToBag ? (
                 <>
                   <Check size={14} />
-                  <span>ADDED</span>
+                  <span>IN BAG</span>
                 </>
               ) : (
-                <span>BUY</span>
+                <span>BUY {currentSport.name.toUpperCase()}</span>
               )}
             </button>
           </div>
@@ -658,438 +1005,419 @@ export function DesignStudio() {
         </div>
 
         {/* =========================================================
-            DESKTOP RIGHT ARCH TRACK: SWATCHES SITTING DIRECTLY ON CURVE
+            RIGHT COLUMN: OPTIONS (VERTICALLY STACKED)
         ========================================================== */}
-        <div className="relative w-52 md:w-60 h-[380px] hidden md:block shrink-0 z-20">
+        <div className="w-72 md:w-80 lg:w-[330px] xl:w-[360px] h-[430px] md:h-[470px] hidden md:flex flex-col bg-white/90 backdrop-blur-md rounded-2xl border border-black/[0.08] shadow-[0_12px_36px_rgba(0,0,0,0.06)] p-3.5 z-20 shrink-0">
           
-          {/* SVG Arc Track Line (Curving gently inward toward product) */}
-          <svg 
-            className="absolute inset-0 w-full h-full pointer-events-none" 
-            viewBox="0 0 220 380" 
-            fill="none"
-          >
-            <path 
-              d="M 35 15 Q 115 190 35 365" 
-              stroke="rgba(0,0,0,0.22)" 
-              strokeWidth="1.2"
-              strokeLinecap="round"
-            />
-          </svg>
+          {/* Top Step Pills (Style, Look, Fabric, Colors, Logo, Player) */}
+          <div className="flex items-center justify-between gap-1 p-1 bg-black/[0.04] rounded-xl border border-black/[0.05] mb-3 shrink-0">
+            {[
+              { id: "style" as StudioStep, label: "Style", icon: <SlidersHorizontal size={11} /> },
+              { id: "look" as StudioStep, label: "Look", icon: <Wrench size={11} /> },
+              { id: "fabric" as StudioStep, label: "Fabric", icon: <Layers size={11} /> },
+              { id: "colors" as StudioStep, label: "Colors", icon: <Palette size={11} /> },
+              { id: "logo" as StudioStep, label: "Logo", icon: <Sparkles size={11} /> },
+              { id: "player" as StudioStep, label: "Player", icon: <Type size={11} /> },
+            ].map(step => {
+              const isActive = activeStep === step.id;
+              return (
+                <button
+                  key={step.id}
+                  type="button"
+                  onClick={() => setActiveStep(step.id)}
+                  className={`flex-1 py-1.5 px-0.5 rounded-lg text-[9px] font-black uppercase tracking-wider flex items-center justify-center gap-1 transition-all cursor-pointer ${
+                    isActive 
+                      ? "bg-black text-white shadow-xs" 
+                      : "text-gray-600 hover:text-black hover:bg-white/60"
+                  }`}
+                >
+                  {step.icon}
+                  <span>{step.label}</span>
+                </button>
+              );
+            })}
+          </div>
 
-          {/* ----------------- SUB-VIEW 1: SILHOUETTE (4 items) ----------------- */}
-          {activeStep === "silhouette" && (
-            <>
-              {[
-                { sil: silhouettes[0], x: 51.2, y: 55 },
-                { sil: silhouettes[1], x: 72.4, y: 145 },
-                { sil: silhouettes[2], x: 72.4, y: 235 },
-                { sil: silhouettes[3], x: 51.2, y: 325 },
-              ].map(({ sil, x, y }) => {
-                if (!sil) return null;
-                const isActive = selectedSilhouette === sil.id;
+          {/* Step Section Header */}
+          <div className="flex items-center justify-between pb-2 mb-2 border-b border-black/[0.06] shrink-0">
+            <div>
+              <h2 className="text-[12px] font-black uppercase tracking-wider text-black">
+                {activeStep === "style" && `1. ${currentSport.name} Style & Cut`}
+                {activeStep === "look" && "2. Hardware & Craftsmanship"}
+                {activeStep === "fabric" && "3. Performance Fabric"}
+                {activeStep === "colors" && "4. Team Colorway"}
+                {activeStep === "logo" && "5. Branding Technique"}
+                {activeStep === "player" && "6. Player Personalization"}
+              </h2>
+              <p className="text-[10px] text-gray-500 font-medium">
+                {activeStep === "style" && "Select collar, sleeve & motion fit"}
+                {activeStep === "look" && "Placket zipper, rib collar & hem specifications"}
+                {activeStep === "fabric" && "Tested for sweat resistance & zero friction"}
+                {activeStep === "colors" && "Vibrant fade-proof sublimation colors"}
+                {activeStep === "logo" && "High-density Japanese thread & 3D silicone"}
+                {activeStep === "player" && "Names & numbers sublimated included"}
+              </p>
+            </div>
+            
+            <span className="text-[10px] font-extrabold text-[#E53935] bg-red-50 px-2 py-0.5 rounded-full border border-red-100">
+              {activeStep === "style" && `${currentSport.styles.length} Options`}
+              {activeStep === "look" && "4 Layers"}
+              {activeStep === "fabric" && `${MATERIALS.length} Fabrics`}
+              {activeStep === "colors" && `${COLOR_SCHEMES.length} Themes`}
+              {activeStep === "logo" && `${LOGO_TECHNIQUES.length} Methods`}
+              {activeStep === "player" && "Free Print"}
+            </span>
+          </div>
 
-                return (
-                  <div
-                    key={sil.id}
-                    onClick={() => setSelectedSilhouette(sil.id)}
-                    className="absolute group cursor-pointer"
-                    style={{ 
-                      left: `${x}px`, 
-                      top: `${y}px`, 
-                      transform: "translate(-50%, -50%)" 
-                    }}
-                  >
-                    {/* Swatch Circle */}
-                    <div className={`rounded-full flex items-center justify-center transition-all duration-300 cursor-pointer ${
-                      isActive 
-                        ? "w-[76px] h-[76px] bg-black text-white shadow-[0_8px_20px_rgba(0,0,0,0.18)] font-bold text-sm ring-2 ring-black/15" 
-                        : "w-7 h-7 bg-white border border-black/30 text-black/70 group-hover:scale-110 text-[10px] font-bold"
-                    }`}>
-                      <span>{sil.iconLetter}</span>
-                    </div>
-
-                    {/* Label sitting cleanly to the right of circle */}
-                    <div 
-                      className="absolute top-1/2 -translate-y-1/2 whitespace-nowrap pl-2 cursor-pointer select-none"
-                      style={{ left: isActive ? "46px" : "22px" }}
+          {/* Vertically Stacked Options Container */}
+          <div className="flex-1 overflow-y-auto pr-1 flex flex-col gap-2 min-h-0 hide-scrollbar">
+            
+            {/* ---------------- 1. VERTICALLY STACKED STYLES ---------------- */}
+            {activeStep === "style" && (
+              <div className="flex flex-col gap-2">
+                {currentSport.styles.map(st => {
+                  const isSelected = selectedStyleId === st.id;
+                  return (
+                    <div
+                      key={st.id}
+                      onClick={() => setSelectedStyleId(st.id)}
+                      className={`p-2.5 rounded-xl border transition-all cursor-pointer flex items-center justify-between gap-3 ${
+                        isSelected 
+                          ? "bg-black/[0.03] border-black ring-1 ring-black shadow-xs" 
+                          : "bg-white border-black/[0.08] hover:border-black/30 hover:shadow-xs"
+                      }`}
                     >
-                      <span className={`text-[12px] font-bold tracking-wide transition-colors ${
-                        isActive ? "text-black text-[13px] font-extrabold" : "text-black/60 group-hover:text-black"
-                      }`}>
-                        {sil.shortLabel}
-                      </span>
+                      <div className="flex items-center gap-2.5 min-w-0">
+                        <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 text-xs font-black ${
+                          isSelected ? "bg-black text-white" : "bg-black/5 text-black"
+                        }`}>
+                          {st.shortLabel.slice(0, 2).toUpperCase()}
+                        </div>
+                        <div className="flex flex-col min-w-0">
+                          <div className="flex items-center gap-1.5">
+                            <span className="text-xs font-bold text-black truncate">{st.name}</span>
+                            <span className="text-[9px] bg-black/5 text-gray-600 px-1.5 py-0.2 rounded-xs font-semibold shrink-0">
+                              {st.badge}
+                            </span>
+                          </div>
+                          <span className="text-[10px] text-gray-500 leading-tight truncate">{st.desc}</span>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center gap-2 shrink-0">
+                        <span className="text-[11px] font-black text-black">
+                          {st.priceDelta === 0 ? "Included" : `+ ₹${st.priceDelta}`}
+                        </span>
+                        <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${
+                          isSelected ? "bg-black border-black text-white" : "border-gray-300"
+                        }`}>
+                          {isSelected && <Check size={10} />}
+                        </div>
+                      </div>
                     </div>
+                  );
+                })}
+              </div>
+            )}
+
+            {/* ---------------- 2. LOOK & LAYER OPTIONS (Hardware & Craftsmanship) ---------------- */}
+            {activeStep === "look" && (
+              <div className="flex flex-col gap-2">
+                {LAYER_SPECS.map((item, i) => (
+                  <div key={i} className="p-2.5 bg-gray-50 rounded-xl border border-gray-200/80 flex items-center justify-between gap-3">
+                    <div className="min-w-0">
+                      <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wide block">{item.title}</span>
+                      <strong className="text-xs font-bold text-gray-900 block truncate">{item.opt}</strong>
+                      <p className="text-[10px] text-gray-500 mt-0.5 leading-tight truncate">{item.desc}</p>
+                    </div>
+                    <CheckCircle2 size={16} className="text-emerald-600 shrink-0" />
                   </div>
-                );
-              })}
-            </>
-          )}
+                ))}
+              </div>
+            )}
 
-          {/* ----------------- SUB-VIEW 2: MATERIAL / FABRIC (4 items) ----------------- */}
-          {activeStep === "material" && (
-            <>
-              {[
-                { mat: MATERIALS[0], x: 51.2, y: 55 },
-                { mat: MATERIALS[1], x: 72.4, y: 145 },
-                { mat: MATERIALS[2], x: 72.4, y: 235 },
-                { mat: MATERIALS[3], x: 51.2, y: 325 },
-              ].map(({ mat, x, y }) => {
-                if (!mat) return null;
-                const isActive = selectedMaterial === mat.id;
-
-                return (
-                  <div
-                    key={mat.id}
-                    onClick={() => setSelectedMaterial(mat.id)}
-                    className="absolute group cursor-pointer"
-                    style={{ 
-                      left: `${x}px`, 
-                      top: `${y}px`, 
-                      transform: "translate(-50%, -50%)" 
-                    }}
-                  >
-                    {/* Swatch (Enlarged to 76px when active with tactile texture) */}
-                    {isActive ? (
-                      <div className="relative w-[76px] h-[76px] rounded-full border-2 border-white shadow-[0_8px_20px_rgba(0,0,0,0.18)] flex items-center justify-center shrink-0 overflow-hidden ring-1 ring-black/10 cursor-pointer">
+            {/* ---------------- 3. VERTICALLY STACKED FABRICS ---------------- */}
+            {activeStep === "fabric" && (
+              <div className="flex flex-col gap-2">
+                {MATERIALS.map(mat => {
+                  const isSelected = selectedMaterialId === mat.id;
+                  return (
+                    <div
+                      key={mat.id}
+                      onClick={() => setSelectedMaterialId(mat.id)}
+                      className={`p-2.5 rounded-xl border transition-all cursor-pointer flex items-center justify-between gap-3 ${
+                        isSelected 
+                          ? "bg-black/[0.03] border-black ring-1 ring-black shadow-xs" 
+                          : "bg-white border-black/[0.08] hover:border-black/30 hover:shadow-xs"
+                      }`}
+                    >
+                      <div className="flex items-center gap-2.5 min-w-0">
+                        {/* Tactile swatch */}
                         <div 
-                          className="w-full h-full"
+                          className="w-8 h-8 rounded-lg shrink-0 border border-black/10 shadow-xs relative overflow-hidden"
                           style={{ 
                             backgroundColor: mat.color,
-                            backgroundImage: mat.texturePattern
+                            backgroundImage: mat.texturePattern 
                           }}
                         />
+                        <div className="flex flex-col min-w-0">
+                          <span className="text-xs font-bold text-black truncate">{mat.name}</span>
+                          <span className="text-[10px] text-gray-500 leading-tight truncate">{mat.specs}</span>
+                        </div>
                       </div>
-                    ) : (
-                      <div 
-                        className="w-7 h-7 rounded-full shadow-xs border border-white transition-transform group-hover:scale-110 shrink-0 cursor-pointer"
-                        style={{ backgroundColor: mat.color }}
-                      />
-                    )}
 
-                    {/* Label to the right */}
-                    <div 
-                      className="absolute top-1/2 -translate-y-1/2 whitespace-nowrap pl-2 cursor-pointer select-none"
-                      style={{ left: isActive ? "46px" : "22px" }}
-                    >
-                      <span className={`text-[12px] font-bold tracking-wide transition-colors ${
-                        isActive ? "text-black text-[13px] font-extrabold" : "text-black/60 group-hover:text-black"
-                      }`}>
-                        {mat.shortLabel}
-                      </span>
+                      <div className="flex items-center gap-2 shrink-0">
+                        <span className="text-[11px] font-black text-black">
+                          {mat.priceDelta === 0 ? "Standard" : `+ ₹${mat.priceDelta}`}
+                        </span>
+                        <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${
+                          isSelected ? "bg-black border-black text-white" : "border-gray-300"
+                        }`}>
+                          {isSelected && <Check size={10} />}
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
-            </>
-          )}
+                  );
+                })}
+              </div>
+            )}
 
-          {/* ----------------- SUB-VIEW 3: COLORS (5 items) ----------------- */}
-          {activeStep === "colors" && (
-            <>
-              {[
-                { col: colors[0], x: 45.6, y: 40 },
-                { col: colors[1], x: 67.7, y: 115 },
-                { col: colors[2], x: 75.0, y: 190 },
-                { col: colors[3], x: 67.7, y: 265 },
-                { col: colors[4], x: 45.6, y: 340 },
-              ].map(({ col, x, y }) => {
-                if (!col) return null;
-                const isActive = selectedColor === col.id;
+            {/* ---------------- 3. VERTICALLY STACKED COLORS ---------------- */}
+            {activeStep === "colors" && (
+              <div className="flex flex-col gap-2">
+                {COLOR_SCHEMES.map(scheme => {
+                  const isSelected = selectedColorId === scheme.id;
+                  return (
+                    <div
+                      key={scheme.id}
+                      onClick={() => setSelectedColorId(scheme.id)}
+                      className={`p-2.5 rounded-xl border transition-all cursor-pointer flex items-center justify-between gap-3 ${
+                        isSelected 
+                          ? "bg-black/[0.03] border-black ring-1 ring-black shadow-xs" 
+                          : "bg-white border-black/[0.08] hover:border-black/30 hover:shadow-xs"
+                      }`}
+                    >
+                      <div className="flex items-center gap-2.5 min-w-0">
+                        {/* Dual Hex Color Indicator */}
+                        <div className="flex items-center -space-x-2 shrink-0">
+                          <div 
+                            className="w-6 h-6 rounded-full border border-white shadow-xs z-10" 
+                            style={{ backgroundColor: scheme.primaryHex }} 
+                          />
+                          <div 
+                            className="w-6 h-6 rounded-full border border-white shadow-xs z-0" 
+                            style={{ backgroundColor: scheme.secondaryHex }} 
+                          />
+                        </div>
+                        <div className="flex flex-col min-w-0">
+                          <span className="text-xs font-bold text-black truncate">{scheme.name}</span>
+                          <span className="text-[10px] text-gray-500 leading-tight truncate">{scheme.description}</span>
+                        </div>
+                      </div>
 
-                return (
-                  <div
-                    key={col.id}
-                    onClick={() => setSelectedColor(col.id)}
-                    className="absolute group cursor-pointer"
-                    style={{ 
-                      left: `${x}px`, 
-                      top: `${y}px`, 
-                      transform: "translate(-50%, -50%)" 
-                    }}
-                  >
-                    {isActive ? (
-                      <div 
-                        className="relative w-[76px] h-[76px] rounded-full border-2 border-white shadow-[0_8px_20px_rgba(0,0,0,0.18)] flex items-center justify-center shrink-0 ring-1 ring-black/15 cursor-pointer"
-                        style={{ backgroundColor: col.hex }}
+                      <div className={`w-4 h-4 rounded-full border flex items-center justify-center shrink-0 ${
+                        isSelected ? "bg-black border-black text-white" : "border-gray-300"
+                      }`}>
+                        {isSelected && <Check size={10} />}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+
+            {/* ---------------- 4. VERTICALLY STACKED LOGO TECHNIQUES ---------------- */}
+            {activeStep === "logo" && (
+              <div className="flex flex-col gap-2">
+                {/* Zone Placement Buttons */}
+                <div className="flex items-center justify-between p-1.5 bg-black/[0.03] rounded-lg border border-black/[0.04]">
+                  <span className="text-[10px] font-black uppercase text-gray-500">Placement:</span>
+                  <div className="flex items-center gap-1">
+                    {(["left-chest", "right-chest", "back", "sleeve"] as const).map(zone => (
+                      <button
+                        key={zone}
+                        type="button"
+                        onClick={() => {
+                          setLogoZone(zone);
+                          if (zone === "back") setActiveAngle(1);
+                          else setActiveAngle(0);
+                        }}
+                        className={`text-[9px] px-2 py-0.5 rounded-full font-bold uppercase transition-all cursor-pointer ${
+                          logoZone === zone 
+                            ? "bg-black text-white" 
+                            : "bg-white text-gray-600 hover:text-black border border-black/10"
+                        }`}
                       >
-                        <div className="w-3.5 h-3.5 rounded-full bg-white/90 shadow-xs" />
+                        {zone.replace("-", " ")}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {LOGO_TECHNIQUES.map(tech => {
+                  const isSelected = selectedTechniqueId === tech.id;
+                  return (
+                    <div
+                      key={tech.id}
+                      onClick={() => {
+                        if (tech.id === "upload") {
+                          fileInputRef.current?.click();
+                        } else {
+                          setSelectedTechniqueId(tech.id);
+                        }
+                      }}
+                      className={`p-2.5 rounded-xl border transition-all cursor-pointer flex items-center justify-between gap-3 ${
+                        isSelected 
+                          ? "bg-black/[0.03] border-black ring-1 ring-black shadow-xs" 
+                          : "bg-white border-black/[0.08] hover:border-black/30 hover:shadow-xs"
+                      }`}
+                    >
+                      <div className="flex items-center gap-2.5 min-w-0">
+                        <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${
+                          isSelected ? "bg-black text-white" : "bg-black/5 text-black"
+                        }`}>
+                          {tech.id === "upload" ? <Upload size={14} /> : <span className="text-xs">★</span>}
+                        </div>
+                        <div className="flex flex-col min-w-0">
+                          <div className="flex items-center gap-1.5">
+                            <span className="text-xs font-bold text-black truncate">{tech.name}</span>
+                            <span className="text-[9px] bg-black/5 text-gray-600 px-1.5 py-0.2 rounded-xs font-semibold shrink-0">
+                              {tech.badge}
+                            </span>
+                          </div>
+                          <span className="text-[10px] text-gray-500 leading-tight truncate">{tech.desc}</span>
+                        </div>
                       </div>
-                    ) : (
-                      <div 
-                        className="w-7 h-7 rounded-full shadow-xs border border-white transition-transform group-hover:scale-110 shrink-0 cursor-pointer"
-                        style={{ backgroundColor: col.hex }}
-                      />
-                    )}
 
-                    <div 
-                      className="absolute top-1/2 -translate-y-1/2 whitespace-nowrap pl-2 cursor-pointer select-none"
-                      style={{ left: isActive ? "46px" : "22px" }}
-                    >
-                      <span className={`text-[12px] font-bold tracking-wide transition-colors ${
-                        isActive ? "text-black text-[13px] font-extrabold" : "text-black/60 group-hover:text-black"
-                      }`}>
-                        {col.shortLabel}
-                      </span>
+                      <div className="flex items-center gap-2 shrink-0">
+                        <span className="text-[11px] font-black text-black">
+                          {tech.priceDelta === 0 ? "Included" : `+ ₹${tech.priceDelta}`}
+                        </span>
+                        <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${
+                          isSelected ? "bg-black border-black text-white" : "border-gray-300"
+                        }`}>
+                          {isSelected && <Check size={10} />}
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
-            </>
-          )}
+                  );
+                })}
 
-          {/* ----------------- SUB-VIEW 4: LOGO TECHNIQUE (5 items) ----------------- */}
-          {activeStep === "logo" && (
-            <>
-              {[
-                { tech: LOGO_TECHNIQUES[0], x: 45.6, y: 40 },
-                { tech: LOGO_TECHNIQUES[1], x: 67.7, y: 115 },
-                { tech: LOGO_TECHNIQUES[2], x: 75.0, y: 190 },
-                { tech: LOGO_TECHNIQUES[3], x: 67.7, y: 265 },
-                { tech: LOGO_TECHNIQUES[4], x: 45.6, y: 340 },
-              ].map(({ tech, x, y }) => {
-                if (!tech) return null;
-                const isActive = selectedTechnique === tech.id;
-
-                return (
-                  <div
-                    key={tech.id}
-                    onClick={() => {
-                      if (tech.id === "upload") {
+                {uploadedLogo && (
+                  <div className="p-2 bg-emerald-50 border border-emerald-200 rounded-lg flex items-center justify-between text-xs text-emerald-800">
+                    <span className="font-bold flex items-center gap-1.5">
+                      <Check size={12} /> Custom Artwork Loaded
+                    </span>
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
                         fileInputRef.current?.click();
-                      } else {
-                        setSelectedTechnique(tech.id);
-                      }
-                    }}
-                    className="absolute group cursor-pointer"
-                    style={{ 
-                      left: `${x}px`, 
-                      top: `${y}px`, 
-                      transform: "translate(-50%, -50%)" 
-                    }}
-                  >
-                    <div className={`rounded-full flex items-center justify-center transition-all duration-300 cursor-pointer ${
-                      isActive 
-                        ? "w-[76px] h-[76px] bg-black text-white shadow-[0_8px_20px_rgba(0,0,0,0.18)] text-xs font-bold" 
-                        : "w-7 h-7 bg-white border border-black/20 text-black/60 group-hover:scale-110"
-                    }`}>
-                      {tech.id === "upload" ? <Upload size={isActive ? 20 : 13} /> : <span className={isActive ? "text-lg" : "text-xs"}>★</span>}
+                      }}
+                      className="text-[10px] underline font-bold"
+                    >
+                      Change
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* ---------------- 5. VERTICALLY STACKED PLAYER PERSONALIZATION ---------------- */}
+            {activeStep === "player" && (
+              <div className="flex flex-col gap-3">
+                <div className="p-3 bg-white rounded-xl border border-black/[0.08] flex flex-col gap-2.5">
+                  <span className="text-[10px] font-black uppercase tracking-wider text-gray-500">
+                    Roster Details (Included Free)
+                  </span>
+                  
+                  <div className="flex items-center gap-3">
+                    <div className="flex-1 flex flex-col gap-1">
+                      <label className="text-[10px] font-bold text-gray-600">PLAYER NAME</label>
+                      <input 
+                        type="text" 
+                        maxLength={12} 
+                        value={customName} 
+                        onChange={(e) => setCustomName(e.target.value.toUpperCase())}
+                        placeholder="NAME"
+                        className="w-full text-left font-black text-black bg-gray-50 px-2.5 py-1.5 rounded-lg border border-gray-200 focus:outline-none focus:border-black uppercase text-xs"
+                      />
                     </div>
 
-                    <div 
-                      className="absolute top-1/2 -translate-y-1/2 whitespace-nowrap pl-2 cursor-pointer select-none"
-                      style={{ left: isActive ? "46px" : "22px" }}
-                    >
-                      <span className={`text-[12px] font-bold tracking-wide transition-colors ${
-                        isActive ? "text-black text-[13px] font-extrabold" : "text-black/60 group-hover:text-black"
-                      }`}>
-                        {tech.shortLabel}
-                      </span>
+                    <div className="w-20 flex flex-col gap-1">
+                      <label className="text-[10px] font-bold text-gray-600">NUMBER</label>
+                      <input 
+                        type="text" 
+                        maxLength={3} 
+                        value={customNumber} 
+                        onChange={(e) => setCustomNumber(e.target.value)}
+                        placeholder="07"
+                        className="w-full text-center font-black text-black bg-gray-50 px-2.5 py-1.5 rounded-lg border border-gray-200 focus:outline-none focus:border-black text-xs"
+                      />
                     </div>
                   </div>
-                );
-              })}
-            </>
-          )}
+                </div>
 
-          {/* ----------------- SUB-VIEW 5: TEXT / MONOGRAM (4 items) ----------------- */}
-          {activeStep === "text" && (
-            <>
-              {[
-                { font: TEXT_FONTS[0], x: 51.2, y: 55 },
-                { font: TEXT_FONTS[1], x: 72.4, y: 145 },
-                { font: TEXT_FONTS[2], x: 72.4, y: 235 },
-                { font: TEXT_FONTS[3], x: 51.2, y: 325 },
-              ].map(({ font, x, y }) => {
-                if (!font) return null;
-                const isActive = selectedFont === font.id;
+                <div className="flex flex-col gap-1.5">
+                  <span className="text-[10px] font-black uppercase tracking-wider text-gray-500">
+                    Typography Font Style
+                  </span>
+                  
+                  {TEXT_FONTS.map(font => {
+                    const isSelected = selectedFontId === font.id;
+                    return (
+                      <div
+                        key={font.id}
+                        onClick={() => setSelectedFontId(font.id)}
+                        className={`p-2 rounded-xl border transition-all cursor-pointer flex items-center justify-between ${
+                          isSelected 
+                            ? "bg-black text-white border-black" 
+                            : "bg-white border-black/[0.08] hover:border-black/30"
+                        }`}
+                      >
+                        <div className="flex items-center gap-2.5">
+                          <span className="w-8 h-8 rounded-lg bg-black/10 flex items-center justify-center font-black text-sm" style={{ fontFamily: font.fontFamily }}>
+                            {font.sample}
+                          </span>
+                          <span className="text-xs font-bold">{font.name}</span>
+                        </div>
 
-                return (
-                  <div
-                    key={font.id}
-                    onClick={() => setSelectedFont(font.id)}
-                    className="absolute group cursor-pointer"
-                    style={{ 
-                      left: `${x}px`, 
-                      top: `${y}px`, 
-                      transform: "translate(-50%, -50%)" 
-                    }}
-                  >
-                    <div className={`rounded-full flex items-center justify-center transition-all duration-300 cursor-pointer ${
-                      isActive 
-                        ? "w-[76px] h-[76px] bg-[#161616] text-white shadow-[0_8px_20px_rgba(0,0,0,0.18)] font-bold text-base" 
-                        : "w-7 h-7 bg-white border border-black/20 text-black/70 group-hover:scale-110 text-xs"
-                    }`}>
-                      <span style={{ fontFamily: font.fontFamily }}>{font.sample}</span>
-                    </div>
+                        <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${
+                          isSelected ? "bg-white text-black border-white" : "border-gray-300"
+                        }`}>
+                          {isSelected && <Check size={10} />}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
 
-                    <div 
-                      className="absolute top-1/2 -translate-y-1/2 whitespace-nowrap pl-2 cursor-pointer select-none"
-                      style={{ left: isActive ? "46px" : "22px" }}
-                    >
-                      <span className={`text-[12px] font-bold tracking-wide transition-colors ${
-                        isActive ? "text-black text-[13px] font-extrabold" : "text-black/60 group-hover:text-black"
-                      }`}>
-                        {font.shortLabel}
-                      </span>
-                    </div>
-                  </div>
-                );
-              })}
-            </>
-          )}
+          </div>
+
+          {/* Bottom Card Summary & Fast CTA */}
+          <div className="pt-2.5 mt-2 border-t border-black/[0.06] flex items-center justify-between shrink-0">
+            <div className="flex flex-col min-w-0 pr-2">
+              <span className="text-[10px] text-gray-400 font-bold uppercase tracking-widest truncate">
+                Configuration
+              </span>
+              <span className="text-[11px] font-black text-black truncate">
+                {currentSport.name} · {currentStyle?.shortLabel} · {currentMaterial.shortLabel}
+              </span>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => setIsAddedToBag(true)}
+              className="bg-yoode-onyx hover:bg-black text-white px-4 py-2 rounded-lg text-xs font-black uppercase tracking-wider flex items-center gap-1.5 shrink-0 cursor-pointer shadow-xs active:scale-95 transition-all"
+            >
+              <span>Add Kit</span>
+              <ArrowUpRight size={13} />
+            </button>
+          </div>
 
         </div>
-
-      </div>
-
-      {/* -------------------------------------------------------------
-          MOBILE OPTIONS DRAWER (Visible only on < md screens)
-      -------------------------------------------------------------- */}
-      <div className="md:hidden w-full px-3 py-2 bg-white/70 border-t border-black/[0.06] shrink-0">
-        
-        {/* Mobile Silhouette Options */}
-        {activeStep === "silhouette" && (
-          <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-0.5">
-            {silhouettes.map(sil => (
-              <button
-                key={sil.id}
-                type="button"
-                onClick={() => setSelectedSilhouette(sil.id)}
-                className={`px-3 py-1.5 rounded-lg flex items-center gap-2 text-xs font-bold transition-all shrink-0 ${
-                  selectedSilhouette === sil.id 
-                    ? "bg-black text-white" 
-                    : "bg-white border border-black/10 text-black/70"
-                }`}
-              >
-                <span className="w-5 h-5 rounded-full bg-black/10 flex items-center justify-center text-[10px]">
-                  {sil.iconLetter}
-                </span>
-                <span>{sil.shortLabel}</span>
-              </button>
-            ))}
-          </div>
-        )}
-
-        {/* Mobile Material Options */}
-        {activeStep === "material" && (
-          <div className="flex items-center gap-2.5 overflow-x-auto no-scrollbar py-0.5">
-            {MATERIALS.map(mat => (
-              <button
-                key={mat.id}
-                type="button"
-                onClick={() => setSelectedMaterial(mat.id)}
-                className={`px-3 py-1.5 rounded-lg flex items-center gap-2 text-xs font-bold transition-all shrink-0 ${
-                  selectedMaterial === mat.id 
-                    ? "bg-black text-white" 
-                    : "bg-white border border-black/10 text-black/70"
-                }`}
-              >
-                <div 
-                  className="w-5 h-5 rounded-full border border-black/20" 
-                  style={{ backgroundColor: mat.color }} 
-                />
-                <span>{mat.shortLabel}</span>
-              </button>
-            ))}
-          </div>
-        )}
-
-        {/* Mobile Color Options */}
-        {activeStep === "colors" && (
-          <div className="flex items-center gap-3 overflow-x-auto no-scrollbar py-0.5">
-            {colors.map(col => (
-              <button
-                key={col.id}
-                type="button"
-                onClick={() => setSelectedColor(col.id)}
-                className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full border text-xs font-bold shrink-0 transition-all ${
-                  selectedColor === col.id 
-                    ? "bg-black text-white border-black" 
-                    : "bg-white text-black/70 border-black/10"
-                }`}
-              >
-                <div 
-                  className="w-4 h-4 rounded-full border border-white shadow-xs" 
-                  style={{ backgroundColor: col.hex }} 
-                />
-                <span>{col.shortLabel}</span>
-              </button>
-            ))}
-          </div>
-        )}
-
-        {/* Mobile Logo Options */}
-        {activeStep === "logo" && (
-          <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-0.5">
-            {LOGO_TECHNIQUES.map(tech => (
-              <button
-                key={tech.id}
-                type="button"
-                onClick={() => {
-                  if (tech.id === "upload") fileInputRef.current?.click();
-                  else setSelectedTechnique(tech.id);
-                }}
-                className={`px-3 py-1.5 rounded-lg flex items-center gap-1.5 text-xs font-bold transition-all shrink-0 ${
-                  selectedTechnique === tech.id 
-                    ? "bg-black text-white" 
-                    : "bg-white border border-black/10 text-black/70"
-                }`}
-              >
-                {tech.id === "upload" ? <Upload size={13} /> : <span>★</span>}
-                <span>{tech.shortLabel}</span>
-              </button>
-            ))}
-          </div>
-        )}
-
-        {/* Mobile Text Options */}
-        {activeStep === "text" && (
-          <div className="flex flex-col gap-1.5 py-0.5">
-            <div className="flex items-center gap-2 overflow-x-auto no-scrollbar">
-              {TEXT_FONTS.map(font => (
-                <button
-                  key={font.id}
-                  type="button"
-                  onClick={() => setSelectedFont(font.id)}
-                  className={`px-3 py-1 rounded-md text-xs font-bold transition-all shrink-0 ${
-                    selectedFont === font.id 
-                      ? "bg-black text-white" 
-                      : "bg-white border border-black/10 text-black/70"
-                  }`}
-                  style={{ fontFamily: font.fontFamily }}
-                >
-                  {font.shortLabel}
-                </button>
-              ))}
-            </div>
-
-            <div className="flex items-center gap-3">
-              <div className="flex items-center gap-1">
-                <span className="text-[10px] text-gray-500 font-bold">NAME:</span>
-                <input 
-                  type="text" 
-                  maxLength={12} 
-                  value={customName} 
-                  onChange={(e) => setCustomName(e.target.value.toUpperCase())}
-                  placeholder="NAME"
-                  className="w-24 text-center font-bold text-black bg-white px-1.5 py-0.5 rounded-sm border border-gray-300 focus:outline-none uppercase text-xs"
-                />
-              </div>
-
-              <div className="flex items-center gap-1">
-                <span className="text-[10px] text-gray-500 font-bold">NO:</span>
-                <input 
-                  type="text" 
-                  maxLength={3} 
-                  value={customNumber} 
-                  onChange={(e) => setCustomNumber(e.target.value)}
-                  placeholder="07"
-                  className="w-12 text-center font-bold text-black bg-white px-1.5 py-0.5 rounded-sm border border-gray-300 focus:outline-none text-xs"
-                />
-              </div>
-            </div>
-          </div>
-        )}
 
       </div>
 
@@ -1103,9 +1431,49 @@ export function DesignStudio() {
       />
 
       {/* -------------------------------------------------------------
-          BOTTOM UTILITY BAR (Save for Later, Quick Zone/Inputs & Guarantee)
+          MOBILE DRAWER (Visible only on < md screens)
       -------------------------------------------------------------- */}
-      <div className="w-full h-10 shrink-0 px-4 md:px-12 flex items-center justify-between border-t border-black/[0.06] text-xs font-bold tracking-wider text-black/60 uppercase">
+      <div className="md:hidden w-full px-3 py-2 bg-white/95 border-t border-black/[0.06] shrink-0 flex flex-col gap-2">
+        {/* Mobile Horizontal Sport Selection */}
+        <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-0.5">
+          {SPORTS_DATA.map(sport => {
+            const isActive = sport.id === selectedSportId;
+            return (
+              <button
+                key={sport.id}
+                type="button"
+                onClick={() => setSelectedSportId(sport.id)}
+                className={`px-3 py-1.5 rounded-full text-xs font-black uppercase tracking-wider flex items-center gap-1.5 shrink-0 transition-all ${
+                  isActive ? "bg-black text-white shadow-xs" : "bg-white text-black/75 border border-black/10"
+                }`}
+              >
+                <span>{sport.name}</span>
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Mobile Step Pills */}
+        <div className="flex items-center justify-between gap-1 overflow-x-auto no-scrollbar">
+          {(["style", "fabric", "colors", "logo", "player"] as StudioStep[]).map(st => (
+            <button
+              key={st}
+              type="button"
+              onClick={() => setActiveStep(st)}
+              className={`px-2.5 py-1 rounded-md text-[10px] font-bold uppercase transition-all shrink-0 ${
+                activeStep === st ? "bg-black text-white" : "bg-black/5 text-black/60"
+              }`}
+            >
+              {st}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* -------------------------------------------------------------
+          BOTTOM UTILITY BAR
+      -------------------------------------------------------------- */}
+      <footer className="w-full h-10 shrink-0 px-4 md:px-12 flex items-center justify-between border-t border-black/[0.06] text-xs font-bold tracking-wider text-black/60 uppercase">
         
         {/* Left: Save for Later */}
         <button 
@@ -1114,76 +1482,24 @@ export function DesignStudio() {
           className="flex items-center gap-1.5 hover:text-black transition-colors cursor-pointer"
         >
           <Heart size={14} className={isSaved ? "fill-red-500 text-red-500" : ""} />
-          <span>Save for later</span>
+          <span>Save configuration</span>
         </button>
         
-        {/* Center: Desktop Quick interactive inputs for Logo Zone & Custom Text */}
-        <div className="hidden sm:flex items-center">
-          {activeStep === "logo" && (
-            <div className="flex items-center gap-2 bg-black/[0.04] px-3 py-1 rounded-full border border-black/[0.06]">
-              <span className="text-[10px] text-gray-500 font-extrabold">ZONE:</span>
-              {(["left-chest", "right-chest", "back", "sleeve"] as const).map(zone => (
-                <button
-                  key={zone}
-                  type="button"
-                  onClick={() => {
-                    setLogoZone(zone);
-                    if (zone === "back") setActiveAngle(1);
-                    else setActiveAngle(0);
-                  }}
-                  className={`text-[10px] px-2 py-0.5 rounded-full font-bold transition-all cursor-pointer ${
-                    logoZone === zone ? "bg-black text-white" : "text-gray-600 hover:text-black"
-                  }`}
-                >
-                  {zone.replace("-", " ")}
-                </button>
-              ))}
-            </div>
-          )}
-
-          {activeStep === "text" && (
-            <div className="flex items-center gap-3 bg-black/[0.04] px-3.5 py-0.5 rounded-full border border-black/[0.06]">
-              <div className="flex items-center gap-1">
-                <span className="text-[10px] text-gray-500 font-bold">NAME:</span>
-                <input 
-                  type="text" 
-                  maxLength={12} 
-                  value={customName} 
-                  onChange={(e) => setCustomName(e.target.value.toUpperCase())}
-                  placeholder="NAME"
-                  className="w-20 text-center font-bold text-black bg-white px-1.5 py-0.5 rounded-xs border border-gray-300 focus:outline-none uppercase text-xs"
-                />
-              </div>
-
-              <div className="flex items-center gap-1">
-                <span className="text-[10px] text-gray-500 font-bold">NO:</span>
-                <input 
-                  type="text" 
-                  maxLength={3} 
-                  value={customNumber} 
-                  onChange={(e) => setCustomNumber(e.target.value)}
-                  placeholder="07"
-                  className="w-12 text-center font-bold text-black bg-white px-1.5 py-0.5 rounded-xs border border-gray-300 focus:outline-none text-xs"
-                />
-              </div>
-            </div>
-          )}
-
-          {activeStep !== "logo" && activeStep !== "text" && (
-            <span className="text-[11px] text-gray-500 normal-case font-medium">
-              Precision tailored in Tirupur, India · 100% Guaranteed colorfast
-            </span>
-          )}
+        {/* Center: Guarantee & Provenance Note */}
+        <div className="hidden sm:flex items-center gap-2 text-[11px] text-gray-500 normal-case font-medium">
+          <span>Factory direct from Tirupur, India</span>
+          <span>·</span>
+          <span>Free design mockup sent within 24 hours</span>
         </div>
 
         {/* Right: Guarantee Note */}
         <div className="flex items-center gap-2 text-[11px] text-gray-400 normal-case font-normal">
           <ShieldCheck size={14} className="text-emerald-600" />
-          <span className="hidden sm:inline">Guaranteed colorfast · Made in India</span>
+          <span className="hidden sm:inline">100% Guaranteed colorfast & zero shrinkage</span>
           <span className="sm:hidden">Made in India</span>
         </div>
 
-      </div>
+      </footer>
 
     </div>
   );

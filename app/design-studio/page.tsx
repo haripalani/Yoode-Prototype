@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import DesignStudio from '@/components/DesignStudio';
 
 export const metadata = {
@@ -7,5 +7,9 @@ export const metadata = {
 };
 
 export default function DesignStudioPage() {
-  return <DesignStudio />;
+  return (
+    <Suspense fallback={<div className="h-screen w-full bg-[#F6F5F2]" />}>
+      <DesignStudio />
+    </Suspense>
+  );
 }

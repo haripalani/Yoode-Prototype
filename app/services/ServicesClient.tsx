@@ -4,6 +4,11 @@ import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Link from "next/link";
+import { ChevronDown, ArrowUpRight } from "lucide-react";
+import { ServicesHero } from "@/components/ServicesHero";
+import { ExperienceCenters } from "@/components/ExperienceCenters";
+import { Process } from "@/components/Process";
 
 const FRAG = `
 precision highp float;
@@ -124,7 +129,9 @@ void main(){
   col *= 1.0-0.28*smoothstep(0.45,1.05,length((vUv-0.5)*vec2(1.3,1.0)));
   col += (hash21(px+fract(uTime))-0.5)*0.02;
   col = pow(max(col,0.0), vec3(1.0/2.2));
-  gl_FragColor = vec4(col,1.0);
+  float topDist = uRes.y - px.y;
+  float alpha = (m < 6.5) ? smoothstep(0.0, 96.0, topDist) : 1.0;
+  gl_FragColor = vec4(col, alpha);
 }`;
 
 /* product glyphs, referenced with <use> */
@@ -147,35 +154,42 @@ const SPRITE = () => (
 type Tone = "light" | "dark";
 type Side = "left" | "right";
 
-const METHODS: { id: string; tag: string; side: Side; tone: Tone; chapter: string; kword: string; title: React.ReactNode; lede: string; facts: [string, string][]; prods: string[] }[] = [
+const METHODS: { id: string; tag: string; side: Side; tone: Tone; chapter: string; kword: string; title: React.ReactNode; lede: string; facts: [string, string][]; prods: string[]; href?: string }[] = [
   { id: "m-dtg", tag: "DTG", side: "left", tone: "light", chapter: "Direct-to-garment · 180 GSM combed cotton", kword: "DTG",
     title: <>Ink that <em>soaks in.</em></>,
     lede: "Water-based ink sprayed straight into the knit. It sinks between the loops instead of sitting on them, so a photograph prints with every gradient and the shirt still feels like a shirt.",
-    facts: [["Best for", "Photos, gradients, art"], ["Fabric", "100% cotton"], ["Minimum", "1 piece"], ["Wash life", "50+ washes"]], prods: ["Tees", "Sweatshirts", "Totes"] },
+    facts: [["Best for", "Photos, gradients, art"], ["Fabric", "100% cotton"], ["Minimum", "1 piece"], ["Wash life", "50+ washes"]], prods: ["Tees", "Sweatshirts", "Totes"],
+    href: "/dtg-printing" },
   { id: "m-dtf", tag: "DTF", side: "right", tone: "dark", chapter: "Direct-to-film · 320 GSM fleece", kword: "DTF",
     title: <>A print that <em>sits on top.</em></>,
     lede: "The artwork is printed on film, pressed onto the fleece at heat, and the film peeled away cold. What stays is a bold, flat layer with white ink built in, so it works on black, on polyester, on anything.",
-    facts: [["Best for", "Logos and vectors"], ["Fabric", "Any, including poly"], ["Minimum", "1 piece"], ["Wash life", "60+ washes"]], prods: ["Hoodies", "Jerseys", "Caps", "Bags"] },
+    facts: [["Best for", "Logos and vectors"], ["Fabric", "Any, including poly"], ["Minimum", "1 piece"], ["Wash life", "60+ washes"]], prods: ["Hoodies", "Jerseys", "Caps", "Bags"],
+    href: "/dtg-printing?service=dtf" },
   { id: "m-embroidery", tag: "Embroidery", side: "left", tone: "light", chapter: "Embroidery · Pique cotton", kword: "Embroidery",
     title: <>Thread, <em>four thousand</em> times.</>,
     lede: "Your artwork is digitised into a stitch file, then a needle lays satin thread across the pique, pass after pass. It does not print; it becomes part of the cloth, and it outlasts the garment.",
-    facts: [["Best for", "Logos, monograms"], ["Fabric", "Pique, twill, fleece"], ["Minimum", "1 piece"], ["Life", "Outlasts the garment"]], prods: ["Polos", "Caps", "Jackets", "Towels"] },
+    facts: [["Best for", "Logos, monograms"], ["Fabric", "Pique, twill, fleece"], ["Minimum", "1 piece"], ["Life", "Outlasts the garment"]], prods: ["Polos", "Caps", "Jackets", "Towels"],
+    href: "/dtg-printing?service=embroidery" },
   { id: "m-coloreel", tag: "Coloreel", side: "right", tone: "light", chapter: "Coloreel · Cotton twill", kword: "Coloreel",
     title: <>One thread, <em>every colour.</em></>,
     lede: "A single white thread, dyed on the machine as it feeds. Gradients and photoreal logos in embroidery, with no thread changes and no colour limit.",
-    facts: [["Best for", "Gradient logos"], ["Fabric", "As embroidery"], ["Minimum", "1 piece"], ["Colours", "Unlimited"]], prods: ["Caps", "Polos", "Jackets"] },
+    facts: [["Best for", "Gradient logos"], ["Fabric", "As embroidery"], ["Minimum", "1 piece"], ["Colours", "Unlimited"]], prods: ["Caps", "Polos", "Jackets"],
+    href: "/dtg-printing?service=coloreel" },
   { id: "m-screen", tag: "Screen", side: "left", tone: "dark", chapter: "Screen printing · Cotton jersey", kword: "Screen",
     title: <>Pull once, print <em>five hundred.</em></>,
     lede: "Ink pulled through a mesh stencil, one colour per screen. Thick, matte, opaque, and once the screens are made every extra piece is cheap and fast. Built for events, uniforms and merch drops.",
-    facts: [["Best for", "1–6 solid colours"], ["Fabric", "Cotton, blends"], ["Minimum", "50 pieces"], ["Wash life", "50+ washes"]], prods: ["Event tees", "Uniforms", "Totes"] },
+    facts: [["Best for", "1–6 solid colours"], ["Fabric", "Cotton, blends"], ["Minimum", "50 pieces"], ["Wash life", "50+ washes"]], prods: ["Event tees", "Uniforms", "Totes"],
+    href: "/dtg-printing?service=screen" },
   { id: "m-uv", tag: "UV", side: "right", tone: "dark", chapter: "UV printing · Brushed steel", kword: "UV",
     title: <>Colour that <em>cures on steel.</em></>,
     lede: "Droplets of ink land on the metal and an ultraviolet lamp sets them the instant they touch. Full colour on bottles, pens and boxes, slightly raised, glossy and scratch resistant.",
-    facts: [["Best for", "Full colour, hard goods"], ["Surface", "Metal, glass, wood, plastic"], ["Minimum", "1 piece"], ["Finish", "Gloss, raised"]], prods: ["Bottles", "Pens", "Notebooks", "Phone cases"] },
+    facts: [["Best for", "Full colour, hard goods"], ["Surface", "Metal, glass, wood, plastic"], ["Minimum", "1 piece"], ["Finish", "Gloss, raised"]], prods: ["Bottles", "Pens", "Notebooks", "Phone cases"],
+    href: "/dtg-printing?service=uv" },
   { id: "m-engraving", tag: "Engraving", side: "left", tone: "dark", chapter: "Laser engraving · Full-grain leather", kword: "Engraving",
     title: <>Burned in. <em>Never off.</em></>,
     lede: "A laser traces your artwork into leather, wood or steel and takes the surface with it. No ink, nothing to fade or peel. The finish for gifts, awards and anything meant to be kept.",
-    facts: [["Best for", "Gifts, awards"], ["Surface", "Steel, wood, leather"], ["Minimum", "1 piece"], ["Finish", "Permanent"]], prods: ["Bottles", "Pens", "Plaques", "Gift boxes"] },
+    facts: [["Best for", "Gifts, awards"], ["Surface", "Steel, wood, leather"], ["Minimum", "1 piece"], ["Finish", "Permanent"]], prods: ["Bottles", "Pens", "Plaques", "Gift boxes"],
+    href: "/dtg-printing?service=engraving" },
 ];
 
 // Full class strings so Tailwind can see them.
@@ -236,40 +250,6 @@ const PRODUCTS: { name: string; sub: string; glyph: string; how: string; badge?:
   { name: "Hardbound Notebook", sub: "A5 · leather cover", glyph: "g-note", how: "Engraving · Foil", price: "On request", swatches: [["Terracotta", "#D8734F"], ["Ink", "#15161B"], ["Navy", "#1B2A48"], ["Lagoon", "#2C9AAB"]] },
 ];
 
-const CATS: [string, string][] = [
-  ["Apparel", "Tees, polos, hoodies, jackets, uniforms"],
-  ["Sportswear", "Jerseys, training kits, supporter wear"],
-  ["Accessories", "Caps, bags, bottles, mugs"],
-  ["Stationery", "Notebooks, pens, desk sets"],
-  ["Gifting & Kids", "Gift boxes, awards, kids' wear"],
-];
-
-const STEPS: { day: string; title: string; text: string; tag: string; art: React.ReactNode }[] = [
-  { day: "Day 0", title: "Choose the product.", text: "Tees, jerseys, polos, hoodies, gift kits. Tell us the quantity and sizes. There is no minimum.", tag: "Catalogue or brief", art: <use href="#g-tee" /> },
-  { day: "Day 0", title: "Share the design.", text: "Upload artwork, a logo or a rough idea. Our studio vectorises it, places it and matches the colour.", tag: "Any file format", art: <><path d="M50 78 V26 M30 46 L50 26 L70 46" /><path d="M16 84 H84" /></> },
-  { day: "Within 24 h", title: "Review the mockup.", text: "A detailed preview on the exact garment and shade. Revise as many times as you like, free.", tag: "Free, unlimited revisions", art: <><rect x="14" y="20" width="72" height="52" /><path d="M14 60 L38 40 L56 56 L68 46 L86 60" /><path d="M36 84 H64" /></> },
-  { day: "Day 1–2", title: "Approve and order.", text: "Confirm the mockup, then pay. Production begins the day your approval lands.", tag: "Pay after approval", art: <><circle cx="50" cy="50" r="32" /><path d="M34 52 L46 63 L68 38" /></> },
-  { day: "Day 5–10", title: "Production and delivery.", text: "Printed or stitched, quality-checked piece by piece, packed and shipped anywhere in India.", tag: "Pan-India", art: <use href="#g-box" /> },
-];
-
-const GOOD: [string, string][] = [
-  ["No minimum order", "Order one, or one thousand. Same care either way."],
-  ["Free 24-hour mockup", "See it on the exact product and colour before you pay."],
-  ["Pay after approval", "Nothing goes to production until you've signed off."],
-  ["Mix sizes and colours", "One order, any mix of sizes and shades, same price."],
-  ["Bulk pricing", "Per-piece cost steps down with quantity. Ask for the tier."],
-  ["Design help included", "No artwork yet? Start from our template gallery or brief the studio."],
-  ["Pan-India delivery", "Dispatch from four centres, tracked to your door."],
-  ["Reply within 2 hours", "WhatsApp, phone or email, on working days."],
-];
-
-const CENTRES: { city: string; state: string; address: string; status: string; soon?: boolean }[] = [
-  { city: "Bengaluru", state: "Karnataka", address: "Ground Floor, #68 Transpade Tower, Jyoti Nivas College Rd, Koramangala 5th Block, 560095", status: "Open" },
-  { city: "Trivandrum", state: "Kerala", address: "Ground Floor, CloudQ Towers, Service Rd, near Technopark Phase 1, Kazhakkoottam, 695582", status: "Open" },
-  { city: "Marthandam", state: "Tamil Nadu", address: "1st Floor, Adhesh Tower, Eraviputhoorkadai, 629155", status: "Open" },
-  { city: "Chennai", state: "Tamil Nadu", address: "Directions and hours on yoode.com", status: "Newest", soon: true },
-];
-
 const WALK: [string, string][] = [
   ["Walk in", "Bring a logo on your phone. Nothing else needed."],
   ["Design it", "Pick the blank, feel the fabric, choose the method with a designer beside you."],
@@ -324,14 +304,14 @@ function Btn({ href, variant, children, external }: { href: string; variant: key
   );
 }
 
-function SectionHead({ eyebrow, title, text }: { eyebrow: string; title: React.ReactNode; text: string }) {
+function SectionHead({ eyebrow, title, text, compact }: { eyebrow: string; title: React.ReactNode; text: string; compact?: boolean }) {
   return (
-    <div className="mb-12 grid items-end gap-6 md:mb-16 md:grid-cols-[1.2fr_.8fr] md:gap-10">
+    <div className={`${compact ? "mb-0" : "mb-12 md:mb-16"} grid items-end gap-1.5 md:gap-8 md:grid-cols-[1.2fr_.8fr]`}>
       <div>
-        <div className={`${EYEBROW} mb-3`}>{eyebrow}</div>
-        <h2 data-split className={H2}>{title}</h2>
+        <div className={`${EYEBROW} ${compact ? "mb-1 text-[11px] md:text-xs" : "mb-3"}`}>{eyebrow}</div>
+        <h2 data-split className={`${H2} ${compact ? "!text-[clamp(22px,2.2vw,34px)] !leading-[1.05]" : ""}`}>{title}</h2>
       </div>
-      <p className="max-w-[44ch] text-sm font-medium leading-relaxed text-gray-500 md:justify-self-end md:text-base">{text}</p>
+      <p className={`max-w-[44ch] font-medium leading-relaxed text-gray-500 md:justify-self-end ${compact ? "text-xs md:text-sm" : "text-sm md:text-base"}`}>{text}</p>
     </div>
   );
 }
@@ -344,33 +324,38 @@ function ProductCard({ p, i }: { p: (typeof PRODUCTS)[number]; i: number }) {
   const [sel, setSel] = useState(0);
   const color = p.swatches[sel][1];
   return (
-    <article data-reveal className="group/c grid w-[clamp(240px,26vw,340px)] flex-none gap-4">
-      <div className={`${CARD} relative grid aspect-[4/5] place-items-center overflow-hidden`}>
-        <span className="absolute left-4 top-4 text-[11px] font-semibold tracking-[0.14em] text-gray-500">{String(i + 1).padStart(2, "0")}</span>
-        {p.badge && <span className="absolute right-4 top-4 rounded-full bg-yoode-coral px-3 py-1 text-[10px] font-bold tracking-wider text-white">{p.badge}</span>}
-        <Glyph id={p.glyph} color={color} className="w-3/5 drop-shadow-[0_18px_24px_rgba(21,22,27,.14)] transition-[transform,color] duration-700 group-hover/c:-translate-y-1.5 group-hover/c:-rotate-3" />
-        <span className="absolute bottom-4 left-4 text-[10px] font-semibold uppercase tracking-[0.12em] text-gray-500">{p.how}</span>
+    <article className="group/c flex flex-col w-[clamp(240px,20vw,290px)] flex-none gap-2">
+      <div className={`${CARD} relative grid aspect-[4/3.0] place-items-center overflow-hidden rounded-[20px] transition-shadow duration-300 group-hover/c:shadow-md`}>
+        <span className="absolute left-3.5 top-3 text-[10px] font-semibold tracking-[0.14em] text-gray-400">{String(i + 1).padStart(2, "0")}</span>
+        {p.badge && (
+          <span className="absolute right-3 top-3 rounded-full bg-yoode-coral px-2.5 py-0.5 text-[9px] font-bold tracking-wider text-white shadow-xs">
+            {p.badge}
+          </span>
+        )}
+        <Glyph id={p.glyph} color={color} className="h-[64%] w-auto max-h-[135px] drop-shadow-[0_12px_20px_rgba(21,22,27,.12)] transition-[transform,color] duration-500 group-hover/c:-translate-y-1 group-hover/c:-rotate-2" />
+        <span className="absolute bottom-2.5 left-3.5 text-[9px] font-bold uppercase tracking-[0.14em] text-gray-500">{p.how}</span>
       </div>
-      <div className="flex items-baseline justify-between gap-3">
-        <div>
-          <h3 className="font-display text-lg font-bold leading-tight text-yoode-onyx">{p.name}</h3>
-          <div className="mt-1 text-xs text-gray-500">{p.sub}</div>
+      <div className="flex items-start justify-between gap-2 px-0.5">
+        <div className="min-w-0 flex-1">
+          <h3 className="font-display text-[14px] md:text-[15px] font-bold leading-tight text-yoode-onyx truncate" title={p.name}>{p.name}</h3>
+          <div className="mt-0.5 text-[11px] text-gray-500 truncate" title={p.sub}>{p.sub}</div>
         </div>
-        <span className="whitespace-nowrap text-sm font-semibold text-yoode-onyx">
-          {p.was && <s className="mr-2 font-normal text-gray-400">{p.was}</s>}
-          {p.price}
-        </span>
+        <div className="whitespace-nowrap text-right shrink-0">
+          {p.was && <s className="mr-1.5 text-[11px] font-normal text-gray-400">{p.was}</s>}
+          <span className="text-xs md:text-sm font-bold text-yoode-onyx">{p.price}</span>
+        </div>
       </div>
-      <div className="flex gap-1.5">
+      <div className="flex items-center gap-1.5 px-0.5">
         {p.swatches.map(([name, hex], s) => (
           <button
             key={name}
             type="button"
             aria-label={name}
+            title={name}
             aria-pressed={s === sel}
             onClick={() => setSel(s)}
             style={{ backgroundColor: hex }}
-            className={`size-[18px] cursor-pointer rounded-full border border-black/10 transition-transform hover:scale-125 ${s === sel ? "scale-125 ring-1 ring-yoode-onyx ring-offset-2" : ""}`}
+            className={`size-[15px] cursor-pointer rounded-full border border-black/15 transition-transform hover:scale-125 ${s === sel ? "scale-125 ring-1.5 ring-yoode-onyx ring-offset-1.5" : ""}`}
           />
         ))}
       </div>
@@ -544,7 +529,7 @@ export function ServicesClient() {
           const scene = new THREE.Scene(); const cam = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
           const U = { uRes: { value: new THREE.Vector2(1, 1) }, uMouse: { value: new THREE.Vector2(-999, -999) }, uRipple: { value: new THREE.Vector2(-999, -999) }, uArt: { value: new THREE.Vector2(0, 0) },
             uTime: { value: 0 }, uP: { value: 0 }, uMode: { value: 7 }, uBaseA: { value: 0 }, uBaseB: { value: 0 }, uBaseMix: { value: 0 }, uZoom: { value: 1 }, uArtS: { value: 200 }, uRippleT: { value: 99 } };
-          const mat = new THREE.ShaderMaterial({ uniforms: U, vertexShader: VERT, fragmentShader: FRAG, depthTest: false, depthWrite: false });
+          const mat = new THREE.ShaderMaterial({ uniforms: U, vertexShader: VERT, fragmentShader: FRAG, depthTest: false, depthWrite: false, transparent: true });
           const geo = new THREE.PlaneGeometry(2, 2);
           scene.add(new THREE.Mesh(geo, mat));
           disposers.push(() => { geo.dispose(); mat.dispose(); });
@@ -627,20 +612,21 @@ export function ServicesClient() {
             const items = itemsOf(copy);
             const tl = gsap.timeline({ scrollTrigger: { trigger: sec, start: "top top", end: "bottom bottom", scrub: 0.8, pin: frame, pinSpacing: false, anticipatePin: 1,
               onUpdate: (st) => { const p = st.progress; views[k].p = p; bar.style.width = (p * 100).toFixed(1) + "%";
-                // the chapter word: written in from its anchored edge, then a slow 6vw drift
-                const dir = sec.dataset.side === "left" ? 1 : -1, fromLeft = dir > 0 || frame.classList.contains("narrow");
-                const hide = ((1 - smooth(win(p, 0.04, 0.42))) * 100).toFixed(1) + "%";
+                // the chapter word: written in cleanly from anchored edge, fully revealed during pin
+                const dir = sec.dataset.side === "left" ? 1 : -1, fromLeft = dir < 0 || frame.classList.contains("narrow");
+                const hide = ((1 - smooth(win(p, 0.0, 0.08))) * 100).toFixed(1) + "%";
                 kword.style.clipPath = fromLeft ? `inset(-20% ${hide} -30% 0)` : `inset(-20% 0 -30% ${hide})`;
-                kword.style.transform = `translate3d(${(dir * (3 - 6 * p)).toFixed(2)}vw,0,0)`;
-                copy.style.setProperty("--py", (12 - 24 * p).toFixed(1) + "px"); } } });
+                kword.style.transform = `translate3d(${(dir * (1.5 - 3 * p)).toFixed(2)}vw,0,0)`;
+                copy.style.setProperty("--py", (6 - 12 * p).toFixed(1) + "px"); } } });
             tl.fromTo(items, { yPercent: 110, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 0.2, stagger: 0.022, ease: "power3.out" }, 0.02);
           });
 
           // horizontal strips (wide screens)
           const mm = gsap.matchMedia();
           mm.add("(min-width: 901px)", () => {
-            ([["#lookTrack", "[data-look]"], ["#procTrack", "[data-process]"]] as const).forEach(([id, sec]) => {
+            ([["#lookTrack", "[data-look]"]] as const).forEach(([id, sec]) => {
               const track = $(id);
+              if (!track) return;
               const dist = () => Math.max(0, track.scrollWidth - document.documentElement.clientWidth);
               gsap.to(track, { x: () => -dist(), ease: "none", scrollTrigger: { trigger: $(sec), start: "top top", end: () => "+=" + dist(), pin: true, scrub: 0.7, invalidateOnRefresh: true, anticipatePin: 1 } });
             });
@@ -660,23 +646,14 @@ export function ServicesClient() {
         const hero = () => {
           if (reduced) return;
           gsap.fromTo(heroItems, { yPercent: 110, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 1.1, stagger: 0.06, ease: "power4.out", delay: 0.1 });
-          gsap.to(hindex, { opacity: 1, y: 0, duration: 0.9, ease: "power3.out", delay: 0.5 });
+          gsap.to(hindex, { opacity: 1, y: 0, duration: 0.9, ease: "power3.out", delay: 0.4 });
           if (three) { three.wake(3200); gsap.to(three.heroZoom, { v: 1, duration: 2.2, ease: "power3.out" }); }
         };
         hero();
         ScrollTrigger.refresh();
 
-        /* ---------- cursor, magnetism, chips, matrix, anchors ---------- */
+        /* ---------- magnetism and anchors (default browser cursor) ---------- */
         if (fine && !reduced) {
-          const cur = $("#cursor"), lab = $("#cursorLabel"); const pos = { x: innerWidth / 2, y: innerHeight / 2 }, tgt = { x: pos.x, y: pos.y };
-          on("pointermove", (e) => { tgt.x = e.clientX; tgt.y = e.clientY; cur.style.opacity = "1"; }, { passive: true });
-          on("pointerdown", () => cur.setAttribute("data-down", "")); on("pointerup", () => cur.removeAttribute("data-down"));
-          const curTick = () => { pos.x = lerp(pos.x, tgt.x, 0.22); pos.y = lerp(pos.y, tgt.y, 0.22); cur.style.transform = `translate(${pos.x}px,${pos.y}px)`; };
-          gsap.ticker.add(curTick); disposers.push(() => gsap.ticker.remove(curTick));
-          $$("[data-cursor]").forEach((el) => {
-            onEl(el, "pointerenter", () => { lab.textContent = el.dataset.cursor!; cur.setAttribute("data-label", ""); });
-            onEl(el, "pointerleave", () => cur.removeAttribute("data-label"));
-          });
           $$("[data-magnetic]").forEach((el) => {
             const x = gsap.quickTo(el, "x", { duration: 0.5, ease: "power3" }), y = gsap.quickTo(el, "y", { duration: 0.5, ease: "power3" });
             onEl(el, "pointermove", (e: PointerEvent) => { const r = el.getBoundingClientRect(); x((e.clientX - (r.left + r.width / 2)) * 0.3); y((e.clientY - (r.top + r.height / 2)) * 0.3); });
@@ -701,22 +678,44 @@ export function ServicesClient() {
     <div ref={rootRef} className="relative min-h-screen overflow-x-clip bg-white font-sans text-yoode-onyx antialiased">
       <SPRITE />
 
-      {/* custom cursor (fine pointers only) */}
-      <div id="cursor" aria-hidden className="group/c pointer-events-none fixed left-0 top-0 z-[90] text-white opacity-0 [filter:drop-shadow(0_0_1px_rgba(0,0,0,.65))] [@media(hover:none)]:hidden">
-        <div className="absolute -left-[3px] -top-[3px] size-1.5 rounded-full bg-white" />
-        <div className="absolute -left-[22px] -top-[22px] grid size-11 place-items-center rounded-full border border-white/70 text-[10px] font-semibold uppercase tracking-[0.12em] transition-[transform,background-color] duration-300 group-data-[label]/c:scale-[1.9] group-data-[label]/c:bg-white/15 group-data-[down]/c:scale-75">
-          <span id="cursorLabel" className="opacity-0 transition-opacity duration-200 group-data-[label]/c:opacity-100">Drag</span>
-        </div>
-      </div>
-
       <canvas id="gl" aria-hidden className="pointer-events-none fixed inset-0 z-0 block size-full [contain:strict]" />
 
       <div className="relative z-[1]">
-        {/* ================= HERO: LOOK CLOSER ================= */}
-        <section data-hero id="top" aria-label="Look closer at the fabric" className="relative h-[160vh] motion-reduce:h-auto">
+        {/* ================= INITIAL HERO OVERVIEW ================= */}
+        <div id="top">
+          <ServicesHero />
+        </div>
+
+        {/* ================= WHITE CURVED TRANSITION SECTION ================= */}
+        <div id="look-closer" className="relative z-30 -mt-12 md:-mt-14 w-full">
+          <div className="w-full bg-[#FAF9F6] rounded-t-[36px] sm:rounded-t-[48px] md:rounded-t-[60px] shadow-[0_-15px_40px_rgba(0,0,0,0.18)] border-t border-black/5 px-6 md:px-12 pt-3.5 md:pt-4 pb-8 md:pb-10 flex items-center justify-between flex-wrap gap-3">
+            <div className="flex items-center gap-3">
+              <span className="relative flex h-2.5 w-2.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-yoode-coral opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-yoode-coral"></span>
+              </span>
+              <span className="font-display font-extrabold uppercase tracking-wider text-xs md:text-sm text-yoode-onyx">
+                Interactive Fabric Studio
+              </span>
+              <span className="hidden sm:inline text-xs text-gray-500 font-medium">
+                · Zoom into the weave &amp; explore 7 crafts
+              </span>
+            </div>
+            <a
+              href="#hframe"
+              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-yoode-onyx text-white text-xs font-bold uppercase tracking-wider hover:bg-yoode-coral transition-colors shadow-sm cursor-pointer"
+            >
+              <span>Scroll to Explore</span>
+              <ChevronDown className="w-3.5 h-3.5 animate-bounce" />
+            </a>
+          </div>
+        </div>
+
+        {/* ================= INTERACTIVE EXPERIENCE: LOOK CLOSER ================= */}
+        <section data-hero aria-label="Look closer at the fabric" className="relative h-[125vh] motion-reduce:h-auto">
           <div id="hframe" className="group/h relative h-[100svh] overflow-hidden">
-            <div data-hview data-view="wide" data-cursor="Touch" aria-hidden className="absolute inset-0 cursor-crosshair" />
-            <div aria-hidden className="pointer-events-none absolute inset-0 bg-linear-to-r from-white/90 via-white/70 via-[34%] to-white/0 to-[68%] group-[.narrow]/h:bg-linear-to-b group-[.narrow]/h:via-[45%] group-[.narrow]/h:to-[80%]" />
+            <div data-hview data-view="wide" aria-hidden className="absolute inset-0" />
+            <div aria-hidden className="pointer-events-none absolute inset-0 bg-linear-to-r from-white/95 via-white/80 via-[34%] to-white/0 to-[68%] group-[.narrow]/h:bg-linear-to-b group-[.narrow]/h:via-[45%] group-[.narrow]/h:to-[80%]" />
             <div id="heroCopy" className="pointer-events-none absolute inset-x-0 top-1/2 z-[3] max-w-[min(60%,900px)] px-6 [transform:translateY(-52%)] md:px-12 *:pointer-events-auto group-[.narrow]/h:top-[clamp(84px,12vh,120px)] group-[.narrow]/h:max-w-none group-[.narrow]/h:[transform:none]">
               <div className={`${EYEBROW} mb-4`}>Custom apparel, merchandise &amp; gifting · India</div>
               <h1 data-split className="max-w-[9ch] font-display text-[clamp(44px,7vw,120px)] font-extrabold uppercase leading-[0.95] tracking-tight text-yoode-onyx group-[.narrow]/h:max-w-none group-[.narrow]/h:text-[clamp(38px,11vw,60px)] [&_em]:not-italic [&_em]:text-yoode-coral">
@@ -746,40 +745,57 @@ export function ServicesClient() {
           return (
             <section key={m.id} id={m.id} data-method data-k={k} data-side={m.side} data-tone={m.tone} className="relative h-[220vh] motion-reduce:h-auto">
               <div data-mframe className={`group/f relative h-[100svh] overflow-hidden ${t.fg}`}>
-                <div data-mview data-view={k} aria-label={`${m.tag}, seen at the fibre`} className="absolute inset-0 cursor-crosshair" />
-                <div aria-hidden className={`pointer-events-none absolute inset-0 ${t.scrim[m.side]} ${t.scrim.narrow}`} />
+                <div data-mview data-view={k} aria-label={`${m.tag}, seen at the fibre`} className="absolute inset-0" />
+                <div 
+                  aria-hidden 
+                  className={`pointer-events-none absolute inset-0 ${t.scrim[m.side]} ${t.scrim.narrow} [mask-image:linear-gradient(to_bottom,transparent_0px,black_96px,black_100%)] [-webkit-mask-image:linear-gradient(to_bottom,transparent_0px,black_96px,black_100%)]`} 
+                />
+
+                {/* Ultra-smooth feather diffusion bar across section boundary */}
+                <div 
+                  aria-hidden 
+                  className="pointer-events-none absolute top-0 inset-x-0 h-24 sm:h-28 z-20 backdrop-blur-[5px] [mask-image:linear-gradient(to_bottom,black_0%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,black_0%,transparent_100%)]" 
+                />
                 <div
                   data-kword
                   aria-hidden
-                  className={`pointer-events-none absolute bottom-[calc(clamp(18px,3.5vh,34px)+44px)] z-[1] select-none whitespace-nowrap font-display text-[clamp(64px,10.5vw,180px)] font-extrabold uppercase leading-none tracking-tighter opacity-90 will-change-[transform,clip-path] group-[.narrow]/f:bottom-auto group-[.narrow]/f:left-6 group-[.narrow]/f:right-auto group-[.narrow]/f:top-[clamp(70px,9vh,90px)] group-[.narrow]/f:text-left group-[.narrow]/f:text-[22vw] ${m.side === "left" ? "left-[53%]" : "right-[53%] text-right"}`}
+                  className={`pointer-events-none absolute bottom-[calc(clamp(16px,3vh,30px)+44px)] z-[1] select-none whitespace-nowrap font-display text-[clamp(36px,5.4vw,84px)] font-extrabold uppercase leading-none tracking-tight opacity-90 will-change-[transform,clip-path] group-[.narrow]/f:bottom-auto group-[.narrow]/f:left-6 group-[.narrow]/f:right-auto group-[.narrow]/f:top-[clamp(60px,8vh,80px)] group-[.narrow]/f:text-left group-[.narrow]/f:text-[18vw] ${m.side === "left" ? "right-6 md:right-12 lg:right-16 text-right max-w-[46vw]" : "left-6 md:left-12 lg:left-16 text-left max-w-[46vw]"}`}
                 >
                   {m.kword}
                 </div>
                 <div
                   data-mcopy
-                  className={`pointer-events-none absolute top-1/2 z-[3] max-w-[min(50%,720px)] px-6 [transform:translateY(calc(-50%_+_var(--py,0px)))] md:px-12 *:pointer-events-auto group-[.narrow]/f:inset-x-0 group-[.narrow]/f:left-0 group-[.narrow]/f:right-0 group-[.narrow]/f:top-auto group-[.narrow]/f:bottom-[clamp(44px,7vh,70px)] group-[.narrow]/f:max-w-none group-[.narrow]/f:[transform:translateY(var(--py,0px))] ${m.side === "left" ? "left-0" : "right-0"}`}
+                  className={`pointer-events-none absolute top-1/2 z-[3] max-w-[min(50%,660px)] px-6 md:px-12 [transform:translateY(calc(-50%_+_var(--py,0px)))] *:pointer-events-auto group-[.narrow]/f:inset-x-0 group-[.narrow]/f:left-0 group-[.narrow]/f:right-0 group-[.narrow]/f:top-auto group-[.narrow]/f:bottom-[clamp(40px,6vh,64px)] group-[.narrow]/f:max-w-none group-[.narrow]/f:[transform:translateY(var(--py,0px))] ${m.side === "left" ? "left-0" : "right-0"}`}
                 >
-                  <div className="mb-3 flex items-baseline gap-2.5 text-yoode-coral">
-                    <b className="font-display text-[clamp(40px,4.4vw,72px)] font-extrabold leading-[0.9] tracking-tighter group-[.narrow]/f:text-[40px]">{String(k + 1).padStart(2, "0")}</b>
-                    <span className={`text-[11px] font-semibold tracking-[0.14em] ${t.mute}`}>/ 07</span>
+                  <div className="mb-2 flex items-baseline gap-2 text-yoode-coral">
+                    <b className="font-display text-[clamp(32px,3.5vw,54px)] font-extrabold leading-none tracking-tight group-[.narrow]/f:text-[34px]">{String(k + 1).padStart(2, "0")}</b>
+                    <span className={`text-[10px] md:text-[11px] font-semibold tracking-[0.14em] ${t.mute}`}>/ 07</span>
                   </div>
-                  <div className={`text-[11px] font-semibold uppercase tracking-[0.16em] ${t.mute}`}>Chapter {String(k + 1).padStart(2, "0")} · {m.chapter}</div>
-                  <h2 data-split className="mt-3.5 max-w-[11ch] font-display text-[clamp(32px,4.4vw,72px)] font-extrabold uppercase leading-[0.98] tracking-tight group-[.narrow]/f:mt-2 group-[.narrow]/f:max-w-none group-[.narrow]/f:text-[clamp(28px,8vw,42px)] [&_em]:not-italic [&_em]:text-yoode-coral">
+                  <div className={`text-[10px] md:text-[11px] font-semibold uppercase tracking-[0.16em] mb-1.5 ${t.mute}`}>Chapter {String(k + 1).padStart(2, "0")} · {m.chapter}</div>
+                  <h2 data-split className="mt-2 max-w-[12ch] font-display text-[clamp(26px,3vw,48px)] font-extrabold uppercase leading-[1.04] tracking-tight group-[.narrow]/f:mt-2 group-[.narrow]/f:max-w-none group-[.narrow]/f:text-[clamp(24px,7vw,38px)] [&_em]:not-italic [&_em]:text-yoode-coral">
                     {m.title}
                   </h2>
-                  <p className={`mt-5 max-w-[42ch] text-[clamp(14px,1.1vw,17px)] font-medium leading-relaxed group-[.narrow]/f:mt-2.5 group-[.narrow]/f:max-w-none group-[.narrow]/f:text-sm ${t.soft}`}>{m.lede}</p>
-                  <ul className={`mt-6 grid max-w-[480px] list-none grid-cols-2 gap-x-7 border-t p-0 group-[.narrow]/f:mt-3 group-[.narrow]/f:max-w-none ${t.rule}`}>
+                  <p className={`mt-3 md:mt-4 max-w-[42ch] text-xs sm:text-sm md:text-[14.5px] font-medium leading-relaxed group-[.narrow]/f:mt-2 group-[.narrow]/f:max-w-none group-[.narrow]/f:text-xs ${t.soft}`}>{m.lede}</p>
+                  <ul className={`mt-4 md:mt-5 grid max-w-[460px] list-none grid-cols-2 gap-x-6 border-t p-0 group-[.narrow]/f:mt-2.5 group-[.narrow]/f:max-w-none ${t.rule}`}>
                     {m.facts.map(([label, value]) => (
-                      <li key={label} className={`grid gap-0.5 border-b py-3 group-[.narrow]/f:py-2 ${t.rule}`}>
-                        <small className={`text-[10px] font-semibold uppercase tracking-[0.12em] ${t.mute}`}>{label}</small>
-                        <b className="text-[13px] font-semibold leading-snug group-[.narrow]/f:text-xs">{value}</b>
+                      <li key={label} className={`grid gap-0.5 border-b py-2 md:py-2.5 group-[.narrow]/f:py-1.5 ${t.rule}`}>
+                        <small className={`text-[9px] md:text-[10px] font-semibold uppercase tracking-[0.12em] ${t.mute}`}>{label}</small>
+                        <b className="text-xs md:text-[13px] font-semibold leading-snug group-[.narrow]/f:text-xs">{value}</b>
                       </li>
                     ))}
                   </ul>
-                  <div className="mt-4 flex flex-wrap gap-2 group-[.narrow]/f:hidden">
-                    {m.prods.map((p) => (
-                      <span key={p} className={`rounded-full border px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.1em] ${t.rule} ${t.soft}`}>{p}</span>
-                    ))}
+                  <div className="mt-3 md:mt-4 flex flex-wrap items-center gap-2.5">
+                    <Link
+                      href={m.href || "/dtg-printing"}
+                      className="inline-flex items-center gap-1.5 rounded-full bg-yoode-coral px-4 py-2 text-xs md:text-sm font-bold uppercase tracking-wider text-white shadow-md shadow-yoode-coral/25 transition-all hover:bg-yoode-coral/90 hover:scale-105 active:scale-95 cursor-pointer pointer-events-auto shrink-0"
+                    >
+                      Read more <ArrowUpRight className="size-4" />
+                    </Link>
+                    <div className="flex flex-wrap items-center gap-1.5 group-[.narrow]/f:hidden">
+                      {m.prods.map((p) => (
+                        <span key={p} className={`rounded-full border px-2.5 py-1 text-[9px] md:text-[10px] font-semibold uppercase tracking-[0.1em] ${t.rule} ${t.soft}`}>{p}</span>
+                      ))}
+                    </div>
                   </div>
                 </div>
                 <div className={`absolute inset-x-6 bottom-[clamp(18px,3.5vh,34px)] z-[3] h-px md:inset-x-12 group-[.narrow]/f:hidden ${t.ruleBg}`}>
@@ -791,7 +807,7 @@ export function ServicesClient() {
           );
         })}
 
-        <section className="relative z-[2] bg-white py-[clamp(70px,10vw,140px)]">
+        <section className="relative z-[2] bg-white rounded-t-[36px] sm:rounded-t-[48px] md:rounded-t-[60px] shadow-[0_-20px_50px_rgba(0,0,0,0.35)] -mt-12 md:-mt-16 border-t border-black/5 py-[clamp(70px,10vw,140px)]">
           <div className={`${CONTAINER} grid justify-items-center gap-5 text-center`}>
             <div className={EYEBROW}>Walk in. Design it. Wear it.</div>
             <h2 data-split className={`${H2} max-w-[18ch]`}>That&apos;s the whole counter. Bring the artwork and we&apos;ll pick the method.</h2>
@@ -831,93 +847,48 @@ export function ServicesClient() {
         <MethodGuide />
 
         {/* ================= PRODUCTS ================= */}
-        <section id="shop" data-look className="overflow-hidden py-[clamp(70px,9vw,130px)]">
-          <div className={CONTAINER}>
-            <SectionHead eyebrow="Most loved" title={<>The pieces teams <em>come back for.</em></>} text="Pick a colour on any card. Every piece ships in bulk, customised with the method noted on it. Prices are per piece before customisation." />
+        <section id="shop" data-look className="relative overflow-hidden bg-white h-[100svh] max-h-[100svh] flex flex-col justify-between pt-5 pb-5 md:pt-7 md:pb-6">
+          <div className="w-full flex-none">
+            <div className={CONTAINER}>
+              <SectionHead compact eyebrow="Most loved" title={<>The pieces teams <em>come back for.</em></>} text="Pick a colour on any card. Every piece ships in bulk, customised with the method noted on it. Prices are per piece before customisation." />
+            </div>
           </div>
-          <div id="lookTrack" className="flex gap-5 px-6 will-change-transform md:px-12">
-            {PRODUCTS.map((p, i) => <ProductCard key={p.name} p={p} i={i} />)}
-          </div>
-          <div className={`${CONTAINER} mt-8 flex flex-wrap items-center justify-between gap-4 text-xs font-semibold uppercase tracking-wider text-gray-500`}>
-            <span>Prices per piece before customisation · bulk pricing on request</span>
-            <Btn href="#" variant="outline">Shop all</Btn>
-          </div>
-        </section>
 
-        <section className={`${CONTAINER} pb-[clamp(70px,9vw,130px)]`}>
-          <div className="grid grid-cols-2 gap-4 lg:grid-cols-5">
-            {CATS.map(([name, text]) => (
-              <a key={name} href="#" data-reveal className={`grid content-start gap-2 p-5 transition-colors hover:bg-[#F3EBE3] ${CARD}`}>
-                <b className="font-display text-lg font-bold">{name}</b>
-                <span className="text-[13px] text-gray-500">{text}</span>
+          <div className="my-auto w-full py-4 md:py-6">
+            <div id="lookTrack" className="flex gap-4 md:gap-5 px-6 will-change-transform md:px-12 py-1">
+              {PRODUCTS.map((p, i) => <ProductCard key={p.name} p={p} i={i} />)}
+            </div>
+          </div>
+
+          <div className="w-full flex-none">
+            <div className={`${CONTAINER} flex flex-wrap items-center justify-between gap-3 text-xs font-semibold uppercase tracking-wider text-gray-500`}>
+              <span>Prices per piece before customisation · bulk pricing on request</span>
+              <a href="#quote" className="inline-flex items-center gap-1.5 rounded-full border border-yoode-onyx px-5 py-1.5 text-xs font-bold uppercase tracking-wider text-yoode-onyx hover:bg-yoode-onyx hover:text-white transition-colors">
+                Shop all pieces <span aria-hidden>→</span>
               </a>
-            ))}
+            </div>
           </div>
         </section>
 
         {/* ================= PROCESS ================= */}
-        <section id="process" data-process className="overflow-hidden bg-[#F9FAFB] py-[clamp(70px,9vw,130px)]">
-          <div className={CONTAINER}>
-            <SectionHead eyebrow="How it works" title={<>Idea to delivery in <em>five</em> steps.</>} text="You pay only after you approve the mockup. From there, production and quality checks are on us." />
-          </div>
-          <div id="procTrack" className="flex gap-5 px-6 will-change-transform md:px-12 max-[900px]:flex-col">
-            {STEPS.map((s, i) => (
-              <article key={s.title} data-reveal className="grid min-h-[420px] w-[min(80vw,540px)] flex-none grid-rows-[auto_1fr_auto] gap-7 rounded-[24px] border border-gray-100 bg-white p-7 max-[900px]:min-h-0 max-[900px]:w-auto">
-                <div className="flex items-start justify-between font-display text-[72px] font-extrabold leading-[0.85] tracking-tighter text-yoode-coral">
-                  {String(i + 1).padStart(2, "0")}
-                  <small className="pt-2 font-sans text-[11px] font-semibold uppercase tracking-[0.14em] text-gray-500">{s.day}</small>
-                </div>
-                <div>
-                  <h3 className="font-display text-[clamp(22px,2.2vw,32px)] font-extrabold uppercase leading-[1.05] tracking-tight">{s.title}</h3>
-                  <p className="mt-3 max-w-[34ch] text-sm font-medium leading-relaxed text-gray-500">{s.text}</p>
-                </div>
-                <div className="flex h-[110px] items-end justify-between border-t border-gray-100 pt-4">
-                  <svg viewBox="0 0 100 100" aria-hidden className="h-[84px] w-auto fill-none stroke-yoode-onyx stroke-[3] [&_use]:fill-yoode-onyx [&_use]:stroke-none">{s.art}</svg>
-                  <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-gray-500">{s.tag}</span>
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
+        <Process id="process" />
 
-        <section className="bg-[#F9FAFB] pb-[clamp(70px,9vw,130px)]">
-          <div className={`${CONTAINER} grid gap-4 sm:grid-cols-2 lg:grid-cols-4`}>
-            {GOOD.map(([b, text]) => (
-              <div key={b} data-reveal className="grid content-start gap-2 rounded-[20px] bg-white p-6">
-                <b className="font-display text-lg font-bold leading-tight">{b}</b>
-                <span className="max-w-[26ch] text-sm text-gray-500">{text}</span>
+        {/* ================= CENTRES ================= */}
+        <ExperienceCenters
+          id="centres"
+          subHeading="Experience Centres"
+          title="See it. Touch it. Make it yours."
+          description="Most merch is bought off a screen. Ours has four front doors. Walk in for fabric swatches, samples and a mockup on the spot."
+        >
+          <div className="mt-12 md:mt-16 w-full grid gap-6 md:grid-cols-3 pt-8 border-t border-gray-200/80">
+            {WALK.map(([b, text]) => (
+              <div key={b} className="text-sm text-gray-500">
+                <b className="mb-1 block font-display text-base font-bold text-yoode-onyx">{b}</b>
+                {text}
               </div>
             ))}
           </div>
-        </section>
-
-        {/* ================= CENTRES ================= */}
-        <section id="centres" className="py-[clamp(70px,9vw,130px)]">
-          <div className={CONTAINER}>
-            <SectionHead eyebrow="Experience centres" title={<>See it. Touch it. <em>Make it yours.</em></>} text="Most merch is bought off a screen. Ours has four front doors. Walk in for fabric swatches, samples and a mockup on the spot." />
-            <div className="grid gap-5 md:grid-cols-2">
-              {CENTRES.map((c) => (
-                <div key={c.city} data-reveal className={`grid items-start gap-3 p-7 md:grid-cols-[auto_1fr_auto] md:gap-6 ${CARD}`}>
-                  <div>
-                    <div className="font-display text-[clamp(24px,2.4vw,36px)] font-extrabold uppercase leading-none tracking-tight">{c.city}</div>
-                    <div className="mt-1.5 text-sm text-gray-500">{c.state}</div>
-                  </div>
-                  <address className="max-w-[30ch] text-sm not-italic text-gray-500">{c.address}</address>
-                  <div className="flex items-center gap-2 whitespace-nowrap text-[11px] font-bold uppercase tracking-[0.12em]">
-                    <i className={`size-[7px] rounded-full ${c.soon ? "bg-gray-300" : "bg-[#25D366]"}`} />{c.status}
-                  </div>
-                </div>
-              ))}
-            </div>
-            <div className="mt-10 grid gap-5 md:grid-cols-3">
-              {WALK.map(([b, text]) => (
-                <div key={b} className="border-t border-gray-200 pt-4 text-sm text-gray-500">
-                  <b className="mb-1 block font-semibold text-yoode-onyx">{b}</b>{text}
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
+        </ExperienceCenters>
 
         {/* ================= PROOF ================= */}
         <div aria-label="Trusted by" className="overflow-hidden border-y border-gray-200 py-5">

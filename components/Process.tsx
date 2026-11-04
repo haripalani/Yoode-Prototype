@@ -62,7 +62,21 @@ const usps = [
   }
 ];
 
-export function Process() {
+interface ProcessProps {
+  id?: string;
+  subHeading?: string;
+  title?: string;
+  description?: string;
+  className?: string;
+}
+
+export function Process({
+  id = "process",
+  subHeading = "How Yoode Works",
+  title = "From Idea to Delivery",
+  description = "Getting your custom apparel is simple. Follow these easy steps and we'll handle the rest from design to delivery.",
+  className = "",
+}: ProcessProps = {}) {
   const targetRef = useRef<HTMLDivElement>(null);
   
   const { scrollYProgress } = useScroll({
@@ -72,8 +86,9 @@ export function Process() {
 
   return (
     <section 
+      id={id}
       ref={targetRef} 
-      className="relative bg-[#F8F5F0] font-sans w-full overflow-x-clip"
+      className={`relative bg-[#F8F5F0] font-sans w-full overflow-x-clip ${className}`}
     >
       <div className="max-w-[1600px] mx-auto w-full flex flex-col lg:flex-row items-start relative pb-32">
         
@@ -81,9 +96,9 @@ export function Process() {
         <div className="w-full lg:w-[40%] lg:sticky lg:top-32 flex flex-col justify-start pt-12 px-8 md:px-16 z-20 shrink-0">
           <SectionHeader
             align="left"
-            subHeading="How Yoode Works"
-            title="From Idea to Delivery"
-            description="Getting your custom apparel is simple. Follow these easy steps and we'll handle the rest from design to delivery."
+            subHeading={subHeading}
+            title={title}
+            description={description}
             className="mb-8"
             descriptionClassName="text-gray-500 max-w-[400px]"
           />

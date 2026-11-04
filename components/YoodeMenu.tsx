@@ -535,7 +535,7 @@ export const YOODE_MENU_DATA: MenuCategory[] = [
     label: "SERVICES",
     hasChevron: true,
     subcategories: [
-      { title: "DTG Printing", href: "/services", price: "Direct-to-Garment", badge: "NO SETUP", imageGrey: "/menu/service-dtg-grey.png", imageColor: "/menu/service-dtg-color.png", GraphicComponent: CADGraphics.DTGPrinting },
+      { title: "DTG Printing", href: "/dtg-printing", price: "Direct-to-Garment", badge: "NO SETUP", imageGrey: "/menu/service-dtg-grey.png", imageColor: "/menu/service-dtg-color.png", GraphicComponent: CADGraphics.DTGPrinting },
       { title: "DTF Printing", href: "/services", price: "Film Transfers", badge: "DURABLE", imageGrey: "/menu/service-dtf-grey.png", imageColor: "/menu/service-dtf-color.png", GraphicComponent: CADGraphics.DTFPrinting },
       { title: "Embroidery Digitizing", href: "/services", price: "Precision Stitch", badge: "3D PUFF", imageGrey: "/menu/service-embroidery-grey.png", imageColor: "/menu/service-embroidery-color.png", GraphicComponent: CADGraphics.EmbroideryDigitizing },
       { title: "Coloreel Digitizing", href: "/services", price: "Thread Dyeing", badge: "UNLIMITED", imageGrey: "/menu/service-coloreel-grey.png", imageColor: "/menu/service-coloreel-color.png", GraphicComponent: CADGraphics.ColoreelDigitizing },
@@ -983,28 +983,20 @@ export function YoodeMenu({ isOpen, onClose }: YoodeMenuProps) {
                           }`}>
                             {item.imageColor ? (
                               <div className="relative w-full h-full flex items-center justify-center p-1 sm:p-2">
-                                {item.imageGrey ? (
-                                  <>
-                                    {/* Default: Slate-Grey Technical CAD Wireframe Asset */}
-                                    <img 
-                                      src={item.imageGrey} 
-                                      alt={item.title} 
-                                      className="w-full h-full object-contain filter drop-shadow-[0_8px_14px_rgba(0,0,0,0.10)] transition-all duration-300 group-hover:opacity-0 group-hover:scale-95" 
-                                    />
-                                    {/* Hover State: Vivid Saturated Colorway CAD Asset */}
-                                    <img 
-                                      src={item.imageColor} 
-                                      alt={item.title} 
-                                      className="w-full h-full object-contain absolute inset-0 p-1 sm:p-2 filter drop-shadow-[0_10px_18px_rgba(0,0,0,0.14)] transition-all duration-300 opacity-0 group-hover:opacity-100 group-hover:scale-105" 
-                                    />
-                                  </>
-                                ) : (
-                                  <img 
-                                    src={item.imageColor} 
-                                    alt={item.title} 
-                                    className="w-full h-full object-contain filter drop-shadow-[0_10px_16px_rgba(0,0,0,0.12)] group-hover:scale-105 transition-transform duration-300" 
-                                  />
-                                )}
+                                {/* Initial state & hover: Vivid Saturated Colorway CAD Asset */}
+                                <img 
+                                  src={item.imageColor} 
+                                  alt={item.title} 
+                                  className="w-full h-full object-contain filter drop-shadow-[0_10px_18px_rgba(0,0,0,0.14)] group-hover:scale-105 group-hover:drop-shadow-[0_14px_24px_rgba(0,0,0,0.20)] transition-all duration-300" 
+                                />
+                              </div>
+                            ) : item.imageGrey ? (
+                              <div className="relative w-full h-full flex items-center justify-center p-1 sm:p-2">
+                                <img 
+                                  src={item.imageGrey} 
+                                  alt={item.title} 
+                                  className="w-full h-full object-contain filter drop-shadow-[0_8px_14px_rgba(0,0,0,0.10)] group-hover:scale-105 transition-all duration-300" 
+                                />
                               </div>
                             ) : Graphic ? (
                               <div className="w-full h-full flex items-center justify-center p-1 sm:p-2 group-hover:scale-105 transition-transform duration-300 drop-shadow-[0_8px_14px_rgba(0,0,0,0.10)]">

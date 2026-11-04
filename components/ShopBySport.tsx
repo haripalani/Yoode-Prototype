@@ -228,7 +228,7 @@ export default function ShopBySport() {
             {/* Bottom Floating Pill CTA Button */}
             <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-30">
               <Link 
-                href={activeSport.link || `/custom-${activeSport.id}-jerseys`} 
+                href={`/design-studio?sport=${activeSport.id}`} 
                 className="inline-flex items-center justify-center bg-[#EA580C] hover:bg-[#D94E06] text-white font-bold uppercase tracking-wider text-xs md:text-sm px-10 md:px-12 py-3.5 md:py-4 rounded-full transition-all duration-300 shadow-[0_10px_25px_rgba(234,88,12,0.38)] hover:shadow-[0_14px_30px_rgba(234,88,12,0.48)] transform hover:-translate-y-0.5 whitespace-nowrap active:scale-95"
               >
                 DESIGN {activeSport.name.toUpperCase()} JERSEY

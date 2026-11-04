@@ -58,7 +58,23 @@ const allCenters: ExperienceCenter[] = [
 const leftCenters = allCenters.slice(0, 2);
 const rightCenters = allCenters.slice(2, 4);
 
-export function ExperienceCenters() {
+interface ExperienceCentersProps {
+  id?: string;
+  subHeading?: string;
+  title?: string;
+  description?: React.ReactNode;
+  className?: string;
+  children?: React.ReactNode;
+}
+
+export function ExperienceCenters({
+  id = "stores",
+  subHeading = "Our Locations",
+  title = "We work for you. We care about quality. We're all over India.",
+  description = "See it. Touch it. Make it yours. Visit our physical design labs for reliable solutions, ongoing support, and real results.",
+  className = "",
+  children,
+}: ExperienceCentersProps = {}) {
   const [activeId, setActiveId] = useState<string | null>(null);
 
   const CenterCard = ({ center, isBottom }: { center: ExperienceCenter, isBottom: boolean }) => {
@@ -158,14 +174,14 @@ export function ExperienceCenters() {
   };
 
   return (
-    <section className="w-full bg-[#F8FAFC] py-16 md:py-20 relative overflow-hidden">
+    <section id={id} className={`w-full bg-[#F8FAFC] py-16 md:py-20 relative overflow-hidden ${className}`}>
       <div className="w-full max-w-6xl mx-auto px-6 md:px-8 flex flex-col items-center">
 
         {/* Header */}
         <SectionHeader
-          subHeading="Our Locations"
-          title="We work for you. We care about quality. We're all over India."
-          description="See it. Touch it. Make it yours. Visit our physical design labs for reliable solutions, ongoing support, and real results."
+          subHeading={subHeading}
+          title={title}
+          description={description}
           className="mb-10 md:mb-16"
         />
 
@@ -290,6 +306,8 @@ export function ExperienceCenters() {
           </div>
 
         </div>
+
+        {children}
       </div>
     </section>
   );

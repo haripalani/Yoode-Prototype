@@ -10,36 +10,43 @@ const services = [
     title: "DTG Printing",
     image: "/Services/dtg.jpg",
     objectPosition: "object-center",
+    href: "/dtg-printing",
   },
   {
     title: "DTF Printing",
     image: "/Services/dtf.jpg",
     objectPosition: "object-center",
+    href: "/dtg-printing?service=dtf",
   },
   {
     title: "Embroidery",
     image: "/Services/embroidery.jpg",
     objectPosition: "object-[50%_90%]", // Focus on the stitched logo at the bottom
+    href: "/dtg-printing?service=embroidery",
   },
   {
     title: "Coloreel",
     image: "/Services/coloreel.jpg",
     objectPosition: "object-center",
+    href: "/dtg-printing?service=coloreel",
   },
   {
     title: "Screen Printing",
     image: "/Services/screen_printing.jpg",
     objectPosition: "object-center",
+    href: "/dtg-printing?service=screen",
   },
   {
     title: "UV Printing",
     image: "/Services/uv_printing.jpg",
     objectPosition: "object-[50%_70%]",
+    href: "/dtg-printing?service=uv",
   },
   {
     title: "Engraving",
     image: "/Services/engraving.jpg",
     objectPosition: "object-center",
+    href: "/dtg-printing?service=engraving",
   },
 ];
 
@@ -105,12 +112,22 @@ export function ServicePillars() {
                 
                 {/* Active Card Content */}
                 <div className={`absolute inset-0 p-4 md:p-6 flex flex-col justify-end transition-all duration-500 delay-100 ${isActive ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
-                  <div className="absolute top-3 right-3 md:top-4 md:right-4 w-8 h-8 md:w-10 md:h-10 rounded-full border border-white/30 backdrop-blur-md flex items-center justify-center text-white bg-black/20 group-hover:bg-white group-hover:text-black transition-colors cursor-pointer">
+                  <Link 
+                    href={service.href}
+                    className="absolute top-3 right-3 md:top-4 md:right-4 w-8 h-8 md:w-10 md:h-10 rounded-full border border-white/30 backdrop-blur-md flex items-center justify-center text-white bg-black/20 group-hover:bg-white group-hover:text-black transition-colors cursor-pointer z-20"
+                    aria-label={`Explore ${service.title}`}
+                  >
                     <ArrowUpRight size={18} className="md:w-5 md:h-5" />
-                  </div>
-                  <h3 className="text-white text-2xl md:text-3xl lg:text-4xl font-display font-black mb-1 drop-shadow-lg">
+                  </Link>
+                  <h3 className="text-white text-2xl md:text-3xl lg:text-4xl font-display font-black mb-2 drop-shadow-lg">
                     {service.title}
                   </h3>
+                  <Link
+                    href={service.href}
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white text-yoode-onyx font-bold text-xs md:text-sm hover:bg-slate-100 hover:scale-105 active:scale-95 transition-all shadow-lg w-max z-20 mt-1"
+                  >
+                    Explore More <ArrowUpRight size={16} />
+                  </Link>
                 </div>
 
                 {/* Collapsed Card Content (Vertical Text) */}

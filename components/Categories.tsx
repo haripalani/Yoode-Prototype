@@ -7,6 +7,7 @@ const categories = [
     title: "Custom T-shirts",
     items: "120+ Styles",
     image: "/categories/custom_tshirts.jpg",
+    href: "/dtg-printing",
   },
   {
     id: 2,
@@ -96,9 +97,9 @@ export function Categories() {
                 {inner}
               </a>
             ) : (
-              <div key={category.id} className="bg-gray-50 rounded-[28px] p-3 shadow-sm hover:shadow-md transition-shadow cursor-pointer group">
+              <a href={category.href || "/category"} key={category.id} className="bg-gray-50 rounded-[28px] p-3 shadow-sm hover:shadow-md transition-shadow cursor-pointer group block">
                 {inner}
-              </div>
+              </a>
             );
           })}
         </div>

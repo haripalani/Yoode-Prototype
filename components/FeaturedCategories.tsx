@@ -8,7 +8,7 @@ const categories = [
     id: 1,
     title: "CUSTOM\nT-SHIRTS",
     image: "/categories/custom_tshirts.jpg",
-    href: "/t-shirts"
+    href: "/dtg-printing"
   },
   {
     id: 2,

@@ -13,14 +13,15 @@ export function Header() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const pathname = usePathname();
 
-  const isInnerPage = pathname !== "/" && pathname !== "/category";
-  const isDarkHeader = isScrolled || isMenuOpen || isInnerPage;
+  const isAlwaysSolid = pathname?.startsWith("/products") || pathname?.startsWith("/dtg-printing");
+  const isDarkHeader = isScrolled || isMenuOpen || isAlwaysSolid;
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 40);
+      setIsScrolled(window.scrollY > 20);
     };
-    window.addEventListener("scroll", handleScroll);
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -35,8 +36,8 @@ export function Header() {
       <header
         className={`fixed top-[30px] md:top-[32px] left-0 w-full z-[130] transition-all duration-300 ${
           isDarkHeader
-            ? "bg-[#0b0c10]/95 backdrop-blur-md shadow-lg h-[58px] md:h-[62px] flex items-center text-white border-b border-white/10"
-            : "bg-gradient-to-b from-black/80 via-black/40 to-transparent h-[58px] md:h-[62px] flex items-center text-white"
+            ? "bg-[#0b0c10]/95 backdrop-blur-md shadow-lg h-[44px] md:h-[48px] flex items-center text-white border-b border-white/10"
+            : "bg-transparent h-[44px] md:h-[48px] flex items-center text-white border-b border-transparent"
         }`}
       >
         <div className="w-full max-w-[1700px] mx-auto px-4 md:px-8 flex items-center justify-between relative h-full">
@@ -45,7 +46,7 @@ export function Header() {
           <div className="flex items-center z-10">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className={`w-10 h-10 md:w-11 md:h-11 flex items-center justify-center rounded-xl border transition-all duration-200 group cursor-pointer focus:outline-none ${
+              className={`w-8 h-8 md:w-8.5 md:h-8.5 flex items-center justify-center rounded-lg border transition-all duration-200 group cursor-pointer focus:outline-none ${
                 isMenuOpen
                   ? "bg-[#E53935]/20 border-[#E53935] text-[#E53935] shadow-[0_0_15px_rgba(229,57,53,0.35)]"
                   : "bg-white/[0.08] border-white/20 hover:bg-white/[0.16] hover:border-white/40 text-white shadow-sm"
@@ -53,14 +54,14 @@ export function Header() {
               aria-label="Toggle Mega Navigation Menu"
               title={isMenuOpen ? "Close Menu" : "Open Menu"}
             >
-              <div className="w-5 h-5 flex items-center justify-center overflow-hidden">
+              <div className="w-4 h-4 flex items-center justify-center overflow-hidden">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   id="Layer_1"
                   data-name="Layer 1"
                   viewBox={isMenuOpen ? "0 38 36 46" : "0 0 36 36"}
                   data-ab-filters-channel="c3f99a71-3846-44c7-ad93-386087f1eefa"
-                  className="w-4.5 h-4.5 transition-all duration-200 text-current"
+                  className="w-3.5 h-3.5 transition-all duration-200 text-current"
                 >
                   <defs>
                     <style>{`.cls-1{fill:currentColor;}`}</style>
@@ -94,45 +95,45 @@ export function Header() {
               <img
                 src="/logo-dark.avif"
                 alt="Yoode"
-                className="h-5 md:h-6 w-auto object-contain brightness-0 invert transition-transform group-hover:scale-105"
+                className="h-3.5 md:h-4 w-auto object-contain brightness-0 invert transition-transform group-hover:scale-105"
               />
             </Link>
           </div>
 
           {/* RIGHT: Search, Log In, Cart */}
-          <div className="flex items-center gap-3 sm:gap-6 text-xs md:text-sm font-semibold z-10">
+          <div className="flex items-center gap-2.5 sm:gap-5 text-xs font-semibold z-10">
             {/* Search */}
             <button
               onClick={() => setIsSearchOpen(true)}
-              className="flex items-center gap-1.5 hover:text-[#E53935] transition-colors p-1.5 cursor-pointer"
+              className="flex items-center gap-1 hover:text-[#E53935] transition-colors p-1 cursor-pointer"
               aria-label="Search"
             >
-              <Search size={18} strokeWidth={2.2} />
+              <Search size={15} strokeWidth={2.2} />
               <span className="hidden sm:inline font-bold tracking-wide">Search</span>
             </button>
 
             {/* Log In */}
             <Link
               href="/#account"
-              className="hidden sm:flex items-center gap-1.5 hover:text-[#E53935] transition-colors p-1.5"
+              className="hidden sm:flex items-center gap-1 hover:text-[#E53935] transition-colors p-1"
             >
-              <User size={18} strokeWidth={2.2} />
+              <User size={15} strokeWidth={2.2} />
               <span className="font-bold tracking-wide">Log In</span>
             </Link>
 
             {/* Cart with count badge & price */}
             <Link
               href="/#cart"
-              className="flex items-center gap-2 hover:text-[#E53935] transition-colors p-1.5"
+              className="flex items-center gap-1.5 hover:text-[#E53935] transition-colors p-1"
               aria-label="Shopping Cart"
             >
               <div className="relative">
-                <ShoppingBag size={19} strokeWidth={2.2} />
-                <span className="absolute -top-1.5 -right-2 bg-[#E53935] text-white text-[9px] font-black h-4 w-4 rounded-full flex items-center justify-center shadow-sm border border-white/20">
+                <ShoppingBag size={16} strokeWidth={2.2} />
+                <span className="absolute -top-1.5 -right-1.5 bg-[#E53935] text-white text-[8px] font-black h-3.5 w-3.5 rounded-full flex items-center justify-center shadow-xs border border-white/20">
                   0
                 </span>
               </div>
-              <span className="hidden md:inline font-bold font-mono text-[13px] tracking-tight">
+              <span className="hidden md:inline font-bold font-mono text-xs tracking-tight">
                 ₹ 0
               </span>
             </Link>
