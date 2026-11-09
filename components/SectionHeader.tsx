@@ -7,6 +7,7 @@ interface SectionHeaderProps {
   align?: "left" | "center";
   className?: string;
   titleClassName?: string;
+  subHeadingClassName?: string;
   descriptionClassName?: string;
 }
 
@@ -17,7 +18,8 @@ export function SectionHeader({
   align = "center",
   className = "",
   titleClassName = "",
-  descriptionClassName = "text-gray-500",
+  subHeadingClassName = "",
+  descriptionClassName = "text-xmas-ink/60",
 }: SectionHeaderProps) {
   return (
     <div
@@ -26,12 +28,14 @@ export function SectionHeader({
       } ${className}`}
     >
       {subHeading && (
-        <h4 className="text-[#E53935] text-xs md:text-sm font-bold uppercase tracking-[0.2em] mb-3">
+        <h4 className={`inline-flex items-center gap-2 text-xmas-red text-xs md:text-sm font-bold uppercase tracking-[0.2em] mb-3 ${subHeadingClassName}`}>
+          <span aria-hidden="true" className="text-xmas-gold-deep">✦</span>
           {subHeading}
+          <span aria-hidden="true" className="text-xmas-gold-deep">✦</span>
         </h4>
       )}
       <h2
-        className={`text-3xl md:text-5xl font-display font-black tracking-tight text-yoode-onyx ${
+        className={`text-3xl md:text-5xl font-display font-black tracking-tight text-xmas-ink ${
           description ? "mb-4 md:mb-6" : ""
         } ${titleClassName}`}
       >

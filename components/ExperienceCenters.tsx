@@ -96,8 +96,8 @@ export function ExperienceCenters({
         <div
           onMouseEnter={() => setActiveId(center.id)}
           onMouseLeave={() => setActiveId(null)}
-          className={`absolute ${isBottom ? 'bottom-0' : 'top-0'} left-0 w-full p-4 md:p-5 rounded-2xl border transition-all duration-300 cursor-pointer bg-white flex flex-col
-            ${isActive ? 'border-blue-500 shadow-2xl z-[100] scale-[1.05]' : 'border-gray-200 hover:border-blue-300 hover:shadow-lg z-20'}`}
+          className={`absolute ${isBottom ? 'bottom-0' : 'top-0'} left-0 w-full p-4 md:p-5 rounded-2xl border transition-all duration-300 cursor-pointer bg-xmas-snow flex flex-col
+            ${isActive ? 'border-xmas-red shadow-2xl shadow-xmas-red/15 z-[100] scale-[1.05]' : 'border-xmas-gold-deep/25 hover:border-xmas-red/40 hover:shadow-lg z-20'}`}
         >
           {isBottom && (
             <AnimatePresence>
@@ -122,27 +122,27 @@ export function ExperienceCenters({
 
           <div className="flex flex-col relative z-10">
             <div className="flex items-start justify-between mb-2">
-              <div className="bg-blue-50 text-blue-600 p-2 rounded-xl">
+              <div className="bg-xmas-blush text-xmas-red p-2 rounded-xl">
                 {center.isComingSoon ? <HardHat size={20} /> : <MapPin size={20} />}
               </div>
               {center.isComingSoon ? (
-                <span className="bg-amber-100 text-amber-700 text-[10px] font-bold px-2 py-0.5 rounded-sm uppercase tracking-wider">
+                <span className="bg-xmas-gold/25 text-xmas-gold-deep text-[10px] font-bold px-2 py-0.5 rounded-sm uppercase tracking-wider">
                   Coming Soon
                 </span>
               ) : (
-                <span className="bg-green-100 text-green-700 text-[10px] font-bold px-2 py-0.5 rounded-sm uppercase tracking-wider">
+                <span className="bg-xmas-frost text-xmas-green text-[10px] font-bold px-2 py-0.5 rounded-sm uppercase tracking-wider">
                   Open Now
                 </span>
               )}
             </div>
 
-            <h3 className={`text-xl font-bold mt-2 ${isActive ? 'text-blue-600' : 'text-yoode-onyx'}`}>
+            <h3 className={`text-xl font-bold mt-2 ${isActive ? 'text-xmas-red' : 'text-xmas-ink'}`}>
               {center.city}
             </h3>
-            <p className="text-gray-500 text-sm font-medium mb-3">{center.state}</p>
+            <p className="text-xmas-green text-sm font-medium mb-3">{center.state}</p>
 
             {!center.isComingSoon && (
-              <p className="text-xs text-gray-600 leading-relaxed mb-1 flex-grow">
+              <p className="text-xs text-xmas-ink/65 leading-relaxed mb-1 flex-grow">
                 {center.address}
               </p>
             )}
@@ -174,7 +174,7 @@ export function ExperienceCenters({
   };
 
   return (
-    <section id={id} className={`w-full bg-[#F8FAFC] py-16 md:py-20 relative overflow-hidden ${className}`}>
+    <section id={id} className={`w-full bg-xmas-frost xmas-pattern-light py-16 md:py-20 relative overflow-hidden ${className}`}>
       <div className="w-full max-w-6xl mx-auto px-6 md:px-8 flex flex-col items-center">
 
         {/* Header */}
@@ -202,7 +202,7 @@ export function ExperienceCenters({
             >
               <defs>
                 <pattern id="dotPattern3" x="0" y="0" width="8" height="8" patternUnits="userSpaceOnUse">
-                  <circle cx="2" cy="2" r="1.5" fill="#CBD5E1" className="opacity-60" />
+                  <circle cx="2" cy="2" r="1.5" fill="#9DBBA7" className="opacity-60" />
                 </pattern>
                 <mask id="indiaMask3">
                   {IndiaMap.locations.map((location: any) => (
@@ -220,7 +220,7 @@ export function ExperienceCenters({
 
               {/* Stroke */}
               {IndiaMap.locations.map((location: any) => (
-                <path key={`stroke-${location.id}`} d={location.path} fill="none" stroke="#64748B" strokeWidth="0.8" className="opacity-50" />
+                <path key={`stroke-${location.id}`} d={location.path} fill="none" stroke="#1F5C3F" strokeWidth="0.8" className="opacity-50" />
               ))}
               {/* Connecting Lines for ALL Items */}
               {allCenters.map((center, index) => {
@@ -246,7 +246,7 @@ export function ExperienceCenters({
                     key={`line-${center.id}`}
                     d={pathData}
                     fill="none"
-                    stroke={isHovered ? "#3B82F6" : "#94A3B8"}
+                    stroke={isHovered ? "#B3141B" : "#C9962E"}
                     strokeWidth={isHovered ? "2.5" : "1.5"}
                     strokeDasharray="4 4"
                     className={`transition-all duration-300 ${isHovered ? "animate-pulse" : "opacity-80"}`}
@@ -269,14 +269,14 @@ export function ExperienceCenters({
                       onMouseEnter={() => setActiveId(center.id)}
                       onMouseLeave={() => setActiveId(null)}
                     >
-                      {isActive && <span className="absolute inset-0 rounded-full bg-blue-500 opacity-40 animate-ping" />}
+                      {isActive && <span className="absolute inset-0 rounded-full bg-xmas-red opacity-40 animate-ping" />}
 
                       {center.isComingSoon ? (
-                        <div className={`w-6 h-6 rounded-full flex items-center justify-center shadow-lg border-2 border-white z-10 transition-colors ${isActive ? 'bg-amber-500' : 'bg-amber-400'}`}>
+                        <div className={`w-6 h-6 rounded-full flex items-center justify-center shadow-lg border-2 border-white z-10 transition-colors ${isActive ? 'bg-xmas-gold-deep' : 'bg-xmas-gold'}`}>
                           <HardHat size={12} className="text-white" />
                         </div>
                       ) : (
-                        <span className={`absolute w-4 h-4 rounded-full shadow-lg border-2 border-white z-10 transition-colors ${isActive ? 'bg-blue-600' : 'bg-gray-800'}`} />
+                        <span className={`absolute w-4 h-4 rounded-full shadow-lg border-2 border-white z-10 transition-colors ${isActive ? 'bg-xmas-red' : 'bg-xmas-green'}`} />
                       )}
 
                       {/* Tooltip on marker hover (shows on small screens mostly or as extra indicator) */}
@@ -286,10 +286,10 @@ export function ExperienceCenters({
                             initial={{ opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: 10 }}
-                            className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 bg-yoode-onyx text-white text-xs font-bold px-3 py-1.5 rounded whitespace-nowrap shadow-xl"
+                            className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 bg-xmas-red text-white text-xs font-bold px-3 py-1.5 rounded whitespace-nowrap shadow-xl"
                           >
                             {center.city}
-                            <div className="absolute top-full left-1/2 -translate-x-1/2 w-2 h-2 bg-yoode-onyx transform rotate-45 -mt-1" />
+                            <div className="absolute top-full left-1/2 -translate-x-1/2 w-2 h-2 bg-xmas-red transform rotate-45 -mt-1" />
                           </motion.div>
                         )}
                       </AnimatePresence>

@@ -118,49 +118,49 @@ const testimonials: Testimonial[] = [
 
 const themeStyles = {
   purple: {
-    bg: "bg-[#7A60EC]",
+    bg: "bg-xmas-red",
     text: "text-white",
     subtext: "text-white/70",
-    starFill: "fill-yellow-400 text-yellow-400",
-    starEmpty: "fill-transparent text-yellow-400/50",
-    badge: "bg-white/10 text-white/90",
-    avatar: "bg-[#1C1C1E] text-white"
+    starFill: "fill-xmas-gold text-xmas-gold",
+    starEmpty: "fill-transparent text-xmas-gold/50",
+    badge: "bg-white/15 text-white/90",
+    avatar: "bg-xmas-gold text-xmas-ink"
   },
   white: {
-    bg: "bg-white",
-    text: "text-[#1C1C1E]",
-    subtext: "text-[#1C1C1E]/60",
-    starFill: "fill-[#F59E0B] text-[#F59E0B]", // amber-500
-    starEmpty: "fill-transparent text-[#F59E0B]/30",
-    badge: "bg-[#1C1C1E]/5 text-[#1C1C1E]/70",
-    avatar: "bg-[#1C1C1E] text-white"
+    bg: "bg-xmas-snow",
+    text: "text-xmas-ink",
+    subtext: "text-xmas-ink/60",
+    starFill: "fill-xmas-red text-xmas-red",
+    starEmpty: "fill-transparent text-xmas-red/30",
+    badge: "bg-xmas-red/10 text-xmas-red",
+    avatar: "bg-xmas-red text-white"
   },
   lime: {
-    bg: "bg-[#C0EA4F]",
-    text: "text-[#1C1C1E]",
-    subtext: "text-[#1C1C1E]/60",
-    starFill: "fill-[#1C1C1E] text-[#1C1C1E]", // Black on lime for visibility
-    starEmpty: "fill-transparent text-[#1C1C1E]/30",
-    badge: "bg-[#1C1C1E]/5 text-[#1C1C1E]/70",
-    avatar: "bg-[#1C1C1E] text-white"
+    bg: "bg-xmas-green",
+    text: "text-white",
+    subtext: "text-white/65",
+    starFill: "fill-xmas-gold text-xmas-gold",
+    starEmpty: "fill-transparent text-xmas-gold/45",
+    badge: "bg-white/12 text-white/85",
+    avatar: "bg-xmas-snow text-xmas-green"
   },
   dark: {
-    bg: "bg-[#1C1C1E]",
+    bg: "bg-xmas-forest",
     text: "text-white",
     subtext: "text-white/60",
-    starFill: "fill-yellow-400 text-yellow-400",
-    starEmpty: "fill-transparent text-yellow-400/50",
+    starFill: "fill-xmas-gold text-xmas-gold",
+    starEmpty: "fill-transparent text-xmas-gold/50",
     badge: "bg-white/10 text-white/70",
-    avatar: "bg-white text-[#1C1C1E]"
+    avatar: "bg-xmas-red text-white"
   },
   beige: {
-    bg: "bg-[#F0E3D1]",
-    text: "text-[#1C1C1E]",
-    subtext: "text-[#1C1C1E]/60",
-    starFill: "fill-[#D97706] text-[#D97706]", // amber-600
-    starEmpty: "fill-transparent text-[#D97706]/30",
-    badge: "bg-[#1C1C1E]/5 text-[#1C1C1E]/70",
-    avatar: "bg-[#1C1C1E] text-white"
+    bg: "bg-xmas-gold",
+    text: "text-xmas-ink",
+    subtext: "text-xmas-ink/60",
+    starFill: "fill-xmas-crimson text-xmas-crimson",
+    starEmpty: "fill-transparent text-xmas-crimson/30",
+    badge: "bg-xmas-ink/10 text-xmas-ink/75",
+    avatar: "bg-xmas-pine text-white"
   }
 };
 
@@ -180,7 +180,7 @@ export function Testimonials() {
   }, [animate, scope]);
 
   return (
-    <section className="w-full bg-[#e4d7bd] py-20 md:py-32 overflow-hidden flex flex-col items-center">
+    <section className="w-full bg-xmas-parchment xmas-pattern-light py-20 md:py-32 overflow-hidden flex flex-col items-center">
 
       {/* Header Area */}
       <SectionHeader
@@ -205,7 +205,7 @@ export function Testimonials() {
             return (
               <div
                 key={`testimonial-${idx}`}
-                className={`${style.bg} w-[280px] md:w-[320px] shrink-0 rounded-[28px] p-6 md:p-8 shadow-xl shadow-black/5 flex flex-col justify-between ${t.rotation} transition-transform duration-500 hover:scale-105 relative overflow-hidden group`}
+                className={`${style.bg} w-[280px] md:w-[320px] shrink-0 rounded-[28px] p-6 md:p-8 shadow-xl shadow-xmas-crimson/10 flex flex-col justify-between ${t.rotation} transition-transform duration-500 hover:scale-105 relative overflow-hidden group`}
               >
                 {/* Subtle glass highlight in top right */}
                 <div className="absolute top-0 right-0 w-48 h-48 bg-white/20 blur-3xl rounded-full translate-x-1/3 -translate-y-1/3 group-hover:bg-white/30 transition-all duration-700 pointer-events-none"></div>

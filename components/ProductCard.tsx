@@ -87,12 +87,12 @@ export function ProductCard({ product }: { product: Product }) {
   return (
     <div 
       onClick={() => router.push('/products/womens-polo')}
-      className={`bg-white rounded-[28px] p-3 shadow-sm hover:shadow-md transition-shadow cursor-pointer group flex ${isList ? 'flex-col sm:flex-row gap-5 md:gap-8 items-center pr-6' : 'flex-col gap-3'}`}
+      className={`bg-xmas-snow rounded-[28px] p-3 shadow-sm hover:shadow-md ring-1 ring-xmas-gold-deep/15 transition-shadow cursor-pointer group flex ${isList ? 'flex-col sm:flex-row gap-5 md:gap-8 items-center pr-6' : 'flex-col gap-3'}`}
     >
       {/* Image Container */}
       <div className={`relative rounded-[20px] group overflow-hidden shrink-0 ${isList ? 'w-full sm:w-[240px] h-[240px]' : 'aspect-square md:aspect-[4/5] w-full'}`}>
         {/* Clipped Background & Image Layer */}
-        <div className="absolute inset-0 bg-gray-100 rounded-[20px] overflow-hidden">
+        <div className="absolute inset-0 bg-xmas-parchment rounded-[20px] overflow-hidden">
           <img
             src={product.image}
             alt={product.name}
@@ -103,10 +103,10 @@ export function ProductCard({ product }: { product: Product }) {
 
         {/* Top Badges (Unclipped) */}
         <div className="absolute top-2 left-2 md:top-3 md:left-3 flex flex-col sm:flex-row gap-1.5 md:gap-2">
-          <div className="bg-[#2D2B2A] text-white text-[9px] md:text-[11px] font-semibold px-2 md:px-2.5 py-0.5 md:py-1 rounded-md md:rounded-lg w-max">
+          <div className="bg-xmas-red text-white text-[9px] md:text-[11px] font-semibold px-2 md:px-2.5 py-0.5 md:py-1 rounded-md md:rounded-lg w-max">
             {product.discount}
           </div>
-          <div className="bg-white/90 backdrop-blur-sm text-yoode-onyx text-[9px] md:text-[11px] font-semibold px-2 md:px-2.5 py-0.5 md:py-1 rounded-md md:rounded-lg shadow-sm w-max hidden sm:block">
+          <div className="bg-white/90 backdrop-blur-sm text-xmas-pine text-[9px] md:text-[11px] font-semibold px-2 md:px-2.5 py-0.5 md:py-1 rounded-md md:rounded-lg shadow-sm w-max hidden sm:block">
             {product.variant}
           </div>
         </div>
@@ -120,7 +120,7 @@ export function ProductCard({ product }: { product: Product }) {
 
           {/* Rating Panel */}
           <div className="bg-white/95 backdrop-blur-md rounded-xl h-11 px-3 shadow-sm flex flex-col items-center justify-center shrink-0">
-            <Star className="w-3 h-3 text-yellow-500 fill-yellow-500 mb-0.5" />
+            <Star className="w-3 h-3 text-xmas-gold-deep fill-xmas-gold mb-0.5" />
             <span className="text-[11px] font-bold leading-none">{product.rating}</span>
           </div>
 
@@ -131,7 +131,7 @@ export function ProductCard({ product }: { product: Product }) {
             onClick={(e) => e.stopPropagation()}
             className="bg-white/95 hover:bg-white backdrop-blur-md rounded-xl h-11 w-11 flex items-center justify-center shadow-sm transition-colors shrink-0 hidden sm:flex group/btn"
           >
-            <Heart className="w-4 h-4 text-gray-600 group-hover/btn:text-red-500 transition-colors" />
+            <Heart className="w-4 h-4 text-gray-600 group-hover/btn:text-xmas-red transition-colors" />
           </button>
           {!isList && (
             <button 
@@ -139,7 +139,7 @@ export function ProductCard({ product }: { product: Product }) {
               onClick={(e) => e.stopPropagation()}
               className="bg-white/95 hover:bg-white backdrop-blur-md rounded-xl h-11 w-11 flex items-center justify-center shadow-sm transition-colors shrink-0 group/btn"
             >
-              <ShoppingBag className="w-4 h-4 text-gray-600 group-hover/btn:text-yoode-onyx transition-colors" />
+              <ShoppingBag className="w-4 h-4 text-gray-600 group-hover/btn:text-xmas-green transition-colors" />
             </button>
           )}
         </div>
@@ -148,8 +148,8 @@ export function ProductCard({ product }: { product: Product }) {
       {/* Text Area */}
       <div className={`flex ${isList ? 'flex-col sm:flex-row justify-between w-full h-full py-4' : 'justify-between items-start px-2 pt-2 pb-2'}`}>
         <div className={`flex flex-col gap-1 flex-1 pr-3 ${isList ? 'justify-center' : ''}`}>
-          <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">{product.brand}</span>
-          <h3 className={`font-bold text-yoode-onyx ${isList ? 'text-xl md:text-2xl mt-1 mb-2' : 'text-[15px] leading-tight'}`}>{product.name}</h3>
+          <span className="text-[10px] font-bold text-xmas-green uppercase tracking-wider">{product.brand}</span>
+          <h3 className={`font-bold text-xmas-ink ${isList ? 'text-xl md:text-2xl mt-1 mb-2' : 'text-[15px] leading-tight'}`}>{product.name}</h3>
           
           {isList && (
             <div className="flex flex-col gap-2 mt-2">
@@ -173,7 +173,7 @@ export function ProductCard({ product }: { product: Product }) {
 
         <div className={`flex flex-col shrink-0 ${isList ? 'items-start sm:items-end justify-center mt-6 sm:mt-0 sm:ml-6' : 'items-end'}`}>
           <span className={`font-medium text-gray-400 line-through decoration-gray-300 ${isList ? 'text-sm' : 'text-[12px]'}`}>{product.originalPrice}</span>
-          <span className={`font-bold text-yoode-onyx ${isList ? 'text-2xl' : 'text-[17px]'}`}>{product.price}</span>
+          <span className={`font-bold text-xmas-red ${isList ? 'text-2xl' : 'text-[17px]'}`}>{product.price}</span>
           
           {isList && (
             <div className="flex items-center gap-3 mt-6">

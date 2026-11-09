@@ -40,7 +40,7 @@ export function PromoModal() {
         </button>
 
         {/* Left Side (Image & Offer) */}
-        <div className="relative w-full md:w-[45%] h-64 md:h-full shrink-0 bg-[#111] overflow-hidden">
+        <div className="relative w-full md:w-[45%] h-64 md:h-full shrink-0 bg-xmas-pine overflow-hidden">
           {/* Background Image */}
           <Image 
             src="/tshirts-promo.jpg" 
@@ -48,14 +48,14 @@ export function PromoModal() {
             fill 
             className="object-cover opacity-60 mix-blend-screen"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-xmas-forest/90 via-xmas-crimson/40 to-transparent" />
           
           <div className="absolute inset-0 flex flex-col justify-between p-8 md:p-10 z-10 pointer-events-none">
             <div className="mt-4 md:mt-8">
               <h2 className="text-white font-black text-6xl md:text-[80px] leading-[0.85] uppercase tracking-tighter">
                 Want
               </h2>
-              <h2 className="text-[#FFD600] font-black text-6xl md:text-[80px] leading-[0.85] uppercase tracking-tighter mt-1">
+              <h2 className="text-xmas-gold font-black text-6xl md:text-[80px] leading-[0.85] uppercase tracking-tighter mt-1">
                 20%<br/>Off
               </h2>
             </div>
@@ -67,7 +67,7 @@ export function PromoModal() {
         </div>
 
         {/* Right Side (Form) */}
-        <div className="w-full md:w-[55%] bg-white p-6 md:p-12 flex flex-col justify-center relative shrink-0">
+        <div className="w-full md:w-[55%] bg-xmas-snow p-6 md:p-12 flex flex-col justify-center relative shrink-0">
           <div className="max-w-sm w-full mx-auto space-y-5 md:space-y-8 mt-2 md:mt-0">
             
             {/* Input Group */}
@@ -84,7 +84,7 @@ export function PromoModal() {
                 <input 
                   type="tel" 
                   placeholder="Enter Mobile Number"
-                  className="w-full px-4 py-3 md:py-4 bg-white border border-gray-200 rounded-lg text-gray-900 focus:outline-none focus:border-gray-400 focus:ring-1 focus:ring-gray-400 transition-all placeholder:text-gray-400"
+                  className="w-full px-4 py-3 md:py-4 bg-white border border-gray-200 rounded-lg text-gray-900 focus:outline-none focus:border-xmas-red focus:ring-1 focus:ring-xmas-red/40 transition-all placeholder:text-gray-400"
                 />
               </div>
             </div>
@@ -93,7 +93,7 @@ export function PromoModal() {
             <label className="flex items-start gap-3 cursor-pointer group">
               <div className="relative flex items-center justify-center shrink-0 mt-0.5">
                 <input type="checkbox" className="peer sr-only cursor-pointer" defaultChecked />
-                <div className="w-5 h-5 rounded-[4px] border-2 border-[#6B7280] peer-checked:bg-[#6B7280] peer-checked:border-[#6B7280] transition-colors" />
+                <div className="w-5 h-5 rounded-[4px] border-2 border-xmas-green peer-checked:bg-xmas-green peer-checked:border-xmas-green transition-colors" />
                 <svg className="absolute w-3 h-3 text-white opacity-0 peer-checked:opacity-100 transition-opacity pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                 </svg>
@@ -104,7 +104,7 @@ export function PromoModal() {
             </label>
 
             {/* Submit Button */}
-            <button className="w-full py-3.5 md:py-4 bg-[#6B7280] hover:bg-[#4B5563] text-white font-semibold text-lg rounded-lg shadow-sm hover:shadow transition-all active:scale-[0.98] cursor-pointer">
+            <button className="w-full py-3.5 md:py-4 bg-xmas-red hover:bg-xmas-crimson text-white font-semibold text-lg rounded-lg shadow-sm hover:shadow transition-all active:scale-[0.98] cursor-pointer">
               Submit
             </button>
 

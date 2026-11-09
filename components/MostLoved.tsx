@@ -59,7 +59,9 @@ const products = [
 
 export function MostLoved() {
   return (
-    <section className="py-12 md:py-16 bg-[#FAF9F7] text-yoode-onyx overflow-hidden relative" id="most-loved">
+    <section className="py-12 md:py-16 bg-xmas-pine text-xmas-snow overflow-hidden relative" id="most-loved">
+      <div aria-hidden="true" className="absolute inset-0 xmas-snow-dots opacity-30 pointer-events-none" />
+      <div aria-hidden="true" className="absolute -top-32 right-0 w-[500px] h-[400px] bg-xmas-red/25 blur-3xl rounded-full pointer-events-none" />
       <div className="max-w-[1600px] mx-auto px-6 md:px-12 relative z-10">
         
         {/* ── Header Layout ── */}
@@ -72,13 +74,16 @@ export function MostLoved() {
             description="The iconic pieces that define our standard. Customised exactly the way you need. These are the products our customers come back for again and again."
             align="left"
             className="mb-0 max-w-3xl lg:mb-0"
+            subHeadingClassName="!text-xmas-gold"
+            titleClassName="!text-xmas-snow"
+            descriptionClassName="text-xmas-snow/75"
           />
 
           {/* Call to Action */}
           <div className="max-w-md lg:pb-2">
-            <button className="group flex items-center gap-4 text-[12px] font-bold uppercase tracking-[0.2em] text-yoode-onyx hover:text-gray-600 transition-colors">
+            <button className="group flex items-center gap-4 text-[12px] font-bold uppercase tracking-[0.2em] text-xmas-snow hover:text-xmas-gold transition-colors">
               Shop The Collection
-              <div className="w-12 h-12 rounded-full border border-yoode-onyx/10 flex items-center justify-center group-hover:border-yoode-onyx/30 group-hover:bg-yoode-onyx group-hover:text-white transition-all duration-300">
+              <div className="w-12 h-12 rounded-full border border-xmas-gold/40 flex items-center justify-center group-hover:border-xmas-gold group-hover:bg-xmas-gold group-hover:text-xmas-ink transition-all duration-300">
                 <ArrowRight className="w-4 h-4" />
               </div>
             </button>
@@ -90,7 +95,7 @@ export function MostLoved() {
       {/* ── BOTTOM: Horizontally Scrollable Cards ── */}
       <div className="w-full relative">
         {/* Right-edge fade */}
-        <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-[#FAF9F7] to-transparent z-10 pointer-events-none hidden md:block" />
+        <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-xmas-pine to-transparent z-10 pointer-events-none hidden md:block" />
 
         <div
           className="flex gap-6 overflow-x-auto snap-x snap-mandatory px-6 md:px-12 md:justify-center pb-12 pt-8 w-full max-w-[1600px] mx-auto cursor-grab active:cursor-grabbing"
@@ -103,7 +108,7 @@ export function MostLoved() {
               style={{ width: "clamp(220px, 22vw, 280px)" }}
             >
               {/* Rank Badge */}
-              <div className="absolute -top-4 -left-4 w-11 h-11 bg-yoode-onyx text-white rounded-full flex items-center justify-center font-bold text-sm z-20 shadow-lg shadow-yoode-onyx/20 border-[3px] border-white group-hover:scale-110 transition-transform duration-500">
+              <div className="absolute -top-4 -left-4 w-11 h-11 bg-xmas-red text-white rounded-full flex items-center justify-center font-bold text-sm z-20 shadow-lg shadow-black/30 border-[3px] border-xmas-gold group-hover:scale-110 transition-transform duration-500">
                 #{index + 1}
               </div>
 

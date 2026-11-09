@@ -41,37 +41,37 @@ export function Faq() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
-    <section className="py-20 md:py-28 bg-[#F9FAFB] font-sans">
+    <section className="py-20 md:py-28 bg-xmas-cream xmas-pattern-light font-sans">
       <div className="max-w-[1200px] mx-auto px-6 md:px-12">
 
         {/* Header: Giant FAQ + subtitle */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-6 md:mb-10 gap-4">
           <h2
-            className="text-[100px] sm:text-[130px] md:text-[160px] font-black leading-none tracking-tighter text-yoode-onyx select-none"
+            className="text-[100px] sm:text-[130px] md:text-[160px] font-black leading-none tracking-tighter text-xmas-pine select-none"
           >
             FAQ
           </h2>
-          <p className="text-[11px] font-semibold tracking-[0.18em] uppercase text-gray-400 md:mb-8 md:text-right">
+          <p className="text-[11px] font-semibold tracking-[0.18em] uppercase text-xmas-red md:mb-8 md:text-right">
             Answers to your questions
           </p>
         </div>
 
         {/* Top Divider */}
-        <div className="w-full h-px bg-gray-200" />
+        <div className="w-full h-[3px] rounded-full xmas-candy-stripe opacity-70" />
 
         {/* Accordion List */}
         <div className="flex flex-col">
           {faqs.map((faq, index) => {
             const isOpen = openIndex === index;
             return (
-              <div key={index} className="border-b border-gray-200">
+              <div key={index} className="border-b border-xmas-gold-deep/25">
                 {/* Row */}
                 <button
                   className="w-full py-6 md:py-7 flex items-center gap-5 md:gap-8 text-left group focus:outline-none"
                   onClick={() => setOpenIndex(isOpen ? null : index)}
                 >
                   {/* Plus Icon — rotates to × when open */}
-                  <span className="flex-shrink-0 w-8 h-8 flex items-center justify-center text-gray-400 group-hover:text-yoode-onyx transition-colors duration-300">
+                  <span className="flex-shrink-0 w-8 h-8 flex items-center justify-center text-xmas-green group-hover:text-xmas-red transition-colors duration-300">
                     <motion.div
                       animate={{ rotate: isOpen ? 45 : 0 }}
                       transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
@@ -81,7 +81,7 @@ export function Faq() {
                   </span>
 
                   {/* Question */}
-                  <span className="flex-1 text-base md:text-lg font-semibold text-yoode-onyx leading-snug group-hover:text-black transition-colors duration-300">
+                  <span className="flex-1 text-base md:text-lg font-semibold text-xmas-ink leading-snug group-hover:text-xmas-red transition-colors duration-300">
                     {faq.question}
                   </span>
 
@@ -89,8 +89,8 @@ export function Faq() {
                   <span
                     className={`flex-shrink-0 w-9 h-9 rounded-full flex items-center justify-center transition-all duration-300 ${
                       isOpen
-                        ? "bg-[#E53935] text-white"
-                        : "bg-white text-[#E53935] border border-[#E53935]/20 group-hover:bg-[#E53935] group-hover:text-white"
+                        ? "bg-xmas-red text-white"
+                        : "bg-xmas-snow text-xmas-red border border-xmas-red/20 group-hover:bg-xmas-red group-hover:text-white"
                     }`}
                   >
                     <ArrowUpRight className="w-4 h-4" strokeWidth={2} />
@@ -108,7 +108,7 @@ export function Faq() {
                       transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
                       className="overflow-hidden"
                     >
-                      <p className="pl-[52px] md:pl-[72px] pr-16 pb-7 text-[14px] md:text-[15px] text-gray-500 leading-relaxed">
+                      <p className="pl-[52px] md:pl-[72px] pr-16 pb-7 text-[14px] md:text-[15px] text-xmas-ink/60 leading-relaxed">
                         {faq.answer}
                       </p>
                     </motion.div>
@@ -121,10 +121,10 @@ export function Faq() {
 
         {/* Bottom CTA */}
         <div className="mt-12 flex items-center gap-4">
-          <span className="text-sm text-gray-400">Still have questions?</span>
+          <span className="text-sm text-xmas-ink/50">Still have questions?</span>
           <a
             href="mailto:hello@yoode.in"
-            className="text-sm font-bold text-[#E53935] underline underline-offset-4 hover:opacity-70 transition-opacity duration-200"
+            className="text-sm font-bold text-xmas-red underline underline-offset-4 hover:opacity-70 transition-opacity duration-200"
           >
             Get in touch →
           </a>

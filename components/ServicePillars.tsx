@@ -54,9 +54,11 @@ export function ServicePillars() {
   const [activeIndex, setActiveIndex] = useState(0);
 
   return (
-    <section className="py-12 md:py-16 px-4 md:px-12 bg-[#F6F5F2] overflow-hidden relative" id="services">
+    <section className="py-12 md:py-16 px-4 md:px-12 bg-xmas-crimson overflow-hidden relative" id="services">
       {/* Soft gradient background similar to image 1 */}
-      <div className="absolute top-0 left-1/4 w-full h-[500px] bg-gradient-to-b from-[#E7D6C9]/40 to-transparent -rotate-12 blur-3xl pointer-events-none" />
+      <div className="absolute top-0 left-1/4 w-full h-[500px] bg-gradient-to-b from-xmas-gold/20 to-transparent -rotate-12 blur-3xl pointer-events-none" />
+      <div className="absolute -bottom-40 -left-20 w-[600px] h-[400px] bg-xmas-pine/50 blur-3xl rounded-full pointer-events-none" />
+      <div className="absolute inset-0 xmas-snow-dots opacity-25 pointer-events-none" />
       
       <div className="max-w-[1600px] mx-auto relative z-10">
         
@@ -68,12 +70,15 @@ export function ServicePillars() {
             description="Every print, every order over the past 18 years, Yoode has poured heart and soul into each one, with unwavering pride in delivering exceptional quality that brings your brand's vision to life."
             align="left"
             className="mb-0 max-w-3xl lg:mb-0"
+            subHeadingClassName="!text-xmas-gold"
+            titleClassName="!text-xmas-snow"
+            descriptionClassName="text-xmas-snow/75"
           />
 
           <div className="max-w-md lg:pb-2 w-full lg:w-auto">
-            <Link href="/services" className="inline-flex items-center justify-between lg:justify-start w-full lg:w-auto gap-4 px-6 py-3 rounded-full bg-[#E5CDC0] hover:bg-[#d8c1b4] transition-colors font-semibold text-yoode-onyx shadow-sm group cursor-pointer">
+            <Link href="/services" className="inline-flex items-center justify-between lg:justify-start w-full lg:w-auto gap-4 px-6 py-3 rounded-full bg-xmas-gold hover:bg-[#F6D27A] transition-colors font-semibold text-xmas-ink shadow-sm group cursor-pointer">
               Continue exploring
-              <span className="w-10 h-10 rounded-full bg-yoode-onyx text-white flex items-center justify-center group-hover:scale-105 transition-transform">
+              <span className="w-10 h-10 rounded-full bg-xmas-pine text-white flex items-center justify-center group-hover:scale-105 transition-transform">
                 <ArrowUpRight size={18} />
               </span>
             </Link>
@@ -107,14 +112,14 @@ export function ServicePillars() {
                 />
                 
                 {/* Overlays for contrast */}
-                <div className={`absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent transition-opacity duration-700 ${isActive ? "opacity-100" : "opacity-40"}`} />
-                <div className={`absolute inset-0 bg-black/50 transition-opacity duration-700 ${isActive ? "opacity-0" : "opacity-100 group-hover:opacity-50"}`} />
+                <div className={`absolute inset-0 bg-gradient-to-t from-xmas-forest/90 via-xmas-forest/30 to-transparent transition-opacity duration-700 ${isActive ? "opacity-100" : "opacity-40"}`} />
+                <div className={`absolute inset-0 bg-xmas-wine/60 transition-opacity duration-700 ${isActive ? "opacity-0" : "opacity-100 group-hover:opacity-50"}`} />
                 
                 {/* Active Card Content */}
                 <div className={`absolute inset-0 p-4 md:p-6 flex flex-col justify-end transition-all duration-500 delay-100 ${isActive ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
                   <Link 
                     href={service.href}
-                    className="absolute top-3 right-3 md:top-4 md:right-4 w-8 h-8 md:w-10 md:h-10 rounded-full border border-white/30 backdrop-blur-md flex items-center justify-center text-white bg-black/20 group-hover:bg-white group-hover:text-black transition-colors cursor-pointer z-20"
+                    className="absolute top-3 right-3 md:top-4 md:right-4 w-8 h-8 md:w-10 md:h-10 rounded-full border border-white/30 backdrop-blur-md flex items-center justify-center text-white bg-black/20 group-hover:bg-xmas-gold group-hover:text-xmas-ink transition-colors cursor-pointer z-20"
                     aria-label={`Explore ${service.title}`}
                   >
                     <ArrowUpRight size={18} className="md:w-5 md:h-5" />
@@ -124,7 +129,7 @@ export function ServicePillars() {
                   </h3>
                   <Link
                     href={service.href}
-                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white text-yoode-onyx font-bold text-xs md:text-sm hover:bg-slate-100 hover:scale-105 active:scale-95 transition-all shadow-lg w-max z-20 mt-1"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-xmas-gold text-xmas-ink font-bold text-xs md:text-sm hover:bg-[#F6D27A] hover:scale-105 active:scale-95 transition-all shadow-lg w-max z-20 mt-1"
                   >
                     Explore More <ArrowUpRight size={16} />
                   </Link>

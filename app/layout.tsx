@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Poppins, Sora } from "next/font/google";
+import { Anton, Poppins, Sora } from "next/font/google";
 import "./globals.css";
 import { FeaturesBar } from "@/components/FeaturesBar";
 
@@ -12,6 +12,13 @@ const poppins = Poppins({
 const sora = Sora({
   variable: "--font-sora",
   subsets: ["latin"],
+});
+
+// Condensed poster face for the Christmas hero headline
+const anton = Anton({
+  variable: "--font-anton",
+  subsets: ["latin"],
+  weight: "400",
 });
 
 export const metadata: Metadata = {
@@ -27,7 +34,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${poppins.variable} ${sora.variable} h-full antialiased`}
+      className={`${poppins.variable} ${sora.variable} ${anton.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col font-sans overflow-x-hidden">
         <FeaturesBar />

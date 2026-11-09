@@ -36,7 +36,7 @@ export function Header() {
       <header
         className={`fixed top-[30px] md:top-[32px] left-0 w-full z-[130] transition-all duration-300 ${
           isDarkHeader
-            ? "bg-[#0b0c10]/95 backdrop-blur-md shadow-lg h-[44px] md:h-[48px] flex items-center text-white border-b border-white/10"
+            ? "bg-xmas-forest/95 backdrop-blur-md shadow-lg h-[44px] md:h-[48px] flex items-center text-white border-b border-xmas-gold/20"
             : "bg-transparent h-[44px] md:h-[48px] flex items-center text-white border-b border-transparent"
         }`}
       >
@@ -48,7 +48,7 @@ export function Header() {
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className={`w-8 h-8 md:w-8.5 md:h-8.5 flex items-center justify-center rounded-lg border transition-all duration-200 group cursor-pointer focus:outline-none ${
                 isMenuOpen
-                  ? "bg-[#E53935]/20 border-[#E53935] text-[#E53935] shadow-[0_0_15px_rgba(229,57,53,0.35)]"
+                  ? "bg-xmas-gold/20 border-xmas-gold text-xmas-gold shadow-[0_0_15px_rgba(242,193,78,0.35)]"
                   : "bg-white/[0.08] border-white/20 hover:bg-white/[0.16] hover:border-white/40 text-white shadow-sm"
               }`}
               aria-label="Toggle Mega Navigation Menu"
@@ -105,7 +105,7 @@ export function Header() {
             {/* Search */}
             <button
               onClick={() => setIsSearchOpen(true)}
-              className="flex items-center gap-1 hover:text-[#E53935] transition-colors p-1 cursor-pointer"
+              className="flex items-center gap-1 hover:text-xmas-gold transition-colors p-1 cursor-pointer"
               aria-label="Search"
             >
               <Search size={15} strokeWidth={2.2} />
@@ -115,7 +115,7 @@ export function Header() {
             {/* Log In */}
             <Link
               href="/#account"
-              className="hidden sm:flex items-center gap-1 hover:text-[#E53935] transition-colors p-1"
+              className="hidden sm:flex items-center gap-1 hover:text-xmas-gold transition-colors p-1"
             >
               <User size={15} strokeWidth={2.2} />
               <span className="font-bold tracking-wide">Log In</span>
@@ -124,12 +124,12 @@ export function Header() {
             {/* Cart with count badge & price */}
             <Link
               href="/#cart"
-              className="flex items-center gap-1.5 hover:text-[#E53935] transition-colors p-1"
+              className="flex items-center gap-1.5 hover:text-xmas-gold transition-colors p-1"
               aria-label="Shopping Cart"
             >
               <div className="relative">
                 <ShoppingBag size={16} strokeWidth={2.2} />
-                <span className="absolute -top-1.5 -right-1.5 bg-[#E53935] text-white text-[8px] font-black h-3.5 w-3.5 rounded-full flex items-center justify-center shadow-xs border border-white/20">
+                <span className="absolute -top-1.5 -right-1.5 bg-xmas-red text-white text-[8px] font-black h-3.5 w-3.5 rounded-full flex items-center justify-center shadow-xs border border-white/20">
                   0
                 </span>
               </div>

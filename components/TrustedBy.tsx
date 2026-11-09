@@ -31,7 +31,7 @@ export function TrustedBy() {
   const row2 = logos.slice(10);
 
   return (
-    <div className="w-full bg-[#FAF9F6] relative z-40 pt-16 pb-16 md:pt-20 md:pb-24 overflow-hidden shadow-[0_-10px_40px_rgba(0,0,0,0.03)] rounded-t-[40px] md:rounded-t-[60px] -mt-12 md:-mt-16">
+    <div className="w-full bg-xmas-cream relative z-40 pt-16 pb-16 md:pt-20 md:pb-24 overflow-hidden shadow-[0_-10px_40px_rgba(0,0,0,0.03)] rounded-t-[40px] md:rounded-t-[60px] -mt-12 md:-mt-16">
       <SectionHeader
         subHeading="Trusted By"
         title="Leading brands and teams across the country"
@@ -40,8 +40,8 @@ export function TrustedBy() {
 
       <div className="relative flex flex-col gap-10 md:gap-14 overflow-hidden">
         {/* Fading edges */}
-        <div className="absolute inset-y-0 left-0 w-16 md:w-48 bg-gradient-to-r from-[#FAF9F6] to-transparent z-10 pointer-events-none" />
-        <div className="absolute inset-y-0 right-0 w-16 md:w-48 bg-gradient-to-l from-[#FAF9F6] to-transparent z-10 pointer-events-none" />
+        <div className="absolute inset-y-0 left-0 w-16 md:w-48 bg-gradient-to-r from-xmas-cream to-transparent z-10 pointer-events-none" />
+        <div className="absolute inset-y-0 right-0 w-16 md:w-48 bg-gradient-to-l from-xmas-cream to-transparent z-10 pointer-events-none" />
 
         {/* Row 1 (Right to Left) */}
         <div className="flex w-full overflow-hidden group">
@@ -55,7 +55,7 @@ export function TrustedBy() {
                 key={`r1-a-${idx}`}
                 src={logo.src} 
                 alt={logo.alt} 
-                className="h-6 md:h-8 w-auto object-contain grayscale brightness-0 opacity-60 hover:opacity-100 transition-opacity duration-300 flex-shrink-0" 
+                className="h-6 md:h-8 w-auto object-contain grayscale brightness-0 opacity-50 hover:opacity-90 transition-opacity duration-300 flex-shrink-0" 
               />
             ))}
           </motion.div>
@@ -69,7 +69,7 @@ export function TrustedBy() {
                 key={`r1-b-${idx}`}
                 src={logo.src} 
                 alt={logo.alt} 
-                className="h-6 md:h-8 w-auto object-contain grayscale brightness-0 opacity-60 hover:opacity-100 transition-opacity duration-300 flex-shrink-0" 
+                className="h-6 md:h-8 w-auto object-contain grayscale brightness-0 opacity-50 hover:opacity-90 transition-opacity duration-300 flex-shrink-0" 
               />
             ))}
           </motion.div>
@@ -87,7 +87,7 @@ export function TrustedBy() {
                 key={`r2-a-${idx}`}
                 src={logo.src} 
                 alt={logo.alt} 
-                className="h-6 md:h-8 w-auto object-contain grayscale brightness-0 opacity-60 hover:opacity-100 transition-opacity duration-300 flex-shrink-0" 
+                className="h-6 md:h-8 w-auto object-contain grayscale brightness-0 opacity-50 hover:opacity-90 transition-opacity duration-300 flex-shrink-0" 
               />
             ))}
           </motion.div>
@@ -101,7 +101,7 @@ export function TrustedBy() {
                 key={`r2-b-${idx}`}
                 src={logo.src} 
                 alt={logo.alt} 
-                className="h-6 md:h-8 w-auto object-contain grayscale brightness-0 opacity-60 hover:opacity-100 transition-opacity duration-300 flex-shrink-0" 
+                className="h-6 md:h-8 w-auto object-contain grayscale brightness-0 opacity-50 hover:opacity-90 transition-opacity duration-300 flex-shrink-0" 
               />
             ))}
           </motion.div>

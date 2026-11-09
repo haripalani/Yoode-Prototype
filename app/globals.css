@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Bungee+Outline&family=Londrina+Outline&family=Kumar+One+Outline&display=swap');
 @import "tailwindcss";
 
 @theme inline {
@@ -7,11 +8,35 @@
   --color-yoode-offwhite: #F9FAFB;
   --font-sans: var(--font-poppins);
   --font-display: var(--font-sora);
+  --font-poster: var(--font-anton);
+  --font-outline: 'Bungee Outline', 'Londrina Outline', sans-serif;
+
+  /* --- Christmas palette --- */
+  --color-xmas-red: #B3141B;        /* Holly red (primary accent) */
+  --color-xmas-red-bright: #E0393F; /* Red for use on dark grounds */
+  --color-xmas-crimson: #831418;    /* Deep crimson */
+  --color-xmas-wine: #5C0F14;       /* Mulled wine */
+  --color-xmas-green: #1F5C3F;      /* Evergreen */
+  --color-xmas-pine: #123B28;       /* Pine */
+  --color-xmas-forest: #0B2117;     /* Night forest (darkest) */
+  --color-xmas-gold: #F2C14E;       /* Tinsel gold */
+  --color-xmas-gold-deep: #C9962E;  /* Antique gold */
+  --color-xmas-snow: #FFFDF8;       /* Fresh snow */
+  --color-xmas-cream: #FBF6EE;      /* Cream */
+  --color-xmas-parchment: #F3E9D7;  /* Parchment */
+  --color-xmas-frost: #E6EFE8;      /* Frosted pine */
+  --color-xmas-blush: #F7E4E0;      /* Candy blush */
+  --color-xmas-ink: #0F1F17;        /* Pine-black text */
 }
 
 :root {
-  --background: #FAFAFA;
-  --foreground: #111827;
+  --background: #FBF6EE;
+  --foreground: #0F1F17;
+}
+
+::selection {
+  background: #B3141B;
+  color: #FFFDF8;
 }
 
 html {
@@ -30,21 +55,47 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #FAFAFA;
+  background: #FBF6EE;
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #E53935; /* Yoode Coral */
+  background-color: #B3141B; /* Holly red */
   border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background-color: #C13828; /* Darker Coral */
+  background-color: #831418; /* Deep crimson */
 }
 
 html {
   scrollbar-width: thin;
-  scrollbar-color: #E53935 #FAFAFA;
+  scrollbar-color: #B3141B #FBF6EE;
+}
+
+/* --- Christmas decorative utilities --- */
+.xmas-candy-stripe {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    #B3141B 0 10px,
+    #FFFDF8 10px 20px,
+    #1F5C3F 20px 30px,
+    #FFFDF8 30px 40px
+  );
+}
+
+.xmas-snow-dots {
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.9) 0 1.5px, transparent 2px),
+    radial-gradient(circle at 70% 60%, rgba(255, 255, 255, 0.7) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 45% 85%, rgba(255, 255, 255, 0.8) 0 1.2px, transparent 1.8px);
+  background-size: 120px 120px, 90px 90px, 150px 150px;
+}
+
+.xmas-pattern-light {
+  background-image:
+    radial-gradient(circle at 25% 25%, rgba(179, 20, 27, 0.06) 0 2px, transparent 2.5px),
+    radial-gradient(circle at 75% 75%, rgba(31, 92, 63, 0.06) 0 2px, transparent 2.5px);
+  background-size: 48px 48px;
 }
 
 

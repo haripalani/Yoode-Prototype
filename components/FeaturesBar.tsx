@@ -12,23 +12,23 @@ export function FeaturesBar() {
 
   const features = [
     <span key="1" className="flex items-center gap-2">
-      <Box className="w-4 h-4 text-[#E53935]" />
+      <Box className="w-4 h-4 text-xmas-gold" />
       <strong>No minimum order</strong> <span className="opacity-70 mx-1">•</span> Choose your preferred look
     </span>,
     <span key="2" className="flex items-center gap-2">
-      <PaintBucket className="w-4 h-4 text-[#E53935]" />
+      <PaintBucket className="w-4 h-4 text-xmas-gold" />
       <strong>50+ colours</strong> <span className="opacity-70 mx-1">•</span> Bring your ideas to life
     </span>,
     <span key="3" className="flex items-center gap-2">
-      <Printer className="w-4 h-4 text-[#E53935]" />
+      <Printer className="w-4 h-4 text-xmas-gold" />
       <strong>Custom Printing</strong> <span className="opacity-70 mx-1">•</span> DTF · DTG · Embroidery
     </span>,
     <span key="4" className="flex items-center gap-2">
-      <MapPin className="w-4 h-4 text-[#E53935]" />
+      <MapPin className="w-4 h-4 text-xmas-gold" />
       <strong>Pan India service</strong> <span className="opacity-70 mx-1">•</span> Order & support across India
     </span>,
     <span key="5" className="flex items-center gap-2">
-      <Building2 className="w-4 h-4 text-[#E53935]" />
+      <Building2 className="w-4 h-4 text-xmas-gold" />
       <strong>Bulk & Business</strong> <span className="opacity-70 mx-1">•</span> Built for teams and businesses
     </span>,
   ];
@@ -37,7 +37,8 @@ export function FeaturesBar() {
   const marqueeItems = [...features, ...features, ...features];
 
   return (
-    <div className="w-full bg-black text-white h-[30px] md:h-[32px] flex items-center overflow-hidden fixed top-0 left-0 z-[110]">
+    <div className="w-full bg-xmas-crimson text-xmas-snow h-[30px] md:h-[32px] flex items-center overflow-hidden fixed top-0 left-0 z-[110]">
+      <div aria-hidden="true" className="absolute bottom-0 left-0 w-full h-[2px] xmas-candy-stripe opacity-80 pointer-events-none" />
       <div className="flex w-full overflow-hidden">
         <motion.div 
           className="flex whitespace-nowrap min-w-full shrink-0 items-center justify-around gap-8 md:gap-16 pr-8 md:pr-16"
