@@ -536,8 +536,10 @@ function SnowBank() {
       <svg aria-hidden="true" viewBox="0 0 1440 200" preserveAspectRatio="none" className="pointer-events-none absolute inset-x-0 bottom-0 z-[2] h-[24svh] w-full">
         <defs>
           <linearGradient id="hero-bank" x1="0" y1="0" x2="0" y2="1">
+            {/* fades into the next section's cream so the hand-off is seamless */}
             <stop offset="0" stopColor="#FFFFFF" />
-            <stop offset="1" stopColor="#E6EEF1" />
+            <stop offset="0.55" stopColor="#FDFAF4" />
+            <stop offset="1" stopColor="#FBF6EE" />
           </linearGradient>
         </defs>
         <path d={BANK_BACK} fill="#DCE7EB" opacity="0.55" />

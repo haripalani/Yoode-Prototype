@@ -31,7 +31,7 @@ export function TrustedBy() {
   const row2 = logos.slice(10);
 
   return (
-    <div className="w-full bg-xmas-cream relative z-40 pt-16 pb-16 md:pt-20 md:pb-24 overflow-hidden shadow-[0_-10px_40px_rgba(0,0,0,0.03)] rounded-t-[40px] md:rounded-t-[60px] -mt-12 md:-mt-16">
+    <div className="w-full bg-xmas-cream relative z-40 pt-16 pb-16 md:pt-20 md:pb-24 overflow-hidden rounded-t-[40px] md:rounded-t-[60px] -mt-12 md:-mt-16">
       <SectionHeader
         subHeading="Trusted By"
         title="Leading brands and teams across the country"
