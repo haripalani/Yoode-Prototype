@@ -37,6 +37,15 @@ const flakes = Array.from({ length: 70 }, (_, i) => {
 export function Hero() {
   const [shown, setShown] = useState(0);
   const [paused, setPaused] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(true);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 1024px)");
+    const sync = () => setIsDesktop(mq.matches);
+    sync();
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, []);
 
   useEffect(() => {
     if (paused) return;
@@ -107,7 +116,7 @@ export function Hero() {
       <SnowBank />
 
       {/* Eyebrow + headline */}
-      <div className="relative z-[3] w-full text-center lg:absolute lg:inset-x-0 lg:top-[calc(78px+3.5svh)] px-4">
+      <div className="relative z-[3] order-1 w-full text-center lg:absolute lg:inset-x-0 lg:top-[calc(78px+3.5svh)] px-4">
         <p className="font-sans font-extrabold uppercase tracking-[0.04em] text-xmas-gold text-[5.2vw] sm:text-[3.4vw] lg:text-[min(2.05vw,4.2svh)] leading-none">
           It’s the most wonderful time
         </p>
@@ -118,7 +127,7 @@ export function Hero() {
 
       {/* Shirt spotlight stage */}
       <div
-        className="relative z-[4] mx-auto -mt-[2vw] mb-16 lg:mb-0 lg:mt-0 h-[54svh] w-full max-w-[560px] lg:absolute lg:left-1/2 lg:-translate-x-1/2 lg:bottom-[118px] lg:h-[min(55svh,42vw)] lg:w-[min(54vw,920px)] lg:max-w-none"
+        className="relative z-[4] order-3 mx-auto mt-4 mb-16 lg:mb-0 lg:mt-0 h-[46svh] w-full max-w-[560px] lg:absolute lg:left-1/2 lg:-translate-x-1/2 lg:bottom-[118px] lg:h-[min(55svh,42vw)] lg:w-[min(54vw,920px)] lg:max-w-none"
         onMouseEnter={() => setPaused(true)}
         onMouseLeave={() => setPaused(false)}
       >
@@ -132,8 +141,12 @@ export function Hero() {
           const role = offset === 0 ? "center" : offset === 1 ? "right" : offset === n - 1 ? "left" : "hidden";
           const pose = {
             center: { left: "50%", height: "100%", opacity: 1, filter: "brightness(1)", zIndex: 3 },
-            left: { left: "14%", height: "64%", opacity: 1, filter: "brightness(0.62) saturate(0.85)", zIndex: 2 },
-            right: { left: "86%", height: "64%", opacity: 1, filter: "brightness(0.62) saturate(0.85)", zIndex: 2 },
+            left: isDesktop
+              ? { left: "14%", height: "64%", opacity: 1, filter: "brightness(0.62) saturate(0.85)", zIndex: 2 }
+              : { left: "3%", height: "50%", opacity: 1, filter: "brightness(0.5) saturate(0.8)", zIndex: 2 },
+            right: isDesktop
+              ? { left: "86%", height: "64%", opacity: 1, filter: "brightness(0.62) saturate(0.85)", zIndex: 2 }
+              : { left: "97%", height: "50%", opacity: 1, filter: "brightness(0.5) saturate(0.8)", zIndex: 2 },
             hidden: { left: "50%", height: "50%", opacity: 0, filter: "brightness(0.6)", zIndex: 1 },
           }[role];
           return (
@@ -181,7 +194,7 @@ export function Hero() {
       </div>
 
       {/* Left: feature pill tags — under the headline, above the left tree */}
-      <ul className="relative z-[5] mt-6 flex max-w-[340px] flex-wrap justify-center gap-2.5 px-4 lg:absolute lg:left-[5vw] lg:top-[calc(41svh+14px)] lg:mt-0 lg:max-w-[300px] lg:justify-start lg:px-0">
+      <ul className="relative z-[5] order-2 mt-5 flex max-w-[340px] flex-wrap justify-center gap-2.5 px-4 lg:absolute lg:left-[5vw] lg:top-[calc(41svh+14px)] lg:mt-0 lg:max-w-[300px] lg:justify-start lg:px-0">
         {pills.map((c) => (
           <li
             key={c}
@@ -548,7 +561,7 @@ function SnowBank() {
 
       {/* flakes resting along the bank */}
       {BANK_FLAKES.map(([l, b, sz, o], i) => (
-        <span key={`bank-${i}`} aria-hidden="true" className="pointer-events-none absolute z-[2]" style={{ left: `${l}%`, bottom: `${b}%` }}>
+        <span key={`bank-${i}`} aria-hidden="true" className="pointer-events-none absolute z-[2] hidden lg:block" style={{ left: `${l}%`, bottom: `${b}%` }}>
           <Flake size={sz} opacity={o} className="drop-shadow-[0_1px_2px_rgba(11,33,23,0.35)]" />
         </span>
       ))}
