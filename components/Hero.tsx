@@ -7,13 +7,14 @@ import { ArrowUpRight } from "lucide-react";
 
 const pills = ["Limited Edition", "Premium Fabric", "Pan-India", "No Minimum"];
 
+// Models wearing each design, cropped waist-up (public/christmas/models-half, from public/christmas/Models)
 const shirts = [
-  { src: "/christmas/single/silent-night-scarlet.webp", name: "Silent Night" },
-  { src: "/christmas/single/alpine-ivory.webp", name: "Alpine Chalet" },
-  { src: "/christmas/single/lattice-cocoa.webp", name: "Evergreen Lattice" },
-  { src: "/christmas/single/sleigh-scarlet.webp", name: "Nordic Sleigh" },
-  { src: "/christmas/single/branches-midnight.webp", name: "Winter Branches" },
-  { src: "/christmas/single/reindeer-wine.webp", name: "Reindeer Folk" },
+  { src: "/christmas/models-half/silent-night.webp", name: "Silent Night" },
+  { src: "/christmas/models-half/alpine-chalet.webp", name: "Alpine Chalet" },
+  { src: "/christmas/models-half/nordic-sleigh.webp", name: "Nordic Sleigh" },
+  { src: "/christmas/models-half/reindeer-folk.webp", name: "Reindeer Folk" },
+  { src: "/christmas/models-half/north-pole.webp", name: "North Pole Heritage" },
+  { src: "/christmas/models-half/winter-branches.webp", name: "Winter Branches" },
 ];
 
 
@@ -56,7 +57,7 @@ export function Hero() {
   return (
     <section
       aria-label="Christmas collection"
-      className="relative w-full overflow-hidden text-white min-h-[100svh] lg:h-[100svh] lg:min-h-[700px] flex flex-col items-center lg:block pt-[92px] lg:pt-0 pb-24 lg:pb-0"
+      className="relative w-full overflow-hidden text-white min-h-[100svh] lg:h-[100svh] lg:min-h-[700px] flex flex-col items-center lg:block pt-[92px] lg:pt-0 pb-14 lg:pb-0"
       style={{
         background: `radial-gradient(ellipse 70% 60% at 50% 62%, ${STAGE_GLOW} 0%, #123B28 55%, #0B2117 100%)`,
       }}
@@ -127,27 +128,26 @@ export function Hero() {
 
       {/* Shirt spotlight stage */}
       <div
-        className="relative z-[4] order-3 mx-auto mt-4 mb-16 lg:mb-0 lg:mt-0 h-[46svh] w-full max-w-[560px] lg:absolute lg:left-1/2 lg:-translate-x-1/2 lg:bottom-[118px] lg:h-[min(55svh,42vw)] lg:w-[min(54vw,920px)] lg:max-w-none"
+        className="relative z-[4] order-3 mx-auto mt-auto mb-0 lg:mt-0 h-[60svh] w-full max-w-[560px] lg:absolute lg:left-1/2 lg:-translate-x-1/2 lg:bottom-[40px] lg:h-[min(68svh,52vw)] lg:w-[min(64vw,1150px)] lg:max-w-none"
         onMouseEnter={() => setPaused(true)}
         onMouseLeave={() => setPaused(false)}
       >
         {/* light pool behind the featured shirt + shadow on the snow */}
         <div aria-hidden="true" className="pointer-events-none absolute left-1/2 top-[4%] h-[92%] w-[min(80%,620px)] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(255,236,190,0.38),rgba(255,236,190,0.12)_55%,transparent)]" />
-        <div aria-hidden="true" className="pointer-events-none absolute bottom-[-1%] left-1/2 h-[7%] w-[46%] -translate-x-1/2 rounded-[50%] bg-black/25 blur-md" />
 
         {shirts.map((shirt, i) => {
           const n = shirts.length;
           const offset = (i - shown + n) % n; // 0 = centre, 1 = right, n-1 = left
           const role = offset === 0 ? "center" : offset === 1 ? "right" : offset === n - 1 ? "left" : "hidden";
+          const side = (x: string) =>
+            isDesktop
+              ? { left: x, height: "78%", opacity: 1, filter: "brightness(0.6) saturate(0.85) blur(1.5px)", zIndex: 2 }
+              : { left: x === "20%" ? "4%" : "96%", height: "70%", opacity: 1, filter: "brightness(0.5) saturate(0.8) blur(1px)", zIndex: 2 };
           const pose = {
-            center: { left: "50%", height: "100%", opacity: 1, filter: "brightness(1)", zIndex: 3 },
-            left: isDesktop
-              ? { left: "14%", height: "64%", opacity: 1, filter: "brightness(0.62) saturate(0.85)", zIndex: 2 }
-              : { left: "3%", height: "50%", opacity: 1, filter: "brightness(0.5) saturate(0.8)", zIndex: 2 },
-            right: isDesktop
-              ? { left: "86%", height: "64%", opacity: 1, filter: "brightness(0.62) saturate(0.85)", zIndex: 2 }
-              : { left: "97%", height: "50%", opacity: 1, filter: "brightness(0.5) saturate(0.8)", zIndex: 2 },
-            hidden: { left: "50%", height: "50%", opacity: 0, filter: "brightness(0.6)", zIndex: 1 },
+            center: { left: "50%", height: "100%", opacity: 1, filter: "brightness(1) saturate(1) blur(0px)", zIndex: 3 },
+            left: side("20%"),
+            right: side("80%"),
+            hidden: { left: "50%", height: "60%", opacity: 0, filter: "brightness(0.6) saturate(0.85) blur(2px)", zIndex: 1 },
           }[role];
           return (
             <motion.button
@@ -159,14 +159,15 @@ export function Hero() {
               initial={false}
               animate={pose}
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              className={`absolute bottom-0 -translate-x-1/2 aspect-[694/893] rounded-2xl outline-none focus-visible:ring-2 focus-visible:ring-xmas-gold ${role === "hidden" ? "pointer-events-none" : "cursor-pointer"}`}
+              className={`absolute bottom-0 -translate-x-1/2 aspect-[831/1100] rounded-2xl outline-none focus-visible:ring-2 focus-visible:ring-xmas-gold ${role === "hidden" ? "pointer-events-none" : "cursor-pointer"}`}
               style={{ zIndex: pose.zIndex }}
             >
               <img
                 src={shirt.src}
-                alt={`${shirt.name} Christmas shirt`}
+                alt={`Model wearing the ${shirt.name} Christmas shirt`}
                 draggable={false}
-                className={`h-full w-full object-contain select-none transition-transform duration-500 ${role === "center" ? "drop-shadow-[0_30px_40px_rgba(0,0,0,0.35)]" : "hover:-translate-y-2"}`}
+                className={`relative h-full w-full object-contain object-bottom select-none transition-transform duration-500 ${role === "center" ? "" : "hover:-translate-y-2"}`}
+                style={{ maskImage: "linear-gradient(to bottom, #000 70%, transparent 97%)", WebkitMaskImage: "linear-gradient(to bottom, #000 70%, transparent 97%)" }}
               />
             </motion.button>
           );
@@ -176,7 +177,7 @@ export function Hero() {
         <Link
           href="/category"
           aria-live="polite"
-          className="group absolute -bottom-[50px] left-1/2 z-10 flex -translate-x-1/2 items-center gap-3 whitespace-nowrap rounded-full border border-xmas-gold/70 bg-xmas-forest/90 py-1.5 pl-4 pr-1.5 text-white shadow-[0_10px_24px_-8px_rgba(0,0,0,0.6)] backdrop-blur-sm transition-colors hover:border-xmas-gold"
+          className="group absolute bottom-[34px] left-1/2 z-10 flex -translate-x-1/2 items-center gap-3 whitespace-nowrap rounded-full border border-xmas-gold/70 bg-xmas-forest/90 py-1.5 pl-4 pr-1.5 text-white shadow-[0_10px_24px_-8px_rgba(0,0,0,0.6)] backdrop-blur-sm transition-colors hover:border-xmas-gold"
         >
           <span className="flex flex-col leading-none">
             <span className="text-[8px] font-bold uppercase tracking-[0.24em] text-xmas-gold">Now showing</span>
@@ -194,7 +195,7 @@ export function Hero() {
       </div>
 
       {/* Left: feature pill tags — under the headline, above the left tree */}
-      <ul className="relative z-[5] order-2 mt-5 flex max-w-[340px] flex-wrap justify-center gap-2.5 px-4 lg:absolute lg:left-[5vw] lg:top-[calc(41svh+14px)] lg:mt-0 lg:max-w-[300px] lg:justify-start lg:px-0">
+      <ul className="relative z-[5] order-2 mt-5 hidden lg:flex max-w-[340px] flex-wrap justify-center gap-2.5 px-4 lg:absolute lg:left-[5vw] lg:top-[calc(41svh+14px)] lg:mt-0 lg:max-w-[190px] xl:max-w-[300px] lg:justify-start lg:px-0">
         {pills.map((c) => (
           <li
             key={c}
@@ -208,10 +209,10 @@ export function Hero() {
       {/* Right: "Shop now" ornament hanging on a string from the top edge.
           String + bauble swing together from the anchor point at the top. */}
       <div
-        className="ornament-swing z-[5] hidden lg:flex lg:absolute lg:right-[7vw] lg:top-0 w-[min(9vw,17svh)] flex-col items-center origin-top transition-transform duration-700 ease-out hover:rotate-[-5deg]"
+        className="ornament-swing z-[6] absolute right-4 top-0 flex w-[72px] lg:right-[7vw] lg:w-[min(9vw,17svh)] flex-col items-center origin-top transition-transform duration-700 ease-out hover:rotate-[-5deg]"
         style={{ animation: "ornamentSway 5s ease-in-out infinite" }}
       >
-        <span aria-hidden="true" className="block h-[calc(21svh+10px)] w-[1.5px] bg-gradient-to-b from-xmas-gold/20 via-xmas-gold/70 to-[#F7DB8F]" />
+        <span aria-hidden="true" className="block h-[34svh] lg:h-[calc(21svh+10px)] w-[1.5px] bg-gradient-to-b from-xmas-gold/20 via-xmas-gold/70 to-[#F7DB8F]" />
         <Link href="/category" aria-label="Shop now" className="-mt-[1px] block w-full">
           <Ornament />
         </Link>
