@@ -71,3 +71,66 @@ html {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+/* =========================================================================
+   Liquid glass — smoky, see-through panels with a light-catching edge
+   (used by the Glass variant of the mega menu)
+   ========================================================================= */
+
+/* Large container: lets the page behind show through, heavily diffused */
+.liquid-glass-panel {
+  background: linear-gradient(160deg, rgba(48, 48, 48, 0.42) 0%, rgba(22, 22, 22, 0.32) 55%, rgba(30, 30, 30, 0.4) 100%);
+  -webkit-backdrop-filter: blur(40px) saturate(165%) brightness(0.95);
+  backdrop-filter: blur(40px) saturate(165%) brightness(0.95);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.18),
+    inset -1px 0 0 rgba(255, 255, 255, 0.10),
+    0 30px 80px rgba(0, 0, 0, 0.45);
+}
+
+/* Tile / bar: translucent glass with a gradient hairline edge (brighter at the top-left, like light catching it) */
+.liquid-glass {
+  position: relative;
+  background: linear-gradient(140deg, rgba(255, 255, 255, 0.13) 0%, rgba(255, 255, 255, 0.05) 45%, rgba(255, 255, 255, 0.08) 100%);
+  -webkit-backdrop-filter: blur(22px) saturate(170%);
+  backdrop-filter: blur(22px) saturate(170%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.04),
+    0 12px 36px -12px rgba(0, 0, 0, 0.5);
+}
+.liquid-glass::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(140deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.1) 30%, rgba(255, 255, 255, 0.04) 60%, rgba(255, 255, 255, 0.28));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+.liquid-glass-hover {
+  transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+.liquid-glass-hover:hover {
+  background: linear-gradient(140deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.08) 45%, rgba(255, 255, 255, 0.12) 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.06),
+    0 18px 44px -12px rgba(0, 0, 0, 0.55);
+}
+
+/* Pressed-in state for the active item (like the selected tab in a glass dock) */
+.liquid-glass-inset {
+  background: rgba(0, 0, 0, 0.3);
+  box-shadow:
+    inset 0 1px 3px rgba(0, 0, 0, 0.4),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.1);
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .liquid-glass-panel { background: rgba(24, 24, 24, 0.92); }
+  .liquid-glass { background: rgba(60, 60, 60, 0.9); }
+}
