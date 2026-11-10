@@ -141,7 +141,7 @@ function WhyCard({ card }: { card: Card }) {
             card.flush ? "bottom-0 pt-4 pr-2" : "bottom-0 p-5 lg:p-4 xl:p-5"
           }`}
         >
-          <img
+          <img loading="lazy" decoding="async"
             src={card.image}
             alt={card.alt}
             className="max-h-full max-w-full object-contain object-right-bottom mix-blend-multiply transition-transform duration-700 group-hover:scale-105 origin-bottom-right"
@@ -150,7 +150,7 @@ function WhyCard({ card }: { card: Card }) {
       ) : (
         <div className="relative flex-1 min-h-[180px] lg:min-h-0">
           <div className="absolute inset-0 flex items-end justify-center px-8 pb-6 lg:px-6 lg:pb-5">
-            <img
+            <img loading="lazy" decoding="async"
               src={card.image}
               alt={card.alt}
               className="max-h-full max-w-[78%] object-contain mix-blend-multiply transition-transform duration-700 group-hover:scale-105 origin-bottom"

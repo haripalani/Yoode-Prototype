@@ -49,7 +49,7 @@ export function CustomJerseysCtaDark() {
         transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
         className="hidden md:block absolute right-[25%] bottom-[25%] w-[90px] h-[90px] rounded-full overflow-hidden border-2 border-white/10 opacity-80 hover:opacity-100 transition-opacity"
       >
-        <Image src="/mens-polo.jpg" alt="Jersey 5" fill className="object-cover" />
+        <Image src="/mens-polo.webp" alt="Jersey 5" fill className="object-cover" />
       </motion.div>
       
       {/* Content */}

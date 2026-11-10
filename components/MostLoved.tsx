@@ -16,7 +16,7 @@ const products = [
     discount: "- 50%",
     variant: "Navy",
     rating: "4.9",
-    image: "/mens-polo.jpg",
+    image: "/mens-polo.webp",
     specs: { labels: ["S", "M", "L", "XL"], value: "SIZES" }
   },
   {
@@ -28,7 +28,7 @@ const products = [
     discount: "- 15%",
     variant: "Burgundy",
     rating: "4.8",
-    image: "/polo-jersey.jpg",
+    image: "/polo-jersey.webp",
     specs: { labels: ["S", "M", "L", "XL"], value: "SIZES" }
   },
   {
@@ -40,7 +40,7 @@ const products = [
     discount: "- 20%",
     variant: "Athletic Fit",
     rating: "4.9",
-    image: "/process/step1.jpg",
+    image: "/process/step1.webp",
     specs: { labels: ["S", "M", "L", "XL"], value: "SIZES" }
   },
   {
@@ -52,7 +52,7 @@ const products = [
     discount: "- 11%",
     variant: "Executive",
     rating: "4.7",
-    image: "/gift-box.jpg",
+    image: "/gift-box.webp",
   },
 
 ];

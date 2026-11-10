@@ -22,12 +22,12 @@ const STAGE_GLOW = "#1A4D35";
 const ROTATE_MS = 4500;
 
 // Deterministic page snowfall (no hydration mismatch)
-const flakes = Array.from({ length: 70 }, (_, i) => {
+// 40 flakes, no blur filters: transform-only animation stays cheap for the compositor
+const flakes = Array.from({ length: 40 }, (_, i) => {
   const big = i % 9 === 0;
   return {
     left: `${(i * 53) % 100}%`,
     size: big ? 7 + (i % 4) : 2 + (i % 4),
-    blur: big ? 2 : i % 3 === 0 ? 1 : 0,
     duration: 9 + ((i * 7) % 9),
     delay: -((i * 1.37) % 16),
     drift: (i % 2 ? 1 : -1) * (10 + ((i * 13) % 30)),
@@ -88,7 +88,6 @@ export function Hero() {
               width: f.size,
               height: f.size,
               opacity: f.opacity,
-              filter: f.blur ? `blur(${f.blur}px)` : undefined,
               animation: `heroSnow ${f.duration}s linear ${f.delay}s infinite`,
               ["--dx" as string]: `${f.drift}px`,
             }}
@@ -164,6 +163,9 @@ export function Hero() {
             >
               <img
                 src={shirt.src}
+                // the three models visible on load come first; the rest load lazily
+                loading={i < 2 || i === shirts.length - 1 ? "eager" : "lazy"}
+                decoding="async"
                 alt={`Model wearing the ${shirt.name} Christmas shirt`}
                 draggable={false}
                 className={`relative h-full w-full object-contain object-bottom select-none transition-transform duration-500 ${role === "center" ? "" : "hover:-translate-y-2"}`}

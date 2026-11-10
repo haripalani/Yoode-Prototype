@@ -7,49 +7,49 @@ const categories = [
   {
     id: 1,
     title: "CUSTOM\nT-SHIRTS",
-    image: "/categories/custom_tshirts.jpg",
+    image: "/categories/custom_tshirts.webp",
     href: "/dtg-printing"
   },
   {
     id: 2,
     title: "CUSTOM\nJERSEYS",
-    image: "/categories/custom_sports.jpg",
+    image: "/categories/custom_sports.webp",
     href: "/custom-sports-jerseys"
   },
   {
     id: 3,
     title: "PREMIUM\nPOLOS",
-    image: "/categories/premium_polos.jpg",
+    image: "/categories/premium_polos.webp",
     href: "/polos"
   },
   {
     id: 4,
     title: "CORPORATE\nGIFTING",
-    image: "/categories/corporate_gifting.jpg",
+    image: "/categories/corporate_gifting.webp",
     href: "/stationery-gifting-drinkware"
   },
   {
     id: 5,
     title: "ACCESSORIES",
-    image: "/categories/accessories_group.jpg",
+    image: "/categories/accessories_group.webp",
     href: "/accessories"
   },
   {
     id: 6,
     title: "TRENZ",
-    image: "/categories/trenz_oversized_festive.jpg",
+    image: "/categories/trenz_oversized_festive.webp",
     href: "/trenz"
   },
   {
     id: 7,
     title: "HOODIES &\nSWEAT SHIRTS",
-    image: "/categories/hoodies_sweatshirts.jpg",
+    image: "/categories/hoodies_sweatshirts.webp",
     href: "/hoodies-sweatshirts-jackets"
   },
   {
     id: 8,
     title: "EXPLORE\nALL",
-    image: "/categories/apparels.jpg",
+    image: "/categories/apparels.webp",
     href: "/category"
   }
 ];

@@ -8,43 +8,43 @@ import { SectionHeader } from "./SectionHeader";
 const services = [
   {
     title: "DTG Printing",
-    image: "/Services/dtg.jpg",
+    image: "/Services/dtg.webp",
     objectPosition: "object-center",
     href: "/dtg-printing",
   },
   {
     title: "DTF Printing",
-    image: "/Services/dtf.jpg",
+    image: "/Services/dtf.webp",
     objectPosition: "object-center",
     href: "/dtg-printing?service=dtf",
   },
   {
     title: "Embroidery",
-    image: "/Services/embroidery.jpg",
+    image: "/Services/embroidery.webp",
     objectPosition: "object-[50%_90%]", // Focus on the stitched logo at the bottom
     href: "/dtg-printing?service=embroidery",
   },
   {
     title: "Coloreel",
-    image: "/Services/coloreel.jpg",
+    image: "/Services/coloreel.webp",
     objectPosition: "object-center",
     href: "/dtg-printing?service=coloreel",
   },
   {
     title: "Screen Printing",
-    image: "/Services/screen_printing.jpg",
+    image: "/Services/screen_printing.webp",
     objectPosition: "object-center",
     href: "/dtg-printing?service=screen",
   },
   {
     title: "UV Printing",
-    image: "/Services/uv_printing.jpg",
+    image: "/Services/uv_printing.webp",
     objectPosition: "object-[50%_70%]",
     href: "/dtg-printing?service=uv",
   },
   {
     title: "Engraving",
-    image: "/Services/engraving.jpg",
+    image: "/Services/engraving.webp",
     objectPosition: "object-center",
     href: "/dtg-printing?service=engraving",
   },
@@ -101,7 +101,7 @@ export function ServicePillars() {
                 }`}
               >
                 {/* Background Image */}
-                <img 
+                <img loading="lazy" decoding="async" 
                   src={service.image} 
                   alt={service.title}
                   className={`absolute inset-0 w-full h-full object-cover ${service.objectPosition || "object-center"} transition-all duration-1000 ${

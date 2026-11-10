@@ -43,7 +43,7 @@ export function PromoModal() {
         <div className="relative w-full md:w-[45%] h-64 md:h-full shrink-0 bg-xmas-pine overflow-hidden">
           {/* Background Image */}
           <Image 
-            src="/tshirts-promo.jpg" 
+            src="/tshirts-promo.webp" 
             alt="Promo Offer" 
             fill 
             className="object-cover opacity-60 mix-blend-screen"

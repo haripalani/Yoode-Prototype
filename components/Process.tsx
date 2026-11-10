@@ -8,31 +8,31 @@ import { Package, Clock, Image as ImageIcon, ShieldCheck } from "lucide-react";
 
 const steps = [
   {
-    image: "/process/step1.jpg",
+    image: "/process/step1.webp",
     title: "Choose Product",
     description: "Select from our wide range of premium t-shirts, jerseys, polos, hoodies and more.",
     color: "bg-xmas-red", // Holly red
   },
   {
-    image: "/process/step2.jpg",
+    image: "/process/step2.webp",
     title: "Share Design",
     description: "Upload your artwork, logo or share your requirements with our expert design team.",
     color: "bg-xmas-green", // Evergreen
   },
   {
-    image: "/process/step3.jpg",
+    image: "/process/step3.webp",
     title: "Review Mockup",
     description: "Get a highly detailed digital preview of your design before we start production.",
     color: "bg-xmas-gold-deep", // Antique gold
   },
   {
-    image: "/process/step4.jpg",
+    image: "/process/step4.webp",
     title: "Approve & Order",
     description: "Confirm the design, finalize your order and we'll immediately get to work.",
     color: "bg-xmas-crimson", // Deep crimson
   },
   {
-    image: "/process/step5.jpg",
+    image: "/process/step5.webp",
     title: "Production & Delivery",
     description: "Your apparel is carefully produced, rigorously quality checked and delivered.",
     color: "bg-xmas-pine", // Pine

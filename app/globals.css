@@ -1,4 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Bungee+Outline&family=Londrina+Outline&family=Kumar+One+Outline&display=swap');
 @import "tailwindcss";
 
 @theme inline {
@@ -9,7 +8,6 @@
   --font-sans: var(--font-poppins);
   --font-display: var(--font-sora);
   --font-poster: var(--font-anton);
-  --font-outline: 'Bungee Outline', 'Londrina Outline', sans-serif;
 
   /* --- Christmas palette --- */
   --color-xmas-red: #B3141B;        /* Holly red (primary accent) */
