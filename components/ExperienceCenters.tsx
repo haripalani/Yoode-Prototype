@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import IndiaMap from "@svg-maps/india";
 import { motion, AnimatePresence } from "framer-motion";
 import { Navigation, HardHat, MapPin } from "lucide-react";
 import Image from "next/image";
@@ -195,33 +194,19 @@ export function ExperienceCenters({
 
           {/* Map Container (Center) */}
           <div className="relative hidden lg:block w-full max-w-md lg:w-[38%] aspect-[612/696] flex-shrink-0 my-6 lg:my-0 z-10">
-            {/* SVG Map */}
-            <svg
-              viewBox={IndiaMap.viewBox}
-              className="w-full h-full drop-shadow-2xl"
-            >
-              <defs>
-                <pattern id="dotPattern3" x="0" y="0" width="8" height="8" patternUnits="userSpaceOnUse">
-                  <circle cx="2" cy="2" r="1.5" fill="#CBD5E1" className="opacity-60" />
-                </pattern>
-                <mask id="indiaMask3">
-                  {IndiaMap.locations.map((location: any) => (
-                    <path key={location.id} d={location.path} fill="white" />
-                  ))}
-                </mask>
-              </defs>
+            {/* Static map artwork (dot pattern + state outlines), pre-rendered from @svg-maps/india into
+                public/india-map-dots.svg so it's cached and kept out of the JS bundle and page HTML */}
+            <img
+              src="/india-map-dots.svg"
+              alt=""
+              aria-hidden="true"
+              loading="lazy"
+              decoding="async"
+              className="absolute inset-0 w-full h-full drop-shadow-2xl"
+            />
 
-              <rect
-                x="0" y="0"
-                width="100%" height="100%"
-                fill="url(#dotPattern3)"
-                mask="url(#indiaMask3)"
-              />
-
-              {/* Stroke */}
-              {IndiaMap.locations.map((location: any) => (
-                <path key={`stroke-${location.id}`} d={location.path} fill="none" stroke="#64748B" strokeWidth="0.8" className="opacity-50" />
-              ))}
+            {/* Interactive overlay: connecting lines react to hover */}
+            <svg viewBox="0 0 612 696" className="relative w-full h-full">
               {/* Connecting Lines for ALL Items */}
               {allCenters.map((center, index) => {
                 const isHovered = activeId === center.id;

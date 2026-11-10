@@ -4,13 +4,23 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Search, User, ShoppingBag, X } from "lucide-react";
-import { SearchModal } from "./SearchModal";
-import { YoodeMenu } from "./YoodeMenu";
+import dynamic from "next/dynamic";
+
+// The mega menu (with its CAD artwork) and search are only downloaded when first needed.
+const loadMenu = () => import("./YoodeMenu").then((m) => m.YoodeMenu);
+const loadSearch = () => import("./SearchModal").then((m) => m.SearchModal);
+const YoodeMenu = dynamic(loadMenu, { ssr: false });
+const SearchModal = dynamic(loadSearch, { ssr: false });
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  // Mount each overlay on first use, then keep it mounted so its close animation can play
+  const [menuMounted, setMenuMounted] = useState(false);
+  const [searchMounted, setSearchMounted] = useState(false);
+  if (isMenuOpen && !menuMounted) setMenuMounted(true);
+  if (isSearchOpen && !searchMounted) setSearchMounted(true);
   const pathname = usePathname();
 
   const isAlwaysSolid = pathname?.startsWith("/products") || pathname?.startsWith("/dtg-printing");
@@ -46,6 +56,8 @@ export function Header() {
           <div className="flex items-center z-10">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
+              onPointerEnter={() => void loadMenu()}
+              onFocus={() => void loadMenu()}
               className={`w-8 h-8 md:w-8.5 md:h-8.5 flex items-center justify-center rounded-lg border transition-all duration-200 group cursor-pointer focus:outline-none ${
                 isMenuOpen
                   ? "bg-[#E53935]/20 border-[#E53935] text-[#E53935] shadow-[0_0_15px_rgba(229,57,53,0.35)]"
@@ -105,6 +117,7 @@ export function Header() {
             {/* Search */}
             <button
               onClick={() => setIsSearchOpen(true)}
+              onPointerEnter={() => void loadSearch()}
               className="flex items-center gap-1 hover:text-[#E53935] transition-colors p-1 cursor-pointer"
               aria-label="Search"
             >
@@ -143,10 +156,10 @@ export function Header() {
       </header>
 
       {/* YOODE MEGA DRAWER */}
-      <YoodeMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
+      {menuMounted && <YoodeMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />}
 
       {/* SEARCH MODAL */}
-      <SearchModal isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
+      {searchMounted && <SearchModal isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />}
     </>
   );
 }

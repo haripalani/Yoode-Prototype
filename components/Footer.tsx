@@ -11,7 +11,7 @@ export function Footer() {
           
           {/* Company Info & Contact */}
           <div className="lg:col-span-2 flex flex-col gap-6">
-            <img src="/logo-dark.avif" alt="Yoode Logo" className="h-6 md:h-7 w-auto object-contain object-left brightness-0 invert" />
+            <img loading="lazy" decoding="async" src="/logo-dark.avif" alt="Yoode Logo" className="h-6 md:h-7 w-auto object-contain object-left brightness-0 invert" />
             <p className="text-sm text-white/60 leading-relaxed font-medium max-w-sm">
               Yoode Promotions Pvt. Ltd.<br />
               Creating meaningful brand experiences through premium custom products and campaigns tailored to drive results.

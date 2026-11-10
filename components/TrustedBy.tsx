@@ -51,7 +51,7 @@ export function TrustedBy() {
             transition={{ ease: "linear", duration: 60, repeat: Infinity }}
           >
             {row1.map((logo, idx) => (
-              <img 
+              <img loading="lazy" decoding="async" 
                 key={`r1-a-${idx}`}
                 src={logo.src} 
                 alt={logo.alt} 
@@ -65,7 +65,7 @@ export function TrustedBy() {
             transition={{ ease: "linear", duration: 60, repeat: Infinity }}
           >
             {row1.map((logo, idx) => (
-              <img 
+              <img loading="lazy" decoding="async" 
                 key={`r1-b-${idx}`}
                 src={logo.src} 
                 alt={logo.alt} 
@@ -83,7 +83,7 @@ export function TrustedBy() {
             transition={{ ease: "linear", duration: 70, repeat: Infinity }}
           >
             {row2.map((logo, idx) => (
-              <img 
+              <img loading="lazy" decoding="async" 
                 key={`r2-a-${idx}`}
                 src={logo.src} 
                 alt={logo.alt} 
@@ -97,7 +97,7 @@ export function TrustedBy() {
             transition={{ ease: "linear", duration: 70, repeat: Infinity }}
           >
             {row2.map((logo, idx) => (
-              <img 
+              <img loading="lazy" decoding="async" 
                 key={`r2-b-${idx}`}
                 src={logo.src} 
                 alt={logo.alt} 

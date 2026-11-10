@@ -30,11 +30,11 @@ const generateProducts = () => {
       const originalPrice = Math.floor(price / (1 - discount / 100));
       
       let name = "Product";
-      let image = "/mens-polo.jpg";
-      if (cat === 'custom-sports-jerseys') { name = `Pro Sports Jersey ${i+1}`; image = "/categories/custom_sports.jpg"; }
-      else if (cat === 'polos') { name = `Premium Cotton Polo ${i+1}`; image = "/mens-polo.jpg"; }
-      else if (cat === 't-shirts') { name = `Classic Graphic T-Shirt ${i+1}`; image = "/womens-tshirt.jpg"; }
-      else if (cat === 'hoodies-sweatshirts-jackets') { name = `Winter Denim Jacket ${i+1}`; image = "/denim-jacket.jpg"; }
+      let image = "/mens-polo.webp";
+      if (cat === 'custom-sports-jerseys') { name = `Pro Sports Jersey ${i+1}`; image = "/categories/custom_sports.webp"; }
+      else if (cat === 'polos') { name = `Premium Cotton Polo ${i+1}`; image = "/mens-polo.webp"; }
+      else if (cat === 't-shirts') { name = `Classic Graphic T-Shirt ${i+1}`; image = "/womens-tshirt.webp"; }
+      else if (cat === 'hoodies-sweatshirts-jackets') { name = `Winter Denim Jacket ${i+1}`; image = "/denim-jacket.webp"; }
       else if (cat === 'accessories') {
         const accTypes = [
           { n: "Travel Explorer Backpack", img: "/backpack.jpg" },
@@ -47,8 +47,8 @@ const generateProducts = () => {
         name = `${acc.n} ${i+1}`; 
         image = acc.img;
       }
-      else if (cat === 'stationery-gifting-drinkware') { name = `Executive Gift Set ${i+1}`; image = "/gift-box.jpg"; }
-      else if (cat === 'trenz') { name = `Trenz Oversized Collection ${i+1}`; image = "/categories/trenz_oversized_festive.jpg"; }
+      else if (cat === 'stationery-gifting-drinkware') { name = `Executive Gift Set ${i+1}`; image = "/gift-box.webp"; }
+      else if (cat === 'trenz') { name = `Trenz Oversized Collection ${i+1}`; image = "/categories/trenz_oversized_festive.webp"; }
 
       return {
         id,
@@ -194,7 +194,7 @@ export default function CategoryPage() {
         <div className="relative w-full overflow-hidden bg-[#111827] text-white min-h-[400px] md:min-h-[500px] flex items-center justify-center flex-col pt-24 pb-16 md:pb-24">
           {/* Background Image & Overlay */}
           <div className="absolute inset-0 z-0">
-            <img src="/process/step1.jpg" alt="Shop Banner" className="w-full h-full object-cover object-center opacity-40 mix-blend-luminosity scale-105 hover:scale-100 transition-transform duration-1000" />
+            <img src="/process/step1.webp" alt="Shop Banner" className="w-full h-full object-cover object-center opacity-40 mix-blend-luminosity scale-105 hover:scale-100 transition-transform duration-1000" />
             <div className="absolute inset-0 bg-gradient-to-t from-[#111827] via-[#111827]/60 to-[#111827]/20" />
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(255,255,255,0.15)_0%,_transparent_70%)] pointer-events-none" />
           </div>

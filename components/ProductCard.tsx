@@ -93,7 +93,7 @@ export function ProductCard({ product }: { product: Product }) {
       <div className={`relative rounded-[20px] group overflow-hidden shrink-0 ${isList ? 'w-full sm:w-[240px] h-[240px]' : 'aspect-square md:aspect-[4/5] w-full'}`}>
         {/* Clipped Background & Image Layer */}
         <div className="absolute inset-0 bg-gray-100 rounded-[20px] overflow-hidden">
-          <img
+          <img loading="lazy" decoding="async"
             src={product.image}
             alt={product.name}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"

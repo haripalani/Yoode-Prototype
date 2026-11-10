@@ -14,7 +14,7 @@ const RELATED_PRODUCTS: Product[] = [
     discount: "- 50%",
     variant: "Navy",
     rating: "4.9",
-    image: "/mens-polo.jpg",
+    image: "/mens-polo.webp",
     specs: { labels: ["S", "M", "L", "XL", "2XL"], value: "SIZES" }
   },
   {
@@ -26,7 +26,7 @@ const RELATED_PRODUCTS: Product[] = [
     discount: "- 50%",
     variant: "Burgundy",
     rating: "4.8",
-    image: "/polo-jersey.jpg",
+    image: "/polo-jersey.webp",
     specs: { labels: ["XS", "S", "M", "L", "XL"], value: "SIZES" }
   },
   {
@@ -38,7 +38,7 @@ const RELATED_PRODUCTS: Product[] = [
     discount: "- 50%",
     variant: "Forest Green",
     rating: "4.9",
-    image: "/womens-tshirt.jpg",
+    image: "/womens-tshirt.webp",
     specs: { labels: ["S", "M", "L", "XL"], value: "SIZES" }
   },
   {
@@ -74,7 +74,7 @@ const RELATED_PRODUCTS: Product[] = [
     discount: "- 50%",
     variant: "Indigo Washed",
     rating: "4.7",
-    image: "/denim-jacket.jpg",
+    image: "/denim-jacket.webp",
     specs: { labels: ["M", "L", "XL"], value: "SIZES" }
   }
 ];

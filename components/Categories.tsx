@@ -6,50 +6,50 @@ const categories = [
     id: 1,
     title: "Custom T-shirts",
     items: "120+ Styles",
-    image: "/categories/custom_tshirts.jpg",
+    image: "/categories/custom_tshirts.webp",
     href: "/dtg-printing",
   },
   {
     id: 2,
     title: "Custom Jersey's",
     items: "50+ Styles",
-    image: "/categories/custom_sports.jpg",
+    image: "/categories/custom_sports.webp",
   },
   {
     id: 3,
     title: "Premium Polos",
     items: "Premium Fits",
-    image: "/categories/premium_polos.jpg",
+    image: "/categories/premium_polos.webp",
   },
   {
     id: 4,
     title: "Corporate Gifting",
     items: "Curated Boxes",
-    image: "/categories/corporate_gifting.jpg",
+    image: "/categories/corporate_gifting.webp",
   },
   {
     id: 5,
     title: "Acessories",
     items: "20+ Styles",
-    image: "/categories/accessories_group.jpg",
+    image: "/categories/accessories_group.webp",
   },
   {
     id: 6,
     title: "Trenz",
     items: "Latest Trends",
-    image: "/categories/trenz_oversized_festive.jpg",
+    image: "/categories/trenz_oversized_festive.webp",
   },
   {
     id: 7,
     title: "Hoodiess & Sweat shirts",
     items: "Cozy & Warm",
-    image: "/categories/hoodies_sweatshirts.jpg",
+    image: "/categories/hoodies_sweatshirts.webp",
   },
   {
     id: 8,
     title: "Explore All",
     items: "View Collection",
-    image: "/categories/apparels.jpg",
+    image: "/categories/apparels.webp",
   }
 ];
 

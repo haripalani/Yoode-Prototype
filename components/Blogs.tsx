@@ -19,8 +19,8 @@ export function Blogs() {
           
           {/* Left Column (Featured) */}
           <div className="w-full lg:w-[42%] h-[400px] lg:h-full relative rounded-[32px] overflow-hidden bg-gray-100 group">
-            <img 
-              src="/mens-polo.jpg" 
+            <img loading="lazy" decoding="async" 
+              src="/mens-polo.webp" 
               alt="Premium Polo" 
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
             />
@@ -87,8 +87,8 @@ export function Blogs() {
 
             {/* Bottom Video Card */}
             <div className="flex-[1] bg-gray-900 rounded-[32px] relative overflow-hidden p-6 lg:p-8 flex flex-col justify-between text-white group">
-              <img 
-                src="/gift-box.jpg" 
+              <img loading="lazy" decoding="async" 
+                src="/gift-box.webp" 
                 alt="Corporate Gifting" 
                 className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-70" 
               />
@@ -120,8 +120,8 @@ export function Blogs() {
                 <h3 className="text-2xl font-black uppercase leading-[1.1] tracking-tight">TRENDING<br/>STYLES FOR<br/>TECH TEAMS</h3>
               </div>
               <div className="flex-1 relative mt-2">
-                <img 
-                  src="/polo-jersey.jpg" 
+                <img loading="lazy" decoding="async" 
+                  src="/polo-jersey.webp" 
                   alt="Tech Apparel" 
                   className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105" 
                 />

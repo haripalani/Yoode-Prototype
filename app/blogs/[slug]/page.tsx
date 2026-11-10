@@ -240,7 +240,7 @@ export default async function BlogDetailPage({ params }: { params: Promise<{ slu
                 {/* Related Post 1 */}
                 {relatedPosts[0] && (
                   <Link href={`/blogs/${relatedPosts[0].slug}`} className="col-span-1 md:col-span-2 rounded-[32px] h-[450px] md:h-[520px] relative group overflow-hidden bg-gray-100 block shadow-sm hover:shadow-xl transition-all duration-500">
-                    <img src={relatedPosts[0].image || '/gift-box.jpg'} alt={relatedPosts[0].title} className="w-full h-full object-cover object-top transition-transform duration-1000 group-hover:scale-105" />
+                    <img src={relatedPosts[0].image || '/gift-box.webp'} alt={relatedPosts[0].title} className="w-full h-full object-cover object-top transition-transform duration-1000 group-hover:scale-105" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex items-end p-8 md:p-12">
                       <h3 className="text-white text-3xl md:text-5xl font-black uppercase tracking-tight leading-[1.05] w-full transform group-hover:-translate-y-2 transition-transform duration-500">{relatedPosts[0].title}</h3>
                     </div>
@@ -262,7 +262,7 @@ export default async function BlogDetailPage({ params }: { params: Promise<{ slu
                       </h3>
                     </div>
                     <div className="flex-1 relative w-full min-h-0">
-                      <img src={relatedPosts[1].image || '/polo-jersey.jpg'} alt={relatedPosts[1].title} className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" />
+                      <img src={relatedPosts[1].image || '/polo-jersey.webp'} alt={relatedPosts[1].title} className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" />
                     </div>
                   </Link>
                 )}

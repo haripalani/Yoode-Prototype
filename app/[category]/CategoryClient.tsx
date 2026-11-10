@@ -30,11 +30,11 @@ const generateProducts = () => {
       const originalPrice = Math.floor(price / (1 - discount / 100));
       
       let name = "Product";
-      let image = "/mens-polo.jpg";
-      if (cat === 'custom-sports-jerseys') { name = `Pro Sports Jersey ${i+1}`; image = "/categories/custom_sports.jpg"; }
-      else if (cat === 'polos') { name = `Premium Cotton Polo ${i+1}`; image = "/mens-polo.jpg"; }
-      else if (cat === 't-shirts') { name = `Classic Graphic T-Shirt ${i+1}`; image = "/womens-tshirt.jpg"; }
-      else if (cat === 'hoodies-sweatshirts-jackets') { name = `Winter Denim Jacket ${i+1}`; image = "/denim-jacket.jpg"; }
+      let image = "/mens-polo.webp";
+      if (cat === 'custom-sports-jerseys') { name = `Pro Sports Jersey ${i+1}`; image = "/categories/custom_sports.webp"; }
+      else if (cat === 'polos') { name = `Premium Cotton Polo ${i+1}`; image = "/mens-polo.webp"; }
+      else if (cat === 't-shirts') { name = `Classic Graphic T-Shirt ${i+1}`; image = "/womens-tshirt.webp"; }
+      else if (cat === 'hoodies-sweatshirts-jackets') { name = `Winter Denim Jacket ${i+1}`; image = "/denim-jacket.webp"; }
       else if (cat === 'accessories') {
         const accTypes = [
           { n: "Travel Explorer Backpack", img: "/backpack.jpg" },
@@ -47,8 +47,8 @@ const generateProducts = () => {
         name = `${acc.n} ${i+1}`; 
         image = acc.img;
       }
-      else if (cat === 'stationery-gifting-drinkware') { name = `Executive Gift Set ${i+1}`; image = "/gift-box.jpg"; }
-      else if (cat === 'trenz') { name = `Trenz Oversized Collection ${i+1}`; image = "/categories/trenz_oversized_festive.jpg"; }
+      else if (cat === 'stationery-gifting-drinkware') { name = `Executive Gift Set ${i+1}`; image = "/gift-box.webp"; }
+      else if (cat === 'trenz') { name = `Trenz Oversized Collection ${i+1}`; image = "/categories/trenz_oversized_festive.webp"; }
 
       return {
         id,
@@ -218,16 +218,16 @@ export default function CategoryPage() {
   const currentCategoryFilters = categorySlug ? categoryFilterSpec[categorySlug] || [] : [];
 
   const bannerConfig: Record<string, { title: string, image: string }> = {
-    'custom-sports-jerseys': { title: "Custom Jerseys", image: "/categories/custom_sports.jpg" },
-    'polos': { title: "Premium Polos", image: "/categories/premium_polos.jpg" },
-    't-shirts': { title: "Custom T-Shirts", image: "/categories/custom_tshirts.jpg" },
-    'hoodies-sweatshirts-jackets': { title: "Hoodies & Jackets", image: "/categories/hoodies_sweatshirts.jpg" },
-    'accessories': { title: "Accessories", image: "/categories/accessories_group.jpg" },
-    'stationery-gifting-drinkware': { title: "Corporate Gifting", image: "/categories/corporate_gifting.jpg" },
-    'trenz': { title: "Trenz Collection", image: "/categories/trenz_oversized_festive.jpg" }
+    'custom-sports-jerseys': { title: "Custom Jerseys", image: "/categories/custom_sports.webp" },
+    'polos': { title: "Premium Polos", image: "/categories/premium_polos.webp" },
+    't-shirts': { title: "Custom T-Shirts", image: "/categories/custom_tshirts.webp" },
+    'hoodies-sweatshirts-jackets': { title: "Hoodies & Jackets", image: "/categories/hoodies_sweatshirts.webp" },
+    'accessories': { title: "Accessories", image: "/categories/accessories_group.webp" },
+    'stationery-gifting-drinkware': { title: "Corporate Gifting", image: "/categories/corporate_gifting.webp" },
+    'trenz': { title: "Trenz Collection", image: "/categories/trenz_oversized_festive.webp" }
   };
   
-  const currentBanner = categorySlug ? (bannerConfig[categorySlug] || { title: "The Shop", image: "/process/step1.jpg" }) : { title: "The Shop", image: "/process/step1.jpg" };
+  const currentBanner = categorySlug ? (bannerConfig[categorySlug] || { title: "The Shop", image: "/process/step1.webp" }) : { title: "The Shop", image: "/process/step1.webp" };
 
 
   const toggleCategory = (category: string) => {

@@ -49,34 +49,34 @@ export function AboutYoode() {
             <div className="flex justify-center gap-3 md:gap-4 shrink-0 w-full sm:w-auto sm:h-[380px] mt-4 md:mt-0">
               {/* Column 1 (2 images) */}
               <div className="flex flex-col gap-3 md:gap-4 w-[120px] lg:w-[180px] hidden md:flex">
-                <img 
-                  src="/womens-tshirt.jpg" 
+                <img loading="lazy" decoding="async" 
+                  src="/womens-tshirt.webp" 
                   alt="Womens T-shirt" 
                   className="w-full h-[180px] object-cover rounded-[24px] md:rounded-[32px] shadow-sm shrink-0" 
                 />
-                <img 
-                  src="/mens-polo.jpg" 
+                <img loading="lazy" decoding="async" 
+                  src="/mens-polo.webp" 
                   alt="Mens Polo" 
                   className="w-full flex-1 min-h-0 object-cover rounded-[24px] md:rounded-[32px] shadow-sm" 
                 />
               </div>
 
               {/* Column 2 (1 large image) */}
-              <img 
-                src="/polo-jersey.jpg" 
+              <img loading="lazy" decoding="async" 
+                src="/polo-jersey.webp" 
                 alt="Polo Jersey" 
                 className="w-full max-w-[280px] aspect-square sm:aspect-auto sm:max-w-none sm:w-[160px] lg:w-[260px] sm:h-full min-h-0 object-cover rounded-[24px] md:rounded-[32px] shadow-sm shrink-0" 
               />
 
               {/* Column 3 (2 images) */}
               <div className="flex flex-col gap-3 md:gap-4 w-[120px] lg:w-[180px] hidden sm:flex">
-                <img 
-                  src="/gift-box.jpg" 
+                <img loading="lazy" decoding="async" 
+                  src="/gift-box.webp" 
                   alt="Gift Box" 
                   className="w-full flex-1 min-h-0 object-cover rounded-[24px] md:rounded-[32px] shadow-sm" 
                 />
-                <img 
-                  src="/denim-jacket.jpg" 
+                <img loading="lazy" decoding="async" 
+                  src="/denim-jacket.webp" 
                   alt="Denim Jacket" 
                   className="w-full h-[160px] object-cover rounded-[24px] md:rounded-[32px] shadow-sm shrink-0" 
                 />
@@ -91,8 +91,8 @@ export function AboutYoode() {
             </h3>
             
             <div className="relative rounded-[32px] overflow-hidden flex-1 min-h-[280px]">
-              <img 
-                src="/gift-box.jpg" 
+              <img loading="lazy" decoding="async" 
+                src="/gift-box.webp" 
                 alt="Details" 
                 className="absolute inset-0 w-full h-full object-cover opacity-80" 
               />

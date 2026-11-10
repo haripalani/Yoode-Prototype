@@ -27,7 +27,7 @@ export const blogs = [
       <div class="clear-both"></div>
 
       <h2 id="section-2" class="text-3xl md:text-4xl font-display font-black tracking-tight text-black uppercase mb-6 mt-16 scroll-mt-32">2. Cotton vs. Blends</h2>
-      <img src="/mens-polo.jpg" alt="Premium Polo Fabric" class="float-left w-1/2 md:w-1/3 mr-6 mb-6 mt-2 rounded-2xl shadow-md object-cover aspect-[4/5]" />
+      <img src="/mens-polo.webp" alt="Premium Polo Fabric" class="float-left w-1/2 md:w-1/3 mr-6 mb-6 mt-2 rounded-2xl shadow-md object-cover aspect-[4/5]" />
       <p class="text-lg text-gray-600 leading-relaxed mb-6">
         Not all fabrics are created equal. When selecting apparel for your team or merchandise line, understanding the intricacies of premium fabrics can make all the difference in comfort, durability, and brand perception. The debate between 100% cotton and synthetic blends has been ongoing for decades, but the choice largely depends on the end-use of the garment.
       </p>
@@ -42,14 +42,14 @@ export const blogs = [
       <p class="text-lg text-gray-600 leading-relaxed mb-6">
         Don't just throw branded items into a box. Think about a theme, color coordination, and utility. A cohesive gift set tells a story about your brand's attention to detail. For instance, a "Work From Anywhere" kit might include a premium thermal mug, a high-capacity power bank, and a minimalist notebook, all subtly branded and presented in a sleek matte box.
       </p>
-      <img src="/gift-box.jpg" alt="Curated Gift Box" class="float-right w-1/2 md:w-2/5 ml-6 mb-6 mt-2 rounded-2xl shadow-md object-cover aspect-video" />
+      <img src="/gift-box.webp" alt="Curated Gift Box" class="float-right w-1/2 md:w-2/5 ml-6 mb-6 mt-2 rounded-2xl shadow-md object-cover aspect-video" />
       <p class="text-lg text-gray-600 leading-relaxed mb-8">
         The unboxing experience is your first physical touchpoint with a client. It sets the tone for your entire professional relationship. Invest in custom tissue paper, branded stickers, and a personalized note to make the unboxing process feel like a true event.
       </p>
       <div class="clear-both"></div>
 
       <h2 id="section-4" class="text-3xl md:text-4xl font-display font-black tracking-tight text-black uppercase mb-6 mt-16 scroll-mt-32">4. The Athleisure Revolution</h2>
-      <img src="/categories/hoodies_sweatshirts.jpg" alt="Athleisure" class="float-left w-1/2 md:w-1/3 mr-6 mb-6 mt-2 rounded-2xl shadow-md object-cover aspect-square" />
+      <img src="/categories/hoodies_sweatshirts.webp" alt="Athleisure" class="float-left w-1/2 md:w-1/3 mr-6 mb-6 mt-2 rounded-2xl shadow-md object-cover aspect-square" />
       <p class="text-lg text-gray-600 leading-relaxed mb-6">
         The traditional suit and tie is dead. Today's tech teams want apparel that effortlessly transitions from the office to the gym to the local coffee shop. Athleisure has taken over the corporate uniform market, driven by a desire for comfort without sacrificing a professional silhouette.
       </p>
@@ -64,7 +64,7 @@ export const blogs = [
     slug: "ultimate-guide-to-premium-fabrics",
     type: "image-wide",
     category: "APPAREL",
-    image: "/mens-polo.jpg",
+    image: "/mens-polo.webp",
     title: "THE ULTIMATE GUIDE TO PREMIUM FABRICS",
     date: "OCTOBER 18, 2026",
     readTime: "7 MIN READ",
@@ -85,7 +85,7 @@ export const blogs = [
     bgColor: "bg-[#EB6F3D]",
     category: "TUTORIAL",
     title: "UNBOXING EXPERIENCE: CRAFTING THE PERFECT GIFT SET FOR YOUR CLIENTS",
-    image: "/gift-box.jpg",
+    image: "/gift-box.webp",
     actionText: "VIEW MORE",
     actionDark: false,
     date: "OCTOBER 12, 2026",
@@ -107,7 +107,7 @@ export const blogs = [
     bgColor: "bg-[#B4B0D5]",
     category: "DESIGN",
     title: "TRENDING STYLES AND APPAREL FOR MODERN TECH TEAMS AND STARTUPS",
-    image: "/polo-jersey.jpg",
+    image: "/polo-jersey.webp",
     actionText: "VIEW MORE",
     actionDark: false,
     date: "OCTOBER 05, 2026",
@@ -129,7 +129,7 @@ export const blogs = [
     bgColor: "bg-[#B6D2BA]",
     category: "GUIDE",
     title: "HOW TO CHOOSE THE PERFECT CORPORATE GIFT THAT PEOPLE ACTUALLY LOVE",
-    image: "/categories/corporate_gifting.jpg",
+    image: "/categories/corporate_gifting.webp",
     actionText: "VIEW MORE",
     actionDark: false,
     date: "SEPTEMBER 28, 2026",
@@ -149,7 +149,7 @@ export const blogs = [
     slug: "introducing-trenz-oversized-collection",
     type: "image-wide",
     category: "NEW LAUNCH",
-    image: "/categories/trenz_oversized_festive.jpg",
+    image: "/categories/trenz_oversized_festive.webp",
     title: "INTRODUCING THE TRENZ OVERSIZED COLLECTION",
     date: "SEPTEMBER 20, 2026",
     readTime: "3 MIN READ",
