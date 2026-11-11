@@ -767,7 +767,7 @@ export function YoodeMenu({ isOpen, onClose }: YoodeMenuProps) {
                   }`}
                   title="Switch to Liquid Glass layout"
                 >
-                  <Sparkles size={13} strokeWidth={2.4} className={isGlass ? "text-xmas-gold" : ""} />
+                  <Sparkles size={13} strokeWidth={2.4} className={isGlass ? "text-[#F2C14E]" : ""} />
                   <span>Glass</span>
                 </button>
               </div>
@@ -847,7 +847,7 @@ export function YoodeMenu({ isOpen, onClose }: YoodeMenuProps) {
                             strokeWidth={isSelected ? 3 : 2}
                             className={`shrink-0 transition-all duration-200 ml-2 ${
                               isSelected
-                                ? `${isGlass ? "text-xmas-gold" : "text-[#C13828]"} translate-x-1`
+                                ? `${isGlass ? "text-[#F2C14E]" : "text-[#C13828]"} translate-x-1`
                                 : isGlass
                                   ? "opacity-40 text-white group-hover:opacity-100"
                                   : "opacity-40 text-[#111827] group-hover:opacity-100 group-hover:text-[#C13828]"
@@ -1008,7 +1008,7 @@ export function YoodeMenu({ isOpen, onClose }: YoodeMenuProps) {
                                 </span>
                               )}
                               {item.price ? (
-                                <span className={`text-[10px] sm:text-xs font-black ${isGlass ? "text-xmas-gold" : "text-[#C13828]"}`}>
+                                <span className={`text-[10px] sm:text-xs font-black ${isGlass ? "text-[#F2C14E]" : "text-[#C13828]"}`}>
                                   {item.price}
                                 </span>
                               ) : item.subtitle ? (
