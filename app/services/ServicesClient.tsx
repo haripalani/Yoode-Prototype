@@ -1,138 +1,13 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import * as THREE from "three";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import Link from "next/link";
-import { ChevronDown, ArrowUpRight } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { ServicesHero } from "@/components/ServicesHero";
 import { ExperienceCenters } from "@/components/ExperienceCenters";
 import { Process } from "@/components/Process";
-
-const FRAG = `
-precision highp float;
-varying vec2 vUv;
-uniform vec2 uRes, uMouse, uRipple, uArt;
-uniform float uTime, uP, uMode, uBaseA, uBaseB, uBaseMix, uZoom, uArtS, uRippleT;
-#define PI 3.14159265
-#define ORANGE vec3(0.925,0.085,0.0)
-#define AMBER  vec3(0.91,0.34,0.0)
-float hash21(vec2 p){ p=fract(p*vec2(123.34,456.21)); p+=dot(p,p+45.32); return fract(p.x*p.y); }
-float vnoise(vec2 p){ vec2 i=floor(p), f=fract(p); f=f*f*(3.0-2.0*f);
-  float a=hash21(i), b=hash21(i+vec2(1.,0.)), c=hash21(i+vec2(0.,1.)), d=hash21(i+vec2(1.,1.));
-  return mix(mix(a,b,f.x),mix(c,d,f.x),f.y); }
-float fbm(vec2 p){ float v=0.0, a=0.5; for(int i=0;i<3;i++){ v+=a*vnoise(p); p=p*2.03+17.17; a*=0.5; } return v*1.143; }
-vec3 hue2rgb(float h){ vec3 p=abs(fract(vec3(h)+vec3(0.,2./3.,1./3.))*6.-3.); return clamp(p-1.,0.,1.); }
-float sdSeg(vec2 p, vec2 a, vec2 b){ vec2 pa=p-a, ba=b-a; float h=clamp(dot(pa,ba)/dot(ba,ba),0.0,1.0); return length(pa-ba*h); }
-float sdBox(vec2 p, vec2 b){ vec2 d=abs(p)-b; return length(max(d,0.0))+min(max(d.x,d.y),0.0); }
-float sdY(vec2 p, float s){ float d=sdSeg(p,vec2(0.,-0.58*s),vec2(0.,0.02*s)); d=min(d,sdSeg(p,vec2(0.,0.02*s),vec2(-0.42*s,0.58*s))); d=min(d,sdSeg(p,vec2(0.,0.02*s),vec2(0.42*s,0.58*s))); return d-0.115*s; }
-float sdRing(vec2 p, float s){ return abs(length(p)-0.5*s)-0.06*s; }
-float sdBars(vec2 p, float s){ return min(sdBox(p-vec2(0.,0.80*s),vec2(0.62*s,0.05*s)), sdBox(p+vec2(0.,0.80*s),vec2(0.62*s,0.05*s))); }
-float sdFrame(vec2 p, float s){ return max(sdBox(p,vec2(0.78*s,0.88*s)), -sdBox(p,vec2(0.72*s,0.82*s))); }
-float sdWave(vec2 p, float s){ return abs(p.y - 0.26*s*sin(p.x/(0.5*s))) - 0.10*s; }
-float rev(float y, float front, float w){ return smoothstep(front-w, front+w, y); }
-/* base materials, macro scale */
-float mJersey(vec2 q){ float col=q.x/9.0; float stag=step(0.5,fract(col*0.5)); float row=q.y/6.5+stag*0.5;
-  float cx=fract(col)-0.5, ry=fract(row)-0.5; float loop=1.0-smoothstep(0.05,0.5,abs(cx)*1.4+abs(ry)*0.9); return loop*0.8+fbm(q*0.35)*0.25; }
-float mFleece(vec2 q){ return fbm(q*0.22)*0.65+fbm(q*1.1)*0.35; }
-float mPique(vec2 q){ float a=cos(q.x/5.6)+cos(q.y/5.6); return smoothstep(-0.7,1.0,a)*0.85+fbm(q*0.45)*0.2; }
-float mTwill(vec2 q){ float d=0.5+0.5*sin((q.x+q.y)*0.5); float th=0.5+0.5*sin(q.x*2.2); return d*0.65+th*0.15+fbm(q*0.5)*0.2; }
-float mSteel(vec2 q){ return fbm(vec2(q.x*0.06,q.y*2.4))*0.55+vnoise(vec2(q.x*0.25,q.y*7.0))*0.25+0.1; }
-float mLeather(vec2 q){ float c=fbm(q*0.11); float pores=smoothstep(0.58,0.92,vnoise(q*0.55)); return c*0.75-pores*0.25+0.2; }
-float baseH(vec2 q, float b){
-  if(b<0.5) return mJersey(q); if(b<1.5) return mFleece(q); if(b<2.5) return mPique(q); if(b<3.5) return mTwill(q);
-  if(b<4.5) return mJersey(q); if(b<5.5) return mSteel(q); return mLeather(q); }
-vec3 baseAlb(float b){
-  if(b<0.5) return vec3(0.90,0.86,0.78); if(b<1.5) return vec3(0.012,0.012,0.014); if(b<2.5) return ORANGE; if(b<3.5) return vec3(0.80,0.77,0.70);
-  if(b<4.5) return vec3(0.009,0.009,0.010); if(b<5.5) return vec3(0.055,0.06,0.07); return vec3(0.16,0.075,0.035); }
-/* the height field, with each chapter's effect on the surface */
-float heightAt(vec2 px){
-  vec2 q = px/uZoom; float m = uMode; float h;
-  if (m > 6.5){ h = uBaseMix < 0.001 ? baseH(q,uBaseA) : (uBaseMix > 0.999 ? baseH(q,uBaseB) : mix(baseH(q,uBaseA), baseH(q,uBaseB), uBaseMix));
-    float r = distance(px, uRipple); h += 0.4*sin(r*0.11 - uRippleT*7.0)*exp(-r*0.006)*exp(-uRippleT*1.2); return h; }
-  vec2 ap = px - uArt; float s = uArtS; float H = uRes.y;
-  float pp = clamp((uP-0.1)/0.75, 0.0, 1.0); float front = H*(1.0-pp);
-  if (m < 0.5){ h = mJersey(q); float d = sdBox(ap, vec2(0.62*s)) - 0.1*s; float mk = 1.0-smoothstep(-2.0,2.0,d); float ink = mk*rev(px.y,front,6.0); return h - ink*0.15; }
-  if (m < 1.5){ h = mFleece(q); float d = min(sdRing(ap,s), sdY(ap,0.62*s)); float mk=1.0-smoothstep(-1.5,1.5,d);
-    float film = 1.0-smoothstep(-2.0,2.0, sdBox(ap, vec2(0.85*s))-0.05*s); float p1=clamp((uP-0.05)/0.3,0.,1.), p2=clamp((uP-0.35)/0.15,0.,1.), p3=clamp((uP-0.55)/0.4,0.,1.);
-    float coord = (ap.x - ap.y*0.7 + 1.5*s)/(3.0*s); float peeled = smoothstep(p3-0.03,p3+0.03,coord); float filmOn = film*p1*(1.0-peeled);
-    h = mix(h, 0.5, filmOn*p2*0.85); float printed = mk*step(0.4,uP); h = mix(h, 0.62, printed*0.9) + printed*0.3; return h; }
-  if (m < 3.5){ bool cr = m > 2.5; h = cr ? mTwill(q) : mPique(q);
-    float d = cr ? sdWave(ap,s) : sdY(ap,s); float revl = cr ? (1.0-smoothstep(uRes.x*pp-4.0, uRes.x*pp+4.0, px.x)) : rev(px.y,front,2.0);
-    float inM = (1.0-smoothstep(-1.0,1.0,d))*revl;
-    float thr = cr ? (0.5+0.5*cos(px.x*2.0*PI/3.4 + vnoise(px*0.4)*0.6)) : (0.5+0.5*cos(px.y*2.0*PI/3.4 + vnoise(px*0.4)*0.6));
-    float pucker = (1.0-smoothstep(0.0,9.0,d))*step(0.0,d)*revl;
-    return mix(h, 0.55 + thr*0.45 + 0.3, inM) - pucker*0.22; }
-  if (m < 4.5){ h = mJersey(q); float d = min(sdY(ap,s), sdBars(ap,s)); float mk=1.0-smoothstep(-1.5,1.5,d); float ink = mk*rev(px.y,front,3.0);
-    float rim = (1.0-smoothstep(0.0,2.5,abs(d)))*ink; return mix(h, 0.7, ink*0.9) + ink*0.3 + rim*0.15; }
-  if (m < 5.5){ h = mSteel(q); float cell = 11.0; vec2 c = (floor(ap/cell)+0.5)*cell; float dm = sdY(c,1.2*s); float cov = 1.0-smoothstep(-1.0,3.0,dm);
-    float rowRev = rev(c.y+uArt.y, front, cell*0.6); float r = 4.6*cov*rowRev; float dd = length(ap-c); float dome = sqrt(max(0.0, r*r-dd*dd))/max(r,0.001);
-    return h*0.6 + dome*0.9*step(0.5,r); }
-  h = mLeather(q); float d = min(sdFrame(ap,0.9*s), sdY(ap,0.9*s)); float mk=1.0-smoothstep(-1.0,1.0,d); float burn = mk*rev(px.y,front,2.0); return h - burn*0.4;
-}
-void main(){
-  vec2 px = vUv*uRes; float m = uMode; float e = 1.0;
-  float h0 = heightAt(px), hx = heightAt(px+vec2(e,0.)), hy = heightAt(px+vec2(0.,e));
-  vec3 alb; float rough=0.85, bump=3.0, aniso=0.0, specK=0.35; vec2 T=vec2(1.,0.); vec3 glow=vec3(0.);
-  vec2 ap = px-uArt; float s = uArtS; float H = uRes.y; float pp = clamp((uP-0.1)/0.75,0.,1.); float front = H*(1.0-pp);
-  float live = step(0.1,uP)*step(uP,0.85);
-  if (m > 6.5){ alb = mix(baseAlb(uBaseA), baseAlb(uBaseB), uBaseMix); float b = uBaseMix<0.5 ? uBaseA : uBaseB;
-    if (b>4.5&&b<5.5){ aniso=1.0; rough=0.35; specK=0.9; bump=2.0; } if (b>5.5){ rough=0.6; specK=0.5; bump=2.2; } if (b>0.5&&b<1.5){ bump=1.6; } }
-  else if (m < 0.5){ alb = baseAlb(0.0); float d = sdBox(ap, vec2(0.62*s))-0.1*s; float mk = 1.0-smoothstep(-2.0,2.0,d); float ink = mk*rev(px.y,front,6.0);
-    float g = clamp((ap.y+0.62*s)/(1.24*s),0.,1.); vec3 art = mix(vec3(0.02,0.015,0.012), ORANGE, smoothstep(0.0,0.45,g)); art = mix(art, AMBER*1.1, smoothstep(0.45,0.8,g)); art = mix(art, vec3(0.95,0.75,0.55), smoothstep(0.8,1.0,g));
-    float sun = 1.0-smoothstep(0.16*s,0.19*s, length(ap-vec2(0.22*s,0.25*s))); art = mix(art, vec3(0.98,0.93,0.85), sun);
-    float mts = 1.0-smoothstep(-0.02*s,0.02*s, ap.y + 0.1*s + 0.2*s*sin(ap.x/(0.18*s))); art = mix(art, vec3(0.02,0.018,0.015), mts);
-    float valley = 1.0-h0; alb = mix(alb, art*(0.7+0.3*valley), ink*0.96);
-    float wet = exp(-abs(px.y-front)/12.0)*mk*live; rough = mix(rough,0.3,wet); specK += wet*0.6; glow += wet*vec3(0.05); }
-  else if (m < 1.5){ alb = baseAlb(1.0); bump = 1.6; float dr = sdRing(ap,s), dy = sdY(ap,0.62*s); float d = min(dr,dy); float mk=1.0-smoothstep(-1.5,1.5,d);
-    float film = 1.0-smoothstep(-2.0,2.0, sdBox(ap, vec2(0.85*s))-0.05*s); float p1=clamp((uP-0.05)/0.3,0.,1.), p3=clamp((uP-0.55)/0.4,0.,1.);
-    float coord = (ap.x-ap.y*0.7+1.5*s)/(3.0*s); float peeled = smoothstep(p3-0.03,p3+0.03,coord); float filmOn = film*p1*(1.0-peeled);
-    float printed = mk*step(0.4,uP); vec3 pc = (dr < dy) ? ORANGE : vec3(0.9);
-    alb = mix(alb, pc, printed); rough = mix(rough,0.35,printed); specK = mix(specK,0.7,printed); bump = mix(bump,0.5,printed);
-    alb = mix(alb, vec3(0.55), filmOn*0.55); rough = mix(rough,0.25,filmOn); specK += filmOn*0.5;
-    float edge = exp(-abs(coord-p3)*40.0)*film*p1*step(0.01,p3)*step(p3,0.99); glow += edge*vec3(0.45); }
-  else if (m < 3.5){ bool cr = m > 2.5; alb = cr ? baseAlb(3.0) : baseAlb(2.0);
-    float d = cr ? sdWave(ap,s) : sdY(ap,s); float revl = cr ? (1.0-smoothstep(uRes.x*pp-4.0, uRes.x*pp+4.0, px.x)) : rev(px.y,front,2.0);
-    float inM = (1.0-smoothstep(-1.0,1.0,d))*revl;
-    vec3 thread = cr ? pow(hue2rgb(fract(px.x/uRes.x*1.15)), vec3(2.2))*1.1 : vec3(0.92,0.9,0.86);
-    float shade = 0.85+0.15*vnoise(px*0.7);
-    alb = mix(alb, thread*shade, inM); aniso = inM; T = cr ? vec2(0.,1.) : vec2(1.,0.); rough = mix(rough,0.45,inM); specK = mix(specK,0.8,inM); bump = mix(bump,4.0,inM);
-    float fpos = cr ? abs(px.x-uRes.x*pp) : abs(px.y-front); float nd = 1.0-smoothstep(-2.0,6.0,d); float needle = exp(-fpos/3.0)*nd*live;
-    glow += needle*vec3(0.9,0.85,0.7); alb *= 1.0-exp(-fpos/8.0)*nd*live*0.35; }
-  else if (m < 4.5){ alb = baseAlb(4.0); float d = min(sdY(ap,s), sdBars(ap,s)); float mk=1.0-smoothstep(-1.5,1.5,d); float ink = mk*rev(px.y,front,3.0);
-    alb = mix(alb, ORANGE, ink); rough = mix(rough,0.8,ink); bump = mix(bump,1.2,ink);
-    float band = (1.0-smoothstep(0.0,70.0, front-px.y))*step(px.y,front)*live; vec2 g = abs(fract(px/5.0)-0.5); float mesh = smoothstep(0.42,0.5,max(g.x,g.y));
-    alb = mix(alb, alb*0.5 + vec3(0.02), band*mesh*0.9);
-    float blade = exp(-abs(px.y-front)/2.5)*live; alb *= 1.0-blade*0.6; glow += exp(-abs(px.y-front-3.0)/2.0)*live*vec3(0.12); }
-  else if (m < 5.5){ alb = baseAlb(5.0); aniso = 1.0; T = vec2(1.,0.); rough = 0.35; specK = 0.9; bump = 2.0;
-    float cell = 11.0; vec2 c = (floor(ap/cell)+0.5)*cell; float dm = sdY(c,1.2*s); float cov = 1.0-smoothstep(-1.0,3.0,dm); float rowRev = rev(c.y+uArt.y,front,cell*0.6);
-    float r = 4.6*cov*rowRev; float dd = length(ap-c); float dot_ = (1.0-smoothstep(r-1.0,r+0.5,dd))*step(0.5,r);
-    float g = clamp((c.y+0.7*s)/(1.4*s),0.,1.); vec3 dc = mix(ORANGE, AMBER, smoothstep(0.2,0.5,g)); dc = mix(dc, vec3(0.9), smoothstep(0.55,0.9,g));
-    alb = mix(alb, dc, dot_); aniso = mix(aniso,0.0,dot_); rough = mix(rough,0.12,dot_); specK = mix(specK,1.2,dot_); bump = mix(bump,5.0,dot_);
-    float lamp = exp(-abs(px.y-front)/16.0)*live; glow += lamp*vec3(0.35,0.12,0.9)*0.8; }
-  else { alb = baseAlb(6.0); rough = 0.6; specK = 0.45; bump = 2.2; float d = min(sdFrame(ap,0.9*s), sdY(ap,0.9*s)); float mk=1.0-smoothstep(-1.0,1.0,d); float burn = mk*rev(px.y,front,2.0);
-    float scorch = (1.0-smoothstep(0.0,7.0,d))*step(0.0,d)*rev(px.y,front,4.0); alb = mix(alb, vec3(0.03,0.018,0.01), burn); alb *= 1.0-scorch*0.45; rough = mix(rough,0.95,burn); specK = mix(specK,0.05,burn);
-    float nd = 1.0-smoothstep(-2.0,5.0,d); float ember = exp(-abs(px.y-front)/4.0)*nd*live*(0.8+0.3*sin(uTime*37.0)); glow += ember*vec3(1.0,0.35,0.05)*1.4;
-    float sp = step(0.987, hash21(floor(px/3.0)+floor(uTime*24.0)))*exp(-abs(px.y-front)/16.0)*(1.0-smoothstep(-2.0,14.0,d))*live; glow += sp*vec3(1.0,0.8,0.3); }
-  /* macro depth of field: detail softens away from the subject */
-  vec2 fu = (m>6.5) ? (uMouse/uRes) : (uArt/uRes); float far = smoothstep(0.35,0.95, length((vUv-fu)*vec2(uRes.x/uRes.y,1.0)));
-  bump *= 1.0-0.7*far;
-  vec3 N = normalize(vec3(-(hx-h0)*bump, -(hy-h0)*bump, 1.0));
-  vec3 L = normalize(vec3(0.45+0.2*sin(uTime*0.23), 0.55+0.15*cos(uTime*0.17), 0.72));
-  vec3 Hh = normalize(L+vec3(0.,0.,1.));
-  float diff = max(dot(N,L),0.0); float shin = mix(90.0,6.0,rough);
-  float specIso = pow(max(dot(N,Hh),0.0), shin);
-  float th = dot(normalize(T), Hh.xy); float specAn = pow(sqrt(max(0.0,1.0-th*th)), shin*0.6)*smoothstep(0.0,0.35,dot(N,L));
-  float spec = mix(specIso, specAn, aniso)*specK*(1.0-rough*0.5);
-  vec3 col = alb*(0.30+0.80*diff) + spec + glow;
-  col *= 1.0-0.28*smoothstep(0.45,1.05,length((vUv-0.5)*vec2(1.3,1.0)));
-  col += (hash21(px+fract(uTime))-0.5)*0.02;
-  col = pow(max(col,0.0), vec3(1.0/2.2));
-  float topDist = uRes.y - px.y;
-  float alpha = (m < 6.5) ? smoothstep(0.0, 96.0, topDist) : 1.0;
-  gl_FragColor = vec4(col, alpha);
-}`;
+import { MethodSpreads } from "@/components/method-spreads/MethodSpreads";
 
 /* product glyphs, referenced with <use> */
 const SPRITE = () => (
@@ -150,57 +25,6 @@ const SPRITE = () => (
 );
 
 /* ---------- content ---------- */
-
-type Tone = "light" | "dark";
-type Side = "left" | "right";
-
-const METHODS: { id: string; tag: string; side: Side; tone: Tone; chapter: string; kword: string; title: React.ReactNode; lede: string; facts: [string, string][]; prods: string[]; href?: string }[] = [
-  { id: "m-dtg", tag: "DTG", side: "left", tone: "light", chapter: "Direct-to-garment · 180 GSM combed cotton", kword: "DTG",
-    title: <>Ink that <em>soaks in.</em></>,
-    lede: "Water-based ink sprayed straight into the knit. It sinks between the loops instead of sitting on them, so a photograph prints with every gradient and the shirt still feels like a shirt.",
-    facts: [["Best for", "Photos, gradients, art"], ["Fabric", "100% cotton"], ["Minimum", "1 piece"], ["Wash life", "50+ washes"]], prods: ["Tees", "Sweatshirts", "Totes"],
-    href: "/dtg-printing" },
-  { id: "m-dtf", tag: "DTF", side: "right", tone: "dark", chapter: "Direct-to-film · 320 GSM fleece", kword: "DTF",
-    title: <>A print that <em>sits on top.</em></>,
-    lede: "The artwork is printed on film, pressed onto the fleece at heat, and the film peeled away cold. What stays is a bold, flat layer with white ink built in, so it works on black, on polyester, on anything.",
-    facts: [["Best for", "Logos and vectors"], ["Fabric", "Any, including poly"], ["Minimum", "1 piece"], ["Wash life", "60+ washes"]], prods: ["Hoodies", "Jerseys", "Caps", "Bags"],
-    href: "/dtg-printing?service=dtf" },
-  { id: "m-embroidery", tag: "Embroidery", side: "left", tone: "light", chapter: "Embroidery · Pique cotton", kword: "Embroidery",
-    title: <>Thread, <em>four thousand</em> times.</>,
-    lede: "Your artwork is digitised into a stitch file, then a needle lays satin thread across the pique, pass after pass. It does not print; it becomes part of the cloth, and it outlasts the garment.",
-    facts: [["Best for", "Logos, monograms"], ["Fabric", "Pique, twill, fleece"], ["Minimum", "1 piece"], ["Life", "Outlasts the garment"]], prods: ["Polos", "Caps", "Jackets", "Towels"],
-    href: "/dtg-printing?service=embroidery" },
-  { id: "m-coloreel", tag: "Coloreel", side: "right", tone: "light", chapter: "Coloreel · Cotton twill", kword: "Coloreel",
-    title: <>One thread, <em>every colour.</em></>,
-    lede: "A single white thread, dyed on the machine as it feeds. Gradients and photoreal logos in embroidery, with no thread changes and no colour limit.",
-    facts: [["Best for", "Gradient logos"], ["Fabric", "As embroidery"], ["Minimum", "1 piece"], ["Colours", "Unlimited"]], prods: ["Caps", "Polos", "Jackets"],
-    href: "/dtg-printing?service=coloreel" },
-  { id: "m-screen", tag: "Screen", side: "left", tone: "dark", chapter: "Screen printing · Cotton jersey", kword: "Screen",
-    title: <>Pull once, print <em>five hundred.</em></>,
-    lede: "Ink pulled through a mesh stencil, one colour per screen. Thick, matte, opaque, and once the screens are made every extra piece is cheap and fast. Built for events, uniforms and merch drops.",
-    facts: [["Best for", "1–6 solid colours"], ["Fabric", "Cotton, blends"], ["Minimum", "50 pieces"], ["Wash life", "50+ washes"]], prods: ["Event tees", "Uniforms", "Totes"],
-    href: "/dtg-printing?service=screen" },
-  { id: "m-uv", tag: "UV", side: "right", tone: "dark", chapter: "UV printing · Brushed steel", kword: "UV",
-    title: <>Colour that <em>cures on steel.</em></>,
-    lede: "Droplets of ink land on the metal and an ultraviolet lamp sets them the instant they touch. Full colour on bottles, pens and boxes, slightly raised, glossy and scratch resistant.",
-    facts: [["Best for", "Full colour, hard goods"], ["Surface", "Metal, glass, wood, plastic"], ["Minimum", "1 piece"], ["Finish", "Gloss, raised"]], prods: ["Bottles", "Pens", "Notebooks", "Phone cases"],
-    href: "/dtg-printing?service=uv" },
-  { id: "m-engraving", tag: "Engraving", side: "left", tone: "dark", chapter: "Laser engraving · Full-grain leather", kword: "Engraving",
-    title: <>Burned in. <em>Never off.</em></>,
-    lede: "A laser traces your artwork into leather, wood or steel and takes the surface with it. No ink, nothing to fade or peel. The finish for gifts, awards and anything meant to be kept.",
-    facts: [["Best for", "Gifts, awards"], ["Surface", "Steel, wood, leather"], ["Minimum", "1 piece"], ["Finish", "Permanent"]], prods: ["Bottles", "Pens", "Plaques", "Gift boxes"],
-    href: "/dtg-printing?service=engraving" },
-];
-
-// Full class strings so Tailwind can see them.
-const TONE = {
-  light: { fg: "text-yoode-onyx", soft: "text-gray-700", mute: "text-gray-500", rule: "border-black/15", ruleBg: "bg-black/15",
-    scrim: { left: "bg-linear-to-r from-white/90 via-white/70 via-[36%] to-white/0 to-[64%]", right: "bg-linear-to-l from-white/90 via-white/70 via-[36%] to-white/0 to-[64%]",
-      narrow: "group-[.narrow]/f:bg-linear-to-t group-[.narrow]/f:from-white/95 group-[.narrow]/f:via-white/80 group-[.narrow]/f:via-[48%] group-[.narrow]/f:to-white/0 group-[.narrow]/f:to-[72%]" } },
-  dark: { fg: "text-white", soft: "text-white/80", mute: "text-white/60", rule: "border-white/20", ruleBg: "bg-white/20",
-    scrim: { left: "bg-linear-to-r from-[#0c0c0c]/90 via-[#0c0c0c]/70 via-[36%] to-[#0c0c0c]/0 to-[64%]", right: "bg-linear-to-l from-[#0c0c0c]/90 via-[#0c0c0c]/70 via-[36%] to-[#0c0c0c]/0 to-[64%]",
-      narrow: "group-[.narrow]/f:bg-linear-to-t group-[.narrow]/f:from-[#0c0c0c]/95 group-[.narrow]/f:via-[#0c0c0c]/80 group-[.narrow]/f:via-[48%] group-[.narrow]/f:to-[#0c0c0c]/0 group-[.narrow]/f:to-[72%]" } },
-};
 
 const HERO_INDEX = ["DTG print", "DTF transfer", "Embroidery", "Coloreel", "Screen print", "UV print", "Engraving"];
 const HERO_LINKS = ["m-dtg", "m-dtf", "m-embroidery", "m-coloreel", "m-screen", "m-uv", "m-engraving"];
@@ -441,15 +265,6 @@ function MethodGuide() {
   );
 }
 
-const VERT = "varying vec2 vUv; void main(){ vUv = uv; gl_Position = vec4(position.xy, 0.0, 1.0); }";
-
-type View = { el: HTMLElement; p: number; mode: number; side: string };
-
-const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
-const clamp01 = (v: number) => Math.max(0, Math.min(1, v));
-const smooth = (t: number) => { t = clamp01(t); return t * t * (3 - 2 * t); };
-const win = (p: number, a: number, b: number) => clamp01((p - a) / (b - a));
-
 export function ServicesClient() {
   const rootRef = useRef<HTMLDivElement>(null);
 
@@ -466,10 +281,6 @@ export function ServicesClient() {
 
     let cancelled = false;
     const disposers: Array<() => void> = [];
-    const on = <K extends keyof WindowEventMap>(type: K, fn: (e: WindowEventMap[K]) => void, opts?: AddEventListenerOptions) => {
-      window.addEventListener(type, fn as EventListener, opts);
-      disposers.push(() => window.removeEventListener(type, fn as EventListener, opts));
-    };
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const onEl = (el: Element, type: string, fn: (e: any) => void, opts?: AddEventListenerOptions) => {
       el.addEventListener(type, fn, opts);
@@ -484,143 +295,14 @@ export function ServicesClient() {
 
     function init() {
       ctx = gsap.context(() => {
-        const hframe = $("#hframe");
-        /* views: the hero (mode 7) and one per spread (mode = chapter index) */
-        const wide: View = { el: $("[data-hview]"), p: 0, mode: 7, side: "left" };
-        const views: Record<number, View> = {};
-        $$("[data-mview]").forEach((el) => { const sec = el.closest<HTMLElement>("[data-method]")!; views[+el.dataset.view!] = { el, p: 0, mode: +el.dataset.view!, side: sec.dataset.side! }; });
-
-        /* ---------- layout: the narrow (portrait) variant, and the chapter word fitted to its half ---------- */
-        const frames = $$("[data-mframe]"), kwords = $$("[data-kword]");
-        const fitKwords = () => { kwords.forEach((k) => {
-          const frame = k.closest<HTMLElement>("[data-mframe]")!, nar = frame.classList.contains("narrow");
-          const gut = parseFloat(getComputedStyle(frame.querySelector("[data-mcopy]")!).paddingLeft) || 24;
-          const maxW = nar ? frame.clientWidth - 2 * gut : frame.clientWidth * 0.40;
-          k.style.fontSize = "";
-          const w = k.getBoundingClientRect().width;
-          if (w > maxW && w > 0) k.style.fontSize = (parseFloat(getComputedStyle(k).fontSize) * maxW / w).toFixed(1) + "px";
-        }); };
-        const layout = () => { const nar = innerWidth / innerHeight < 1.0; hframe.classList.toggle("narrow", nar); frames.forEach((f) => f.classList.toggle("narrow", nar)); fitKwords(); };
-        let layT = 0; on("resize", () => { cancelAnimationFrame(layT); layT = requestAnimationFrame(layout); }); layout();
-        document.fonts?.ready.then(() => { if (!cancelled) fitKwords(); });
-
-        /* ---------- the material shader ---------- */
-        let three: { render: () => void; heroZoom: { v: number }; wake: (ms: number) => void } | null = null;
-        const canvas = $<HTMLCanvasElement>("#gl");
-        try {
-          const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, alpha: true, powerPreference: "high-performance" });
-          disposers.push(() => renderer.dispose());
-          const isMobile = matchMedia("(pointer:coarse)").matches;
-          /* Bound the expensive shader's pixel count before the first draw (including large monitors). */
-          const Q = { base: isMobile ? 0.75 : 1.0, min: 0.35, max: 1, cur: 0, ema: 16.7, last: performance.now(), lastAdj: 0, lostGL: false };
-          const maxRatio = () => Math.min(devicePixelRatio, Q.base, Math.sqrt(1000000 / Math.max(1, innerWidth * innerHeight)));
-          Q.max = maxRatio();
-          Q.cur = Math.min(Q.max, Math.sqrt(500000 / Math.max(1, innerWidth * innerHeight)));
-          renderer.setPixelRatio(Q.cur);
-          /* render only while something is moving; otherwise a slow idle tick keeps the light drift alive */
-          let activeUntil = performance.now() + 4500, lastDraw = 0;
-          const wake = (ms: number) => { activeUntil = Math.max(activeUntil, performance.now() + ms); };
-          onEl(canvas, "webglcontextlost", (e: Event) => { e.preventDefault(); Q.lostGL = true; });
-          onEl(canvas, "webglcontextrestored", () => { Q.lostGL = false; wake(1500); });
-          on("scroll", () => wake(1600), { passive: true });
-          on("pointermove", () => wake(1200), { passive: true });
-          on("touchmove", () => wake(1600), { passive: true });
-          renderer.setClearColor(0x000000, 0); renderer.autoClear = false;
-          const scene = new THREE.Scene(); const cam = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
-          const U = { uRes: { value: new THREE.Vector2(1, 1) }, uMouse: { value: new THREE.Vector2(-999, -999) }, uRipple: { value: new THREE.Vector2(-999, -999) }, uArt: { value: new THREE.Vector2(0, 0) },
-            uTime: { value: 0 }, uP: { value: 0 }, uMode: { value: 7 }, uBaseA: { value: 0 }, uBaseB: { value: 0 }, uBaseMix: { value: 0 }, uZoom: { value: 1 }, uArtS: { value: 200 }, uRippleT: { value: 99 } };
-          const mat = new THREE.ShaderMaterial({ uniforms: U, vertexShader: VERT, fragmentShader: FRAG, depthTest: false, depthWrite: false, transparent: true });
-          const geo = new THREE.PlaneGeometry(2, 2);
-          scene.add(new THREE.Mesh(geo, mat));
-          disposers.push(() => { geo.dispose(); mat.dispose(); });
-
-          /* hero material crossfade + pointer touch */
-          const heroBase = { a: 0, b: 0, mix: 0 }; const rip = { x: -999, y: -999, t0: -99, lx: 0, ly: 0 };
-          const heroZoom = { v: 0.7 };
-          $$("#hindex a").forEach((a) => { onEl(a, "pointerenter", () => { const nb = +a.dataset.base!; if (nb === (heroBase.mix > 0.5 ? heroBase.b : heroBase.a)) return;
-            heroBase.a = heroBase.mix > 0.5 ? heroBase.b : heroBase.a; heroBase.b = nb; heroBase.mix = 0; wake(1400); gsap.to(heroBase, { mix: 1, duration: 0.9, ease: "power2.inOut", overwrite: true }); }); });
-          const heroMouse = { x: -999, y: -999 };
-          onEl(wide.el, "pointermove", (e: PointerEvent) => { const r = wide.el.getBoundingClientRect(); const x = e.clientX - r.left, y = r.height - (e.clientY - r.top);
-            heroMouse.x = x; heroMouse.y = y; const now = performance.now() / 1000;
-            if (Math.hypot(x - rip.lx, y - rip.ly) > 90 || now - rip.t0 > 0.9) { rip.x = x; rip.y = y; rip.t0 = now; rip.lx = x; rip.ly = y; wake(2500); } }, { passive: true });
-          onEl(wide.el, "pointerleave", () => { heroMouse.x = -999; heroMouse.y = -999; });
-          const secMouse = { x: -999, y: -999 };
-          $$("[data-mview]").forEach((el) => onEl(el, "pointermove", (e: PointerEvent) => { const r = el.getBoundingClientRect(); secMouse.x = e.clientX - r.left; secMouse.y = r.height - (e.clientY - r.top); }, { passive: true }));
-
-          const resize = () => {
-            Q.max = maxRatio();
-            const ratio = Math.min(Q.max, Math.max(Q.cur, Math.sqrt(200000 / Math.max(1, innerWidth * innerHeight))));
-            if (ratio !== Q.cur) { Q.cur = ratio; renderer.setPixelRatio(Q.cur); }
-            renderer.setSize(innerWidth, innerHeight, false);
-          };
-          let rszT = 0; on("resize", () => { cancelAnimationFrame(rszT); rszT = requestAnimationFrame(() => { resize(); wake(1500); }); }); resize();
-
-          const clock = new THREE.Clock();
-          const renderInto = (el: HTMLElement, set: (w: number, h: number) => void) => {
-            const r = el.getBoundingClientRect();
-            if (r.bottom <= 0 || r.top >= innerHeight || r.width < 2 || r.height < 2) return false;
-            const w = Math.round(r.width), h = Math.round(r.height), left = Math.round(r.left), bottom = Math.round(innerHeight - r.bottom);
-            renderer.setViewport(left, bottom, w, h); renderer.setScissor(left, bottom, w, h); renderer.setScissorTest(true);
-            U.uRes.value.set(w, h); set(w, h); renderer.render(scene, cam); return true;
-          };
-          const render = () => {
-            if (Q.lostGL || document.hidden) return;
-            const now = performance.now(), dt = now - Q.last; Q.last = now;
-            if (dt < 1000) Q.ema = Q.ema * 0.9 + Math.min(dt, 250) * 0.1;
-            const active = now < activeUntil;
-            // 30 fps during interaction, 8 fps at rest; text and scrolling keep the full GSAP ticker rate.
-            if (now - lastDraw < (active ? 1000 / 30 - 1 : 125)) return;
-            lastDraw = now;
-            if (active && now - Q.lastAdj > 600) {
-              const minRatio = Math.min(Q.min, Q.max, Math.sqrt(200000 / Math.max(1, innerWidth * innerHeight)));
-              if (Q.ema > 26 && Q.cur > minRatio) { Q.cur = Math.max(minRatio, Q.cur - 0.1); renderer.setPixelRatio(Q.cur); Q.lastAdj = now; Q.ema = 20; }
-            }
-            const t = clock.getElapsedTime(); U.uTime.value = t;
-            renderer.setScissorTest(false); renderer.clear();
-            const nar = innerWidth / innerHeight < 1.0;
-            renderInto(wide.el, () => { U.uMode.value = 7; U.uP.value = wide.p; U.uBaseA.value = heroBase.a; U.uBaseB.value = heroBase.b; U.uBaseMix.value = heroBase.mix;
-              U.uZoom.value = heroZoom.v * (1.0 + 0.8 * smooth(wide.p)); U.uMouse.value.set(heroMouse.x, heroMouse.y); U.uRipple.value.set(rip.x, rip.y); U.uRippleT.value = performance.now() / 1000 - rip.t0; });
-            for (let k = 0; k < 7; k++) { const v = views[k]; if (!v) continue;
-              renderInto(v.el, (w, h) => { U.uMode.value = k; U.uP.value = v.p; U.uZoom.value = 1.0; U.uMouse.value.set(secMouse.x, secMouse.y); U.uRippleT.value = 99;
-                const ax = nar ? 0.5 * w : (v.side === "left" ? 0.70 * w : 0.30 * w); const ay = nar ? 0.64 * h : 0.45 * h; U.uArt.value.set(ax, ay); U.uArtS.value = Math.min(w * 0.34, h * 0.36); }); }
-            renderer.setScissorTest(false);
-          };
-          three = { render, heroZoom, wake };
-        } catch (err) { canvas.hidden = true; console.warn("WebGL unavailable", err); }
-
         /* ---------- text splitting ---------- */
         const linesOf = (el: HTMLElement): HTMLElement[] => {
           return [el];
         };
         const splits = new Map<Element, HTMLElement[]>(); $$("[data-split]").forEach((el) => splits.set(el, linesOf(el)));
-        const itemsOf = (block: Element): HTMLElement[] => [...block.children].flatMap((ch) => splits.get(ch) || [ch as HTMLElement]);
 
-        const tick = () => { if (three) three.render(); };
-        gsap.ticker.add(tick);
-        disposers.push(() => gsap.ticker.remove(tick));
-
-        /* ---------- scroll: the hero pin, then one pin per spread ---------- */
-        const heroCopy = $("#heroCopy"), hindex = $("#hindex");
-        const heroItems = itemsOf(heroCopy);
+        /* ---------- scroll ---------- */
         if (!reduced) {
-          gsap.set(heroItems, { opacity: 0 }); gsap.set(hindex, { opacity: 0, y: 20 });
-          ScrollTrigger.create({ trigger: $("[data-hero]"), start: "top top", end: "bottom bottom", scrub: 0.8, pin: hframe, pinSpacing: false, anticipatePin: 1,
-            onUpdate: (st) => { wide.p = st.progress; const f = 1 - smooth(win(st.progress, 0.1, 0.65)); heroCopy.style.opacity = String(f); heroCopy.style.transform = `translateY(calc(${hframe.classList.contains("narrow") ? "0%" : "-52%"} - ${(50 * (1 - f)).toFixed(1)}px))`; hindex.style.opacity = (1 - smooth(win(st.progress, 0.3, 0.8))).toFixed(2); } });
-
-          $$("[data-method]").forEach((sec) => {
-            const k = +sec.dataset.k!, frame = sec.querySelector<HTMLElement>("[data-mframe]")!, copy = sec.querySelector<HTMLElement>("[data-mcopy]")!, bar = sec.querySelector<HTMLElement>("[data-mfill]")!, kword = sec.querySelector<HTMLElement>("[data-kword]")!;
-            const items = itemsOf(copy);
-            const tl = gsap.timeline({ scrollTrigger: { trigger: sec, start: "top top", end: "bottom bottom", scrub: 0.8, pin: frame, pinSpacing: false, anticipatePin: 1,
-              onUpdate: (st) => { const p = st.progress; views[k].p = p; bar.style.width = (p * 100).toFixed(1) + "%";
-                // the chapter word: written in cleanly from anchored edge, fully revealed during pin
-                const dir = sec.dataset.side === "left" ? 1 : -1, fromLeft = dir < 0 || frame.classList.contains("narrow");
-                const hide = ((1 - smooth(win(p, 0.0, 0.08))) * 100).toFixed(1) + "%";
-                kword.style.clipPath = fromLeft ? `inset(-20% ${hide} -30% 0)` : `inset(-20% 0 -30% ${hide})`;
-                kword.style.transform = `translate3d(${(dir * (1.5 - 3 * p)).toFixed(2)}vw,0,0)`;
-                copy.style.setProperty("--py", (6 - 12 * p).toFixed(1) + "px"); } } });
-            tl.fromTo(items, { yPercent: 110, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 0.2, stagger: 0.022, ease: "power3.out" }, 0.02);
-          });
-
           // horizontal strips (wide screens)
           const mm = gsap.matchMedia();
           mm.add("(min-width: 901px)", () => {
@@ -632,24 +314,13 @@ export function ServicesClient() {
             });
           });
 
-          $$("[data-split]").forEach((el) => { if (el.closest("[data-hero]") || el.closest("[data-method]")) return;
+          $$("[data-split]").forEach((el) => { if (el.closest("[data-method]")) return;
             gsap.from(splits.get(el)!, { yPercent: 110, duration: 1, stagger: 0.08, ease: "power4.out", scrollTrigger: { trigger: el, start: "top 88%", once: true } }); });
           gsap.utils.toArray<HTMLElement>("[data-reveal]").forEach((el) => {
             gsap.from(el, { y: 30, opacity: 0, duration: 0.9, ease: "power3.out", scrollTrigger: { trigger: el, start: "top 93%", once: true } }); });
           gsap.from(root.querySelectorAll("[data-matrix] tbody tr"), { opacity: 0, x: -14, duration: 0.6, stagger: 0.05, ease: "power2.out", scrollTrigger: { trigger: $("[data-matrix]"), start: "top 85%", once: true } });
-        } else {
-          $$("[data-method]").forEach((sec) => { views[+sec.dataset.k!].p = 0.7; });
-          if (three) three.heroZoom.v = 1;
         }
 
-        /* ---------- hero entrance on load ---------- */
-        const hero = () => {
-          if (reduced) return;
-          gsap.fromTo(heroItems, { yPercent: 110, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 1.1, stagger: 0.06, ease: "power4.out", delay: 0.1 });
-          gsap.to(hindex, { opacity: 1, y: 0, duration: 0.9, ease: "power3.out", delay: 0.4 });
-          if (three) { three.wake(3200); gsap.to(three.heroZoom, { v: 1, duration: 2.2, ease: "power3.out" }); }
-        };
-        hero();
         ScrollTrigger.refresh();
 
         /* ---------- magnetism and anchors (default browser cursor) ---------- */
@@ -678,17 +349,18 @@ export function ServicesClient() {
     <div ref={rootRef} className="relative min-h-screen overflow-x-clip bg-white font-sans text-yoode-onyx antialiased">
       <SPRITE />
 
-      <canvas id="gl" aria-hidden className="pointer-events-none fixed inset-0 z-0 block size-full [contain:strict]" />
-
       <div className="relative z-[1]">
         {/* ================= INITIAL HERO OVERVIEW ================= */}
         <div id="top">
-          <ServicesHero />
+          <ServicesHero methods={HERO_INDEX.map((label, i) => ({ label, id: HERO_LINKS[i] }))} />
         </div>
 
         {/* ================= WHITE CURVED TRANSITION SECTION ================= */}
-        <div id="look-closer" className="relative z-30 -mt-12 md:-mt-14 w-full">
-          <div className="w-full bg-[#FAF9F6] rounded-t-[36px] sm:rounded-t-[48px] md:rounded-t-[60px] shadow-[0_-15px_40px_rgba(0,0,0,0.18)] border-t border-black/5 px-6 md:px-12 pt-3.5 md:pt-4 pb-8 md:pb-10 flex items-center justify-between flex-wrap gap-3">
+        {/* --ov: how far the bar rides up over the hero (always more than the corner radius); it stays solid there.
+            --fade: how far it then reaches down over the first method spread, fading out. The bar is exactly
+            --ov + --fade tall and pulls that spread up by --fade, so it starts right where the hero ends. before: is a hero-coloured backing so nothing shows outside the rounded corners. */}
+        <div id="look-closer" className="pointer-events-none relative z-30 w-full [--ov:56px] [--fade:64px] sm:[--ov:70px] md:[--ov:84px] md:[--fade:80px] mt-[calc(var(--ov)*-1)] mb-[calc(var(--fade)*-1)] before:absolute before:inset-x-0 before:top-0 before:-z-10 before:h-[var(--ov)] before:bg-yoode-onyx">
+          <div className="w-full h-[calc(var(--ov)+var(--fade))] bg-[linear-gradient(to_bottom,#FAF9F6_var(--ov),rgba(250,249,246,0.6)_calc(var(--ov)+var(--fade)*0.45),rgba(250,249,246,0)_100%)] rounded-t-[36px] sm:rounded-t-[48px] md:rounded-t-[60px] shadow-[0_-15px_40px_rgba(0,0,0,0.18)] px-6 md:px-12 pt-3.5 md:pt-4 flex items-start justify-between gap-3 *:pointer-events-auto">
             <div className="flex items-center gap-3">
               <span className="relative flex h-2.5 w-2.5">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-yoode-coral opacity-75"></span>
@@ -702,7 +374,7 @@ export function ServicesClient() {
               </span>
             </div>
             <a
-              href="#hframe"
+              href="#m-dtg"
               className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-yoode-onyx text-white text-xs font-bold uppercase tracking-wider hover:bg-yoode-coral transition-colors shadow-sm cursor-pointer"
             >
               <span>Scroll to Explore</span>
@@ -711,103 +383,10 @@ export function ServicesClient() {
           </div>
         </div>
 
-        {/* ================= INTERACTIVE EXPERIENCE: LOOK CLOSER ================= */}
-        <section data-hero aria-label="Look closer at the fabric" className="relative h-[125vh] motion-reduce:h-auto">
-          <div id="hframe" className="group/h relative h-[100svh] overflow-hidden">
-            <div data-hview data-view="wide" aria-hidden className="absolute inset-0" />
-            <div aria-hidden className="pointer-events-none absolute inset-0 bg-linear-to-r from-white/95 via-white/80 via-[34%] to-white/0 to-[68%] group-[.narrow]/h:bg-linear-to-b group-[.narrow]/h:via-[45%] group-[.narrow]/h:to-[80%]" />
-            <div id="heroCopy" className="pointer-events-none absolute inset-x-0 top-1/2 z-[3] max-w-[min(60%,900px)] px-6 [transform:translateY(-52%)] md:px-12 *:pointer-events-auto group-[.narrow]/h:top-[clamp(84px,12vh,120px)] group-[.narrow]/h:max-w-none group-[.narrow]/h:[transform:none]">
-              <div className={`${EYEBROW} mb-4`}>Custom apparel, merchandise &amp; gifting · India</div>
-              <h1 data-split className="max-w-[9ch] font-display text-[clamp(44px,7vw,120px)] font-extrabold uppercase leading-[0.95] tracking-tight text-yoode-onyx group-[.narrow]/h:max-w-none group-[.narrow]/h:text-[clamp(38px,11vw,60px)] [&_em]:not-italic [&_em]:text-yoode-coral">
-                Look <em>closer.</em>
-              </h1>
-              <p className="mt-6 max-w-[44ch] text-[clamp(14px,1.15vw,18px)] font-medium leading-relaxed text-gray-700 group-[.narrow]/h:mt-3.5">
-                Anything you can wear, carry or gift, made yours seven ways. Scroll in to the fibre and watch what each one does to the cloth. Move across the fabric to touch it.
-              </p>
-            </div>
-            <ol id="hindex" aria-label="The seven methods" className="absolute inset-x-0 bottom-0 z-[3] m-0 grid list-none grid-cols-7 border-t border-black/10 bg-white/90 p-0 group-[.narrow]/h:grid-cols-4">
-              {HERO_INDEX.map((label, i) => (
-                <li key={label} className={`border-r border-black/10 last:border-r-0 ${i >= 4 ? "group-[.narrow]/h:border-t" : ""}`}>
-                  <a href={`#${HERO_LINKS[i]}`} data-base={i} className="group/a relative grid gap-1 overflow-hidden px-[18px] pb-[18px] pt-4 text-[13px] font-semibold text-yoode-onyx group-[.narrow]/h:p-3 group-[.narrow]/h:text-xs">
-                    <small className="text-[10px] tracking-[0.14em] text-gray-500">{String(i + 1).padStart(2, "0")}</small>
-                    {label}
-                    <span aria-hidden className="absolute inset-x-0 bottom-0 h-[3px] origin-left scale-x-0 bg-yoode-coral transition-transform duration-500 group-hover/a:scale-x-100" />
-                  </a>
-                </li>
-              ))}
-            </ol>
-          </div>
-        </section>
+        {/* ================= SEVEN SPREADS (shared with each method's own page) ================= */}
+        <MethodSpreads />
 
-        {/* ================= SEVEN SPREADS ================= */}
-        {METHODS.map((m, k) => {
-          const t = TONE[m.tone];
-          return (
-            <section key={m.id} id={m.id} data-method data-k={k} data-side={m.side} data-tone={m.tone} className="relative h-[220vh] motion-reduce:h-auto">
-              <div data-mframe className={`group/f relative h-[100svh] overflow-hidden ${t.fg}`}>
-                <div data-mview data-view={k} aria-label={`${m.tag}, seen at the fibre`} className="absolute inset-0" />
-                <div 
-                  aria-hidden 
-                  className={`pointer-events-none absolute inset-0 ${t.scrim[m.side]} ${t.scrim.narrow} [mask-image:linear-gradient(to_bottom,transparent_0px,black_96px,black_100%)] [-webkit-mask-image:linear-gradient(to_bottom,transparent_0px,black_96px,black_100%)]`} 
-                />
-
-                {/* Ultra-smooth feather diffusion bar across section boundary */}
-                <div 
-                  aria-hidden 
-                  className="pointer-events-none absolute top-0 inset-x-0 h-24 sm:h-28 z-20 backdrop-blur-[5px] [mask-image:linear-gradient(to_bottom,black_0%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,black_0%,transparent_100%)]" 
-                />
-                <div
-                  data-kword
-                  aria-hidden
-                  className={`pointer-events-none absolute bottom-[calc(clamp(16px,3vh,30px)+44px)] z-[1] select-none whitespace-nowrap font-display text-[clamp(36px,5.4vw,84px)] font-extrabold uppercase leading-none tracking-tight opacity-90 will-change-[transform,clip-path] group-[.narrow]/f:bottom-auto group-[.narrow]/f:left-6 group-[.narrow]/f:right-auto group-[.narrow]/f:top-[clamp(60px,8vh,80px)] group-[.narrow]/f:text-left group-[.narrow]/f:text-[18vw] ${m.side === "left" ? "right-6 md:right-12 lg:right-16 text-right max-w-[46vw]" : "left-6 md:left-12 lg:left-16 text-left max-w-[46vw]"}`}
-                >
-                  {m.kword}
-                </div>
-                <div
-                  data-mcopy
-                  className={`pointer-events-none absolute top-1/2 z-[3] max-w-[min(50%,660px)] px-6 md:px-12 [transform:translateY(calc(-50%_+_var(--py,0px)))] *:pointer-events-auto group-[.narrow]/f:inset-x-0 group-[.narrow]/f:left-0 group-[.narrow]/f:right-0 group-[.narrow]/f:top-auto group-[.narrow]/f:bottom-[clamp(40px,6vh,64px)] group-[.narrow]/f:max-w-none group-[.narrow]/f:[transform:translateY(var(--py,0px))] ${m.side === "left" ? "left-0" : "right-0"}`}
-                >
-                  <div className="mb-2 flex items-baseline gap-2 text-yoode-coral">
-                    <b className="font-display text-[clamp(32px,3.5vw,54px)] font-extrabold leading-none tracking-tight group-[.narrow]/f:text-[34px]">{String(k + 1).padStart(2, "0")}</b>
-                    <span className={`text-[10px] md:text-[11px] font-semibold tracking-[0.14em] ${t.mute}`}>/ 07</span>
-                  </div>
-                  <div className={`text-[10px] md:text-[11px] font-semibold uppercase tracking-[0.16em] mb-1.5 ${t.mute}`}>Chapter {String(k + 1).padStart(2, "0")} · {m.chapter}</div>
-                  <h2 data-split className="mt-2 max-w-[12ch] font-display text-[clamp(26px,3vw,48px)] font-extrabold uppercase leading-[1.04] tracking-tight group-[.narrow]/f:mt-2 group-[.narrow]/f:max-w-none group-[.narrow]/f:text-[clamp(24px,7vw,38px)] [&_em]:not-italic [&_em]:text-yoode-coral">
-                    {m.title}
-                  </h2>
-                  <p className={`mt-3 md:mt-4 max-w-[42ch] text-xs sm:text-sm md:text-[14.5px] font-medium leading-relaxed group-[.narrow]/f:mt-2 group-[.narrow]/f:max-w-none group-[.narrow]/f:text-xs ${t.soft}`}>{m.lede}</p>
-                  <ul className={`mt-4 md:mt-5 grid max-w-[460px] list-none grid-cols-2 gap-x-6 border-t p-0 group-[.narrow]/f:mt-2.5 group-[.narrow]/f:max-w-none ${t.rule}`}>
-                    {m.facts.map(([label, value]) => (
-                      <li key={label} className={`grid gap-0.5 border-b py-2 md:py-2.5 group-[.narrow]/f:py-1.5 ${t.rule}`}>
-                        <small className={`text-[9px] md:text-[10px] font-semibold uppercase tracking-[0.12em] ${t.mute}`}>{label}</small>
-                        <b className="text-xs md:text-[13px] font-semibold leading-snug group-[.narrow]/f:text-xs">{value}</b>
-                      </li>
-                    ))}
-                  </ul>
-                  <div className="mt-3 md:mt-4 flex flex-wrap items-center gap-2.5">
-                    <Link
-                      href={m.href || "/dtg-printing"}
-                      className="inline-flex items-center gap-1.5 rounded-full bg-yoode-coral px-4 py-2 text-xs md:text-sm font-bold uppercase tracking-wider text-white shadow-md shadow-yoode-coral/25 transition-all hover:bg-yoode-coral/90 hover:scale-105 active:scale-95 cursor-pointer pointer-events-auto shrink-0"
-                    >
-                      Read more <ArrowUpRight className="size-4" />
-                    </Link>
-                    <div className="flex flex-wrap items-center gap-1.5 group-[.narrow]/f:hidden">
-                      {m.prods.map((p) => (
-                        <span key={p} className={`rounded-full border px-2.5 py-1 text-[9px] md:text-[10px] font-semibold uppercase tracking-[0.1em] ${t.rule} ${t.soft}`}>{p}</span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-                <div className={`absolute inset-x-6 bottom-[clamp(18px,3.5vh,34px)] z-[3] h-px md:inset-x-12 group-[.narrow]/f:hidden ${t.ruleBg}`}>
-                  <i data-mfill className="block h-full w-0 bg-yoode-coral" />
-                  <span className="absolute -top-5 right-0 text-[11px] font-semibold uppercase tracking-[0.16em]">{m.tag}</span>
-                </div>
-              </div>
-            </section>
-          );
-        })}
-
-        <section className="relative z-[2] bg-white rounded-t-[36px] sm:rounded-t-[48px] md:rounded-t-[60px] shadow-[0_-20px_50px_rgba(0,0,0,0.35)] -mt-12 md:-mt-16 border-t border-black/5 py-[clamp(70px,10vw,140px)]">
+        <section className="relative z-[2] bg-white rounded-t-[36px] sm:rounded-t-[48px] md:rounded-t-[60px] shadow-[0_-20px_50px_rgba(0,0,0,0.35)] -mt-16 sm:-mt-20 md:-mt-24 border-t border-black/5 py-[clamp(70px,10vw,140px)]">
           <div className={`${CONTAINER} grid justify-items-center gap-5 text-center`}>
             <div className={EYEBROW}>Walk in. Design it. Wear it.</div>
             <h2 data-split className={`${H2} max-w-[18ch]`}>That&apos;s the whole counter. Bring the artwork and we&apos;ll pick the method.</h2>

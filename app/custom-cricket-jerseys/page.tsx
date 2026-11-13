@@ -3,7 +3,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
-import { PromoModal } from '@/components/PromoModal';
 import { ArrowUpRight, Star, Factory, PackageOpen, LayoutTemplate, PenTool, CheckCircle2, Columns, Printer, Layers, Box, Truck } from 'lucide-react';
 import { CricketJerseysFaq } from '@/components/CricketJerseysFaq';
 import { CustomJerseysHowItWorks } from '@/components/CustomJerseysHowItWorks';
@@ -21,7 +20,6 @@ export const metadata = {
 export default function CustomCricketJerseys() {
   return (
     <div className="relative min-h-screen w-full selection:bg-yoode-onyx selection:text-white flex flex-col font-sans overflow-x-clip">
-      <PromoModal />
       <Header />
       <main className="flex-1 bg-background text-foreground">
         

@@ -12,7 +12,8 @@ const loadSearch = () => import("./SearchModal").then((m) => m.SearchModal);
 const YoodeMenu = dynamic(loadMenu, { ssr: false });
 const SearchModal = dynamic(loadSearch, { ssr: false });
 
-export function Header() {
+/** `lightHero`: the page opens on a light hero, so the transparent header uses dark text, icons and logo until it turns solid */
+export function Header({ lightHero = false }: { lightHero?: boolean } = {}) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -23,8 +24,9 @@ export function Header() {
   if (isSearchOpen && !searchMounted) setSearchMounted(true);
   const pathname = usePathname();
 
-  const isAlwaysSolid = pathname?.startsWith("/products") || pathname?.startsWith("/dtg-printing");
+  const isAlwaysSolid = pathname?.startsWith("/products");
   const isDarkHeader = isScrolled || isMenuOpen || isAlwaysSolid;
+  const onLight = lightHero && !isDarkHeader;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -47,7 +49,7 @@ export function Header() {
         className={`fixed top-[30px] md:top-[32px] left-0 w-full z-[130] transition-all duration-300 ${
           isDarkHeader
             ? "bg-[#0b0c10]/95 backdrop-blur-md shadow-lg h-[44px] md:h-[48px] flex items-center text-white border-b border-white/10"
-            : "bg-transparent h-[44px] md:h-[48px] flex items-center text-white border-b border-transparent"
+            : `bg-transparent h-[44px] md:h-[48px] flex items-center border-b border-transparent ${onLight ? "text-yoode-onyx" : "text-white"}`
         }`}
       >
         <div className="w-full max-w-[1700px] mx-auto px-4 md:px-8 flex items-center justify-between relative h-full">
@@ -61,7 +63,9 @@ export function Header() {
               className={`w-8 h-8 md:w-8.5 md:h-8.5 flex items-center justify-center rounded-lg border transition-all duration-200 group cursor-pointer focus:outline-none ${
                 isMenuOpen
                   ? "bg-[#E53935]/20 border-[#E53935] text-[#E53935] shadow-[0_0_15px_rgba(229,57,53,0.35)]"
-                  : "bg-white/[0.08] border-white/20 hover:bg-white/[0.16] hover:border-white/40 text-white shadow-sm"
+                  : onLight
+                    ? "bg-black/[0.04] border-black/15 hover:bg-black/[0.08] hover:border-black/30 text-yoode-onyx shadow-sm"
+                    : "bg-white/[0.08] border-white/20 hover:bg-white/[0.16] hover:border-white/40 text-white shadow-sm"
               }`}
               aria-label="Toggle Mega Navigation Menu"
               title={isMenuOpen ? "Close Menu" : "Open Menu"}
@@ -107,7 +111,7 @@ export function Header() {
               <img
                 src="/logo-dark.avif"
                 alt="Yoode"
-                className="h-3.5 md:h-4 w-auto object-contain brightness-0 invert transition-transform group-hover:scale-105"
+                className={`h-3.5 md:h-4 w-auto object-contain brightness-0 transition-[scale,filter] duration-300 group-hover:scale-105 ${onLight ? "" : "invert"}`}
               />
             </Link>
           </div>

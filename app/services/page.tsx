@@ -1,6 +1,5 @@
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { PromoModal } from "@/components/PromoModal";
 import { ServicesClient } from "./ServicesClient";
 
 export const metadata = {
@@ -12,7 +11,6 @@ export const metadata = {
 export default function ServicesPage() {
   return (
     <div className="relative min-h-screen w-full flex flex-col overflow-x-clip">
-      <PromoModal />
       <Header />
       <main className="flex-1">
         <ServicesClient />

@@ -3,7 +3,9 @@
 import React from "react";
 import { ArrowUpRight, CheckCircle2, ChevronDown, Star } from "lucide-react";
 
-export function ServicesHero() {
+type Method = { label: string; id: string };
+
+export function ServicesHero({ methods }: { methods: Method[] }) {
   return (
     <section 
       aria-label="Our Services Overview" 
@@ -49,6 +51,24 @@ export function ServicesHero() {
           <p className="text-xs sm:text-sm md:text-base text-white/80 leading-relaxed max-w-[480px] mb-4 md:mb-5 drop-shadow-sm font-medium">
             Water-based inks, precision satin thread, instant UV curing and laser etching. From a single custom sample to 10,000+ volume orders — explore the crafts behind India&apos;s finest custom apparel, merchandise and gifting.
           </p>
+
+          {/* The seven methods, strung on a running stitch: each one jumps to its section below */}
+          <nav aria-label="Jump to a method" className="mb-5 md:mb-6 max-w-[560px]">
+            <ul className="m-0 flex list-none flex-wrap items-center gap-y-2.5 p-0">
+              {methods.map((m, i) => (
+                <li key={m.id} className="flex items-center">
+                  {i > 0 && <span aria-hidden className="mx-2.5 w-4 border-t-2 border-dashed border-white/25 md:w-5" />}
+                  <a
+                    href={`#${m.id}`}
+                    className="group flex items-center gap-2 rounded-sm text-[13px] font-semibold text-white/75 outline-none transition-colors duration-300 hover:text-white focus-visible:text-white focus-visible:ring-2 focus-visible:ring-yoode-coral focus-visible:ring-offset-4 focus-visible:ring-offset-yoode-onyx md:text-sm"
+                  >
+                    <span aria-hidden className="size-1.5 rounded-full bg-white/40 transition-[transform,background-color] duration-300 group-hover:scale-150 group-hover:bg-yoode-coral group-focus-visible:bg-yoode-coral" />
+                    {m.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
 
           {/* Trust Reviews Badge */}
           <div className="flex items-center gap-3 mb-4 md:mb-5">
