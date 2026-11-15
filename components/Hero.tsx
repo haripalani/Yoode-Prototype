@@ -63,6 +63,37 @@ const slides = [
   }
 ];
 
+/**
+  The YOODE wordmark as in the logo: monoline geometric letters (a V-and-stem Y, wide round Os, a rounded D, an E
+  with a shorter middle bar). Cap height 100, stroke 13; drawn as strokes so it stays crisp at any size.
+*/
+function YoodeWordmark({ className = "" }: { className?: string }) {
+  // bold letter skeleton (stroke 26 on a 100 cap height); only its outline is shown, cut out with a mask
+  const letters = (
+    <>
+      <path d="M8 0 L53 50 L98 0 M53 50 V100" />
+      <ellipse cx={209} cy={50} rx={58} ry={37} />
+      <ellipse cx={383} cy={50} rx={58} ry={37} />
+      <path d="M499 13 H558 A37 37 0 0 1 558 87 H499 Z" />
+      <path d="M732 13 H653 V87 H732 M653 50 H722" />
+    </>
+  );
+  return (
+    <svg viewBox="-12 -14 756 128" className={className} role="img" aria-label="YOODE">
+      <title>YOODE</title>
+      <defs>
+        <mask id="yoode-outline" maskUnits="userSpaceOnUse" x="-12" y="-14" width="756" height="128">
+          <g fill="none" strokeLinejoin="miter" strokeLinecap="butt">
+            <g stroke="#fff" strokeWidth={26}>{letters}</g>
+            <g stroke="#000" strokeWidth={23.4}>{letters}</g>
+          </g>
+        </mask>
+      </defs>
+      <rect x="-12" y="-14" width="756" height="128" fill="rgba(255,255,255,0.28)" mask="url(#yoode-outline)" />
+    </svg>
+  );
+}
+
 export function Hero() {
   const [active, setActive] = useState(0);
 
@@ -88,13 +119,10 @@ export function Hero() {
       {/* Main Hero Content */}
       <main className="relative flex-1 w-full flex items-center justify-center pt-20">
         
-        {/* Mid-Background: Outline Text */}
+        {/* Mid-Background: the YOODE wordmark, drawn like the logo (thin, wide geometric letters) */}
         <div className="absolute z-10 w-full top-[50%] -translate-y-1/2 flex justify-center pointer-events-none overflow-hidden select-none">
-          <h1 
-            className="text-[28vw] font-display font-black leading-none tracking-tighter text-transparent"
-            style={{ WebkitTextStroke: "1px rgba(255, 255, 255, 0.2)" }}
-          >
-            <span>YOODE</span>
+          <h1 className="m-0 w-[104vw] shrink-0 leading-none">
+            <YoodeWordmark className="block h-auto w-full" />
           </h1>
         </div>
 
