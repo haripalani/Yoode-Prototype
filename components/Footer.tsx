@@ -1,4 +1,5 @@
 import { Phone, Mail, ArrowRight } from "lucide-react";
+import { FooterDirectory } from "@/components/FooterDirectory";
 
 export function Footer() {
   return (
@@ -74,6 +75,9 @@ export function Footer() {
           </div>
 
         </div>
+
+        {/* Collapsible link directory */}
+        <FooterDirectory />
 
         {/* Legal Bar */}
         <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-medium text-white/40 mt-8 border-t border-white/5 pt-8">
