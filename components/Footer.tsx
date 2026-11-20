@@ -1,5 +1,7 @@
 import { Phone, Mail, ArrowRight } from "lucide-react";
 import { FooterDirectory } from "@/components/FooterDirectory";
+import { FooterLink } from "@/components/FooterLink";
+import { footerColumns } from "@/data/footerDirectory";
 
 export function Footer() {
   return (
@@ -8,10 +10,10 @@ export function Footer() {
 
 
       <div className="max-w-7xl mx-auto relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-x-8 gap-y-12 lg:gap-10 mb-20">
-          
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-12 lg:gap-10 mb-16">
+
           {/* Company Info & Contact */}
-          <div className="lg:col-span-2 flex flex-col gap-6">
+          <div className="flex flex-col gap-6">
             <img loading="lazy" decoding="async" src="/logo-dark.avif" alt="Yoode Logo" className="h-6 md:h-7 w-auto object-contain object-left brightness-0 invert" />
             <p className="text-sm text-white/60 leading-relaxed font-medium max-w-sm">
               Yoode Promotions Pvt. Ltd.<br />
@@ -29,34 +31,8 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Explore & Case Studies */}
-          <div className="flex flex-col gap-10">
-            <div className="flex flex-col gap-5">
-              <h4 className="font-bold text-white text-base mb-2">Explore</h4>
-              <a href="#" className="text-sm text-white/60 hover:text-white transition-colors w-max">Corporate</a>
-              <a href="#" className="text-sm text-white/60 hover:text-white transition-colors w-max">Sportswear</a>
-              <a href="#" className="text-sm text-white/60 hover:text-white transition-colors w-max">Trendz</a>
-              <a href="#" className="text-sm text-white/60 hover:text-white transition-colors w-max">Accessories</a>
-            </div>
-            
-            <div className="flex flex-col gap-5">
-              <h4 className="font-bold text-white text-base mb-2">Case Studies</h4>
-              <a href="#" className="text-sm text-white/60 hover:text-white transition-colors w-max">Bitsnpixs</a>
-              <a href="#" className="text-sm text-white/60 hover:text-white transition-colors w-max">iDynamics</a>
-            </div>
-          </div>
-
-          {/* Company Links */}
-          <div className="flex flex-col gap-5">
-            <h4 className="font-bold text-white text-base mb-2">Company</h4>
-            <a href="#" className="text-sm text-white/60 hover:text-white transition-colors w-max">About Us</a>
-            <a href="#" className="text-sm text-white/60 hover:text-white transition-colors w-max">Experience Centers</a>
-            <a href="/design-studio" className="text-sm text-white/60 hover:text-white transition-colors w-max">Design Studio</a>
-            <a href="#" className="text-sm text-white/60 hover:text-white transition-colors w-max">Bulk Ordering</a>
-          </div>
-
           {/* Newsletter */}
-          <div className="lg:col-span-1 flex flex-col gap-5">
+          <div className="flex flex-col gap-5 md:justify-self-end md:max-w-sm w-full">
             <h4 className="font-bold text-white text-base mb-2">Newsletter</h4>
             <p className="text-sm text-white/60 leading-relaxed mb-2">
               Stay ahead with design & marketing tips and strategies that drive results.
@@ -76,18 +52,28 @@ export function Footer() {
 
         </div>
 
+        {/* Link columns: Shop, Brand, Company, Our Stores, Support & Policies */}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-x-8 gap-y-10 border-t border-white/5 pt-12 mb-16">
+          {footerColumns.map((column) => (
+            <nav key={column.title} aria-label={column.title} className="flex flex-col">
+              <h4 className="font-bold text-white text-base mb-5">{column.title}</h4>
+              <ul className="flex flex-col gap-4">
+                {column.links.map((link) => (
+                  <li key={link.label}>
+                    <FooterLink link={link} className="text-sm" />
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          ))}
+        </div>
+
         {/* Collapsible link directory */}
         <FooterDirectory />
 
         {/* Legal Bar */}
-        <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-medium text-white/40 mt-8 border-t border-white/5 pt-8">
+        <div className="flex justify-center md:justify-start text-xs font-medium text-white/40 mt-8 border-t border-white/5 pt-8">
           <p>© {new Date().getFullYear()} Yoode Promotions Pvt. Ltd. All rights reserved.</p>
-          <div className="flex flex-wrap items-center gap-4 md:gap-6 justify-center">
-            <a href="#" className="hover:text-white transition-colors">Refund Policy</a>
-            <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
-            <a href="#" className="hover:text-white transition-colors">Shipping Policy</a>
-          </div>
         </div>
       </div>
     </footer>

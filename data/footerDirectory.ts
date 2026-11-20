@@ -8,6 +8,42 @@ export type DirectoryGroup = { title: string; links: DirectoryLink[] };
 
 const pending = (label: string): DirectoryLink => ({ label, href: null });
 
+// The footer's main link columns, in the order of the SEO Footer sheet.
+export const footerColumns: DirectoryGroup[] = [
+  {
+    title: "Shop",
+    links: [
+      { label: "Corporate", href: "/category?type=corporate-apparel" },
+      { label: "Sportswear", href: "/custom-sports-jerseys" },
+      { label: "Trendz", href: "/trenz" },
+      { label: "Streetwear", href: "/trenz" },
+      { label: "Accessories", href: "/accessories" },
+    ],
+  },
+  {
+    title: "Brand",
+    links: [
+      { label: "Redbolt", href: "/category?brand=redbolt" },
+      { label: "Jack & Jones", href: "/category?brand=jack-and-jones" },
+      { label: "Rare Rabbit", href: "/category?brand=rare-rabbit" },
+      { label: "Vero Moda", href: "/category?brand=vero-moda" },
+      { label: "Turtle", href: "/category?brand=turtle" },
+    ],
+  },
+  {
+    title: "Company",
+    links: [pending("About Us"), pending("Case Studies"), { label: "Blog", href: "/blogs" }, pending("Gallery")],
+  },
+  {
+    title: "Our Stores",
+    links: [pending("Bangalore"), pending("Chennai"), pending("Marthandam"), pending("Trivandrum")],
+  },
+  {
+    title: "Support & Policies",
+    links: [pending("Refund Policy"), pending("Privacy Policy"), pending("Terms of Service"), pending("Shipping Policy")],
+  },
+];
+
 export const footerDirectory: DirectoryGroup[] = [
   {
     title: "Explore Yoode",

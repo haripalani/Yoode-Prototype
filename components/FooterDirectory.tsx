@@ -1,8 +1,8 @@
 "use client";
 
 import { useId, useState } from "react";
-import Link from "next/link";
 import { ChevronDown } from "lucide-react";
+import { FooterLink } from "@/components/FooterLink";
 import { footerDirectory } from "@/data/footerDirectory";
 
 /**
@@ -57,21 +57,7 @@ export function FooterDirectory() {
                   <ul className="flex flex-col gap-2.5">
                     {group.links.map((link) => (
                       <li key={link.label}>
-                        {link.href ? (
-                          <Link
-                            href={link.href}
-                            className="text-[13px] text-white/60 hover:text-white transition-colors"
-                          >
-                            {link.label}
-                          </Link>
-                        ) : (
-                          <span className="inline-flex flex-wrap items-center gap-1.5 text-[13px] text-white/30">
-                            {link.label}
-                            <span className="rounded border border-dashed border-white/20 px-1 text-[9px] leading-4 uppercase tracking-wide text-white/35">
-                              URL to add
-                            </span>
-                          </span>
-                        )}
+                        <FooterLink link={link} className="text-[13px]" />
                       </li>
                     ))}
                   </ul>
